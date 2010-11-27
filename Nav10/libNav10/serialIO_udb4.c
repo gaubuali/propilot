@@ -21,7 +21,7 @@
 
 #include "libUDB_internal.h"
 
-#if (BOARD_TYPE == UDB4_BOARD)
+#if (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == PFG_BOARD)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -84,14 +84,19 @@ void udb_gps_set_rate(int rate)
 }
 
 
+boolean udb_gps_check_rate(int rate)
+{
+	return ( U1BRG == UDB_BAUD(rate) ) ;
+}
+
+
 void __attribute__((__interrupt__, __no_auto_psv__)) _U1RXInterrupt(void)
 {
 	interrupt_save_extended_state ;
 	
 	indicate_loading_inter ;
 	
-	if ( U1STAbits.FERR ) udb_init_GPS();
-	else if ( U1STAbits.OERR ) udb_init_GPS();
+	U1STAbits.OERR = 0 ;
 	
 	while ( U1STAbits.URXDA )
 	{
@@ -106,9 +111,9 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _U1RXInterrupt(void)
 }
 
 
-void udb_gps_send_char ( char outchar ) // output one character to the GPS
+// Output one character to the GPS
+void udb_gps_send_char( char outchar )
 {
-	//bin_out(outchar);
 	while ( U1STAbits.UTXBF ) {} ;
 	U1TXREG = outchar ;
 	
@@ -185,14 +190,23 @@ void udb_serial_start_sending(void)
 }
 
 
+// Output one character to the serial port
+void udb_serial_send_char( char outchar )
+{
+	while ( U2STAbits.UTXBF ) {} ;
+	U2TXREG = outchar ;
+	
+	return ;
+}
+
+
 void __attribute__((__interrupt__, __no_auto_psv__)) _U2RXInterrupt(void)
 {
 	// interrupt_save_extended_state ;
 	
 	indicate_loading_inter ;
 
-	if ( U2STAbits.FERR ) udb_init_USART();
-	else if ( U2STAbits.OERR ) udb_init_USART();
+	U2STAbits.OERR = 0 ;
 	
 	while ( U2STAbits.URXDA )
 	{

@@ -64,13 +64,9 @@ void msg_ACK_ID( unsigned char inchar );
 
 // void bin_out( char outchar );
 
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_OSD_REMZIBI || SERIAL_OUTPUT_FORMAT == SERIAL_OSD_IF )
-	const char bin_mode[]  = "$PUBX,41,1,0003,0003,9600,0*14\r\n" ; // turn on UBX + NMEA, 9600 baud
-	// FOR TESTING ONLY
-	// const char bin_mode[]  = "$PUBX,41,1,0003,0003,19200,0*21\r\n" ; // turn on UBX + NMEA, 19200 baud
-#else
-	const char bin_mode[]  = "$PUBX,41,1,0003,0001,9600,0*16\r\n" ; // turn on UBX only, 9600 baud
-#endif
+const char bin_mode_withnmea[]  = "$PUBX,41,1,0003,0003,19200,0*21\r\n" ; // turn on UBX + NMEA, 19200 baud
+
+const char bin_mode_nonmea[]  = "$PUBX,41,1,0003,0001,19200,0*23\r\n" ; // turn on UBX only, 19200 baud
 
 
 const char disable_GSV[] = "$PUBX,40,GSV,0,0,0,0,0,0*59\r\n" ; //Disable the $GPGSV NMEA message
@@ -78,15 +74,7 @@ const char disable_VTG[] = "$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n" ; //Disable the $GP
 const char disable_GLL[] = "$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n" ; //Disable the $GPGLL NMEA message
 const char disable_GSA[] = "$PUBX,40,GSA,0,0,0,0,0,0*4E\r\n" ; //Disable the $GPGSA NMEA message
 
-#if ( GPS_TYPE == GPS_UBX_2HZ )
-const unsigned char set_rate[] =  { 0xB5, 0x62, // Header
-										0x06, 0x08, // ID
-										0x06, 0x00, // Payload Length
-										0xF4, 0x01, // measRate
-										0x01, 0x00, // navRate
-										0x01, 0x00, // timeRef
-										0x0B, 0x77};// Checksum
-#else
+#if ( GPS_TYPE == GPS_UBX_4HZ )
 const unsigned char set_rate[] =  { 0xB5, 0x62, // Header
 										0x06, 0x08, // ID
 										0x06, 0x00, // Payload Length
@@ -94,6 +82,14 @@ const unsigned char set_rate[] =  { 0xB5, 0x62, // Header
 										0x01, 0x00, // navRate
 										0x01, 0x00, // timeRef
 										0x10, 0x96};// Checksum
+#else
+const unsigned char set_rate[] =  { 0xB5, 0x62, // Header
+										0x06, 0x08, // ID
+										0x06, 0x00, // Payload Length
+										0xF4, 0x01, // measRate
+										0x01, 0x00, // navRate
+										0x01, 0x00, // timeRef
+										0x0B, 0x77};// Checksum
 #endif
 
 const unsigned char enable_UBX_only[] ={0xB5, 0x62, 				// Header
@@ -103,16 +99,15 @@ const unsigned char enable_UBX_only[] ={0xB5, 0x62, 				// Header
 										0x00, 						// res0
 										0x00, 0x00, 				// res1
 										0xD0, 0x08, 0x00, 0x00, 	// mode
-										0x80, 0x25, 0x00, 0x00, 	// baudrate
+										0x00, 0x4B, 0x00, 0x00, 	// baudrate
 										0x03, 0x00, 				// inProtoMask
 										0x01, 0x00, 				// outProtoMask
 										0x00, 0x00, 				// Flags - reserved, set to 0
 										0x00, 0x00,					// Pad - reserved, set to 0
-										0x9C, 0x89					// checksum
+										0x42, 0x2B					// checksum
 										};
 
-//enable UBX + NMEA @ 19200
-/*const unsigned char enable_UBX_NMEA[] ={0xB5, 0x62, 				// Header
+const unsigned char enable_UBX_NMEA[] ={0xB5, 0x62, 				// Header
 										0x06, 0x00, 				// ID
 										0x14, 0x00, 				// Payload length
 										0x01, 						// Port ID
@@ -125,27 +120,7 @@ const unsigned char enable_UBX_only[] ={0xB5, 0x62, 				// Header
 										0x00, 0x00, 				// Flags - reserved, set to 0
 										0x00, 0x00,					// Pad - reserved, set to 0
 										0x44, 0x37					// checksum
-										};*/
-
-
-
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_OSD_REMZIBI || SERIAL_OUTPUT_FORMAT == SERIAL_OSD_IF )
-//enable UBX + NMEA @ 9600 - only needed if were using an OSD
-const unsigned char enable_UBX_NMEA[] ={0xB5, 0x62, 				// Header
-										0x06, 0x00, 				// ID
-										0x14, 0x00, 				// Payload length
-										0x01, 						// Port ID
-										0x00, 						// res0
-										0x00, 0x00, 				// res1
-										0xD0, 0x08, 0x00, 0x00, 	// mode
-										0x80, 0x25, 0x00, 0x00, 	// baudrate
-										0x03, 0x00, 				// inProtoMask
-										0x03, 0x00, 				// outProtoMask
-										0x00, 0x00, 				// Flags - reserved, set to 0
-										0x00, 0x00,					// Pad - reserved, set to 0
-										0x9E, 0x95					// checksum
 										};
-#endif
 
 
 const unsigned char enable_NAV_SOL[] = {0xB5, 0x62, 				// Header
@@ -190,21 +165,7 @@ const unsigned char enable_NAV_VELNED[] = {0xB5, 0x62, 				// Header
 										0x23, 0x2E 					// Checksum
 										};
 
-#if ( GPS_TYPE == GPS_UBX_2HZ )
-const unsigned char enable_NAV_DOP[] = {0xB5, 0x62, 				// Header
-										0x06, 0x01, 				// ID
-										0x08, 0x00, 				// Payload length
-										0x01, 						// NAV message class
-										0x04, 						// DOP message ID
-										0x00, 						// Rate on I2C
-										0x02, 						// Rate on UART 1
-										0x00, 						// Rate on UART 2
-										0x00, 						// Rate on USB
-										0x00, 						// Rate on SPI
-										0x00, 						// Rate on ???
-										0x16, 0xD1 					// Checksum
-										};
-#else
+#if ( GPS_TYPE == GPS_UBX_4HZ )
 const unsigned char enable_NAV_DOP[] = {0xB5, 0x62, 				// Header
 										0x06, 0x01, 				// ID
 										0x08, 0x00, 				// Payload length
@@ -217,6 +178,20 @@ const unsigned char enable_NAV_DOP[] = {0xB5, 0x62, 				// Header
 										0x00, 						// Rate on SPI
 										0x00, 						// Rate on ???
 										0x18, 0xDB 					// Checksum
+										};
+#else
+const unsigned char enable_NAV_DOP[] = {0xB5, 0x62, 				// Header
+										0x06, 0x01, 				// ID
+										0x08, 0x00, 				// Payload length
+										0x01, 						// NAV message class
+										0x04, 						// DOP message ID
+										0x00, 						// Rate on I2C
+										0x02, 						// Rate on UART 1
+										0x00, 						// Rate on UART 2
+										0x00, 						// Rate on USB
+										0x00, 						// Rate on SPI
+										0x00, 						// Rate on ???
+										0x16, 0xD1 					// Checksum
 										};
 #endif
 
@@ -238,8 +213,8 @@ const unsigned char config_NAV5[] =    {0xB5, 0x62, 				// Header
 										0x06, 0x24, 				// ID
 										0x24, 0x00, 				// Payload length
 										0xFF, 0xFF,					//
-										0x08, 						// Dynamic Model Number (or 0x07 for <2g)
-										0x03, 						//
+										0x04, 						// Dynamic Model Number
+										0x02, 						//
 										0x00, 0x00,					//
 										0x00, 0x00,					//
 										0x10, 0x27,					//
@@ -256,7 +231,7 @@ const unsigned char config_NAV5[] =    {0xB5, 0x62, 				// Header
 										0x00, 0x00,					//
 										0x00, 0x00,					//
 										0x00, 0x00,					//
-										0x18, 0x20					// Checksum (or 0x17, 0xFE for <2g)
+										0x13, 0x77					// Checksum
 										};
 
 const unsigned int  set_rate_length = 14 ;
@@ -363,28 +338,29 @@ void gps_startup_sequence(int gpscount)
 	if (gpscount == 980)
 	{
 #if (HILSIM == 1)
-		udb_gps_set_rate(19200);
+		udb_gps_set_rate(19200) ;
 #else
-		udb_gps_set_rate(9600);
+		udb_gps_set_rate(9600) ;
 #endif
 	}
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_OSD_REMZIBI || SERIAL_OUTPUT_FORMAT == SERIAL_OSD_IF )
-	else if (gpscount == 190)
+	else if (dcm_flags._.nmea_passthrough && gpscount == 190)
 		gpsoutline( (char*)disable_GSV );
-	else if (gpscount == 180)
+	else if (dcm_flags._.nmea_passthrough && gpscount == 180)
 		gpsoutline( (char*)disable_GSA );
-	else if (gpscount == 170)
+	else if (dcm_flags._.nmea_passthrough && gpscount == 170)
 		gpsoutline( (char*)disable_GLL );
-#endif
-
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_OSD_REMZIBI )
-	else if (gpscount == 160)
+	else if (dcm_flags._.nmea_passthrough && gpscount == 160)
 		gpsoutline( (char*)disable_VTG );
-#endif
 	
-	else if (gpscount == 150)
+	else if (dcm_flags._.nmea_passthrough && gpscount == 150)
+		//set the UBX to use binary and nmea
+		gpsoutline( (char*)bin_mode_withnmea );
+	else if (!dcm_flags._.nmea_passthrough && gpscount == 150)
 		//set the UBX to use binary mode
-		gpsoutline( (char*)bin_mode );
+		gpsoutline( (char*)bin_mode_nonmea );
+	else if (gpscount == 142)
+		udb_gps_set_rate(19200);
+	
 	else if (gpscount == 140)
 		gpsoutbin( set_rate_length, set_rate );
 	else if (gpscount == 130)
@@ -397,13 +373,10 @@ void gps_startup_sequence(int gpscount)
 	else if (gpscount == 100)
 		gpsoutbin( enable_NAV_DOP_length, enable_NAV_DOP );
 	
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_OSD_REMZIBI || SERIAL_OUTPUT_FORMAT == SERIAL_OSD_IF )
-	else if (gpscount == 90)
+	else if (dcm_flags._.nmea_passthrough && gpscount == 90)
 		gpsoutbin( enable_UBX_only_length, enable_UBX_NMEA );
-#else
-	else if (gpscount == 90)
+	else if (!dcm_flags._.nmea_passthrough && gpscount == 90)
 		gpsoutbin( enable_UBX_only_length, enable_UBX_only );
-#endif
 	
 	else if (gpscount == 80)
 		gpsoutbin( enable_SBAS_length, enable_SBAS );
@@ -420,25 +393,25 @@ boolean gps_nav_valid(void)
 }
 
 
-int bin_count = 0 ;
+/*
+int hex_count = 0 ;
 const char convert[] = "0123456789ABCDEF" ;
 const char endchar = 0xB5 ;
 
-/*
-void bin_out( char outchar )
+void hex_out( char outchar )
 //	Used for debugging purposes, converts to HEX and outputs to the debugging USART
 //	Only the first 5 bytes following a B3 are displayed.
 {
-	if ( bin_count > 0 ) 
+	if ( hex_count > 0 ) 
 	{
 		U1TXREG = convert[ ( (outchar>>4) & 0x0F ) ] ;
 		U1TXREG = convert[ ( outchar & 0x0F ) ] ;
 		U1TXREG = ' ' ;
-		bin_count -- ;
+		hex_count -- ;
 	}
 	if ( outchar == endchar )
 	{
-		bin_count = 5 ;
+		hex_count = 5 ;
 		U1TXREG = '\r' ;
 		U1TXREG = '\n' ;
 	}
@@ -453,51 +426,47 @@ int store_index = 0 ;
 //	For example, msg_B3 is the routine that is applied to the byte received after a B3 is received.
 //	If an A0 is received, the state machine transitions to the A0 state.
 
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_OSD_REMZIBI || SERIAL_OUTPUT_FORMAT == SERIAL_OSD_IF )
-
-int countdown = 0 ; //used by nmea_passthru to count how many more bytes are passed through
+int nmea_passthru_countdown = 0 ; //used by nmea_passthru to count how many more bytes are passed through
 
 void nmea_passthru ( unsigned char gpschar)
 {
-	U1TXREG = gpschar;
-	countdown --;
+	udb_serial_send_char(gpschar) ;
+	
+	nmea_passthru_countdown --;
 /* removed in favor of the line ending mechanism, see below. While this is compliant with
    (published) standards, the issue appears to center around the end of line.
 
 	if ( gpschar == '*' )
 	{ // * indicates the start of the checksum, 2 characters remain in the message
-		countdown = 2;
+		nmea_passthru_countdown = 2;
 	}
 */
 	if ( gpschar == 0x0A )
     { // end of line appears to always be 0x0D, 0x0A (\r\n)
 		msg_parse = &msg_B3; // back to the inital state
 	}
-	else if (countdown == 0)
+	else if (nmea_passthru_countdown == 0)
 	{
 		msg_parse = &msg_B3; // back to the inital state
 	}
 	return;
 }
-#endif
+
 
 void msg_B3 ( unsigned char gpschar )
 {
-	
 	if ( gpschar == 0xB5 )
 	{
 		//bin_out(0x01);
 		msg_parse = &msg_SYNC1 ;
 	}
 
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_OSD_REMZIBI || SERIAL_OUTPUT_FORMAT == SERIAL_OSD_IF )
-	else if ( gpschar == '$')
+	else if ( dcm_flags._.nmea_passthrough && gpschar == '$' && udb_gps_check_rate(19200) )
 	{
-		countdown = 1024; // this limits the number of characters we will passthrough. //TODO: smaller number?
+		nmea_passthru_countdown = 128; // this limits the number of characters we will passthrough. (Most lines are 60-80 chars long.)
 		msg_parse = &nmea_passthru;
 		nmea_passthru ( gpschar );
 	}
-#endif
 
 	else
 	{
@@ -559,65 +528,102 @@ void msg_PL1 ( unsigned char gpschar )
 	payloadlength._.B1 = gpschar ;	//UBX stored payload length in little endian order
 	CK_A += gpschar;
 	CK_B += CK_A;
+	
 	switch ( msg_class ) {
-	case 0x01 : {
-		switch ( msg_id ) {
-	case 0x02 : { // NAV-POSLLH message
-		msg_parse = &msg_POSLLH ;
+		case 0x01 : {
+			switch ( msg_id ) {
+				case 0x02 : { // NAV-POSLLH message
+					if (payloadlength.BB  == sizeof(msg_POSLLH_parse)>>1)
+					{
+						msg_parse = &msg_POSLLH ;
+					}
+					else
+					{
+						msg_parse = &msg_B3 ;	// error condition
+					}
+					break ;
 				}
-				break ;
-	case 0x04 : { // NAV-DOP message
-		msg_parse = &msg_DOP ;
+				case 0x04 : { // NAV-DOP message
+					if (payloadlength.BB  == sizeof(msg_DOP_parse)>>1)
+					{
+						msg_parse = &msg_DOP ;
+					}
+					else
+					{
+						msg_parse = &msg_B3 ;	// error condition
+					}
+					break ;
 				}
-				break ;
-	case 0x06 : { // NAV-SOL message
-		msg_parse = &msg_SOL ;
+				case 0x06 : { // NAV-SOL message
+					if (payloadlength.BB  == sizeof(msg_SOL_parse)>>1)
+					{
+						msg_parse = &msg_SOL ;
+					}
+					else
+					{
+						msg_parse = &msg_B3 ;	// error condition
+					}
+					break ;
 				}
-				break ;
-	case 0x12 : {	// NAV-VELNED message
-		msg_parse = &msg_VELNED ;
+				case 0x12 : {	// NAV-VELNED message
+					if (payloadlength.BB  == sizeof(msg_VELNED_parse)>>1)
+					{
+						msg_parse = &msg_VELNED ;
+					}
+					else
+					{
+						msg_parse = &msg_B3 ;	// error condition
+					}
+					msg_parse = &msg_VELNED ;
+					break ;
 				}
-				break ;
-				
+					
 #if ( HILSIM == 1 )
-	case 0xAB : {	// NAV-BODYRATES message - THIS IS NOT AN OFFICIAL UBX MESSAGE
-					// WE ARE FAKING THIS FOR HIL SIMULATION
-		msg_parse = &msg_BODYRATES ;
+				case 0xAB : {	// NAV-BODYRATES message - THIS IS NOT AN OFFICIAL UBX MESSAGE
+								// WE ARE FAKING THIS FOR HIL SIMULATION
+					if (payloadlength.BB  == sizeof(msg_BODYRATES_parse)>>1)
+					{
+						msg_parse = &msg_BODYRATES ;
+					}
+					else
+					{
+						msg_parse = &msg_B3 ;	// error condition
+					}
+					break ;
 				}
-				break ;
 #endif
-				
-	default : { 	// some other NAV class message
-		msg_parse = &msg_MSGU ;
-			  }
-			  break ;
+					
+				default : { 	// some other NAV class message
+					msg_parse = &msg_MSGU ;
+					break ;
+				}
+			}
+			break ;
 		}
-		break ;
-	case 0x05 : {
-		switch ( msg_id ) {
-	case 0x00 : { // NACK message
-		ack_type = 0;
-		msg_parse = &msg_ACK_CLASS;
+		case 0x05 : {
+			switch ( msg_id ) {
+				case 0x00 : { // NACK message
+					ack_type = 0;
+					msg_parse = &msg_ACK_CLASS;
+					break;
 				}
-				break;
-	case 0x01 : { // ACK message
-		ack_type = 1;
-		msg_parse = &msg_ACK_CLASS;
+				case 0x01 : { // ACK message
+					ack_type = 1;
+					msg_parse = &msg_ACK_CLASS;
+					break;	
 				}
-				break;	
-	default : { // There are no other messages in this class, so this is an error
-		msg_parse = &msg_B3	;
-			  }
-			  break;
+				default : { // There are no other messages in this class, so this is an error
+					msg_parse = &msg_B3	;
+					break;
+				}
+			}
+			break;
 		}
-		break;
-				}
-	default : { 	// a non NAV class message
-		msg_parse = &msg_MSGU ;
-			  }
-			  break ;
-				}
-	}
+		default : { 	// a non NAV class message
+			msg_parse = &msg_MSGU ;
+			break ;
+		}
+	}			
 	return ;
 }
 
@@ -676,7 +682,6 @@ void msg_SOL( unsigned char gpschar )
 		// was zero to start with. either way, the byte we just received is the first checksum byte.
 		//gpsoutchar2(0x0A);
 		checksum._.B1 = gpschar;
-		udb_background_trigger() ;  // parsing is complete, schedule navigation
 		msg_parse = &msg_CS1 ;
 	}
 	return ;
@@ -697,6 +702,7 @@ void msg_VELNED( unsigned char gpschar )
 		// was zero to start with. either way, the byte we just received is the first checksum byte.
 		//gpsoutchar2(0x0B);
 		checksum._.B1 = gpschar;
+		udb_background_trigger() ;  // parsing is complete, schedule navigation
 		msg_parse = &msg_CS1 ;
 	}
 	return ;

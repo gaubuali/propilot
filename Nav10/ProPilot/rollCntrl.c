@@ -69,7 +69,7 @@ void normalRollCntrl(void)
 	}
 	
 #ifdef TestGains
-	flags._.GPS_steering = 1 ;
+	flags._.GPS_steering = 0 ; // turn off navigation
 #endif
 	if ( AILERON_NAVIGATION && flags._.GPS_steering )
 	{
@@ -80,7 +80,7 @@ void normalRollCntrl(void)
 	flags._.pitch_feedback = 1 ;
 #endif
 	
-	if ( ROLL_STABILIZATION && flags._.pitch_feedback )
+	if ( ROLL_STABILIZATION_AILERONS && flags._.pitch_feedback )
 	{
 		gyroRollFeedback.WW = __builtin_mulss( rollkd , omegaAccum[1] ) ;
 		rollAccum.WW += __builtin_mulss( rmat6 , rollkp ) ;

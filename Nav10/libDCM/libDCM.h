@@ -19,11 +19,12 @@
 // along with MatrixPilot.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include "../libUDB/libUDB.h"
-#include "libDCM_defines.h"
-
 #ifndef LIB_DCM_H
 #define LIB_DCM_H
+
+
+#include "../libUDB/libUDB.h"
+#include "libDCM_defines.h"
 
 // libDCM.h defines the API for accessing the location and orientation information
 // from the DCM algorithm and GPS.
@@ -51,6 +52,10 @@ void dcm_servo_callback_prepare_outputs(void) ;				// Callback
 // Convert an absolute location to relative
 struct relative3D dcm_absolute_to_relative(struct waypoint3D absolute) ;
 
+// FIXME: This should be handled internally, along with DCM calibration
+// Count down from 1000 at 40Hz
+void gps_startup_sequence( int gpscount ) ;
+
 // Is our gps data good enough for navigation?
 boolean gps_nav_valid(void) ;
 
@@ -60,6 +65,7 @@ int cosine ( signed char angle ) ;
 int sine ( signed char angle ) ;
 signed char arcsine ( int y ) ;
 signed char rect_to_polar ( struct relative2D *xy ) ;
+int rect_to_polar16 ( struct relative2D *xy ) ;
 void rotate( struct relative2D *xy , signed char angle ) ;
 
 

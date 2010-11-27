@@ -19,13 +19,15 @@
 // along with MatrixPilot.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include "../MatrixPilot/options.h"
+#ifndef LIB_UDB_H
+#define LIB_UDB_H
+
+
+#include "options.h"
+#include "fixDeps.h"
 #include "libUDB_defines.h"
 #include "magnetometerOptions.h"
 #include <dsp.h>
-
-#ifndef LIB_UDB_H
-#define LIB_UDB_H
 
 ////////////////////////////////////////////////////////////////////////////////
 // libUDB.h defines the API for accessing the UDB hardware through libUDB
@@ -79,7 +81,7 @@ void udb_background_callback_triggered(void);			// Callback
 
 // This function returns the current CPU load as an integer percentage value
 // from 0-100.
-int  udb_cpu_load(void);
+unsigned char udb_cpu_load(void);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,20 +90,20 @@ int  udb_cpu_load(void);
 // These are the values of the radio input channels.  Each channel will be a
 // value between approximately 2000 and 4000, with 3000 being the center.
 // Treat udb_pwIn values as readonly.
-extern int udb_pwIn[MAX_INPUTS+1];		// pulse widths of radio inputs
+extern int udb_pwIn[];		// pulse widths of radio inputs
 
 // These are the recorded trim values of the radio input channels.
 // These values are recorded when you call the udb_servo_record_trims()
 // function.
 // Each channel will be a value between approximately 2000 and 4000.
 // Treat udb_pwTrim values as readonly.
-extern int udb_pwTrim[MAX_INPUTS+1];	// initial pulse widths for trimming
+extern int udb_pwTrim[];	// initial pulse widths for trimming
 
 // These are the servo channel values that will be sent out to the servos.
 // Set these values in your implementation of the udb_servo_callback_prepare_outputs()
 // callback.
 // Each channel should be set to a value between 2000 and 4000.
-extern int udb_pwOut[MAX_OUTPUTS+1];	// pulse widths for servo outputs
+extern int udb_pwOut[];		// pulse widths for servo outputs
 
 // This read-only value holds flags that tell you, among other things,
 // whether the receiver is currently receiving values from the transmitter.
@@ -162,8 +164,9 @@ void udb_magnetometer_callback_data_available(void);	// Callback
 
 // Set the GPS serial data rate.
 void udb_gps_set_rate(int rate);
+boolean udb_gps_check_rate(int rate);  //returns true if the rate arg is the current rate
 
-// Send one char to the GPS
+// Output one character to the GPS
 void udb_gps_send_char(char txchar);
 
 // Implement this cal;back to handle receiving a character from the GPS
@@ -180,11 +183,30 @@ void udb_serial_set_rate(int rate);
 // Call this function to initialte sending a string of characters to the serial port
 void udb_serial_start_sending(void);
 
+// Output one character to the serial port
+// Don't mix this with the serial_start_sending / serial_callback mechanism
+void udb_serial_send_char( char outchar );
+
 // Implement this callback to tell the UDB what character is next to send on the serial port.
 // Return 0 to stop sending this string of characters.
 char udb_serial_callback_get_char_to_send(void);		// Callback
 
 // Implement this cal;back to handle receiving a character from the serial port
 void udb_serial_callback_received_char(char rxchar);	// Callback
+
+
+////////////////////////////////////////////////////////////////////////////////
+// On Screen Display
+
+void osd_spi_write(char address, char byte) ;
+void osd_spi_write_byte(char byte) ; // Used for writing chars while in auto-increment mode
+void osd_spi_write_location(char row, char column) ; // Set where on screen to write the next char
+void osd_spi_write_string(const unsigned char *str) ; // OSD chars, not ASCII
+void osd_spi_write_long(long val, boolean alignLeft) ;
+void osd_spi_write_ulong(unsigned long val, boolean alignLeft) ;
+void osd_spi_write_int(int val, boolean alignLeft) ;
+void osd_spi_write_uint(unsigned int val, boolean alignLeft) ;
+void osd_spi_write_char(int val, boolean alignLeft) ;
+void osd_spi_write_uchar(unsigned int val, boolean alignLeft) ;
 
 #endif

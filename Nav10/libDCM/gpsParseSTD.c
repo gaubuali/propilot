@@ -136,26 +136,25 @@ void gps_startup_sequence(int gpscount)
 	return ;
 }
 
-
-int bin_count = 0 ;
+/*
+int hex_count = 0 ;
 const char convert[] = "0123456789ABCDEF" ;
 const char endchar = 0xB3 ;
 
-/*
-void bin_out( char outchar )
+void hex_out( char outchar )
 //	Used for debugging purposes, converts to HEX and outputs to the debugging USART
 //	Only the first 5 bytes following a B3 are displayed.
 {
-	if ( bin_count > 0 ) 
+	if ( hex_count > 0 ) 
 	{
 		U1TXREG = convert[ ( (outchar>>4) & 0x0F ) ] ;
 		U1TXREG = convert[ ( outchar & 0x0F ) ] ;
 		U1TXREG = ' ' ;
-		bin_count -- ;
+		hex_count -- ;
 	}
 	if ( outchar == endchar )
 	{
-		bin_count = 5 ;
+		hex_count = 5 ;
 		U1TXREG = '\r' ;
 		U1TXREG = '\n' ;
 	}
@@ -218,18 +217,31 @@ void msg_PL2 ( unsigned char gpschar )
 	//	the only two messages that are being used by the gentleNAV are 2 and 41.
 	switch ( gpschar ) {
 		case 0x02 : {
-			msg_parse = &msg_MSG2 ;
+			if (payloadlength.BB == sizeof(msg2parse)>>1)
+			{
+				msg_parse = &msg_MSG2 ;
+			}
+			else
+			{
+				msg_parse = &msg_B3 ;
 			}
 			break ;
-		case 0x29 :
-				{
-			msg_parse = &msg_MSG41 ;
+		}
+		case 0x29 : {
+			if (payloadlength.BB == sizeof(msg41parse)>>1)
+			{
+				msg_parse = &msg_MSG41 ;
+			}
+			else
+			{
+				msg_parse = &msg_B3 ;
 			}
 			break ;
+		}
 		default : {
 			msg_parse = &msg_MSGU ;
-			}
 			break ;
+		}
 	}
 	return ;
 }

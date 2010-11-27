@@ -24,6 +24,7 @@
 #define HOVERYOFFSET ((long)(HOVER_YAW_OFFSET*(RMAX/57.3)))
 
 const int yawkdrud = YAWKD_RUDDER*SCALEGYRO*RMAX ;
+const int rollkprud = ROLLKP_RUDDER*RMAX ;
 
 const int hoveryawkp = HOVER_YAWKP*RMAX ;
 const int hoveryawkd = HOVER_YAWKD*SCALEGYRO*RMAX ;
@@ -50,10 +51,13 @@ void yawCntrl(void)
 void normalYawCntrl(void)
 {
 	int yawNavDeflection ;
+	union longww rollStabilization ;
 	union longww gyroYawFeedback ;
+	int ail_rud_mix ;
 
 #ifdef TestGains
-	flags._.GPS_steering = 1 ;
+	flags._.GPS_steering = 0 ; // turn off navigation
+	flags._.pitch_feedback = 1 ; // turn on stabilization
 #endif 
 	if ( RUDDER_NAVIGATION && flags._.GPS_steering )
 	{
@@ -77,12 +81,31 @@ void normalYawCntrl(void)
 	{
 		gyroYawFeedback.WW = 0 ;
 	}
+
+	if ( ROLL_STABILIZATION_RUDDER && flags._.pitch_feedback && ( current_orientation == F_NORMAL ) )
+	{
+		rollStabilization.WW = __builtin_mulss( rmat[6] , rollkprud ) ;
+	}
+	else
+	{
+		rollStabilization.WW = 0 ;
+	}
 	
-	int ail_offset = udb_pwIn[AILERON_INPUT_CHANNEL] - udb_pwTrim[AILERON_INPUT_CHANNEL] ;
-	int ail_rud_mix = MANUAL_AILERON_RUDDER_MIX * REVERSE_IF_NEEDED(AILERON_CHANNEL_REVERSED, ail_offset) ;
-	if ( canStabilizeInverted() && current_orientation == F_INVERTED ) ail_rud_mix = -ail_rud_mix ;
+	if ( flags._.pitch_feedback )
+	{
+		int ail_offset = udb_pwIn[AILERON_INPUT_CHANNEL] - udb_pwTrim[AILERON_INPUT_CHANNEL] ;
+		ail_rud_mix = MANUAL_AILERON_RUDDER_MIX * REVERSE_IF_NEEDED(AILERON_CHANNEL_REVERSED, ail_offset) ;
+		if ( canStabilizeInverted() && current_orientation == F_INVERTED ) ail_rud_mix = -ail_rud_mix ;
+	}
+	else
+	{
+		ail_rud_mix = 0 ;
+	}
 	
-	yaw_control = (long)yawNavDeflection - (long)gyroYawFeedback._.W1 + ail_rud_mix ;
+	yaw_control = (long)yawNavDeflection 
+				- (long)gyroYawFeedback._.W1 
+				+ (long)rollStabilization._.W1 
+				+ ail_rud_mix ;
 	// Servo reversing is handled in servoMix.c
 	
 	return ;

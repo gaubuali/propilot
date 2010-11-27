@@ -34,6 +34,12 @@ union intbb voltage_temp ;
 void sio_newMsg(unsigned char);
 void sio_voltage_low( unsigned char inchar ) ;
 void sio_voltage_high( unsigned char inchar ) ;
+
+void sio_fp_data( unsigned char inchar ) ;
+void sio_fp_checksum( unsigned char inchar ) ;
+char fp_high_byte;
+unsigned char fp_checksum;
+
 void (* sio_parse ) ( unsigned char inchar ) = &sio_newMsg ;
 
 
@@ -47,12 +53,11 @@ int end_index = 0 ;
 void init_serial()
 {
 #if ( SERIAL_OUTPUT_FORMAT == SERIAL_OSD_REMZIBI )
-	// For the Remzibi OSD, the 'extra' serial port is set to 9600 baud
-	udb_serial_set_rate(9600) ;
-#else
-	// Otherwise, the baud rate is set to 19200
-	udb_serial_set_rate(19200) ;
+	dcm_flags._.nmea_passthrough = 1;
 #endif
+	
+	udb_serial_set_rate(19200) ;
+	
 	return ;
 }
 
@@ -75,10 +80,26 @@ void sio_newMsg( unsigned char inchar )
 	{
 		sio_parse = &sio_voltage_high ;
 	}
+	else if ( inchar == 'R' )
+	{
+		fp_high_byte = -1 ; // -1 means we don't have the high byte yet (0-15 means we do)
+		fp_checksum = 0 ;
+		sio_parse = &sio_fp_data ;
+		flightplan_live_begin() ;
+	}
 	else
 	{
 		// error ?
 	}
+	return ;
+}
+
+
+void sio_voltage_high( unsigned char inchar )
+{
+	voltage_temp.BB = 0 ; // initialize our temp variable
+	voltage_temp._.B1 = inchar ;
+	sio_parse = &sio_voltage_low ;
 	return ;
 }
 
@@ -93,11 +114,102 @@ void sio_voltage_low( unsigned char inchar )
 }
 
 
-void sio_voltage_high( unsigned char inchar )
+char hex_char_val(unsigned char inchar)
 {
-	voltage_temp.BB = 0 ; // initialize our temp variable
-	voltage_temp._.B1 = inchar ;
-	sio_parse = &sio_voltage_low ;
+	if (inchar >= '0' && inchar <= '9')
+	{
+		return (inchar - '0') ;
+	}
+	else if (inchar >= 'A' && inchar <= 'F')
+	{
+		return (inchar - 'A' + 10) ;
+	}
+	return -1 ;
+}
+
+
+// For UDB Logo instructions, bytes should be passed in using the following format
+// (Below, an X represents a hex digit 0-F.  Mulit-digit values are MSB first.)
+// R			begin remote command
+// XX	byte:	command
+// XX	byte:	subcommand
+// X	0-1:	do fly
+// X	0-1:	use param
+// XXXX	word:	argument
+// *			done with command data
+// XX	byte:	checksum should equal the sum of the 10 bytes before the *, mod 256
+// 
+// For example: "R0201000005*E8" runs:
+// the DO command(02) for subroutine 01 with fly and param off(00) and an argument of 0005
+
+
+// For classic Waypoints, bytes should be passed in using the following format
+// (Below, an X represents a hex digit 0-F.  Mulit-digit values are MSB first.)
+// R				begin remote command
+// XXXXXXXX	long:	waypoint X value
+// XXXXXXXX	long:	waypoint Y value
+// XXXX		word:	waypoint Z value
+// XXXX		word:	flags
+// XXXXXXXX	long:	cam view X value
+// XXXXXXXX	long:	cam view Y value
+// XXXX		word:	cam view Z value
+// *				done with command data
+// XX		byte:	checksum should equal the sum of the 44 bytes before the *, mod 256
+// 
+// For example: "R0000006400000032000F0200000000000000000000*67" represents:
+// the waypoint { {100, 50, 15}, F_INVERTED, {0, 0, 0} }
+// 
+
+void sio_fp_data( unsigned char inchar )
+{
+	if (inchar == '*')
+	{
+		fp_high_byte = -1 ;
+		sio_parse = &sio_fp_checksum ;
+	}
+	else
+	{
+		char hexVal = hex_char_val(inchar) ;
+		if (hexVal == -1)
+		{
+			sio_parse = &sio_newMsg ;
+			return ;
+		}
+		else if (fp_high_byte == -1)
+		{
+			fp_high_byte = hexVal * 16 ;
+		}
+		else
+		{
+			flightplan_live_received_byte(fp_high_byte + hexVal) ;
+			fp_high_byte = -1 ;
+		}
+		fp_checksum += inchar ;
+	}
+	return ;
+}
+
+
+void sio_fp_checksum( unsigned char inchar )
+{
+	char hexVal = hex_char_val(inchar) ;
+	if (hexVal == -1)
+	{
+		sio_parse = &sio_newMsg ;
+	}
+	else if (fp_high_byte == -1)
+	{
+		fp_high_byte = hexVal * 16 ;
+	}
+	else
+	{
+		unsigned char v = fp_high_byte + hexVal ;
+		if (v == fp_checksum)
+		{
+			flightplan_live_commit() ;
+		}
+		sio_parse = &sio_newMsg ;
+	}
 	return ;
 }
 
@@ -167,26 +279,24 @@ void serial_output_8hz( void )
 
 #elif ( SERIAL_OUTPUT_FORMAT == SERIAL_ARDUSTATION )
 
-#define BYTECIR_TO_DEGREE 92160		// (360.0/256 * 2^16)
 int skip = 0 ;
 
 extern int desiredHeight, waypointIndex ;
-extern signed char desired_dir_waypoint ;
 
 void serial_output_8hz( void )
 {
 	unsigned int mode ;
 	struct relative2D matrix_accum ;
 	union longbbbb accum ;
-	int desired_dir_waypoint_deg ;  // desired_dir_waypoint converted to a bearing (0-360)
+	int desired_dir_deg ;  // desired_dir converted to a bearing (0-360)
 	
 	long earth_pitch ;		// pitch in binary angles ( 0-255 is 360 degreres)
 	long earth_roll ;		// roll of the plane with respect to earth frame
 	//long earth_yaw ;		// yaw with respect to earth frame
 	
-	accum.WW  = ( desired_dir_waypoint * BYTECIR_TO_DEGREE ) + 32768 ;
-	desired_dir_waypoint_deg  = accum._.W1 - 90 ; // "Convert UAV DevBoad Earth" to Compass Bearing
-	if ( desired_dir_waypoint_deg < 0 ) desired_dir_waypoint_deg += 360 ; 
+	accum.WW  = ( desired_dir * BYTECIR_TO_DEGREE ) + 32768 ;
+	desired_dir_deg  = accum._.W1 - 90 ; // "Convert UAV DevBoad Earth" to Compass Bearing
+	if ( desired_dir_deg < 0 ) desired_dir_deg += 360 ; 
 
 	if (flags._.GPS_steering == 0 && flags._.pitch_feedback == 0)
 		mode = 1 ;
@@ -232,7 +342,7 @@ void serial_output_8hz( void )
 		serial_output("!!!LAT:%li,LON:%li,SPD:%.2f,CRT:%.2f,ALT:%li,ALH:%i,CRS:%.2f,BER:%i,WPN:%i,DST:%i,BTV:%.2f***\r\n"
 					  "+++THH:%i,RLL:%li,PCH:%li,STT:%i,***\r\n",
 			lat_gps.WW / 10 , long_gps.WW / 10 , (float)(sog_gps.BB / 100.0), (float)(climb_gps.BB / 100.0),
-			(alt_sl_gps.WW - alt_origin.WW) / 100, desiredHeight, (float)(cog_gps.BB / 100.0), desired_dir_waypoint_deg,
+			(alt_sl_gps.WW - alt_origin.WW) / 100, desiredHeight, (float)(cog_gps.BB / 100.0), desired_dir_deg,
 			waypointIndex, tofinish_line, (float)(voltage_milis.BB / 100.0), 
 			(int)((udb_pwOut[THROTTLE_OUTPUT_CHANNEL] - udb_pwTrim[THROTTLE_OUTPUT_CHANNEL])/20),
 			earth_roll, earth_pitch,
@@ -259,8 +369,8 @@ int telemetry_counter = 6 ;
 int skip = 0 ;
 
 #if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
-int pwIn_save[MAX_INPUTS + 1] ;
-int pwOut_save[MAX_OUTPUTS + 1] ;
+int pwIn_save[NUM_INPUTS + 1] ;
+int pwOut_save[NUM_OUTPUTS + 1] ;
 char print_choice = 0 ;
 #endif
 
@@ -268,10 +378,6 @@ extern int waypointIndex ;
 
 void serial_output_8hz( void )
 {
-	union longbbbb accum ;
-	
-	int i;
-
 #if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB )	// Only run through this function once per second, by skipping all but every N runs through it.
 	// Saves CPU and XBee power.
 	if (++skip < 4) return ;
@@ -287,12 +393,13 @@ void serial_output_8hz( void )
 	{
 		// The first lines of telemetry contain info about the compile-time settings from the options.h file
 		case 6:
-			serial_output("F11:WIND_EST=%i:GPS_TYPE=%i:DR=%i:BOARD_TYPE=%i:AIRFRAME=%i:\r\n",
-				WIND_ESTIMATION, GPS_TYPE, DEADRECKONING, BOARD_TYPE, AIRFRAME_TYPE);
-			break;
+			serial_output("F11:WIND_EST=%i:GPS_TYPE=%i:DR=%i:BOARD_TYPE=%i:AIRFRAME=%i:RCON=%i:\r\n",
+				WIND_ESTIMATION, GPS_TYPE, DEADRECKONING, BOARD_TYPE, AIRFRAME_TYPE, RCON) ;
+				RCON = 0 ;
+			break ;
 		case 5:
-			serial_output("F4:R_STAB=%i:P_STAB=%i:Y_STAB_R=%i:Y_STAB_A=%i:AIL_NAV=%i:RUD_NAV=%i:AH_STAB=%i:AH_WP=%i:RACE=%i:\r\n",
-				ROLL_STABILIZATION, PITCH_STABILIZATION, YAW_STABILIZATION_RUDDER, YAW_STABILIZATION_AILERON,
+			serial_output("F4:R_STAB_A=%i:R_STAB_RD=%i:P_STAB=%i:Y_STAB_R=%i:Y_STAB_A=%i:AIL_NAV=%i:RUD_NAV=%i:AH_STAB=%i:AH_WP=%i:RACE=%i:\r\n",
+				ROLL_STABILIZATION_AILERONS, ROLL_STABILIZATION_RUDDER, PITCH_STABILIZATION, YAW_STABILIZATION_RUDDER, YAW_STABILIZATION_AILERON,
 				AILERON_NAVIGATION, RUDDER_NAVIGATION, ALTITUDEHOLD_STABILIZED, ALTITUDEHOLD_WAYPOINT, RACING_MODE) ;
 			break ;
 		case 4:
@@ -304,8 +411,8 @@ void serial_output_8hz( void )
 				PITCHGAIN, PITCHKD, RUDDER_ELEV_MIX, ROLL_ELEV_MIX, ELEVATOR_BOOST) ;
 			break ;
 		case 2:
-			serial_output("F7:Y_KP_R=%5.4f:Y_KD_R=%5.3f:RUD_BOOST=%5.3f:RTL_PITCH_DN=%5.3f:\r\n",
-				YAWKP_RUDDER, YAWKD_RUDDER, RUDDER_BOOST, RTL_PITCH_DOWN) ;
+			serial_output("F7:Y_KP_R=%5.4f:Y_KD_R=%5.3f:RLKP_RUD=%5.3f:RUD_BOOST=%5.3f:RTL_PITCH_DN=%5.3f:\r\n",
+				YAWKP_RUDDER, YAWKD_RUDDER, ROLLKP_RUDDER , RUDDER_BOOST, RTL_PITCH_DOWN) ;
 			break ;
 		case 1:
 			serial_output("F8:H_MAX=%6.1f:H_MIN=%6.1f:MIN_THR=%3.2f:MAX_THR=%3.2f:PITCH_MIN_THR=%4.1f:PITCH_MAX_THR=%4.1f:PITCH_ZERO_THR=%4.1f:\r\n",
@@ -324,7 +431,7 @@ void serial_output_8hz( void )
 				rmat[0] , rmat[1] , rmat[2] ,
 				rmat[3] , rmat[4] , rmat[5] ,
 				rmat[6] , rmat[7] , rmat[8] ,
-				(unsigned int)cog_gps.BB, sog_gps.BB, udb_cpu_load(), voltage_milis.BB,
+				(unsigned int)cog_gps.BB, sog_gps.BB, (unsigned int)udb_cpu_load(), voltage_milis.BB,
 				air_speed_magnitude, estimatedWind[0], estimatedWind[1],estimatedWind[2]) ;
 				
 #elif ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
@@ -337,24 +444,26 @@ void serial_output_8hz( void )
 					rmat[0] , rmat[1] , rmat[2] ,
 					rmat[3] , rmat[4] , rmat[5] ,
 					rmat[6] , rmat[7] , rmat[8] ,
-					(unsigned int)cog_gps.BB, sog_gps.BB, udb_cpu_load(), voltage_milis.BB,
+					(unsigned int)cog_gps.BB, sog_gps.BB, (unsigned int)udb_cpu_load(), voltage_milis.BB,
 					air_speed_magnitude, estimatedWind[0], estimatedWind[1],estimatedWind[2],
 					magFieldEarth[0],magFieldEarth[1],magFieldEarth[2],
 					svs, hdop ) ;
 				// Save  pwIn and PwOut buffers for printing next time around
-				for (i=0; i <= MAX_INPUTS; i++)
+				int i ;
+				for (i=0; i <= NUM_INPUTS; i++)
 					pwIn_save[i] = udb_pwIn[i] ;
-				for (i=0; i <= MAX_OUTPUTS; i++)
+				for (i=0; i <= NUM_OUTPUTS; i++)
 					pwOut_save[i] = udb_pwOut[i] ;
 				print_choice = 1 ;
 			}
 			else
 			{
-				for (i= 1; i <= MAX_INPUTS; i++)
+				int i ;
+				for (i= 1; i <= NUM_INPUTS; i++)
 					serial_output("p%ii%i:",i,pwIn_save[i]);
-				for (i= 1; i <= MAX_OUTPUTS; i++)
+				for (i= 1; i <= NUM_OUTPUTS; i++)
 					serial_output("p%io%i:",i,pwOut_save[i]);
-				serial_output("lex%i:ley%i:lez%i:fgs:%X:\r\n", locationErrorEarth[0] , locationErrorEarth[1] , locationErrorEarth[2], flags.WW );
+				serial_output("imx%i:imy%i:imz%i:fgs%X:\r\n",IMUlocationx._.W1 ,IMUlocationy._.W1 ,IMUlocationz._.W1, flags.WW );
 				print_choice = 0 ;
 			}
 #endif
@@ -362,7 +471,7 @@ void serial_output_8hz( void )
 			{
 				// The F13 line of telemetry is printed when origin has been captured and inbetween F2 lines in SERIAL_UDB_EXTRA
 #if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
-				if (print_choice == 0) return ;
+				if (print_choice != 0) return ;
 #endif
 				serial_output("F13:week%i:origN%li:origE%li:origA%li:\r\n", week_no, lat_origin.WW, long_origin.WW, alt_origin) ;
 				flags._.f13_print_req = 0 ;

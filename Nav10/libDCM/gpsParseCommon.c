@@ -39,7 +39,6 @@ unsigned char  mode1 , mode2 , svs ;					// gps mode1, mode2, and number of sate
 unsigned char  	lat_cir ;
 int				cos_lat = 0 ;
 
-signed char actual_dir ;
 int gps_data_age ;
 
 extern void (* msg_parse ) ( unsigned char inchar ) ;
@@ -82,7 +81,7 @@ void udb_gps_callback_received_char(char rxchar)
 void udb_background_callback_triggered(void) 
 {
 	union longbbbb accum_nav ;
-		
+	
 	estYawDrift() ;
 	
 	if ( gps_nav_valid() )

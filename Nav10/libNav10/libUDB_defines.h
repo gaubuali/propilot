@@ -22,12 +22,14 @@
 #ifndef UDB_DEFINES_H
 #define UDB_DEFINES_H
 
+
 // Build for the specific board type
 #define RED_BOARD		1
 #define GREEN_BOARD		2
-#define RED_GREEN_BOARD	3	// Test board for Inversense Gyros
+#define UDB3_BOARD		3	// Test board for Inversense Gyros
 #define RUSTYS_BOARD	4	// Red board with Rusty's IXZ-500_RAD2a patch board
 #define UDB4_BOARD		5
+#define PFG_BOARD		6
 
 
 // Include the necessary files for the current board type
@@ -39,7 +41,7 @@
 #include "p30f4011.h"
 #include "ConfigGreen.h"
 
-#elif (BOARD_TYPE == RED_GREEN_BOARD)
+#elif (BOARD_TYPE == UDB3_BOARD)
 #include "p30f4011.h"
 #include "ConfigIXZ500.h"
 
@@ -50,10 +52,38 @@
 #elif (BOARD_TYPE == UDB4_BOARD)
 #include "p33fj256gp710a.h"
 #include "ConfigUDB4.h"
+#elif (BOARD_TYPE == PFG_BOARD)
+#include "p33fj256gp710.h"
+#include "ConfigUDB4.h"
 #endif
 
 
-#if (BOARD_TYPE == GREEN_BOARD || BOARD_TYPE == RED_BOARD || BOARD_TYPE == RED_GREEN_BOARD || BOARD_TYPE == RUSTYS_BOARD)
+#if (HILSIM == 1)
+#include "ConfigHILSIM.h"
+#endif
+
+
+#if (USE_PPM_INPUT == 1)
+#undef MAX_INPUTS
+#define MAX_INPUTS 8
+#endif
+
+
+// define the board rotations here.
+// This include must go jsut after the board type has been declared
+// Do not move this
+// Orientation of the board
+#define ORIENTATION_FORWARDS		0
+#define ORIENTATION_BACKWARDS		1
+#define ORIENTATION_INVERTED		2
+#define ORIENTATION_FLIPPED			3
+#define ORIENTATION_ROLLCW			4
+#define ORIENTATION_ROLLCW180		5
+
+#include "boardRotation_defines.h"
+
+
+#if (BOARD_TYPE == GREEN_BOARD || BOARD_TYPE == RED_BOARD || BOARD_TYPE == UDB3_BOARD || BOARD_TYPE == RUSTYS_BOARD)
 #define BOARD_IS_CLASSIC_UDB		1
 #else
 #define BOARD_IS_CLASSIC_UDB		0
@@ -81,9 +111,9 @@ struct udb_flag_bits {
 
 // Baud Rate Generator -- See section 19.3.1 of datasheet.
 // Fcy = FREQOSC / CLK_PHASES
-// U1BRG = (Fcy/(16*BaudRate))-1
-// U1BRG = ((32000000/2)/(16*9600))-1
-// U1BRG = 103
+// UXBRG = (Fcy/(16*BaudRate))-1
+// UXBRG = ((32000000/2)/(16*9600))-1
+// UXBRG = 103
 #define UDB_BAUD(x)		((int)((FREQOSC / CLK_PHASES) / ((long)16 * x) - 1))
 
 

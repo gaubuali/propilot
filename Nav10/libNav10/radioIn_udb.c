@@ -31,28 +31,43 @@
 //	The pulse width inputs can be directly converted to units of pulse width outputs to control
 //	the servos by simply dividing by 2.
 
-int udb_pwIn[MAX_INPUTS+1] ;	// pulse widths of radio inputs
-int udb_pwTrim[MAX_INPUTS+1] ;	// initial pulse widths for trimming
+int udb_pwIn[NUM_INPUTS+1] ;	// pulse widths of radio inputs
+int udb_pwTrim[NUM_INPUTS+1] ;	// initial pulse widths for trimming
 
 int failSafePulses = 0 ;
 
-unsigned int rise[MAX_INPUTS+1] ;	// rising edge clock capture for radio inputs
+
+#if (USE_PPM_INPUT != 1)
+unsigned int rise[NUM_INPUTS+1] ;	// rising edge clock capture for radio inputs
+
+#else
+#define MIN_SYNC_PULSE_WIDTH 7000
+unsigned int rise_ppm ;				// rising edge clock capture for PPM radio input
+#endif
 
 
 void udb_init_capture(void)
 {
 	T2CON = 0b1000000000000000  ;	// turn on timer 2 with no prescaler
-	TRISD = 0b1111111111111111 ;	// make the d port input, to enable IC1 and IC2
 	_TRISF6 = 1 ;			// make F6 an input to enable the 3rd switch
+	
+	TRISD = 0b1111111111111111 ;	// make the d port input, to enable IC1 and IC2
+	
+#if (USE_PPM_INPUT != 1)
 	IC1CON = IC2CON = IC7CON = IC8CON = 0b0010000010000001 ;
+	_IC1IP = _IC2IP = _IC7IP = _IC8IP = 6 ; // priority 6
+	_IC1IF = _IC2IF = _IC7IF = _IC8IF = 0 ; // clear the interrupt
+#else
+	IC1CON = 0b0010000010000001 ;
+	_IC1IP = 6 ; // priority 6
+	_IC1IF = 0 ; // clear the interrupt
+#endif
 	
 	int i;
 	for (i=0; i <= NUM_INPUTS; i++)
 		udb_pwIn[i] = udb_pwTrim[i] = 0 ;
 	
-	_IC1IP = _IC2IP = _IC7IP = _IC8IP = 6 ; // priority 6
-	_IC1IF = _IC2IF = _IC7IF = _IC8IF = 0 ; // clear the interrupt
-	
+#if (USE_PPM_INPUT != 1)
 	if (NUM_INPUTS > 0) _IC7IE = 1 ; // turn on interrupt for input 1
 	if (NUM_INPUTS > 1) _IC8IE = 1 ; // turn on interrupt for input 2
 	if (NUM_INPUTS > 2) _IC2IE = 1 ; // turn on interrupt for input 3
@@ -66,10 +81,15 @@ void udb_init_capture(void)
 		_INT0IF = 0 ; // clear the interrupt
 		_INT0IE = 1 ; // turn on the interrupt
 	}
+#else
+	if (NUM_INPUTS > 0) _IC1IE = 1 ; // turn on interrupt for PPM input 4
+#endif
 	
 	return ;
 }
 
+
+#if (USE_PPM_INPUT != 1)
 
 // Input Channel 1
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC7Interrupt(void)
@@ -82,7 +102,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC7Interrupt(void)
 	}
 	
 #if ( NORADIO == 0 )
-	if (PORTBbits.RB4)
+	if (_RB4)
 	{
 		 rise[1] = time ;
 	}
@@ -121,7 +141,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC8Interrupt(void)
 	}
 	
 #if ( NORADIO == 0 )
-	if (PORTBbits.RB5)
+	if (_RB5)
 	{
 		 rise[2] = time ;
 	}
@@ -160,7 +180,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC2Interrupt(void)
 	}
 	
 #if ( NORADIO == 0 )
-	if (PORTDbits.RD1)
+	if (_RD1)
 	{
 		 rise[3] = time ;
 	}
@@ -199,7 +219,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 	}
 	
 #if ( NORADIO == 0 )
-	if (PORTDbits.RD0)
+	if (_RD0)
 	{
 		 rise[4] = time ;
 	}
@@ -263,5 +283,54 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _INT0Interrupt(void)
 	
 	return;
 }
+
+
+#else // #if (USE_PPM_INPUT == 1)
+
+unsigned char ppm_ch = 0 ;
+
+// PPM Input on Channel 4
+void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
+{
+	unsigned int time ;	
+	_IC1IF = 0 ; // clear the interrupt
+	while ( IC1CONbits.ICBNE )
+	{
+		time = IC1BUF ;
+	}
+	
+#if ( NORADIO == 0 )
+	if (_RD0)
+	{
+		unsigned int pulse = (time - rise_ppm) >> 1 ;
+		rise_ppm = time ;
+		
+		if (pulse > MIN_SYNC_PULSE_WIDTH)			//sync pulse
+		{
+			ppm_ch = 1 ;
+		}
+		else
+		{
+			if (ppm_ch > 0 && ppm_ch <= PPM_NUMBER_OF_CHANNELS)
+			{
+				if (ppm_ch <= NUM_INPUTS)
+				{
+					udb_pwIn[ppm_ch] = pulse ;
+					
+					if ( ppm_ch == FAILSAFE_INPUT_CHANNEL && udb_pwIn[FAILSAFE_INPUT_CHANNEL] > FAILSAFE_INPUT_MIN && udb_pwIn[FAILSAFE_INPUT_CHANNEL] < FAILSAFE_INPUT_MAX )
+					{
+						failSafePulses++ ;
+					}
+				}
+				ppm_ch++ ;		//scan next channel
+			}
+		}
+	}
+#endif
+
+	return ;
+}
+
+#endif
 
 #endif

@@ -32,7 +32,7 @@ _FBORPOR( 	PBOR_OFF &				// brown out detection off
 _FGS( CODE_PROT_OFF ) ;				// no protection
 _FICD( 0xC003 ) ;					// normal use of debugging port
 
-#elif (BOARD_TYPE == UDB4_BOARD)
+#elif (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == PFG_BOARD)
 _FOSCSEL(FNOSC_FRCPLL) ;			// fast RC plus PLL
 _FOSC(	FCKSM_CSECMD &
 		OSCIOFNC_ON &
@@ -59,7 +59,7 @@ void udb_init(void)
 {
 	defaultCorcon = CORCON ;
 	
-#if (BOARD_TYPE == UDB4_BOARD)
+#if (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == PFG_BOARD)
 	CLKDIVbits.PLLPRE = 1 ;
 	PLLFBDbits.PLLDIV = 50 ; // FOSC = 32 MHz (FRC = 7.37MHz, N1=3, N2=4, M = 52)
 #endif
@@ -74,6 +74,10 @@ void udb_init(void)
 	udb_init_GPS() ;
 	udb_init_USART() ;
 	udb_init_pwm() ;
+#if (USE_OSD == 1)
+	udb_init_osd() ;
+#endif
+	
 	SRbits.IPL = 0 ;	// turn on all interrupt priorities
 	
 	return ;
@@ -98,7 +102,7 @@ void udb_init_leds( void )
 #if (BOARD_IS_CLASSIC_UDB == 1)
 	TRISFbits.TRISF0 = 0 ;
 	
-#elif (BOARD_TYPE == UDB4_BOARD)
+#elif (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == PFG_BOARD)
 	_TRISE1 = _TRISE2 = _TRISE3 = _TRISE4 = 0 ;
 	_LATE1 = _LATE2 = _LATE3 = _LATE4 = LED_OFF ;
 #endif
@@ -120,12 +124,12 @@ void udb_setDSPLibInUse(boolean inUse)
 void udb_a2d_record_offsets(void)
 {
 	// almost ready to turn the control on, save the input offsets
-	udb_xaccel.offset = udb_xaccel.value ;
+	UDB_XACCEL.offset = UDB_XACCEL.value ;
 	udb_xrate.offset = udb_xrate.value ;
-	udb_yaccel.offset = udb_yaccel.value ;
+	UDB_YACCEL.offset = UDB_YACCEL.value ;
 	udb_yrate.offset = udb_yrate.value ;
-	udb_zaccel.offset = udb_zaccel.value - ((int)(2*GRAVITY)) ; // GRAVITY is measured in A-D/2 units
-	udb_zrate.offset = udb_zrate.value ;
+	UDB_ZACCEL.offset = UDB_ZACCEL.value GRAVITY_SIGN ((int)(2*GRAVITY)) ;  // GRAVITY is measured in A-D/2 units
+	udb_zrate.offset = udb_zrate.value ;									// The sign is for inverted boards
 #ifdef VREF
 	udb_vref.offset = udb_vref.value ;
 #endif

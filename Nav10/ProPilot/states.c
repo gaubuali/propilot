@@ -22,6 +22,7 @@
 #include "defines.h"
 
 union fbts_int flags ;
+union fbts_int old_rtl_flags ;
 int waggle = 0 ;
 int calib_timer, standby_timer ;
 
@@ -43,6 +44,7 @@ void init_states(void)
 	flags.WW = 0 ;
 	waggle = 0 ;
 	gps_data_age = GPS_DATA_MAX_AGE+1 ;
+	dcm_flags._.dead_reckon_enable = 0 ;
 	stateS = &startS ;
 	return ;
 }
@@ -72,6 +74,25 @@ void udb_background_callback_periodic(void)
 			flags._.man_req = 1 ;
 			flags._.auto_req = 0 ;
 			flags._.home_req = 0 ;
+		}
+		
+		// With Failsafe Hold enabled: After losing RC signal, and then regaining it, you must manually
+		// change the mode switch position in order to exit RTL mode.
+		if (flags._.rtl_hold)
+		{
+			if (flags._.man_req  == old_rtl_flags._.man_req &&
+				flags._.auto_req == old_rtl_flags._.auto_req &&
+				flags._.home_req == old_rtl_flags._.home_req)
+			{
+				flags._.man_req = 0 ;
+				flags._.auto_req = 0 ;
+				flags._.home_req = 0 ;
+			}
+			else
+			{
+				old_rtl_flags.WW = flags.WW ;
+				flags._.rtl_hold = 0 ;
+			}
 		}
 	}
 	else
@@ -175,9 +196,9 @@ void ent_waypointS()
 	flags._.altitude_hold_pitch = (ALTITUDEHOLD_WAYPOINT == AH_FULL || ALTITUDEHOLD_WAYPOINT == AH_PITCH_ONLY) ;
 	waggle = 0 ;
 	
-	if ( !(FAILSAFE_TYPE == FAILSAFE_WAYPOINTS && stateS == &returnS) )
+	if ( !(FAILSAFE_TYPE == FAILSAFE_MAIN_FLIGHTPLAN && stateS == &returnS) )
 	{
-		init_waypoints( 0 ) ; // Only reset non-rtl waypoints if not already following waypoints
+		init_flightplan( 0 ) ; // Only reset non-rtl waypoints if not already following waypoints
 	}
 	
 #if ( LED_RED_MAG_CHECK == 0 )
@@ -196,11 +217,11 @@ void ent_returnS()
 	flags._.altitude_hold_pitch = (ALTITUDEHOLD_WAYPOINT == AH_FULL || ALTITUDEHOLD_WAYPOINT == AH_PITCH_ONLY) ;
 	
 #if ( FAILSAFE_TYPE == FAILSAFE_RTL )
-	init_waypoints( 1 ) ;
-#elif ( FAILSAFE_TYPE == FAILSAFE_WAYPOINTS )
+	init_flightplan( 1 ) ;
+#elif ( FAILSAFE_TYPE == FAILSAFE_MAIN_FLIGHTPLAN )
 	if ( stateS != &waypointS )
 	{
-		init_waypoints( 0 ) ; // Only reset non-rtl waypoints if not already following waypoints
+		init_flightplan( 0 ) ; // Only reset non-rtl waypoints if not already following waypoints
 	}
 #endif
 	
@@ -257,9 +278,13 @@ void acquiringS(void)
 				waggle = 0 ;
 			
 			standby_timer-- ;
-			if ( standby_timer == 2 )
+			if ( standby_timer == 6 )
 			{
 				flags._.save_origin = 1 ;
+			}
+			else if ( standby_timer == 2 )
+			{
+				dcm_flags._.dead_reckon_enable = 1 ;
 			}
 			else if ( standby_timer <= 0)
 			{
@@ -344,6 +369,12 @@ void returnS(void)
 			ent_stabilizedS() ;
 		else if ( flags._.home_req & dcm_flags._.nav_capable )
 			ent_waypointS() ;
+	}
+	else
+	{
+#if (FAILSAFE_HOLD == 1)
+		flags._.rtl_hold = 1 ;
+#endif
 	}		
 	return ;
 }

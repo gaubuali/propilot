@@ -22,34 +22,31 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Waypoint handling
 
-// You have the option of using either cross tracking,
-// in which navigation is based on the distance of the plane
-// to the line between the waypoints.
-// Or you can use navigation directly toward the goal point.
-// If you want to use cross tracking, set USE_CROSSTRACKING to 1,
-// otherwise, to use navigation directly toward the goal,
-// set USE_CROSSTRACKING to 0.
-#define USE_CROSSTRACKING		0
-
 // Move on to the next waypoint when getting within this distance of the current goal (in meters)
-// Only applies if not using cross tracking.
 #define WAYPOINT_RADIUS 		25
 
 // Origin Location
 // When using relative waypoints, the default is to interpret those waypoints as relative to the
-// plane's power-up location.  Here you can choose to use any specific, fixed 2D location as the
-// origin point for your relative waypoints.  (The code will still use the plane's power-up
-// altitude as the altitude origin.)
+// plane's power-up location.  Here you can choose to use any specific, fixed 3D location as the
+// origin point for your relative waypoints.
 //
 // USE_FIXED_ORIGIN should be 0 to use the power-up location as the origin for relative waypoints.
 // Set it to 1 to use a fixed location as the origin, no matter where you power up.
 // FIXED_ORIGIN_LOCATION is the location to use as the origin for relative waypoints.  It uses the
-// format { X, Y } where:
+// format { X, Y, Z } where:
 // X is Logitude in degrees * 10^7
 // Y is Latitude in degrees * 10^7
+// Z is altitude above sea level, in meters, as a floating point value.
 // 
+// If you are using waypoints for an autonomous landing, it is a good idea to set the altitude value
+// to be the altitude of the landing point, and then express the heights of all of the waypoints with
+// respect to the landing point.
+// If you are using OpenLog, an easy way to determine the altitude of your landing point is to
+// examine the telemetry after a flight, take a look in the .csv file, it will be easy to spot the
+// altitude, expressed in meters.
+
 #define USE_FIXED_ORIGIN		0
-#define FIXED_ORIGIN_LOCATION	{ -1219950467, 374124664 }	// A point in Baylands Park in Sunnyvale, CA
+#define FIXED_ORIGIN_LOCATION	{ -1219950467, 374124664, 30.0 }	// A point in Baylands Park in Sunnyvale, CA
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +101,7 @@
 // F_LOITER			- After reaching this waypoint, continue navigating towards this same waypoint.  Repeat until leaving waypoint mode.
 // F_TRIGGER		- Trigger an action to happen when this waypoint leg starts.  (See the Trigger Action section of the options.h file.) 
 // F_ALTITUDE_GOAL	- Climb or descend to the given altitude, then continue to the next waypoint.
+// F_CROSS_TRACK	- Navigate using cross-tracking.  Best used for longer waypoint legs.
 // F_LAND			- Navigate towards this waypoint with the throttle off.
 // 
 // 
@@ -128,6 +126,8 @@
 // 
 // You do not need to specify how many points you have, the compiler will count them for you.
 // You can use the facilities of the compiler to do some simple calculations in defining the course.
+//
+// To use waypoints, make sure FLIGHT_PLAN_TYPE is set to FP_WAYPOINTS in options.h.
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -25,16 +25,16 @@
 #define tmr1_period 		0x2000 // sets time period for timer 1 interrupt to 0.5 seconds
 #define CPU_LOAD_PERCENT	400   // = (100 / (8192 * 2)) * (256**2)
 
-#elif (BOARD_TYPE == UDB4_BOARD)
+#elif (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == PFG_BOARD)
 #define tmr1_period 		0x8000 // sets time period for timer 1 interrupt to 0.5 seconds
-#define CPU_LOAD_PERCENT	1600
+#define CPU_LOAD_PERCENT	100
 #endif
 
 
 unsigned int cpu_timer = 0 ;
 boolean skip_timer_reset = 1 ; 
 
-#if ( BOARD_TYPE == UDB4_BOARD )
+#if ( BOARD_TYPE == UDB4_BOARD  || BOARD_TYPE == PFG_BOARD)
 #define _TTRIGGERIP _T7IP
 #define _TTRIGGERIF _T7IF
 #define _TTRIGGERIE _T7IE
@@ -70,12 +70,12 @@ void udb_init_clock(void)	/* initialize timers */
 	T5CONbits.TON = 0 ;		// turn off timer 5
 	timer_5_on = 0;
 	
-	//	The T7 interrupt is used to trigger background tasks such as
-	//	navigation processing after binary data is received from the GPS.
-
-	_TTRIGGERIP = 2 ;				// priority 2
-	_TTRIGGERIF = 0 ;				// clear the interrupt
-	_TTRIGGERIE = 1 ;				// enable the interrupt
+	// The TTRIGGER interrupt (T3 or T7 depending on the board) is used to
+	// trigger background tasks such as navigation processing after binary data
+	// is received from the GPS.
+	_TTRIGGERIP = 2 ;		// priority 2
+	_TTRIGGERIF = 0 ;		// clear the interrupt
+	_TTRIGGERIE = 1 ;		// enable the interrupt
 	
 	return ;
 }
@@ -91,7 +91,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void)
 	// capture cpu_timer once per second.
 	if (skip_timer_reset)
 	{
-		// catch another second 1/2 second in timer 5
+		// catch another 1/2 second in timer 5
 		skip_timer_reset = 0;
 	}
 	else
@@ -112,7 +112,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void)
 	return ;
 }
 
-#if ( BOARD_TYPE == UDB4_BOARD )
+#if ( BOARD_TYPE == UDB4_BOARD  || BOARD_TYPE == PFG_BOARD)
 void __attribute__((__interrupt__,__no_auto_psv__)) _T7Interrupt(void) 
 #else
 void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void) 
@@ -139,7 +139,7 @@ void udb_background_trigger(void)
 }
 
 
-int  udb_cpu_load(void)
+unsigned char udb_cpu_load(void)
 {
-	return (__builtin_muluu(cpu_timer, CPU_LOAD_PERCENT) >> 16) ;
+	return (unsigned char)(__builtin_muluu(cpu_timer, CPU_LOAD_PERCENT) >> 16) ;
 }

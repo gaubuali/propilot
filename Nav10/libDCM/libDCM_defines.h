@@ -35,15 +35,19 @@ union longww { long  WW ; struct ww _ ; } ;
 struct relative2D { int x ; int y ; } ;
 struct absolute2D { long x ; long y ; } ;
 struct relative3D { int x ; int y ; int z ; } ;
+struct absolute3D { long x ; long y ; long z ; } ;
 struct waypoint3D { long x ; long y ; int z ; } ;
+struct fixedOrigin3D {long x; long y; float z;} ;
 
 struct dcm_flag_bits {
-			unsigned int unused					: 3 ;
+			unsigned int dead_reckon_enable		: 1 ;
+			unsigned int reckon_req				: 1 ;
 			unsigned int first_mag_reading		: 1 ;
 			unsigned int mag_drift_req			: 1 ;
 			unsigned int yaw_req				: 1 ;
 			unsigned int skip_yaw_drift			: 1 ;
 			unsigned int nav_capable			: 1 ;
+			unsigned int nmea_passthrough		: 1 ; // only used by ublox
 			} ;
 
 
@@ -63,9 +67,6 @@ struct dcm_flag_bits {
 
 #define LONGDEG_2_BYTECIR 305
 // = (256/360)*((256)**4)/(10**7)
-
-#define COURSEDEG_2_BYTECIR 466
- // = (256/360)*((256)**2)/(10**2)
 
 #define RADPERSEC ((long long)5632.0/SCALEGYRO)
 // one radian per second, in AtoD/2 units

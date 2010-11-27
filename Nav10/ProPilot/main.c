@@ -25,10 +25,6 @@
 
 int main (void)
 {
-	while( 1 )
-	{	servoMix();
-	}
-
 	udb_init() ;
 	dcm_init() ;
 	init_servoPrepare() ;
@@ -41,4 +37,3 @@ int main (void)
 	
 	return 0 ;
 }
-	
