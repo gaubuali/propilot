@@ -143,14 +143,14 @@
 // following pins, in this order: Out1, Out2, Out3, In3, In2, In1, RE0, RE2.
 // With it set to 1, the RC outputs will be in this alternate configuration:
 // Out1, Out2, Out3, RE0, RE2, RE4, In3, In2.
-#define USE_PPM_INPUT						1
+#define USE_PPM_INPUT						0
 #define PPM_NUMBER_OF_CHANNELS				8
 #define PPM_ALT_OUTPUT_PINS					0
 
 // NUM_INPUTS: Set to 1-5 
 //   1-4 enables only the first 1-4 of the 4 standard input channels
 //   5 also enables E8 as the 5th input channel
-#define NUM_INPUTS							5
+#define NUM_INPUTS							8
 
 // Channel numbers for each input.
 // Use as is, or edit to match your setup.
@@ -172,7 +172,7 @@
 //   6 also enables E4 as the 6th output channel
 //   NOTE: If USE_PPM_INPUT is enabled above, outputs 4, 5, and 6 will use the
 //         RC Input 3, 2, and 1 connections instead of pins E0, E2, and E4.)
-#define NUM_OUTPUTS							5
+#define NUM_OUTPUTS							8
 
 // Channel numbers for each output
 // Use as is, or edit to match your setup.
