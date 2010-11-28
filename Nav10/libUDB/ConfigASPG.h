@@ -156,7 +156,7 @@ typedef union tagMixer {
 		int	iInpCH:6;	// normal source channel from iInputs[] array
 		int iInpSSI:6;	// second source input channel from iInputs[] array
 		int	iInpTSI:6;	// third source input channel from iInputs[] array
-		int	iFactor:10;	// Q15 format with botom bits cleared
+		int	iFactor:10;	// Q15 format with bottom bits cleared
 	} pType;
 } MIXER, *LPMIXER;
 

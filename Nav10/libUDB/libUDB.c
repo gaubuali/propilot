@@ -45,6 +45,7 @@ _FGS(	GSS_OFF &
 _FPOR(	FPWRT_PWR1 ) ;
 _FICD(	JTAGEN_OFF &
 		ICS_PGD2 ) ;
+//int junk __attribute__((section("buffers"),address(0x1000)));
 #endif
 
 
