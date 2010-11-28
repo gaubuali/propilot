@@ -45,7 +45,7 @@
 											
 											
 											
-union pMixer  pMixers[MIX_NUM_OUTPUTS+1][MIX_PER_CHANNEL]  __attribute__ ((address(0x900))) = {											
+MIXER pMixers[MIX_NUM_OUTPUTS+1][MIX_PER_CHANNEL]  __attribute__ ((address(0x1000))) = {
 {											
 	{	/* Channel1 (Throttle) */									
 		.pType = { BALANCED_HALF_FACTOR, RC_THROTTLE, DCM_THROTTLE, RC_MODE_FAILSAFE, toQ10( 0.800 ) }, }, {									

@@ -44,7 +44,7 @@ void (* sio_parse ) ( unsigned char inchar ) = &sio_newMsg ;
 
 
 #define SERIAL_BUFFER_SIZE 256
-char serial_buffer[SERIAL_BUFFER_SIZE] ;
+char __attribute__ ((address(0x1200))) serial_buffer[SERIAL_BUFFER_SIZE] ;
 int sb_index = 0 ;
 int end_index = 0 ;
 
