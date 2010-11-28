@@ -61,6 +61,32 @@
 #endif
 
 
+#if (HILSIM == 1)
+#include "ConfigHILSIM.h"
+#endif
+
+
+#if (USE_PPM_INPUT == 1)
+#undef MAX_INPUTS
+#define MAX_INPUTS 8
+#endif
+
+
+// define the board rotations here.
+// This include must go just after the board type has been declared
+// Do not move this
+// Orientation of the board
+#define ORIENTATION_FORWARDS		0
+#define ORIENTATION_BACKWARDS		1
+#define ORIENTATION_INVERTED		2
+#define ORIENTATION_FLIPPED			3
+#define ORIENTATION_ROLLCW			4
+#define ORIENTATION_ROLLCW180		5
+
+#include "boardRotation_defines.h"
+
+
+
 #if (BOARD_TYPE == GREEN_BOARD || BOARD_TYPE == RED_BOARD || BOARD_TYPE == RED_GREEN_BOARD || BOARD_TYPE == RUSTYS_BOARD)
 #define BOARD_IS_CLASSIC_UDB		1
 #else
