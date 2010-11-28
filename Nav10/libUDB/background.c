@@ -27,7 +27,7 @@
 
 #elif (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == ASPG_BOARD)
 #define tmr1_period 		0x8000 // sets time period for timer 1 interrupt to 0.5 seconds
-#define CPU_LOAD_PERCENT	1600
+#define CPU_LOAD_PERCENT	100
 #endif
 
 
