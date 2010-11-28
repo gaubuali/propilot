@@ -31,7 +31,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Set Up Board Type (Set to RED_BOARD, GREEN_BOARD, UDB3_BOARD, RUSTYS_BOARD, or UDB4_BOARD)
 // If building for UDB4, use the MatrixPilot-udb4.mcp project file.
-#define BOARD_TYPE 							UDB4_BOARD
+#define BOARD_TYPE 							ASPG_BOARD
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -276,13 +276,6 @@
 // SERIAL_UDB_EXTRA may result in dropped characters if used with the XBEE wireless transmitter.
 #define SERIAL_OUTPUT_FORMAT				SERIAL_NONE
 
-/////////////////////////////////////////////////////////////////////////////////
-// Serial input. Enable this feature only if you have a source connected to the
-// RX pin on the UDB (to avoid possible issues with a floating input).
-// Note that with this disabled, none of the functions that require input from
-// the telemetry port will function.
-#define SERIAL_INPUT						0
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // On Screen Display
@@ -500,7 +493,12 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
+// Debugging defines
+
 // The following can be used to do a ground check of stabilization without a GPS.
 // If you define TestGains, stabilization functions
 // will be enabled, even without GPS or Tx turned on. (Tx is optional)
 // #define TestGains						// uncomment this line if you want to test your gains without using GPS
+
+// Set this to 1 to calculate and print out free stack space
+#define RECORD_FREE_STACK_SPACE 			0
