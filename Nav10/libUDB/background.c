@@ -70,12 +70,12 @@ void udb_init_clock(void)	/* initialize timers */
 	T5CONbits.TON = 0 ;		// turn off timer 5
 	timer_5_on = 0;
 	
-	//	The T7 interrupt is used to trigger background tasks such as
-	//	navigation processing after binary data is received from the GPS.
-
-	_TTRIGGERIP = 2 ;				// priority 2
-	_TTRIGGERIF = 0 ;				// clear the interrupt
-	_TTRIGGERIE = 1 ;				// enable the interrupt
+	// The TTRIGGER interrupt (T3 or T7 depending on the board) is used to
+	// trigger background tasks such as navigation processing after binary data
+	// is received from the GPS.
+	_TTRIGGERIP = 2 ;		// priority 2
+	_TTRIGGERIF = 0 ;		// clear the interrupt
+	_TTRIGGERIE = 1 ;		// enable the interrupt
 	
 	return ;
 }
@@ -91,7 +91,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void)
 	// capture cpu_timer once per second.
 	if (skip_timer_reset)
 	{
-		// catch another second 1/2 second in timer 5
+		// catch another 1/2 second in timer 5
 		skip_timer_reset = 0;
 	}
 	else
@@ -139,7 +139,7 @@ void udb_background_trigger(void)
 }
 
 
-int  udb_cpu_load(void)
+unsigned char udb_cpu_load(void)
 {
-	return (__builtin_muluu(cpu_timer, CPU_LOAD_PERCENT) >> 16) ;
+	return (unsigned char)(__builtin_muluu(cpu_timer, CPU_LOAD_PERCENT) >> 16) ;
 }

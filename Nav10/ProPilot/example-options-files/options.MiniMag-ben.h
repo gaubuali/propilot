@@ -31,7 +31,7 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Set Up Board Type (Set to RED_BOARD or GREEN_BOARD or RED_GREEN_BOARD)
+// Set Up Board Type (Set to RED_BOARD or GREEN_BOARD or UDB3_BOARD or RUSTYS_BOARD)
 #define BOARD_TYPE 							RED_BOARD
 
 
@@ -54,7 +54,8 @@
 //
 // Roll, Pitch, and Yaw Stabilization
 // Set any of these to 0 to disable the stabilization in that axis.
-#define ROLL_STABILIZATION					1
+#define ROLL_STABILIZATION_AILERONS			1
+#define ROLL_STABILIZATION_RUDDER			0
 #define PITCH_STABILIZATION					1
 #define YAW_STABILIZATION_RUDDER			1
 #define YAW_STABILIZATION_AILERON			1
@@ -316,6 +317,7 @@
 // RUDDER_BOOST is the additional gain multiplier for the manually commanded rudder deflection
 #define YAWKP_RUDDER						0.02 // 0.1
 #define YAWKD_RUDDER						0.02 // 0.1
+#define ROLLKP_RUDDER						0.02
 #define MANUAL_AILERON_RUDDER_MIX			0.0
 #define RUDDER_BOOST						0.4
 
@@ -405,12 +407,6 @@
 #define ALT_HOLD_PITCH_MIN					-20.0
 #define ALT_HOLD_PITCH_MAX		 			 20.0
 #define ALT_HOLD_PITCH_HIGH					-20.0
-
-// Use ALT_HOLD_PITCH_LAND in conjunction with the F_LAND waypoint qualifier.
-// The throttle will be turned off for an F_LAND waypoint.
-// The pitch goal during landing, in degrees, will be set to ALT_HOLD_PITCH_LAND.
-#define ALT_HOLD_PITCH_LAND					0.0
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Return To Launch Pitch Down in degrees, a real number.

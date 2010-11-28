@@ -30,8 +30,6 @@
 void udb_init_GPS(void)
 {
 	//	Initialize the USART that communicates with the GPS
-	U2MODE = 0b0010000000000000 ; // turn off RX, used to clear errors
-	U2STA  = 0b0000010100010000 ;
 	
 	U2MODE = 0b1010000000000000 ; // turn on
 	U2STA  = 0b0000010100010000 ;
@@ -51,30 +49,35 @@ void udb_gps_set_rate(int rate)
 }
 
 
+boolean udb_gps_check_rate(int rate)
+{
+	return ( U2BRG == UDB_BAUD(rate) ) ;
+}
+
+
 void __attribute__((__interrupt__,__no_auto_psv__)) _U2RXInterrupt(void)
 {
 	interrupt_save_extended_state ;
 	
 	indicate_loading_inter ;
 	
-	if ( U2STAbits.FERR ) udb_init_GPS();
-	else if ( U2STAbits.OERR ) udb_init_GPS();
-
 	_U2RXIF = 0 ; // clear the interrupt
 	while ( U2STAbits.URXDA )
 	{
 		unsigned char rxchar = U2RXREG ;
 		udb_gps_callback_received_char(rxchar) ;
 	}
+
+	U2STAbits.OERR = 0 ; // clear the overrun bit, just in case
 	
 	interrupt_restore_extended_state ;
 	return ;
 }
 
 
-void udb_gps_send_char ( char outchar ) // output one character to the GPS
+// Output one character to the GPS
+void udb_gps_send_char( char outchar )
 {
-	//bin_out(outchar);
 	while ( U2STAbits.UTXBF ) { }
 	U2TXREG = outchar ;
 	return ;
@@ -87,7 +90,7 @@ void udb_gps_send_char ( char outchar ) // output one character to the GPS
 // Serial
 
 void udb_init_USART(void)
-{	
+{
 	//	debugging/telemetry USART, runs at 19200 baud
 	U1MODE = 0b0010000000000000 ; // turn off RX, used to clear errors
 	U1STA  = 0b0000010100010000 ;
@@ -95,8 +98,8 @@ void udb_init_USART(void)
 	U1MODEbits.UARTEN = 1 ; // turn on uart
 	U1MODEbits.ALTIO = 1 ; // use alternate pins
 	
-	U1STAbits.UTXEN = 1 ; // turn on transmitter
-	
+	U1STAbits.UTXEN = 1 ; // turn on transmitter	
+
 	_U1RXIF = 0 ; // clear the interrupt
 	_U1RXIP = 3 ; // priority 3
 	_U1RXIE = 1 ; // turn on the interrupt
@@ -123,25 +126,32 @@ void udb_serial_start_sending(void)
 }
 
 
+// Output one character to the serial port
+void udb_serial_send_char( char outchar )
+{
+	while ( U1STAbits.UTXBF ) { }
+	U1TXREG = outchar ;
+	return ;
+}
+
 void __attribute__((__interrupt__,__no_auto_psv__)) _U1RXInterrupt(void)
 {
 	// interrupt_save_extended_state ;
 	
 	indicate_loading_inter ;
 	
-	if ( U1STAbits.FERR ) udb_init_USART();
-	else if ( U1STAbits.OERR ) udb_init_USART();
-	
-	char rxchar = U1RXREG ;
-	
 	_U1RXIF = 0 ; // clear the interrupt
-	
-	udb_serial_callback_received_char(rxchar) ;
+	while ( U1STAbits.URXDA )
+	{
+		unsigned char rxchar = U1RXREG ;	
+		udb_serial_callback_received_char(rxchar) ;
+	}
+
+	U1STAbits.OERR = 0 ;	// clear the overrun bit, just in case	
 	
 	// interrupt_restore_extended_state ;
 	return ;
 }
-
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _U1TXInterrupt(void)
 {
