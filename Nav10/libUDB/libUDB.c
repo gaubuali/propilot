@@ -32,7 +32,7 @@ _FBORPOR( 	PBOR_OFF &				// brown out detection off
 _FGS( CODE_PROT_OFF ) ;				// no protection
 _FICD( 0xC003 ) ;					// normal use of debugging port
 
-#elif (BOARD_TYPE == UDB4_BOARD)
+#elif (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == ASPG_BOARD)
 _FOSCSEL(FNOSC_FRCPLL) ;			// fast RC plus PLL
 _FOSC(	FCKSM_CSECMD &
 		OSCIOFNC_ON &
@@ -59,7 +59,7 @@ void udb_init(void)
 {
 	defaultCorcon = CORCON ;
 	
-#if (BOARD_TYPE == UDB4_BOARD)
+#if (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == ASPG_BOARD)
 	CLKDIVbits.PLLPRE = 1 ;
 	PLLFBDbits.PLLDIV = 50 ; // FOSC = 32 MHz (FRC = 7.37MHz, N1=3, N2=4, M = 52)
 #endif
@@ -98,7 +98,7 @@ void udb_init_leds( void )
 #if (BOARD_IS_CLASSIC_UDB == 1)
 	TRISFbits.TRISF0 = 0 ;
 	
-#elif (BOARD_TYPE == UDB4_BOARD)
+#elif (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == ASPG_BOARD)
 	_TRISE1 = _TRISE2 = _TRISE3 = _TRISE4 = 0 ;
 	_LATE1 = _LATE2 = _LATE3 = _LATE4 = LED_OFF ;
 #endif

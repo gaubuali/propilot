@@ -25,7 +25,7 @@
 #define tmr1_period 		0x2000 // sets time period for timer 1 interrupt to 0.5 seconds
 #define CPU_LOAD_PERCENT	400   // = (100 / (8192 * 2)) * (256**2)
 
-#elif (BOARD_TYPE == UDB4_BOARD)
+#elif (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == ASPG_BOARD)
 #define tmr1_period 		0x8000 // sets time period for timer 1 interrupt to 0.5 seconds
 #define CPU_LOAD_PERCENT	1600
 #endif
@@ -34,7 +34,7 @@
 unsigned int cpu_timer = 0 ;
 boolean skip_timer_reset = 1 ; 
 
-#if ( BOARD_TYPE == UDB4_BOARD )
+#if ( BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == ASPG_BOARD )
 #define _TTRIGGERIP _T7IP
 #define _TTRIGGERIF _T7IF
 #define _TTRIGGERIE _T7IE
@@ -112,7 +112,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void)
 	return ;
 }
 
-#if ( BOARD_TYPE == UDB4_BOARD )
+#if ( BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == ASPG_BOARD )
 void __attribute__((__interrupt__,__no_auto_psv__)) _T7Interrupt(void) 
 #else
 void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void) 
