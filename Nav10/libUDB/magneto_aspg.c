@@ -18,6 +18,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MatrixPilot.  If not, see <http://www.gnu.org/licenses/>.
 
+// TODO:	this needs to change allot because now we have ACCEL and
+//			eeprom on this interface, along with being interrupt
+//			driven by data ready lines
 
 #include "libUDB_internal.h"
 
@@ -27,7 +30,6 @@ const unsigned char enableMagRead[] =        { 0x3C , 0x00 , 0x10 , 0x20 , 0x00 
 const unsigned char enableMagCalibration[] = { 0x3C , 0x00 , 0x11 , 0x20 , 0x01 } ;
 const unsigned char resetMagnetometer[]    = { 0x3C , 0x00 , 0x10 , 0x20 , 0x02 } ;
 
-/*
 void I2C_readMagData(void) ;
 void I2C_writeMagCommand(void) ;
 
@@ -41,7 +43,6 @@ void I2C_WriteMagData(void) ;
 void I2C_stopWriteMagData(void) ;
 
 void I2C_idle(void) ;
-*/
 
 int udb_magFieldBody[3] ;  // magnetic field in the body frame of reference 
 int udb_magOffset[3] = { 0 , 0 , 0 } ;  // magnetic offset in the body frame of reference
@@ -52,25 +53,76 @@ unsigned char magreg[6] ;  // magnetometer read-write buffer
 int I2ERROR = 0 ;
 int I2interrupts = 0 ;
 
-//void (* I2C_state ) ( void ) = &I2C_idle ;
+void (* I2C_state ) ( void ) = &I2C_idle ;
 
-#define I2CBRGVAL 35 // 100 Khz
+// #define I2C2_FCL 400000
+// #define I2C2_BRGVAL (((I2C2_FCL/FREQOSC)-(FREQOSC/10000000)) - 1)
+// set SYS_I2C to the I2C port to use
 
-#define I2C_NORMAL ((( I2CCON & 0b0000000000011111 ) == 0) && ( (I2CSTAT & 0b0100010011000001) == 0 ))
-
-void udb_init_I2C(void)
-{
-	/*
-#if ( MAG_YAW_DRIFT == 1 )
-	_TRISF2 = _TRISF3 = 0 ;
-	I2CBRG = I2CBRGVAL ; 
-	_I2CEN = 1 ; // enable I2C
-
-	_MI2CIP = 5 ; // I2C at priority 5
-	_MI2CIF = 0 ; // clear the I2C master interrupt
-	_MI2CIE = 1 ; // enable the interrupt
+#define SYS_I2C 2
+#if SYS_I2C == 1
+#define I2CCON		I2C1CON
+#define I2CCONbits	I2C1CONbits
+#define I2CSTAT		I2C1STAT
+#define I2CSTATbits I2C1STATbits
+#define I2CBRG		I2C1BRG
+#define I2CTRN		I2C1TRN
+#define I2CRCV		I2C1RCV
+#define SI2CIP		_SI2C1IP
+#define	MI2CIP		_MI2C1IP
+#define	SI2CIF		_SI2C1IF
+#define	MI2CIF		_MI2C1IF
+#define	SI2CIE		_SI2C1IE
+#define	MI2CIE		_MI2C1IE
+#define I2C_SDA		_LATG3
+#define I2C_SCL		_LATG2
+#define tI2C_SDA( x ) _TRISG3 = x, _ODCG3 = 1
+#define tI2C_SCL( x ) _TRISG2 = x, _ODCG2 = 1
+#elif SYS_I2C == 2
+#define I2CCON		I2C2CON
+#define I2CCONbits	I2C2CONbits
+#define I2CSTAT		I2C2STAT
+#define I2CSTATbits I2C2STATbits
+#define I2CBRG		I2C2BRG
+#define I2CTRN		I2C2TRN
+#define I2CRCV		I2C2RCV
+#define SI2CIP		_SI2C2IP
+#define	MI2CIP		_MI2C2IP
+#define	SI2CIF		_SI2C2IF
+#define	MI2CIF		_MI2C2IF
+#define	SI2CIE		_SI2C2IE
+#define	MI2CIE		_MI2C2IE
+#define I2C_SDA		_LATA3
+#define I2C_SCL		_LATA2
+#define tI2C_SDA( x ) _TRISA3 = x, _ODCA3 = 1
+#define tI2C_SCL( x ) _TRISA2 = x, _ODCA2 = 1
+#else
+#error Must define SYS_I2C 1 or 2
 #endif
-	*/
+#define I2C2_BRGVAL 59
+#define I2C_NORMAL ((( I2C2CON & 0b0000000000011111 ) == 0) && ( (I2C2STAT & 0b0100010011000001) == 0 ))
+
+
+
+void udb_init_I2C2(void)
+{
+
+	tI2C_SDA(0), tI2C_SCL(0);					// set them as outputs for later
+	I2CCON = 0;									// clear
+	I2CBRG = I2C2_BRGVAL;						// config baud rate
+	I2CCONbits.SCLREL = 1;
+	I2CCONbits.DISSLW = 1 ;						// config I2C
+	I2CTRN = 0, I2CRCV = 0;						// make sure clear
+
+//	SI2CIP = 5 ; // slave I2C at priority 5
+	MI2CIP = 5 ; // master I2C at priority 5
+//	SI2CIF = 0 ; // clear the I2C slave interrupt
+	MI2CIF = 0 ; // clear the I2C master interrupt
+//	SI2CIE = 1 ; // slave enable the interrupt
+	MI2CIE = 1 ; // master enable the interrupt
+
+	I2CCONbits.I2CEN = 1 ; 						// enable I2C
+
 	return ;
 }
 
@@ -81,7 +133,6 @@ int I2messages = 0 ;
 
 void rxMagnetometer(void)  // service the magnetometer
 {
-	/*
 	int magregIndex ;
 #if ( MAG_YAW_DRIFT == 1 )
 	I2messages++ ;
@@ -95,26 +146,24 @@ void rxMagnetometer(void)  // service the magnetometer
 		LED_RED = LED_ON ;
 	}
 #endif
-	if ( _I2CEN == 0 ) // I2C is off
+	if ( I2CCONbits.I2CEN == 0 ) // I2C is off
 	{
 		I2C_state = &I2C_idle ; // disable response to any interrupts
-		_RF2 = _RF3 = 1 ; // pull SDA and SCL high
-		udb_init_I2C() ; // turn the I2C back on
+		I2C_SDA = 1, I2C_SCL = 1 ; // pull SDA and SCL high
+		udb_init_I2C2() ; // turn the I2C back on
 		magMessage = 0 ; // start over again
 		return ;
 	}
 	if (  I2C_NORMAL )
 	{
-	}
-	else
-	{
-		I2C_state = &I2C_idle ;	// disable the response to any more interrupts
-		magMessage = 0 ; // start over again
-		I2ERROR = I2CSTAT ; // record the error for diagnostics
-		_I2CEN = 0 ;  // turn off the I2C
-		_MI2CIF = 0 ; // clear the I2C master interrupt
-		_MI2CIE = 0 ; // disable the interrupt
-		_RF2 = _RF3 = 0 ; // pull SDA and SCL low
+	} 	else 	{
+		I2C_state = &I2C_idle;		// disable the response to any more interrupts
+		magMessage = 0; 			// start over again
+		I2ERROR = I2CSTAT ; 		// record the error for diagnostics
+		I2CCONbits.I2CEN = 0; 		// turn off the I2C
+		MI2CIF = 0;					// clear the I2C master interrupt
+		MI2CIE = 0; 				// disable the interrupt
+		I2C_SDA = 0, I2C_SCL = 0;	// pull SDA and SCL low
 		return ;
 	}
 
@@ -129,7 +178,7 @@ void rxMagnetometer(void)  // service the magnetometer
 		{ 
 		case  1:    // read the magnetometer in case it is still sending data, so as to NACK it
 			I2C_state = &I2C_readMagData ;
-			_MI2CIF = 1 ;
+			MI2CIF = 1 ;
 			break ;
 		case  2:	// put magnetomter into the power up defaults on a reset
 			for ( magregIndex = 0 ; magregIndex < 5 ; magregIndex++ )
@@ -137,11 +186,11 @@ void rxMagnetometer(void)  // service the magnetometer
 				magreg[magregIndex] = resetMagnetometer[magregIndex] ;
 			}
 			I2C_state = &I2C_writeMagCommand ;
-			_MI2CIF = 1 ;
+			MI2CIF = 1 ;
 			break ;
 		case  3:  // clear out any data that is still there
 			I2C_state = &I2C_readMagData ;
-			_MI2CIF = 1 ;
+			MI2CIF = 1 ;
 			break ;
 		case  4:  // enable the calibration process
 			for ( magregIndex = 0 ; magregIndex < 5 ; magregIndex++ )
@@ -149,11 +198,11 @@ void rxMagnetometer(void)  // service the magnetometer
 				magreg[magregIndex] = enableMagCalibration[magregIndex] ;
 			}
 			I2C_state = &I2C_writeMagCommand ;
-			_MI2CIF = 1 ;
+			MI2CIF = 1 ;
 			break ;
 		case  5 :  // read the calibration data
 			I2C_state = &I2C_readMagData ;
-			_MI2CIF = 1 ;
+			MI2CIF = 1 ;
 			break ;
 		case  6 :   // enable normal continuous readings
 			for ( magregIndex = 0 ; magregIndex < 5 ; magregIndex++ )
@@ -161,11 +210,11 @@ void rxMagnetometer(void)  // service the magnetometer
 				magreg[magregIndex] = enableMagRead[magregIndex] ;
 			}
 			I2C_state = &I2C_writeMagCommand ;
-			_MI2CIF = 1 ; 
+			MI2CIF = 1 ;
 			break ;
 		case 7 :  // read the magnetometer data
 			I2C_state = &I2C_readMagData ;
-			IFS0bits.MI2CIF = 1 ;
+			MI2CIF = 1 ;
 			break ;
 		default  :
 			I2C_state = &I2C_idle ;
@@ -173,21 +222,20 @@ void rxMagnetometer(void)  // service the magnetometer
 		}
 	}
 #endif
-	*/
 	return ;
 }
 
-/*
-#if ( MAG_YAW_DRIFT == 1 )
-void __attribute__((__interrupt__,__no_auto_psv__)) _MI2CInterrupt(void)
+#if SYS_I2C == 1
+void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C1Interrupt(void)
+#elif SYS_I2C == 2
+void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
+#endif
 {
     indicate_loading_inter ;
-	_MI2CIF = 0 ; // clear the interrupt
+	MI2CIF = 0 ; // clear the interrupt
 	(* I2C_state) () ; // execute the service routine
 	return ;
 }
-#endif
-
 
 void I2C_writeMagCommand(void)
 {
@@ -344,6 +392,5 @@ void I2C_idle(void)
 {
 	return ;
 }
-*/
 
 #endif

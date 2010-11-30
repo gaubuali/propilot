@@ -31,13 +31,39 @@
 //	The pulse width inputs can be directly converted to units of pulse width outputs to control
 //	the servos by simply dividing by 2.
 
-int udb_pwIn[NUM_INPUTS+1] ;	// pulse widths of radio inputs
-int udb_pwTrim[NUM_INPUTS+1] ;	// initial pulse widths for trimming
+int udb_pwIn[32] ;		// pulse widths of radio inputs
+int udb_pwTrim[32] ;	// initial pulse widths for trimming
 
 int failSafePulses = 0 ;
+int	T2_OF;						// count of T2 wraps
 
 unsigned int rise[NUM_INPUTS+1] ;	// rising edge clock capture for radio inputs
 
+#define RC_PIN( T, P, B, G, L) { 0, 0, 0, 0, 0, 0, T, P, B, 0, G, L }
+#define RC_START 8
+
+PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x1300))) = {
+		RC_PIN(12,3,8,RC_START+0,0),	// RC1
+		RC_PIN(12,3,9,RC_START+1,0),	// RC2
+		RC_PIN(12,3,10,RC_START+2,0),	// RC3
+		RC_PIN(12,3,11,RC_START+3,0),	// RC4
+		RC_PIN(12,3,12,RC_START+4,0),	// RC5
+		RC_PIN(12,3,13,RC_START+5,0),	// RC6
+		RC_PIN(12,3,14,RC_START+6,0),	// RC7
+		RC_PIN(12,3,15,RC_START+7,0),	// RC8
+		RC_PIN(6,3,0,1,0),				// SERVO1
+		RC_PIN(6,3,1,2,0),				// SERVO2
+		RC_PIN(6,3,2,3,0),				// SERVO3
+		RC_PIN(6,3,3,4,0),				// SERVO4
+		RC_PIN(6,3,4,5,0),				// SERVO5
+		RC_PIN(6,3,5,6,0),				// SERVO6
+		RC_PIN(6,3,6,7,0),				// SERVO7
+		RC_PIN(6,3,7,8,0),				// SERVO8
+		RC_PIN(19,2,4,RC_START+8,0),	// IT1 - nominally going to put these in the pwmIn array
+		RC_PIN(19,2,3,RC_START+9,0),	// IT2
+		RC_PIN(19,2,2,RC_START+10,0),	// IT3
+		RC_PIN(19,2,1,RC_START+11,0),	// IT4
+};
 
 void udb_init_capture(void)
 {
@@ -45,24 +71,31 @@ void udb_init_capture(void)
 	for (i=0; i <= NUM_INPUTS; i++)
 		udb_pwIn[i] = udb_pwTrim[i] = 0 ;
 	
+	T2CON = 0;				// clear
 	TMR2 = 0 ; 				// initialize timer
 	T2CONbits.TCKPS = 1 ;	// prescaler = 8 option
 	T2CONbits.TCS = 0 ;		// use the internal clock
 	T2CONbits.TON = 1 ;		// turn on timer 2
 	
+	_T2IP = 1, _T2IF = 0, _T2IE = 1;	// enable T2 interrupt
+
 	//	configure the capture pins
-	IC1CONbits.ICTMR = 1 ;  // use timer 2
-	IC1CONbits.ICM = 1 ; // capture every edge
+	IC1CON = 0;				// clear all
+	IC1CONbits.ICTMR = 1;	// use timer 2
+	IC1CONbits.ICM = 1;		// capture every edge
 	
 	IC8CON = IC7CON = IC6CON = IC5CON = IC4CON = IC3CON = IC2CON = IC1CON ;
 	
-	_TRISD8 = _TRISD9 = _TRISD10 = _TRISD11 = _TRISD12 = _TRISD13 = _TRISD14 = _TRISD15 = 1 ;
+	tRC1 = 1, tRC2 = 1, tRC3 = 1, tRC4 = 1;		// set them all as inputs
+	tRC5 = 1, tRC6 = 1, tRC7 = 1, tRC8 = 1;
 	
 	//	set the interrupt priorities to 6
-	_IC1IP = _IC2IP = _IC3IP = _IC4IP = _IC5IP = _IC6IP = _IC7IP = _IC8IP = 6 ; 
+	_IC1IP = 6, _IC2IP = 6, _IC3IP = 6, _IC4IP = 6;
+	_IC5IP = 6, _IC6IP = 6, _IC7IP = 6, _IC8IP = 6 ;
 	
 	//	clear the interrupts:
-	_IC1IF = _IC2IF = _IC3IF = _IC4IF = _IC5IF = _IC6IF = _IC7IF = _IC8IF = 0 ;
+	_IC1IF = 0, _IC2IF = 0, _IC3IF = 0, _IC4IF = 0;
+	_IC5IF = 0, _IC6IF = 0, _IC7IF = 0, _IC8IF = 0 ;
 	
 	//	enable the interrupts:
 	if (NUM_INPUTS > 0) _IC1IE = 1 ;
@@ -77,6 +110,13 @@ void udb_init_capture(void)
 	return ;
 }
 
+// Timer 2 interrupt
+void __attribute__((__interrupt__,__no_auto_psv__,__shadow__)) _T2Interrupt(void)
+{
+	_T2IF = 0 ; // clear the interrupt
+	T2_OF++;
+	return ;
+}
 
 // Input Channel 1
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)

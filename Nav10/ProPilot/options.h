@@ -115,7 +115,7 @@
 
 // Define MAG_YAW_DRIFT to be 1 to use magnetometer for yaw drift correction.
 // Otherwise, if set to 0 the GPS will be used.
-#define MAG_YAW_DRIFT 						0
+#define MAG_YAW_DRIFT 						1
 
 // Racing Mode
 // Setting RACING_MODE to 1 will keep the plane at a set throttle value while in waypoint mode.
@@ -185,9 +185,9 @@
 // connect THROTTLE_OUTPUT_CHANNEL to one of the built-in Outputs (1, 2, or 3) to make
 // sure your board gets power.
 // 
-#define THROTTLE_OUTPUT_CHANNEL				CHANNEL_3
-#define AILERON_OUTPUT_CHANNEL				CHANNEL_1
-#define ELEVATOR_OUTPUT_CHANNEL				CHANNEL_2
+#define THROTTLE_OUTPUT_CHANNEL				CHANNEL_1
+#define AILERON_OUTPUT_CHANNEL				CHANNEL_2
+#define ELEVATOR_OUTPUT_CHANNEL				CHANNEL_3
 #define RUDDER_OUTPUT_CHANNEL				CHANNEL_4
 #define AILERON_SECONDARY_OUTPUT_CHANNEL	CHANNEL_5
 #define CAMERA_ROLL_OUTPUT_CHANNEL			CHANNEL_UNUSED
@@ -202,9 +202,9 @@
 // Note that your servo reversing settings here should match what you set on your transmitter.
 // For any of these that evaluate to 1 (either hardcoded or by flipping a switch on the board,
 // as you define below), that servo will be sent reversed controls.
-#define AILERON_CHANNEL_REVERSED			HW_SWITCH_1
-#define ELEVATOR_CHANNEL_REVERSED			HW_SWITCH_2
-#define RUDDER_CHANNEL_REVERSED				HW_SWITCH_3
+#define AILERON_CHANNEL_REVERSED			0
+#define ELEVATOR_CHANNEL_REVERSED			0
+#define RUDDER_CHANNEL_REVERSED				0
 #define AILERON_SECONDARY_CHANNEL_REVERSED	0 // Hardcoded to be unreversed, since we have only 3 switches.
 #define THROTTLE_CHANNEL_REVERSED			0 // Set to 1 to hardcode a channel to be reversed
 #define CAMERA_ROLL_CHANNEL_REVERSED		0
@@ -498,7 +498,7 @@
 // The following can be used to do a ground check of stabilization without a GPS.
 // If you define TestGains, stabilization functions
 // will be enabled, even without GPS or Tx turned on. (Tx is optional)
-// #define TestGains						// uncomment this line if you want to test your gains without using GPS
+// #define TestGains	// uncomment this line if you want to test your gains without using GPS
 
 // Set this to 1 to calculate and print out free stack space
 #define RECORD_FREE_STACK_SPACE 			0

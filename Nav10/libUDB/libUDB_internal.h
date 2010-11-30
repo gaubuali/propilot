@@ -28,7 +28,7 @@ void udb_init_leds(void) ;
 void udb_init_ADC(void) ;
 void udb_init_clock(void) ;
 void udb_init_capture(void) ;
-void udb_init_I2C(void) ;
+void udb_init_I2C2(void) ;
 void udb_init_GPS(void) ;
 void udb_init_USART(void) ;
 void udb_init_pwm(void) ;

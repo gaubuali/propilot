@@ -32,20 +32,37 @@ _FBORPOR( 	PBOR_OFF &				// brown out detection off
 _FGS( CODE_PROT_OFF ) ;				// no protection
 _FICD( 0xC003 ) ;					// normal use of debugging port
 
-#elif (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == ASPG_BOARD)
-_FOSCSEL(FNOSC_FRCPLL) ;			// fast RC plus PLL
+#elif (BOARD_TYPE == UDB4_BOARD)
+_FBS( BWRP_WRPROTECT_OFF );		// no boot segments or write protect
+_FSS ( SWRP_WRPROTECT_OFF );	// no secure sections
+_FGS( GSS_OFF &					// no code protect
+		GCP_OFF &
+		GWRP_OFF );
+_FOSCSEL(FNOSC_FRCPLL); 			// fast RC plus PLL
 _FOSC(	FCKSM_CSECMD &
 		OSCIOFNC_ON &
-		POSCMD_NONE ) ;
+		POSCMD_NONE );
 _FWDT(	FWDTEN_OFF &
 		WINDIS_OFF ) ;
-_FGS(	GSS_OFF &
-		GCP_OFF &
-		GWRP_OFF ) ;
 _FPOR(	FPWRT_PWR1 ) ;
 _FICD(	JTAGEN_OFF &
 		ICS_PGD2 ) ;
-//int junk __attribute__((section("buffers"),address(0x1000)));
+#elif (BOARD_TYPE == ASPG_BOARD)
+_FBS( BWRP_WRPROTECT_OFF );		// no boot segments or write protect
+_FSS ( SWRP_WRPROTECT_OFF );	// no secure sections
+_FGS( GSS_OFF &					// no code protect
+		GCP_OFF &
+		GWRP_OFF );
+_FOSCSEL(FNOSC_LPRCDIVN &		// fast RC plus PLL
+		IESO_ON );				// include file is WRONG
+_FOSC(	FCKSM_CSECMD &			// clocks and monitor enabled
+		OSCIOFNC_ON &			// Fcy output on OSC2
+		POSCMD_NONE );
+_FWDT(	FWDTEN_OFF &			// wdt's disabled
+		WINDIS_OFF ) ;
+_FPOR(	FPWRT_PWR1 ) ;			// fast powerup, will need to change for ext osc
+_FICD(	JTAGEN_OFF &			// jtag off and use 2nd set for ICSP
+		ICS_PGD2 ) ;
 #endif
 
 
@@ -60,9 +77,24 @@ void udb_init(void)
 {
 	defaultCorcon = CORCON ;
 	
-#if (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == ASPG_BOARD)
+#if (BOARD_TYPE == UDB4_BOARD)
 	CLKDIVbits.PLLPRE = 1 ;
 	PLLFBDbits.PLLDIV = 50 ; // FOSC = 32 MHz (FRC = 7.37MHz, N1=3, N2=4, M = 52)
+#elif (BOARD_TYPE == ASPG_BOARD)
+	OSCTUNbits.TUN = 21;		// boost speed up to 8MHz, FRC = 7.37MHz + 21*30kHz
+	CLKDIVbits.PLLPRE = 0 ;		// pre devide = 2 (8MHz / 2 = 4MHz)
+	PLLFBDbits.PLLDIV = 40-2 ; 	// Fvco = 160 MHz (4MHz x 40 = 160Mhz)
+	CLKDIVbits.PLLPOST = 0;		// FOSC = Fvco / 2 = 80MHz
+
+	// Clock switch to incorporate PLL
+	__builtin_write_OSCCONH(0x01);				// Initiate Clock Switch to
+												// FRC with PLL (NOSC=0b001)
+	__builtin_write_OSCCONL(0x01);				// Start clock switching
+
+	while (OSCCONbits.COSC != 0b001);			// Wait for Clock switch to occur
+
+	while(OSCCONbits.LOCK!=1) {};				// Wait for PLL to lock
+
 #endif
 
 	udb_flags.B = 0 ;
@@ -73,7 +105,7 @@ void udb_init(void)
 	udb_init_capture() ;
 	
 #if (MAG_YAW_DRIFT == 1)
-	udb_init_I2C() ;
+	udb_init_I2C2() ;
 #endif
 	
 	udb_init_GPS() ;
