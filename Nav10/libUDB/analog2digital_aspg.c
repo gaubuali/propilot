@@ -352,6 +352,8 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _ADC1Interrupt(void)
 	_AD1IF = 0 ; 	// clear the AD interrupt
 	AD1_Raw[sampcount] = ADCSAMPLE;
 
+#if ( HILSIM == 1)
+#else
 	switch ( sampcount ) {
 		case yrateBUFF :
 			udb_yrate.input = ADCSAMPLE ;
@@ -429,6 +431,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _ADC1Interrupt(void)
 		default :
 			break;
 	}
+#endif
 
 	sampcount++ ;
 	if ( sampcount > NUM_AD1_LIST )

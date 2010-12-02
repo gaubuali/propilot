@@ -274,7 +274,7 @@
 // SERIAL_UDB_EXTRA will add additional telemetry fields to those of SERIAL_UDB.
 // SERIAL_UDB_EXTRA can be used with the OpenLog without characters being dropped.
 // SERIAL_UDB_EXTRA may result in dropped characters if used with the XBEE wireless transmitter.
-#define SERIAL_OUTPUT_FORMAT				SERIAL_NONE
+#define SERIAL_OUTPUT_FORMAT				SERIAL_UDB_EXTRA
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -502,3 +502,8 @@
 
 // Set this to 1 to calculate and print out free stack space
 #define RECORD_FREE_STACK_SPACE 			0
+
+
+typedef unsigned int WORD;
+typedef unsigned long DWORD;
+

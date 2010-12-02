@@ -105,6 +105,12 @@ extern int udb_pwTrim[];	// initial pulse widths for trimming
 // Each channel should be set to a value between 2000 and 4000.
 extern int udb_pwOut[];		// pulse widths for servo outputs
 
+#if (BOARD_TYPE == ASPG_BOARD)
+// These are the low level digital objects, includes all the RC in and servo out
+// structures plus the timer / general inputs and outputs. see ConfigASPG.h
+extern PIN DIO[];		// digital I/O handling
+#endif
+
 // This read-only value holds flags that tell you, among other things,
 // whether the receiver is currently receiving values from the transmitter.
 extern union udb_fbts_byte { struct udb_flag_bits _ ; char B ; } udb_flags ;

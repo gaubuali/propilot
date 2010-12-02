@@ -106,11 +106,11 @@
  */
 
 typedef struct tagPin {
-	int	qValue;			// latest value, carefull of non-single use pins
-	int	iFS_Count:5;	// failsafe counter
-	int	bFS_ON:1;		// 0 = normal run, 1 = failsafe trigered
-	int	iFS_CMD:3;		// action to take in failsafe.
-	int	bFS_EN:1;		// failsafe enabled
+	int	qValue;			// latest value, careful of non-single use pins
+	int	iFS_Count:5;	// fail safe counter
+	int	bFS_ON:1;		// 0 = normal run, 1 = fail safe triggered
+	int	iFS_CMD:3;		// action to take in fail safe.
+	int	bFS_EN:1;		// fail safe enabled
 	int	iUpdate:6;		// needs / has update
 	int	iType:5;		// pin type, see comments
 	int	iPort:3;		// cpu port, 0=A, 1=B etc
@@ -119,8 +119,11 @@ typedef struct tagPin {
 	int	iGlobal:6;		// Index into global data arrays, eg pwIn for radio rx etc
 	int	iGlen:2;		// number of spots taken, 0=1, 1=8,
 	int	iSpare:8;		// unused
-	int iPrivate[4];	// private use for type functions
-	int	iBuffer[16];	// globally available data, can be 16 history of 1 each or 16 x 1 each
+	union {				// private use for type functions
+		int iPrivate[4];
+		long lPrivate[2];
+	};
+	int	iBuffer[16];	// globally available data, can be 16 history of 1 each or 15 x 1 each, 0 unused
 } PIN, *LPPIN;
 
 /* Mixer structure notes:
@@ -154,6 +157,13 @@ typedef union tagMixer {
 
 #define toQ10(n) ((int)(n * 511))
 #define toQ15(n) ((int)(n * 32767))
+
+#define RC_PWM_MIN 3500
+#define RC_PWM_CENTER 7500
+#define RC_PWM_MAX 11500
+#define RC_PWM_Q15 8
+#define RC_PPM_SYNC 17500
+#define RC_PPM_MAX 125000
 
 #define AN0 0x0001
 #define AN1 0x0002
