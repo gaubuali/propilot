@@ -86,9 +86,9 @@ void udb_init_ADC( void )
 	AD2PCFGL = AD1PCFGL = !LOW_ANALOGS;	// have to set both AD cfg registers
 	AD1PCFGH = !HIGH_ANALOGS;			// ad2 only does first 16
 	
-// configure the high rate AD of the gyro's
+// configure the high rate AD of the gyro's - first level dsp is to add 16 values together
 	AD1CON1bits.AD12B = 1 ;		// 12 bit A to D
-	AD1CON1bits.FORM = 1 ;		// signed int - first level dps is to add 16 values together
+	AD1CON1bits.FORM = 0 ;		// int, vref = avss, can't be any other way
 	AD1CON1bits.SSRC = 7 ;		// auto convert
 	AD1CON1bits.ASAM = 1 ;		// auto samp
 	AD1CON1bits.SIMSAM = 0 ;	// multiple channels in sequence
@@ -308,8 +308,9 @@ void udb_init_ADC( void )
 
 	AD1CSSH = AD1_LIST;				// ad1 scan list
 
+// configure the AD of the gyro's
 	AD1CON1bits.AD12B = 1 ;		// 12 bit A to D
-	AD1CON1bits.FORM = 3 ;		// signed fractional
+	AD1CON1bits.FORM = 2 ;		// int or fractional, vref = avss, can't be any other way
 	AD1CON1bits.SSRC = 7 ;		// auto convert
 	AD1CON1bits.ASAM = 1 ;		// auto samp
 	AD1CON1bits.SIMSAM = 0 ;	// multiple channels in sequence

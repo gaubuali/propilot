@@ -28,7 +28,7 @@
 
 #if (BOARD_TYPE == ASPG_BOARD)
 
-int udb_pwOut[NUM_OUTPUTS+1] ;	// pulse widths for servo outputs
+int udb_pwOut[65] ;	// pulse widths for servo outputs
 
 int twentyHertzCounter = 0 ;
 
@@ -102,6 +102,8 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 	//	Executes whatever needs to be done every 25 milliseconds, using the PWM clock.
 	//	This is a good place to run the A/D digital filters and compute pulse widths for servos.
 	//	Also, this is used to wait a few pulses before recording input DC offsets.
+
+//	tow.WW += 25;
 
 #if ( NORADIO == 0 )
 	twentyHertzCounter++ ;

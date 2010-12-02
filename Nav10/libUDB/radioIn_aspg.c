@@ -31,8 +31,8 @@
 //	The pulse width inputs can be directly converted to units of pulse width outputs to control
 //	the servos by simply dividing by 2. ** CHANGED ** now Q15
 
-int udb_pwIn[64] ;		// pulse widths of radio inputs ** CHANGED ** now Q15
-int udb_pwTrim[64] ;	// initial pulse widths for trimming ** CHANGED ** now Q15
+int udb_pwIn[65] ;		// pulse widths of radio inputs ** CHANGED ** now Q15
+int udb_pwTrim[65] ;	// initial pulse widths for trimming ** CHANGED ** now Q15
 
 int failSafePulses = 0 ;
 WORD	T2_OF;						// count of T2 wraps
