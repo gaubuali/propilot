@@ -193,7 +193,7 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 						if ( OutA > toQ15(1.0) ) OutA = toQ15(1.0);
 						if ( OutA < toQ15(-1.0) ) OutA = toQ15(-1.0);
 						OutB  = ((((long)iFactor * OutA) >> 16)) + (*pThisMixer).iScales[0];
-						ticks = (WORD)OutB;
+						*ticks = (WORD)OutB;
 				break;
 				case 17: // overide "type" for per channel limit later
 				break;

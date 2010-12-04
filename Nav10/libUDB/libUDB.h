@@ -90,6 +90,7 @@ unsigned char udb_cpu_load(void);
 // These are the values of the radio input channels.  Each channel will be a
 // value between approximately 2000 and 4000, with 3000 being the center.
 // Treat udb_pwIn values as readonly.
+#define RC_START 8
 extern int udb_pwIn[];		// pulse widths of radio inputs
 
 // These are the recorded trim values of the radio input channels.
@@ -108,6 +109,8 @@ extern int udb_pwOut[];		// pulse widths for servo outputs
 #if (BOARD_TYPE == ASPG_BOARD)
 // These are the low level digital objects, includes all the RC in and servo out
 // structures plus the timer / general inputs and outputs. see ConfigASPG.h
+#define RC_PIN_START 1
+#define SERVO_PIN_START 9
 extern PIN DIO[];		// digital I/O handling
 #endif
 

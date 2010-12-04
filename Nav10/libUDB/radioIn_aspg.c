@@ -37,9 +37,9 @@ int udb_pwTrim[65] ;	// initial pulse widths for trimming ** CHANGED ** now Q15
 int failSafePulses = 0 ;
 WORD	T2_OF;						// count of T2 wraps
 
-#define RC_PIN( T, P, B, G, L) { 0, 0, 0, 0, (FAILSAFE_INPUT_CHANNEL == G ? 1 : 0), 0, T, P, B, 0, G, L }
+#define RC_PIN( T, P, B, G, L) { 0, 0, 0, 0, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, T, P, B, 0, G, L }
 
-PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x1300))) = {
+PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x1800))) = {
 		RC_PIN(0,0,0,0,0),				// unused
 		RC_PIN(12,3,8,RC_START+0,0),	// RC1
 		RC_PIN(12,3,9,RC_START+1,0),	// RC2
@@ -71,6 +71,7 @@ void udb_init_capture(void)
 	
 	T2CON = 0;				// clear
 	TMR2 = 0 ; 				// initialize timer
+	PR2 = 0xffff;			// 0 not a valid value for PR on these timers
 	T2CONbits.TCKPS = 1 ;	// prescaler = 8 option, count = .2 uSec
 	T2CONbits.TCS = 0 ;		// use the internal clock
 	T2CONbits.TON = 1 ;		// turn on timer 2

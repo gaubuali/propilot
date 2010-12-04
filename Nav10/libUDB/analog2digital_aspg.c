@@ -326,8 +326,8 @@ void udb_init_ADC( void )
 // kinda wondering why this isn't an exact multiple of frame rate
 //	AD1CON3bits.SAMC = 31 ;		// auto sample time = 31 TAD, approximately 246.0625 microseconds
 //	AD1CON3bits.ADCS = 127 ;	// TAD = 7.9375 microseconds
-	AD1CON3bits.SAMC = 31 ;		// auto sample time = 30 TAD, approximately 148.80 microseconds
 	AD1CON3bits.ADCS = 192 - 1; // TAD = 4.8 microseconds
+	AD1CON3bits.SAMC = 31 ;		// auto sample time = 30 TAD, approximately 148.80 microseconds
 
 //	AD2CON1bits.ADDMABM = 1 ;	// DMA buffer written in conversion order
 //	AD1CON2bits.SMPI = 5 ;		// 6 samples

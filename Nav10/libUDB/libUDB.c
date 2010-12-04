@@ -139,9 +139,12 @@ void udb_init_leds( void )
 #if (BOARD_IS_CLASSIC_UDB == 1)
 	TRISFbits.TRISF0 = 0 ;
 	
-#elif (BOARD_TYPE == UDB4_BOARD || BOARD_TYPE == ASPG_BOARD)
+#elif (BOARD_TYPE == UDB4_BOARD )
 	_TRISE1 = _TRISE2 = _TRISE3 = _TRISE4 = 0 ;
 	_LATE1 = _LATE2 = _LATE3 = _LATE4 = LED_OFF ;
+#elif ( BOARD_TYPE == ASPG_BOARD)
+	tLED1 = tLED2 = tLED3 = tLED4 = 0 ;
+	oLED1 = oLED2 = oLED3 = oLED4 = LED_OFF ;
 #endif
 	
 	return ;

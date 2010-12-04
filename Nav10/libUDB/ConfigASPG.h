@@ -159,12 +159,13 @@ typedef union tagMixer {
 #define toQ10(n) ((int)(n * 511))
 #define toQ15(n) ((int)(n * 32767))
 
-#define RC_PWM_MIN 3500
-#define RC_PWM_CENTER 7500
-#define RC_PWM_MAX 11500
+// all these counts below give 0.2 uSec resolution, 1:7000 or about 12.8 bits
+#define RC_PWM_MIN 4000		// 0.8 mSec
+#define RC_PWM_CENTER 7500	// 1.5 mSec
+#define RC_PWM_MAX 11000	// 2.2 mSec
 #define RC_PWM_Q15 8
-#define RC_PPM_SYNC 17500
-#define RC_PPM_MAX 125000
+#define RC_PPM_SYNC 17500	// 3.5 mSec
+#define RC_PPM_MAX 125000	// 15.0 mSec
 
 #define AN0 0x0001
 #define AN1 0x0002

@@ -132,6 +132,7 @@ void udb_set_action_state(boolean newValue)
 void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void) 
 {
 	// interrupt_save_extended_state ;
+	WORD	wTemp;
 	
 	indicate_loading_inter ;
 	_T3IF = 0 ;		// clear the interrupt
@@ -141,18 +142,65 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 		iFrameCounter = 0;
 	else ;
 
+	if ( (iFrameCounter & 1) )
+	{	switch ( (iFrameCounter & (FRAME_50HZ_CNT - 1)) >> 1  ) {
+		case 0: // start OC1 - this will end up in a pin function
+			wTemp = TMR2 + 5;	// start clean
+			OC1R = wTemp, wTemp += udb_pwOut[1];
+			OC1RS = wTemp, OC1CON = 4;	// delay one shot
+		break;
+		case 1: // start OC2 - this will end up in a pin function
+			wTemp = TMR2 + 5;	// start clean
+			OC2R = wTemp, wTemp += udb_pwOut[2];
+			OC2RS = wTemp, OC2CON = 4;	// delay one shot
+		break;
+		case 2: // start OC3 - this will end up in a pin function
+			wTemp = TMR2 + 5;	// start clean
+			OC3R = wTemp, wTemp += udb_pwOut[3];
+			OC3RS = wTemp, OC3CON = 4;	// delay one shot
+		break;
+		case 3: // start OC4 - this will end up in a pin function
+			wTemp = TMR2 + 5;	// start clean
+			OC4R = wTemp, wTemp += udb_pwOut[4];
+			OC4RS = wTemp, OC4CON = 4;	// delay one shot
+		break;
+		case 4: // start OC5 - this will end up in a pin function
+			wTemp = TMR2 + 5;	// start clean
+			OC5R = wTemp, wTemp += udb_pwOut[5];
+			OC5RS = wTemp, OC5CON = 4;	// delay one shot
+		break;
+		case 5: // start OC6 - this will end up in a pin function
+			wTemp = TMR2 + 5;	// start clean
+			OC6R = wTemp, wTemp += udb_pwOut[6];
+			OC6RS = wTemp, OC6CON = 4;	// delay one shot
+		break;
+		case 6: // start OC7 - this will end up in a pin function
+			wTemp = TMR2 + 5;	// start clean
+			OC7R = wTemp, wTemp += udb_pwOut[7];
+			OC7RS = wTemp, OC7CON = 4;	// delay one shot
+		break;
+		case 7: // start OC8 - this will end up in a pin function
+			wTemp = TMR2 + 5;	// start clean
+			OC8R = wTemp, wTemp += udb_pwOut[8];
+			OC8RS = wTemp, OC8CON = 4;	// delay one shot
+		break;
+		}	
+	};
+
+	
+
 	//	Executes whatever needs to be done every 20 milliseconds
 	//	This is a good place to compute pulse widths for servos.
 	if ( !(iFrameCounter % FRAME_50HZ_CNT) )	// has to == 0
 	{
-		OC1RS = udb_pwOut[1] ;
-		OC2RS = udb_pwOut[2] ;
-		OC3RS = udb_pwOut[3] ;
-		OC4RS = udb_pwOut[4] ;
-		OC5RS = udb_pwOut[5] ;
-		OC6RS = udb_pwOut[6] ;
-		OC7RS = udb_pwOut[7] ;
-		OC8RS = udb_pwOut[8] ;
+//		OC1RS = udb_pwOut[1] ;
+//		OC2RS = udb_pwOut[2] ;
+//		OC3RS = udb_pwOut[3] ;
+//		OC4RS = udb_pwOut[4] ;
+//		OC5RS = udb_pwOut[5] ;
+//		OC6RS = udb_pwOut[6] ;
+//		OC7RS = udb_pwOut[7] ;
+//		OC8RS = udb_pwOut[8] ;
 	}
 
 	//	Executes whatever needs to be done every 25 milliseconds, using the PWM clock.

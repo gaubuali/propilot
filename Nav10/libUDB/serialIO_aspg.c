@@ -23,6 +23,12 @@
 
 #if (BOARD_TYPE == ASPG_BOARD)
 
+#define TX_BUF_LEN 512
+char __attribute__ ((section(".myDataSection"),address(0x1300))) U1TX_buffer[TX_BUF_LEN];
+char __attribute__ ((section(".myDataSection"),address(0x1300+TX_BUF_LEN))) U2TX_buffer[TX_BUF_LEN];
+int iU1Head, iU1Tail = 0;
+int iU2Head, iU2Tail = 0;
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // GPS
@@ -110,6 +116,20 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _U1RXInterrupt(void)
 	return ;
 }
 
+// send a packet to UART1 (GPS)
+void udb_gps_send_packet( unsigned char *ucpData, int len )
+{
+	// check if still have data to transmit, if not we reset pointers to begin of buffer
+	if (iU1Head == iU1Tail)
+	{
+	};
+	// first xfer data to private buffer
+	if ( (iU1Head + len) < TX_BUF_LEN )	// case of data fits with one memcpy
+	{
+	} else {							// will take multiple copies
+	}
+	}
+}
 
 // Output one character to the GPS
 void udb_gps_send_char( char outchar )
