@@ -22,6 +22,20 @@
 #ifndef UDB_DEFINES_H
 #define UDB_DEFINES_H
 
+// Types
+struct bb { unsigned char B0 ; unsigned char B1 ; } ;
+struct bbbb { unsigned char B0 ; unsigned char B1 ; unsigned char B2 ; unsigned char B3 ; } ;
+struct ww { int W0 ; int W1 ; } ;
+struct uu { unsigned int U0 ; unsigned int U1 ;  };
+struct uuuu { unsigned int U0 ; unsigned int U1 ; unsigned int U2 ; unsigned int U3 ; };
+
+union intbb { int BB ; struct bb _ ; } ;
+union longbbbb { long WW ; struct ww _ ; struct bbbb __ ; } ;
+union longww { long  WW ; struct ww _ ; struct uu __ ;} ;
+union longlongww { long long  WW ; struct ww _ ; struct uuuu __ ;} ;
+
+typedef unsigned int WORD, * LPWORD;
+typedef unsigned long DWORD, * LPDWORD;
 
 // Build for the specific board type
 #define RED_BOARD		1

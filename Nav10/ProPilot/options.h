@@ -503,7 +503,3 @@
 // Set this to 1 to calculate and print out free stack space
 #define RECORD_FREE_STACK_SPACE 			0
 
-
-typedef unsigned int WORD;
-typedef unsigned long DWORD;
-

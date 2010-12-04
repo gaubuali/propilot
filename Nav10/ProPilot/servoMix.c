@@ -34,10 +34,6 @@ const int rudderbgain = (int)(8.0*RUDDER_BOOST) ;
 
 #define pfgMix
 
-//#define MIX_PER_CHANNEL 8
-//#include "Mixer.h"
-
-
 #ifdef pfgMix
 #define MIX_PER_CHANNEL 8
 
@@ -47,11 +43,11 @@ const int rudderbgain = (int)(8.0*RUDDER_BOOST) ;
 // not counting AP_MODE
 #define NUM_AP_COMMANDS 7
 
-int	iInputs[1 + NUM_AP_COMMANDS + MIX_NUM_INPUTS];
-int iOutputs[MIX_NUM_OUTPUTS+1];
+// int	iInputs[1 + NUM_AP_COMMANDS + MIX_NUM_INPUTS]; 	// using udb_Pwin now
+// int iOutputs[MIX_NUM_OUTPUTS+1];						// using udb_Pwout now
 
 // Cleaned up mixer does one channel, called from servoMix with a pointer to mixer bank and returns output
-int bankMix( LPMIXER pThisMixer )
+int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 {
 	int	temp, temp1, iFactor, iInputCH, iInputSSI;
 	union longbbbb tempA, tempB;
@@ -65,8 +61,8 @@ int bankMix( LPMIXER pThisMixer )
 		else uiType = (*pThisMixer).nType.iType;
 		if ( uiType != 0 )
 		{
-			iInputCH = iInputs[(*pThisMixer).nType.iInpCH];		// get these in one spot to save code space
-			iInputSSI = iInputs[(*pThisMixer).nType.iInpSSI];
+			iInputCH = udb_pwIn[(*pThisMixer).nType.iInpCH];		// get these in one spot to save code space
+			iInputSSI = udb_pwIn[(*pThisMixer).nType.iInpSSI];
 			iFactor = (*pThisMixer).nType.iFactor;
 
 			switch ( uiType )
@@ -74,7 +70,7 @@ int bankMix( LPMIXER pThisMixer )
 				case 0: // unused, skip
 				break;
 				case 1: // Out += Inputs[InputCH] * Factor * (1.0-Balance) + Inputs[InputSSI] * Factor * Balance
-					temp = iInputs[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
+					temp = udb_pwIn[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
 						if ( temp != 0 ) // check for special case of -32768 = botom of range so the now 0 works
@@ -92,7 +88,7 @@ int bankMix( LPMIXER pThisMixer )
 					OutA += tempA._.W1 + tempB._.W1;
 				break;
 				case 2: // Out += Inputs[InputCH] * (1.0-Balance) + Inputs[InputSSI] * Balance
-					temp = iInputs[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
+					temp = udb_pwIn[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
 						if ( temp != 0 ) // check for special case of -32768
@@ -108,7 +104,7 @@ int bankMix( LPMIXER pThisMixer )
 					OutA += tempA._.W1 + tempB._.W1;
 				break;
 				case 3: // Out += Inputs[InputCH] * (1.0-Balance) + Inputs[InputSSI] * Factor * Balance
-					temp = iInputs[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
+					temp = udb_pwIn[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
 						if ( temp != 0 ) // check for special case of -32768
@@ -136,14 +132,14 @@ int bankMix( LPMIXER pThisMixer )
 					OutA += tempA._.W1;
 				break;
 				case 7: // IF MANUAL Out = Out + (Inputs[InputCH] * Factor)
-					if ( iInputs[0] == 0 )
+					if ( udb_pwIn[0] == 0 )
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
 						OutA += tempA._.W1;
 					};
 				break;
 				case 8: //IF MANUAL Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
-					if ( iInputs[0] == 0 )
+					if ( udb_pwIn[0] == 0 )
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
 						tempA.WW = __builtin_mulss( tempA._.W1, iInputSSI );
@@ -151,14 +147,14 @@ int bankMix( LPMIXER pThisMixer )
 					};
 				break;
 				case 9: // IF ASSIST (manual + autopilot) Out = Out + IF (Inputs[InputCH] * Factor)
-					if ( (iInputs[0] > 0) && (iInputs[0] < 255))
+					if ( (udb_pwIn[0] > 0) && (udb_pwIn[0] < 255))
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
 						OutA += tempA._.W1;
 					};
 				break;
 				case 10: // IF ASSIST (manual + autopilot) Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
-					if ( (iInputs[0] > 0) && (iInputs[0] < 255))
+					if ( (udb_pwIn[0] > 0) && (udb_pwIn[0] < 255))
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
 						tempA.WW = __builtin_mulss( tempA._.W1, iInputSSI );
@@ -166,14 +162,14 @@ int bankMix( LPMIXER pThisMixer )
 					};
 				break;
 				case 11: // IF AUTO (rtl or waypoint) Out = Out + IF (Inputs[InputCH] * Factor)
-					if ( iInputs[0] == 255 )
+					if ( udb_pwIn[0] == 255 )
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
 						OutA += tempA._.W1;
 					};
 				break;
 				case 12: // IF AUTO (rtl or waypoint) Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
-					if ( iInputs[0] == 255 )
+					if ( udb_pwIn[0] == 255 )
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
 						tempA.WW = __builtin_mulss( tempA._.W1, iInputSSI );
@@ -197,47 +193,47 @@ int bankMix( LPMIXER pThisMixer )
 						if ( OutA > toQ15(1.0) ) OutA = toQ15(1.0);
 						if ( OutA < toQ15(-1.0) ) OutA = toQ15(-1.0);
 						OutB  = ((((long)iFactor * OutA) >> 16)) + (*pThisMixer).iScales[0];
+						ticks = (WORD)OutB;
 				break;
 				case 17: // overide "type" for per channel limit later
 				break;
 			}; // end of switch ( uiType )
 		}; // end of if ( uiType != 0 )
 	}; // end of for ( iMix = 0; iMix < (MIX_PER_CHANNEL); iMix++ )
-	return( (int)OutB );
+	return( (int)OutA );
 }
 
 void servoMix( void )
 {
-	unsigned int iCH, iPulse;
+	unsigned int iCH, iPulse, iOut;
 	LPMIXER pThisChannel;
 
 	// this would all change, just keeping for now
 
 	// If radio is off, use udb_pwTrim values instead of the udb_pwIn values
 	// test radio once, a good compiler will produce less and faster code
-	if (udb_flags._.radio_on)
-	{	for (iCH = 1; iCH <= NUM_INPUTS; iCH++)
-			iInputs[NUM_AP_COMMANDS + iCH] = (udb_pwIn[iCH]-3000) << 4;	// map 2000 to 4000 into Q15
-	}	else {
-		for (iCH = 1; iCH <= NUM_INPUTS; iCH++)
-			iInputs[NUM_AP_COMMANDS + iCH] = (udb_pwTrim[iCH]-3000) << 4; // map 2000 to 4000 into Q15
+	if (udb_flags._.radio_on == 0)
+	{	for (iCH = 1; iCH <= 64; iCH++)
+		udb_pwIn[iCH] = udb_pwTrim[iCH];		// is Q15
 	}
 
-	iInputs[1] = roll_control + waggle;
-	iInputs[2] = pitch_control;
-	iInputs[3] = yaw_control - waggle;
-	iInputs[4] = altitude_control;
+	udb_pwIn[1] = roll_control + waggle;
+	udb_pwIn[2] = pitch_control;
+	udb_pwIn[3] = yaw_control - waggle;
+	udb_pwIn[4] = altitude_control;
+// TODO: mass changes to camera outputs - they are tied to the old pwm rates
 
 	if (udb_flags._.radio_on && flags._.pitch_feedback)
-		iInputs[0] = 127; // mid scale value, autopilot helping
+		udb_pwIn[0] = 127; // mid scale value, autopilot helping
 	else if ( flags._.home_req || flags._.auto_req )
-				iInputs[0] = 255; // full scale value - autopilot in control
-	else iInputs[0] = 0; // low value, no autopilot input
+		udb_pwIn[0] = 255; // full scale value - autopilot in control
+	else udb_pwIn[0] = 0; // low value, no autopilot input
 
 	for ( iCH = 1, pThisChannel = &pMixers[0][0]; iCH <= NUM_OUTPUTS; iCH++, pThisChannel += MIX_PER_CHANNEL )
 	{
-		iPulse = bankMix( pThisChannel );
+		iOut = bankMix( pThisChannel, &iPulse );
 		udb_pwOut[iCH] = iPulse;
+		DIO[iCH + SERVO_PIN_START - 1].iBuffer[DIO[iCH + SERVO_PIN_START - 1].iIndex++] = iOut;	// record it for history
 	}; // end of for ( iCH = 1; iCH <= NUM_OUTPUTS; iCH++ )
 }
 

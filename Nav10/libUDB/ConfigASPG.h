@@ -106,22 +106,23 @@
  */
 
 typedef struct tagPin {
-	int	qValue;			// latest value, careful of non-single use pins
-	int	iFS_Count:5;	// fail safe counter
-	int	bFS_ON:1;		// 0 = normal run, 1 = fail safe triggered
-	int	iFS_CMD:3;		// action to take in fail safe.
-	int	bFS_EN:1;		// fail safe enabled
-	int	iUpdate:6;		// needs / has update
-	int	iType:5;		// pin type, see comments
-	int	iPort:3;		// cpu port, 0=A, 1=B etc
-	int	iPin:4;			// pin within port
-	int	iIndex:4;		// keeps track of were it is in sequences
-	int	iGlobal:6;		// Index into global data arrays, eg pwIn for radio rx etc
-	int	iGlen:2;		// number of spots taken, 0=1, 1=8,
-	int	iSpare:8;		// unused
+			 int	qValue;			// latest value, careful of non-single use pins
+	unsigned int	iFS_Count:5;	// fail safe counter
+	unsigned int	bFS_ON:1;		// 0 = normal run, 1 = fail safe triggered
+	unsigned int	iFS_CMD:3;		// action to take in fail safe.
+	unsigned int	bFS_EN:1;		// fail safe enabled
+	unsigned int	iUpdate:6;		// needs / has update
+	unsigned int	iType:5;		// pin type, see comments
+	unsigned int	iPort:3;		// cpu port, 0=A, 1=B etc
+	unsigned int	iPin:4;			// pin within port
+	unsigned int	iIndex:4;		// keeps track of were it is in sequences
+	unsigned int	iGlobal:6;		// Index into global data arrays, eg pwIn for radio rx etc
+	unsigned int	iGlen:2;		// number of spots taken, 0=1, 1=8,
+	unsigned int	iSpare:8;		// unused
 	union {				// private use for type functions
 		int iPrivate[4];
 		long lPrivate[2];
+		WORD wPrivate[4];
 	};
 	int	iBuffer[16];	// globally available data, can be 16 history of 1 each or 15 x 1 each, 0 unused
 } PIN, *LPPIN;

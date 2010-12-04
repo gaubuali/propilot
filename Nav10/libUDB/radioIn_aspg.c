@@ -38,7 +38,6 @@ int failSafePulses = 0 ;
 WORD	T2_OF;						// count of T2 wraps
 
 #define RC_PIN( T, P, B, G, L) { 0, 0, 0, 0, (FAILSAFE_INPUT_CHANNEL == G ? 1 : 0), 0, T, P, B, 0, G, L }
-#define RC_START 8
 
 PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x1300))) = {
 		RC_PIN(0,0,0,0,0),				// unused
@@ -50,14 +49,14 @@ PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x1300))) = {
 		RC_PIN(12,3,13,RC_START+5,0),	// RC6
 		RC_PIN(12,3,14,RC_START+6,0),	// RC7
 		RC_PIN(12,3,15,RC_START+7,0),	// RC8
-		RC_PIN(6,3,0,1,0),				// SERVO1
-		RC_PIN(6,3,1,2,0),				// SERVO2
-		RC_PIN(6,3,2,3,0),				// SERVO3
-		RC_PIN(6,3,3,4,0),				// SERVO4
-		RC_PIN(6,3,4,5,0),				// SERVO5
-		RC_PIN(6,3,5,6,0),				// SERVO6
-		RC_PIN(6,3,6,7,0),				// SERVO7
-		RC_PIN(6,3,7,8,0),				// SERVO8
+		RC_PIN( 6,3, 0,1,0),			// SERVO1
+		RC_PIN( 6,3, 1,2,0),			// SERVO2
+		RC_PIN( 6,3, 2,3,0),			// SERVO3
+		RC_PIN( 6,3, 3,4,0),			// SERVO4
+		RC_PIN( 6,3, 4,5,0),			// SERVO5
+		RC_PIN( 6,3, 5,6,0),			// SERVO6
+		RC_PIN( 6,3, 6,7,0),			// SERVO7
+		RC_PIN( 6,3, 7,8,0),			// SERVO8
 		RC_PIN(19,2,4,RC_START+8,0),	// IT1 - nominally going to put these in the pwmIn array
 		RC_PIN(19,2,3,RC_START+9,0),	// IT2
 		RC_PIN(19,2,2,RC_START+10,0),	// IT3
@@ -123,30 +122,30 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 	case 14:	// 14	Single channel 450Hz PWM input, positive logic
 		if ( iState == 1)	// pin changed to high -> start of pulse
 		{
-			lpTag->iPrivate[0] = wCounts;					// save value
-			lpTag->iPrivate[1] = T2_OF;						// save value
+			lpTag->wPrivate[0] = wCounts;					// save value
+			lpTag->wPrivate[1] = T2_OF;						// save value
 		} else {		// pin changed to low -> end of pulse
 			if ( T2_OF == lpTag->iPrivate[1] )				// check overflow
 			{
-				dwTemp = wCounts - lpTag->iPrivate[0];		// simple case
+				dwTemp = wCounts - lpTag->wPrivate[0];		// simple case
 			} else {										// complex case of T2 has wrapped
-				if ( T2_OF > lpTag->iPrivate[1])			// T2_OF wrap
+				if ( T2_OF > lpTag->wPrivate[1])			// T2_OF wrap
 				{
 					dwTemp = (((DWORD)T2_OF << 16) + wCounts) - lpTag->lPrivate[0];
 				} else {
-					wTemp = T2_OF - lpTag->iPrivate[1];		// this just works
-					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->iPrivate[0];
+					wTemp = T2_OF - lpTag->wPrivate[1];		// this just works
+					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->wPrivate[0];
 				}
 			}
 			if (dwTemp > RC_PWM_MAX)						// limit values
 				wTemp = RC_PWM_MAX;
 			else if (dwTemp < RC_PWM_MIN)
 					wTemp = RC_PWM_MIN;
-				else {									// normal range pulse
+				else {										// normal range pulse
 					wTemp = dwTemp;
 					lpTag->bFS_ON = 0, lpTag->iFS_Count = 0;
 				}
-			wTemp -= RC_PWM_CENTER;						// turn value into quasi Q15
+			wTemp -= RC_PWM_CENTER;							// turn value into quasi Q15
 #if (RC_PWM_Q15 == 8)
 			wTemp = wTemp << 3;
 #else
@@ -166,8 +165,8 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 				}
 			else ;
 			if ( lpTag->iGlobal != 0)
-				udb_pwIn[lpTag->iGlobal] = wTemp;		// store in global controls too
-			else ;
+			{	udb_pwIn[lpTag->iGlobal] = wTemp;		// store in global controls too
+			} else ;
 		}
 	break; // case 12, 13, 14 and 15
 	case 17:	// 17	Multi channel 50Hz PWM input, negative logic (PPM encoders, direct connect to receivers etc)
@@ -177,51 +176,53 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 	case 16:	// 16	Multi channel 50Hz PWM input, positive logic (PPM encoders, direct connect to receivers etc)
 		if ( iState == 1)	// pin changed to high -> start of pulse
 		{
-			lpTag->iPrivate[0] = wCounts;					// save value
-			lpTag->iPrivate[1] = T2_OF;						// save value
+			lpTag->wPrivate[0] = wCounts;					// save value
+			lpTag->wPrivate[1] = T2_OF;						// save value
 		} else {		// pin changed to low -> end of pulse
-			if ( T2_OF == lpTag->iPrivate[1] )				// check overflow
+			if ( T2_OF == lpTag->wPrivate[1] )				// check overflow
 			{
-				dwTemp = wCounts - lpTag->iPrivate[0];		// simple case
+				dwTemp = wCounts - lpTag->wPrivate[0];		// simple case
 			} else {										// complex case of T2 has wrapped
 				if ( T2_OF > lpTag->iPrivate[1])			// T2_OF wrap
 				{
 					dwTemp = (((DWORD)T2_OF << 16) + wCounts) - lpTag->lPrivate[0];
 				} else {
-					wTemp = T2_OF - lpTag->iPrivate[1];		// this just works
-					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->iPrivate[0];
+					wTemp = T2_OF - lpTag->wPrivate[1];		// this just works
+					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->wPrivate[0];
 				}
 			}
+			// TODO: add checks for sync pulse, has to get index into range to store
 			if (dwTemp > RC_PWM_MAX)						// limit values
 				wTemp = RC_PWM_MAX;
 			else if (dwTemp < RC_PWM_MIN)
 					wTemp = RC_PWM_MIN;
-				else {									// normal range pulse
+				else {										// normal range pulse
 					wTemp = dwTemp;
 					lpTag->bFS_ON = 0, lpTag->iFS_Count = 0;
 				}
-			wTemp -= RC_PWM_CENTER;						// turn value into quasi Q15
+			wTemp -= RC_PWM_CENTER;							// turn value into quasi Q15
 #if (RC_PWM_Q15 == 8)
 			wTemp = wTemp << 3;
 #else
 			wTemp *= RC_PWM_Q15;
 #endif
 			lpTag->qValue = wTemp;						// record it
-			lpTag->iBuffer[lpTag->iIndex++] = wTemp;	// record it for history
-//			if ( lpTag->iIndex > 16) lpTag->iIndex = 0; // wrap history (forgot its bitfield, autowrap)
-			lpTag->iUpdate++;							// mark as updated
-			if ( lpTag->bFS_EN )						// do old fail safe check
-				if ( (wTemp > FAILSAFE_INPUT_MIN) && (wTemp < FAILSAFE_INPUT_MAX ) )
-				{	failSafePulses++ ;
-				} else {
-					failSafePulses = 0 ;
-					udb_flags._.radio_on = 0 ;
-					LED_GREEN = LED_OFF ;
-				}
-			else ;
-			if ( lpTag->iGlobal != 0)
-				udb_pwIn[lpTag->iGlobal] = wTemp;		// store in global controls too
-			else ;
+			if ( (lpTag->iIndex >= 1) && (lpTag->iIndex <= 9) )	// only 8 channels right now
+			{	lpTag->iBuffer[lpTag->iIndex++] = wTemp;	// record this channel
+				lpTag->iUpdate++;							// mark as updated
+				if ( lpTag->bFS_EN )						// do old fail safe check
+					if ( (wTemp > FAILSAFE_INPUT_MIN) && (wTemp < FAILSAFE_INPUT_MAX ) )
+					{	failSafePulses++ ;
+					} else {
+						failSafePulses = 0 ;
+						udb_flags._.radio_on = 0 ;
+						LED_GREEN = LED_OFF ;
+					}
+				else ;
+				if ( lpTag->iGlobal != 0)
+					udb_pwIn[lpTag->iGlobal] = wTemp;		// store in global controls too
+				else ;
+			}
 		}
 	break;
 	}
@@ -242,7 +243,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 	while ( IC1CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC1BUF, iRC1, &DIO[1] );
+		rc_pin( IC1BUF, iRC1, &DIO[RC_PIN_START] );
 #else
 		unsigned int time ;
 		time = IC1BUF;	// just need to read it
@@ -261,7 +262,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC2Interrupt(void)
 	while ( IC2CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC2BUF, iRC2, &DIO[2] );
+		rc_pin( IC2BUF, iRC2, &DIO[RC_PIN_START + 1] );
 #else
 		unsigned int time ;
 		time = IC2BUF;	// just need to read it
@@ -279,7 +280,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC3Interrupt(void)
 	while ( IC3CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC3BUF, iRC3, &DIO[3] );
+		rc_pin( IC3BUF, iRC3, &DIO[RC_PIN_START + 2] );
 #else
 		unsigned int time ;
 		time = IC3BUF;	// just need to read it
@@ -297,7 +298,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC4Interrupt(void)
 	while ( IC4CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC4BUF, iRC4, &DIO[4] );
+		rc_pin( IC4BUF, iRC4, &DIO[RC_PIN_START + 3] );
 #else
 		unsigned int time ;
 		time = IC4BUF;	// just need to read it
@@ -315,7 +316,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC5Interrupt(void)
 	while ( IC5CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC5BUF, iRC5, &DIO[5] );
+		rc_pin( IC5BUF, iRC5, &DIO[RC_PIN_START + 4] );
 #else
 		unsigned int time ;
 		time = IC5BUF;	// just need to read it
@@ -333,7 +334,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC6Interrupt(void)
 	while ( IC6CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC6BUF, iRC6, &DIO[6] );
+		rc_pin( IC6BUF, iRC6, &DIO[RC_PIN_START + 5] );
 #else
 		unsigned int time ;
 		time = IC6BUF;	// just need to read it
@@ -351,7 +352,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC7Interrupt(void)
 	while ( IC7CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC7BUF, iRC7, &DIO[7] );
+		rc_pin( IC7BUF, iRC7, &DIO[RC_PIN_START + 6] );
 #else
 		unsigned int time ;
 		time = IC7BUF;	// just need to read it
@@ -369,7 +370,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC8Interrupt(void)
 	while ( IC8CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC8BUF, iRC8, &DIO[8] );
+		rc_pin( IC8BUF, iRC8, &DIO[RC_PIN_START + 7] );
 #else
 		unsigned int time ;
 		time = IC8BUF;	// just need to read it

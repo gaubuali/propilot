@@ -21,6 +21,10 @@
 
 #include "libUDB.h"
 
+#define RC_START 8
+#define RC_PIN_START 1
+#define SERVO_PIN_START 9
+
 extern int twentyHertzCounter ;
 extern int failSafePulses ;
 
