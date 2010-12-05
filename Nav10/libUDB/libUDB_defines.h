@@ -43,7 +43,8 @@ typedef unsigned long DWORD, * LPDWORD;
 #define UDB3_BOARD		3	// Test board for Inversense Gyros
 #define RUSTYS_BOARD	4	// Red board with Rusty's IXZ-500_RAD2a patch board
 #define UDB4_BOARD		5
-#define ASPG_BOARD		6
+#define CAN_INTERFACE	6
+#define ASPG_BOARD		7
 
 
 // Include the necessary files for the current board type
@@ -64,8 +65,12 @@ typedef unsigned long DWORD, * LPDWORD;
 #include "ConfigIXZ500RAD2a.h"
 
 #elif (BOARD_TYPE == UDB4_BOARD)
-#include "p33fj256gp710.h"
+#include "p33fj256gp710a.h"
 #include "ConfigUDB4.h"
+
+#elif (BOARD_TYPE == CAN_INTERFACE)
+#include "p30f6010A.h"
+#include "../CANInterface/ConfigCANInterface.h"
 
 #elif (BOARD_TYPE == ASPG_BOARD)
 #include "p33fj256gp710.h"
@@ -81,7 +86,7 @@ typedef unsigned long DWORD, * LPDWORD;
 #endif
 
 
-#if (USE_PPM_INPUT == 1)
+#if ((USE_PPM_INPUT == 1) && !(BOARD_TYPE == ASPG_BOARD))
 #undef MAX_INPUTS
 #define MAX_INPUTS 8
 #endif

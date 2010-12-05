@@ -181,6 +181,12 @@ void udb_gps_send_char(char txchar);
 // Implement this cal;back to handle receiving a character from the GPS
 void udb_gps_callback_received_char(char rxchar);		// Callback
 
+#if (BOARD_TYPE == ASPG_BOARD)
+// Output packet to the serial port
+// Don't mix this with the serial_start_sending / serial_callback mechanism
+void udb_gps_send_packet( unsigned char *ucpData, int len );
+#endif
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Serial IO
@@ -198,10 +204,16 @@ void udb_serial_send_char( char outchar );
 
 // Implement this callback to tell the UDB what character is next to send on the serial port.
 // Return 0 to stop sending this string of characters.
-char udb_serial_callback_get_char_to_send(void);		// Callback
+char udb_serial_callback_get_char_to_send(void);		// Call back
 
-// Implement this cal;back to handle receiving a character from the serial port
-void udb_serial_callback_received_char(char rxchar);	// Callback
+// Implement this call back to handle receiving a character from the serial port
+void udb_serial_callback_received_char(char rxchar);	// Call back
+
+#if (BOARD_TYPE == ASPG_BOARD)
+// Output packet to the serial port
+// Don't mix this with the serial_start_sending / serial_callback mechanism
+void udb_serial_send_packet( unsigned char *ucpData, int len );
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////////////

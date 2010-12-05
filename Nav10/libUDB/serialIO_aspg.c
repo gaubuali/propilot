@@ -20,12 +20,13 @@
 
 
 #include "libUDB_internal.h"
+#include <string.h>
 
 #if (BOARD_TYPE == ASPG_BOARD)
 
 #define TX_BUF_LEN 512
 char __attribute__ ((section(".myDataSection"),address(0x1300))) U1TX_buffer[TX_BUF_LEN];
-char __attribute__ ((section(".myDataSection"),address(0x1300+TX_BUF_LEN))) U2TX_buffer[TX_BUF_LEN];
+char __attribute__ ((section(".myDataSection"))) U2TX_buffer[TX_BUF_LEN];
 int iU1Head, iU1Tail = 0;
 int iU2Head, iU2Tail = 0;
 
@@ -108,39 +109,74 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _U1RXInterrupt(void)
 		udb_gps_callback_received_char(rxchar) ;
 	}
 
-	U1STAbits.OERR = 0 ;
-	
 	_U1RXIF = 0 ; // clear the interrupt
+	
+	if ( U1STAbits.OERR )
+		U1STAbits.OERR = 0 ;
 	
 	interrupt_restore_extended_state ;
 	return ;
 }
 
+#define _DI()	__asm__ volatile("disi #0xFFF")
+#define _EI()	__asm__ volatile("disi #0")
 // send a packet to UART1 (GPS)
 void udb_gps_send_packet( unsigned char *ucpData, int len )
 {
+	indicate_loading_inter ;
+	// check and limit len, max send first 511 bytes
+	if ( len > 511 )
+		len = 511;
+	else ;
 	// check if still have data to transmit, if not we reset pointers to begin of buffer
 	if (iU1Head == iU1Tail)
-	{
+	{	_DI();	// have to make sure no interrupt
+		iU1Head = 0, iU1Tail = 0;	// reset - also make it easy to see what's going on
+		_EI();
 	};
 	// first xfer data to private buffer
 	if ( (iU1Head + len) < TX_BUF_LEN )	// case of data fits with one memcpy
-	{
+	{	memcpy( &U1TX_buffer[iU1Head], ucpData, len );
+		iU1Head += len;
 	} else {							// will take multiple copies
+		memcpy( &U1TX_buffer[iU1Head], ucpData, (TX_BUF_LEN - iU1Head) );
+		ucpData += (TX_BUF_LEN - iU1Head);	// next address
+		len -= (TX_BUF_LEN - iU1Head);		// what's left
+		memcpy( &U1TX_buffer[0], ucpData, len );
+		iU1Head = len;
 	}
-	}
+
+	_U1TXIF = 1 ; // fire the tx interrupt
+
 }
 
 // Output one character to the GPS
 void udb_gps_send_char( char outchar )
 {
-	while ( U1STAbits.UTXBF ) {} ;
-	U1TXREG = outchar ;
+	unsigned char cSends[2];
+	cSends[0] = outchar;
+	udb_gps_send_packet( &cSends[0], 1 );
 	
 	return ;
 }
 
+void __attribute__((__interrupt__, __no_auto_psv__)) _U1TXInterrupt(void)
+{
+	unsigned char ucSend;
+	indicate_loading_inter ;
 
+	if (iU1Head != iU1Tail)	// have some to send
+	{
+		do {
+			ucSend = U1TX_buffer[iU1Tail++];	// get next one to send
+			if ( iU1Tail > TX_BUF_LEN )			// wrap at end of buffer
+				iU1Tail = 0;
+			else ;
+			U1TXREG = ucSend;					// send it
+		} while ( !U1STAbits.UTXBF && (iU1Head != iU1Tail));
+	}
+	_U1TXIF = 0 ; // clear the interrupt
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Serial
@@ -210,15 +246,6 @@ void udb_serial_start_sending(void)
 }
 
 
-// Output one character to the serial port
-void udb_serial_send_char( char outchar )
-{
-	while ( U2STAbits.UTXBF ) {} ;
-	U2TXREG = outchar ;
-	
-	return ;
-}
-
 
 void __attribute__((__interrupt__, __no_auto_psv__)) _U2RXInterrupt(void)
 {
@@ -232,31 +259,70 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _U2RXInterrupt(void)
 		udb_serial_callback_received_char(rxchar) ;
 	}
 
-	U2STAbits.OERR = 0 ;
-	
 	_U2RXIF = 0 ; // clear the interrupt
+
+	if ( U2STAbits.OERR )
+		U2STAbits.OERR = 0 ;
 	
 	// interrupt_restore_extended_state ;
 	return ;
 }
 
-
-void __attribute__((__interrupt__,__no_auto_psv__)) _U2TXInterrupt(void)
+// send a packet to UART1 (GPS)
+void udb_serial_send_packet( unsigned char *ucpData, int len )
 {
-	interrupt_save_extended_state ;
-	
-	indicate_loading_inter ;
-	
-	_U2TXIF = 0 ; // clear the interrupt 
-	unsigned char txchar = udb_serial_callback_get_char_to_send() ;
-	
-	if ( txchar )
-	{
-		U2TXREG = txchar ;
+	// check and limit len, max send first 511 bytes
+	if ( len > 511 )
+		len = 511;
+	else ;
+	// check if still have data to transmit, if not we reset pointers to begin of buffer
+	if (iU2Head == iU2Tail)
+	{	_DI();	// have to make sure no interrupt
+		iU2Head = 0, iU2Tail = 0;	// reset - also make it easy to see what's going on
+		_EI();
+	};
+	// first xfer data to private buffer
+	if ( (iU2Head + len) < TX_BUF_LEN )	// case of data fits with one memcpy
+	{	memcpy( &U2TX_buffer[iU2Head], ucpData, len );
+		iU1Head += len;
+	} else {							// will take multiple copies
+		memcpy( &U2TX_buffer[iU2Head], ucpData, (TX_BUF_LEN - iU2Head) );
+		ucpData += (TX_BUF_LEN - iU2Head);	// next address
+		len -= (TX_BUF_LEN - iU2Head);		// what's left
+		memcpy( &U2TX_buffer[0], ucpData, len );
+		iU2Head = len;
 	}
+
+	_U2TXIF = 1 ; // fire the tx interrupt
+
+}
+
+// Output one character to the serial port
+void udb_serial_send_char( char outchar )
+{
+	unsigned char cSends[2];
+	cSends[0] = outchar;
+	udb_serial_send_packet( &cSends[0], 1 );
 	
-	interrupt_restore_extended_state ;
 	return ;
 }
+
+void __attribute__((__interrupt__, __no_auto_psv__)) _U2TXInterrupt(void)
+{
+	unsigned char ucSend;
+
+	if (iU2Head != iU2Tail)	// have some to send
+	{
+		do {
+			ucSend = U2TX_buffer[iU2Tail++];	// get next one to send
+			if ( iU2Tail > TX_BUF_LEN )			// wrap at end of buffer
+				iU2Tail = 0;
+			else ;
+			U2TXREG = ucSend;					// send it
+		} while ( !U2STAbits.UTXBF && (iU2Head != iU2Tail));
+	}
+	_U2TXIF = 0 ; // clear the interrupt
+}
+
 
 #endif

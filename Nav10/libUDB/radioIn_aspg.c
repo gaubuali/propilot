@@ -61,6 +61,16 @@ PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x1800))) = {
 		RC_PIN(19,2,3,RC_START+9,0),	// IT2
 		RC_PIN(19,2,2,RC_START+10,0),	// IT3
 		RC_PIN(19,2,1,RC_START+11,0),	// IT4
+		RC_PIN(3,2,5,RC_START+12,0),	// BUZZER
+		RC_PIN(3,6,15,RC_START+13,0),	// OUT1
+		RC_PIN(3,0,14,RC_START+14,0),	// ISCP1_AUX1
+		RC_PIN(3,0,15,RC_START+15,0),	// ISCP1_AUX2
+		RC_PIN(1,1,6,RC_START+16,0),	// SAmps
+		RC_PIN(1,1,7,RC_START+17,0),	// SVolt
+		RC_PIN(1,1,0,RC_START+18,0),	// AUX_AN1
+		RC_PIN(1,1,1,RC_START+19,0),	// AUX_AN2
+		RC_PIN(1,1,3,RC_START+20,0),	// AUX_AN3
+		RC_PIN(1,1,4,RC_START+21,0),	// AUX_AN4
 };
 
 void udb_init_capture(void)
