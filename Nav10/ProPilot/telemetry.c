@@ -44,7 +44,7 @@ void (* sio_parse ) ( unsigned char inchar ) = &sio_newMsg ;
 
 
 #define SERIAL_BUFFER_SIZE 256
-char __attribute__ ((section(".myDataSection"),address(0x1000))) serial_buffer[SERIAL_BUFFER_SIZE] ;
+char __attribute__ ((section(".myDataSection"),address(0x2000))) serial_buffer[SERIAL_BUFFER_SIZE] ;
 int sb_index = 0 ;
 int end_index = 0 ;
 
@@ -56,7 +56,7 @@ void init_serial()
 	dcm_flags._.nmea_passthrough = 1;
 #endif
 	
-	udb_serial_set_rate(19200) ;
+	udb_serial_set_rate(SERIAL_OUTPUT_BAUD) ;
 	
 	return ;
 }
@@ -471,7 +471,7 @@ void serial_output_8hz( void )
 				
 				// Approximate time passing between each telemetry line, even though
 				// we may not have new GPS time data each time through.
-				if (tow.WW > 0) tow.WW += 250 ; 
+			/*	if (tow.WW > 0) */ tow.WW += 250 ;
 				
 				// Save  pwIn and PwOut buffers for printing next time around
 				int i ;

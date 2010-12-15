@@ -28,6 +28,8 @@
 #include "libUDB_defines.h"
 #include "magnetometerOptions.h"
 #include <dsp.h>
+#define _DI()	__asm__ volatile("disi #0xFFF")
+#define _EI()	__asm__ volatile("disi #0")
 
 ////////////////////////////////////////////////////////////////////////////////
 // libUDB.h defines the API for accessing the UDB hardware through libUDB
@@ -91,6 +93,7 @@ unsigned char udb_cpu_load(void);
 // value between approximately 2000 and 4000, with 3000 being the center.
 // Treat udb_pwIn values as readonly.
 #define RC_START 8
+#define AUX_START 16
 extern int udb_pwIn[];		// pulse widths of radio inputs
 
 // These are the recorded trim values of the radio input channels.
@@ -193,9 +196,9 @@ void udb_gps_send_packet( unsigned char *ucpData, int len );
 
 // Set the serial port data rate.  Use the UDB_BAUD_* constants defined in the Config*.h
 // files.
-void udb_serial_set_rate(int rate);
+void udb_serial_set_rate(long int rate);
 
-// Call this function to initialte sending a string of characters to the serial port
+// Call this function to initiate sending a string of characters to the serial port
 void udb_serial_start_sending(void);
 
 // Output one character to the serial port

@@ -35,17 +35,18 @@
 // FRAME_CNT is the roll over and clear of iFrameCounter
 // FRAME_PRE is the T3 pre-load value
 // FRAME_ROLL is the roll over for iFrameCounter
-
+// This 40000 value also gives a very handy 1mSec timer rate
 #define USEC_DIV 40
-#define FRAME_40HZ_CNT 20
-#define FRAME_40HZ_PR 50000
-#define FRAME_50HZ_CNT 16
-#define FRAME_50HZ_PR 50000
-#define FRAME_20HZ_CNT 40
-#define FRAME_20HZ_PR 50000
-#define FRAME_ROLL 80
+#define FRAME_40HZ_CNT 25
+#define FRAME_40HZ_PR 40000
+#define FRAME_50HZ_CNT 20
+#define FRAME_50HZ_PR 40000
+#define FRAME_20HZ_CNT 50
+#define FRAME_20HZ_PR 40000
+#define FRAME_ROLL 100
 #define FRAME_CNT FRAME_40HZ_CNT
 #define FRAME_PRE FRAME_40HZ_PR
+#define SERVO_OUT_OFFSET 2
 
 #define TMR3_PERIOD FRAME_PRE
 
@@ -59,6 +60,7 @@ int twentyHertzCounter = 0 ;
 int iFrameCounter = 0;
 union longlongww tagUSec;		// top 10 bits come from else were ie gps or gcs
 union longlongww tagUSec_x40;	// this + t3 = cpu cyles
+DWORD	dwMilliSec;				// milliseconds counter, roll over ~= 49.7 days
 
 void udb_init_pwm( void )	// initialize the PWM
 {
@@ -128,7 +130,15 @@ void udb_set_action_state(boolean newValue)
 	_LATE4 = newValue ;
 }
 
+// this macro is to start a PWM output channel, have to DSI the calc and load of regs
+#define OC_START(pw,OCR,OCRS,channel)		\
+		_DI(); 						 		\
+		wTemp = TMR2 + 15;					\
+		OCR = wTemp, wTemp += pw;			\
+		OCRS = wTemp, channel = 4;			\
+		_EI()
 
+// this interrupt runs every 1mSec with 80MHz osc and 40000 preload
 void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void) 
 {
 	// interrupt_save_extended_state ;
@@ -138,56 +148,64 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 	_T3IF = 0 ;		// clear the interrupt
 	tagUSec_x40.WW += TMR3_PERIOD;
 
-	if ( iFrameCounter++ >= FRAME_ROLL )
+	dwMilliSec++, iFrameCounter++;
+
+	if ( iFrameCounter >= FRAME_ROLL )
 		iFrameCounter = 0;
 	else ;
 
 	if ( (iFrameCounter & 1) )
-	{	switch ( (iFrameCounter & (FRAME_50HZ_CNT - 1)) >> 1  ) {
-		case 0: // start OC1 - this will end up in a pin function
-			wTemp = TMR2 + 5;	// start clean
-			OC1R = wTemp, wTemp += udb_pwOut[1];
-			OC1RS = wTemp, OC1CON = 4;	// delay one shot
+	{	switch ( (iFrameCounter % FRAME_50HZ_CNT) >> 1  ) {
+		case 1 + SERVO_OUT_OFFSET: // start OC1 - this will end up in a pin function
+//			wTemp = TMR2 + 5;	// start clean
+//			OC1R = wTemp, wTemp += udb_pwOut[1];
+//			OC1RS = wTemp, OC1CON = 4;	// delay one shot
+			OC_START(udb_pwOut[1],OC1R,OC1RS,OC1CON);
 		break;
-		case 1: // start OC2 - this will end up in a pin function
-			wTemp = TMR2 + 5;	// start clean
-			OC2R = wTemp, wTemp += udb_pwOut[2];
-			OC2RS = wTemp, OC2CON = 4;	// delay one shot
+		case 2 + SERVO_OUT_OFFSET: // start OC2 - this will end up in a pin function
+//			wTemp = TMR2 + 5;	// start clean
+//			OC2R = wTemp, wTemp += udb_pwOut[2];
+//			OC2RS = wTemp, OC2CON = 4;	// delay one shot
+		OC_START(udb_pwOut[2],OC2R,OC2RS,OC2CON);
 		break;
-		case 2: // start OC3 - this will end up in a pin function
-			wTemp = TMR2 + 5;	// start clean
-			OC3R = wTemp, wTemp += udb_pwOut[3];
-			OC3RS = wTemp, OC3CON = 4;	// delay one shot
+		case 3 + SERVO_OUT_OFFSET: // start OC3 - this will end up in a pin function
+//			wTemp = TMR2 + 5;	// start clean
+//			OC3R = wTemp, wTemp += udb_pwOut[3];
+//			OC3RS = wTemp, OC3CON = 4;	// delay one shot
+		OC_START(udb_pwOut[3],OC3R,OC3RS,OC3CON);
 		break;
-		case 3: // start OC4 - this will end up in a pin function
-			wTemp = TMR2 + 5;	// start clean
-			OC4R = wTemp, wTemp += udb_pwOut[4];
-			OC4RS = wTemp, OC4CON = 4;	// delay one shot
+		case 4 + SERVO_OUT_OFFSET: // start OC4 - this will end up in a pin function
+//			wTemp = TMR2 + 5;	// start clean
+//			OC4R = wTemp, wTemp += udb_pwOut[4];
+//			OC4RS = wTemp, OC4CON = 4;	// delay one shot
+		OC_START(udb_pwOut[4],OC4R,OC4RS,OC4CON);
 		break;
-		case 4: // start OC5 - this will end up in a pin function
-			wTemp = TMR2 + 5;	// start clean
-			OC5R = wTemp, wTemp += udb_pwOut[5];
-			OC5RS = wTemp, OC5CON = 4;	// delay one shot
+		case 5 + SERVO_OUT_OFFSET: // start OC5 - this will end up in a pin function
+//			wTemp = TMR2 + 5;	// start clean
+//			OC5R = wTemp, wTemp += udb_pwOut[5];
+//			OC5RS = wTemp, OC5CON = 4;	// delay one shot
+		OC_START(udb_pwOut[5],OC5R,OC5RS,OC5CON);
 		break;
-		case 5: // start OC6 - this will end up in a pin function
-			wTemp = TMR2 + 5;	// start clean
-			OC6R = wTemp, wTemp += udb_pwOut[6];
-			OC6RS = wTemp, OC6CON = 4;	// delay one shot
+		case 6 + SERVO_OUT_OFFSET: // start OC6 - this will end up in a pin function
+//			wTemp = TMR2 + 5;	// start clean
+//			OC6R = wTemp, wTemp += udb_pwOut[6];
+//			OC6RS = wTemp, OC6CON = 4;	// delay one shot
+		OC_START(udb_pwOut[6],OC6R,OC6RS,OC6CON);
 		break;
-		case 6: // start OC7 - this will end up in a pin function
-			wTemp = TMR2 + 5;	// start clean
-			OC7R = wTemp, wTemp += udb_pwOut[7];
-			OC7RS = wTemp, OC7CON = 4;	// delay one shot
+		case 7 + SERVO_OUT_OFFSET: // start OC7 - this will end up in a pin function
+//			wTemp = TMR2 + 5;	// start clean
+//			OC7R = wTemp, wTemp += udb_pwOut[7];
+//			OC7RS = wTemp, OC7CON = 4;	// delay one shot
+		OC_START(udb_pwOut[7],OC7R,OC7RS,OC7CON);
 		break;
-		case 7: // start OC8 - this will end up in a pin function
-			wTemp = TMR2 + 5;	// start clean
-			OC8R = wTemp, wTemp += udb_pwOut[8];
-			OC8RS = wTemp, OC8CON = 4;	// delay one shot
+		case 8 + SERVO_OUT_OFFSET: // start OC8 - this will end up in a pin function
+//			wTemp = TMR2 + 5;	// start clean
+//			OC8R = wTemp, wTemp += udb_pwOut[8];
+//			OC8RS = wTemp, OC8CON = 4;	// delay one shot
+		OC_START(udb_pwOut[8],OC8R,OC8RS,OC8CON);
 		break;
 		}	
 	};
-
-	
 
 	//	Executes whatever needs to be done every 20 milliseconds
 	//	This is a good place to compute pulse widths for servos.

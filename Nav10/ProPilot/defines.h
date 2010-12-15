@@ -69,7 +69,7 @@ void pitchCntrl( void ) ;
 void yawCntrl( void ) ;
 void altitudeCntrl( void ) ;
 
-extern int pitch_control, roll_control, yaw_control, altitude_control ;
+extern int pitch_control, roll_control, yaw_control, throttle_control ;
 extern union longww throttleFiltered ;
 extern int pitchAltitudeAdjust ;
 
@@ -83,6 +83,7 @@ extern int pitchAltitudeAdjust ;
 ////////////////////////////////////////////////////////////////////////////////
 // servoMix.c
 void servoMix( void ) ;
+void cameraServoMix( void ) ;
 
 // Choose the type of air frame by setting AIRFRAME_TYPE in options.h
 // See options.h for a description of each type
@@ -93,6 +94,11 @@ void servoMix( void ) ;
 
 // Negate VALUE if NEEDS_REVERSING is true
 #define REVERSE_IF_NEEDED(NEEDS_REVERSING, VALUE)		((NEEDS_REVERSING) ? (-(VALUE)) : (VALUE))
+
+extern int cam_pitch_servo_pwm_delta ;  
+extern int cam_yaw_servo_pwm_delta ;
+long cam_pitchServoLimit( long pwm_pulse) ;
+long cam_yawServoLimit( long pwm_pulse) ;
 
 
 

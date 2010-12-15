@@ -83,7 +83,9 @@
 // Altitude Hold
 // Use altitude hold in stabilized mode?  In waypoint mode?
 // Each of these settings can be AH_NONE, AH_FULL, or AH_PITCH_ONLY
-#define ALTITUDEHOLD_STABILIZED				AH_PITCH_ONLY
+// NOTE: even when set to AH_NONE, MatrixPilot will still try to stabilize pitch as long
+// as PITCH_STABILIZATION is set to 1 above, but will not aim for any specific altitude.
+#define ALTITUDEHOLD_STABILIZED				AH_NONE
 #define ALTITUDEHOLD_WAYPOINT				AH_FULL
 
 // Inverted flight
@@ -164,6 +166,7 @@
 #define CAMERA_ROLL_INPUT_CHANNEL			CHANNEL_UNUSED
 #define CAMERA_PITCH_INPUT_CHANNEL			CHANNEL_UNUSED
 #define CAMERA_YAW_INPUT_CHANNEL			CHANNEL_UNUSED
+#define OSD_MODE_SWITCH_INPUT_CHANNEL		CHANNEL_UNUSED
 #define PASSTHROUGH_A_INPUT_CHANNEL			CHANNEL_UNUSED
 #define PASSTHROUGH_B_INPUT_CHANNEL			CHANNEL_UNUSED
 #define PASSTHROUGH_C_INPUT_CHANNEL			CHANNEL_UNUSED
@@ -281,14 +284,16 @@
 // SERIAL_UDB_EXTRA will add additional telemetry fields to those of SERIAL_UDB.
 // SERIAL_UDB_EXTRA can be used with the OpenLog without characters being dropped.
 // SERIAL_UDB_EXTRA may result in dropped characters if used with the XBEE wireless transmitter.
-#define SERIAL_OUTPUT_FORMAT				SERIAL_UDB_EXTRA
+#define SERIAL_OUTPUT_FORMAT				SERIAL_MAGNETOMETER
 #define SERIAL_OUTPUT_BAUD					57600
+#define SERIAL_OUTPUT_INVERT				1
 
 ////////////////////////////////////////////////////////////////////////////////
 // On Screen Display
 // OSD_VIDEO_FORMAT can be set to either OSD_NTSC, or OSD_PAL
 #define USE_OSD								0
 #define OSD_VIDEO_FORMAT					OSD_NTSC
+#define OSD_SHOW_HORIZON					0
 #define OSD_CALL_SIGN						{0x95, 0x8B, 0x81, 0x8C, 0x8D, 0x8E, 0xFF} // KA1BCD
 
 
@@ -404,13 +409,16 @@
 // Camera Stabilization and Targeting
 // 
 // In Manual Mode the camera is fixed straight ahead.
-// In Stabilized Mode, the camera stabilizes in the pitch axis but keeps a constant yaw
-// relative to the plane's frame of reference. 
+// In Stabilized Mode, the camera stabilizes in the pitch axis but stabilizes a constant yaw
+// relative to the plane's frame of reference.
 // In Waypoint Mode, the direction of the camera is driven from a flight camera plan in waypoints.h
+// In all three flight modes, if you set CAMERA_*_INPUT_CHANNEL then the transmitter camera controls
+// will override the camera stabilisation. This allows a pilot to override the camera stabilization dynamically
+// during flight and point the camera at a specific target of interest.
 // 
 // To save cpu cycles, you will need to pre-compute the tangent of the desired pitch of the camera
 // when in stabilized mode. This should be expressed in 2:14 format. 
-// Example: You require the camera to be pitched down by 15 degrees from the horizon.
+// Example: You require the camera to be pitched down by 15 degrees from the horizon in stabilized mode.
 // Paste the following line into a google search box (without the //)
 // tan((( 15 /180 )* 3.1416 ))* 16384
 // The result, as an integer, will be 4390. Change the angle, 15, for whatever angle you would like.

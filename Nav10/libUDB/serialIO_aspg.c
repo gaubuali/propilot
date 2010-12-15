@@ -25,8 +25,8 @@
 #if (BOARD_TYPE == ASPG_BOARD)
 
 #define TX_BUF_LEN 512
-char __attribute__ ((section(".myDataSection"),address(0x1300))) U1TX_buffer[TX_BUF_LEN];
-char __attribute__ ((section(".myDataSection"))) U2TX_buffer[TX_BUF_LEN];
+char __attribute__ ((section(".myDataSection"),address(0x2300))) U1TX_buffer[TX_BUF_LEN];
+char __attribute__ ((address(0x2500))) U2TX_buffer[TX_BUF_LEN];
 int iU1Head, iU1Tail = 0;
 int iU2Head, iU2Tail = 0;
 
@@ -83,7 +83,7 @@ void udb_init_GPS(void)
 	return ;
 }
 
-
+// int only good up to 32767
 void udb_gps_set_rate(int rate)
 {
 	U1BRG = UDB_BAUD(rate) ;
@@ -118,8 +118,6 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _U1RXInterrupt(void)
 	return ;
 }
 
-#define _DI()	__asm__ volatile("disi #0xFFF")
-#define _EI()	__asm__ volatile("disi #0")
 // send a packet to UART1 (GPS)
 void udb_gps_send_packet( unsigned char *ucpData, int len )
 {
@@ -135,16 +133,24 @@ void udb_gps_send_packet( unsigned char *ucpData, int len )
 		_EI();
 	};
 	// first xfer data to private buffer
-	if ( (iU1Head + len) < TX_BUF_LEN )	// case of data fits with one memcpy
-	{	memcpy( &U1TX_buffer[iU1Head], ucpData, len );
-		iU1Head += len;
-	} else {							// will take multiple copies
-		memcpy( &U1TX_buffer[iU1Head], ucpData, (TX_BUF_LEN - iU1Head) );
-		ucpData += (TX_BUF_LEN - iU1Head);	// next address
-		len -= (TX_BUF_LEN - iU1Head);		// what's left
-		memcpy( &U1TX_buffer[0], ucpData, len );
-		iU1Head = len;
-	}
+//	if ( (iU1Head + len) < TX_BUF_LEN )	// case of data fits with one memcpy
+//	{	memcpy( &U1TX_buffer[iU1Head], ucpData, len );
+//		iU1Head += len;
+//	} else {							// will take multiple copies
+//		memcpy( &U1TX_buffer[iU1Head], ucpData, (TX_BUF_LEN - iU1Head) );
+//		ucpData += (TX_BUF_LEN - iU1Head);	// next address
+//		len -= (TX_BUF_LEN - iU1Head);		// what's left
+//		memcpy( &U1TX_buffer[0], ucpData, len );
+//		iU1Head = len;
+//	}
+
+	do {	// when memcpy no longer fails this will be removed
+		U1TX_buffer[iU1Head] = *ucpData;
+		iU1Head++, ucpData++, len--;
+		if ( iU1Head > TX_BUF_LEN )
+			iU1Head = 0;
+		else ;
+	} while (len > 0);
 
 	_U1TXIF = 1 ; // fire the tx interrupt
 
@@ -194,15 +200,23 @@ void udb_init_USART(void)
 	U2MODEbits.WAKE = 0;	// Bit7 No Wake up (since we don't sleep here)
 	U2MODEbits.LPBACK = 0;	// Bit6 No Loop Back
 	U2MODEbits.ABAUD = 0;	// Bit5 No Autobaud (would require sending '55')
+#if (SERIAL_OUTPUT_INVERT == 1)
+	U2MODEbits.URXINV = 1;	// Bit4 IdleState = 0  (for dsPIC)
+#else
 	U2MODEbits.URXINV = 0;	// Bit4 IdleState = 1  (for dsPIC)
+#endif
 	U2MODEbits.BRGH = 0;	// Bit3 16 clocks per bit period
 	U2MODEbits.PDSEL = 0;	// Bits1,2 8bit, No Parity
 	U2MODEbits.STSEL = 0;	// Bit0 One Stop Bit
 	
 	// Load all values in for U1STA SFR
-	U2STAbits.UTXISEL1 = 0;	//Bit15 Int when Char is transferred (1/2 config!)
-	U2STAbits.UTXINV = 0;	//Bit14 N/A, IRDA config
-	U2STAbits.UTXISEL0 = 1;	//Bit13 Other half of Bit15
+	U2STAbits.UTXISEL1 = 1;	//Bit15 Int when buffer empty, shift register still busy
+#if (SERIAL_OUTPUT_INVERT == 1)
+	U2STAbits.UTXINV = 1;	//Bit14 IdleState = 1  (for dsPIC)
+#else
+	U2STAbits.UTXINV = 0;	//Bit14 IdleState = 0  (for dsPIC)
+#endif
+	U2STAbits.UTXISEL0 = 0;	//Bit13 Other half of Bit15
 	//				 		//Bit12
 	U2STAbits.UTXBRK = 0;	//Bit11 Disabled
 	//U2STAbits.UTXEN = 1;	//Bit10 TX pins controlled by periph (handled below)
@@ -232,7 +246,7 @@ void udb_init_USART(void)
 }
 
 
-void udb_serial_set_rate(int rate)
+void udb_serial_set_rate(long int rate)
 {
 	U2BRG = UDB_BAUD(rate) ;
 	return ;
@@ -268,7 +282,7 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _U2RXInterrupt(void)
 	return ;
 }
 
-// send a packet to UART1 (GPS)
+// send a packet to UART2
 void udb_serial_send_packet( unsigned char *ucpData, int len )
 {
 	// check and limit len, max send first 511 bytes
@@ -282,16 +296,24 @@ void udb_serial_send_packet( unsigned char *ucpData, int len )
 		_EI();
 	};
 	// first xfer data to private buffer
-	if ( (iU2Head + len) < TX_BUF_LEN )	// case of data fits with one memcpy
-	{	memcpy( &U2TX_buffer[iU2Head], ucpData, len );
-		iU1Head += len;
-	} else {							// will take multiple copies
-		memcpy( &U2TX_buffer[iU2Head], ucpData, (TX_BUF_LEN - iU2Head) );
-		ucpData += (TX_BUF_LEN - iU2Head);	// next address
-		len -= (TX_BUF_LEN - iU2Head);		// what's left
-		memcpy( &U2TX_buffer[0], ucpData, len );
-		iU2Head = len;
-	}
+//	if ( (iU2Head + len) < TX_BUF_LEN )	// case of data fits with one memcpy
+//	{	memcpy( &U2TX_buffer[iU2Head], ucpData, len );
+//		iU1Head += len;
+//	} else {							// will take multiple copies
+//		memcpy( &U2TX_buffer[iU2Head], ucpData, (TX_BUF_LEN - iU2Head) );
+//		ucpData += (TX_BUF_LEN - iU2Head);	// next address
+//		len -= (TX_BUF_LEN - iU2Head);		// what's left
+//		memcpy( &U2TX_buffer[0], ucpData, len );
+//		iU2Head = len;
+//	}
+
+	do {	// when memcpy no longer fails this will be removed
+		U2TX_buffer[iU2Head] = *ucpData;
+		iU2Head++, ucpData++, len--;
+		if ( iU2Head > TX_BUF_LEN )
+			iU2Head = 0;
+		else ;
+	} while (len > 0);
 
 	_U2TXIF = 1 ; // fire the tx interrupt
 
@@ -313,13 +335,14 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _U2TXInterrupt(void)
 
 	if (iU2Head != iU2Tail)	// have some to send
 	{
-		do {
+		while ( !U2STAbits.UTXBF && (iU2Head != iU2Tail))
+		{
 			ucSend = U2TX_buffer[iU2Tail++];	// get next one to send
 			if ( iU2Tail > TX_BUF_LEN )			// wrap at end of buffer
 				iU2Tail = 0;
 			else ;
 			U2TXREG = ucSend;					// send it
-		} while ( !U2STAbits.UTXBF && (iU2Head != iU2Tail));
+		};
 	}
 	_U2TXIF = 0 ; // clear the interrupt
 }

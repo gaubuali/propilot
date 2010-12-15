@@ -29,7 +29,7 @@ struct ADchannel udb_xaccel, udb_yaccel , udb_zaccel ; // x, y, and z accelerome
 struct ADchannel udb_xrate , udb_yrate, udb_zrate ;  // x, y, and z gyro channels
 struct ADchannel udb_vref ; // reference voltage
 
-int	AD1_Raw[NUM_AD1_LIST+1] __attribute__ ((section(".myDataSection"),address(0x1220)));	// save raw values to look at
+int	AD1_Raw[NUM_AD1_LIST+1] __attribute__ ((section(".myDataSection"),address(0x2220)));	// save raw values to look at
 
 int sampcount = 1 ;
 

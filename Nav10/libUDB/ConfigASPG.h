@@ -87,10 +87,11 @@
 	15	Single channel 450Hz PWM input, negative logic
 	16	Multi channel 50Hz PWM input, positive logic (PPM encoders, direct connect to receivers etc)
 	17	Multi channel 50Hz PWM input, negative logic (PPM encoders, direct connect to receivers etc)
-	18	Digital input counter / timer, pull up disabled – only available on very select pins
-	19	Digital input counter / timer, pull up enabled – only available on very select pins
-	20
-	21	to  31 undefined, same treatment as 0
+	18	Digital input counts / mSec, only available on ITx pins - 0 ~ 64MHz ( 64k counts in 1 mSec, 1kHz update)
+	19	Digital input counts / 20 mSec, only available on ITx pins - 0 ~ 3.2MHz (64k counts in 20 mSec, 50Hz update)
+	20	Digital input counts / 25 mSec, only available on ITx pins - 0 ~ 2.6MHz (64k counts in 25 mSec, 40Hz update)
+	21	Digital input counts / 100 mSec, only available on ITx pins - 0 ~ 650kHz (64k counts in 100 mSec, 10Hz update)
+	22	to  31 undefined, same treatment as 0
 
 	Current index is used to keep track of the current location in the Data array. For single channel
 	inputs and outputs its going to show were in the history the current value got placed, for
@@ -238,8 +239,6 @@ typedef union tagMixer {
 #define	yaccelBUFF	-2
 #define	zaccelBUFF	-3
 
-
-
 // other analogs
 #define AD2_LIST LOW_ANALOGS
 
@@ -371,8 +370,40 @@ typedef union tagMixer {
 #define iMAG_DR1 PORTAbits.RA12
 #define oMAG_DR1 LATAbits.LATA12
 #define tMAG_DR1 TRISAbits.TRISA12
+#define MAG_DR iMAG_DR1
+#define MAG_DRt tMAG_DR1
+#define MAG_INTe _INT1IE
+#define MAG_INTf _INT1IF
+#define MAG_INTpo _INT1EP
+#define MAG_INTpr IPC5bits.INT1IP
+
 #define iACC_DR1 PORTAbits.RA13
 #define oACC_DR1 LATAbits.LATA13
 #define tACC_DR1 TRISAbits.TRISA13
+#define ACC_DR iACC_DR1
+#define ACC_DRt tACC_DR1
+#define ACC_INTe _INT2IE
+#define ACC_INTf _INT2IF
+#define ACC_INTpo _INT2EP
+#define ACC_INTpr IPC7bits.INT2IP
+
+struct tagI2C_flags {
+	unsigned int bInUse:1;		// in use right now
+	unsigned int bERROR:1;		// in use right now, restarting
+	unsigned int bMagCfg:1;		// mag config - should be 1
+	unsigned int bMagCal:1;		// mag calibration
+	unsigned int bMagReady:1;	// mag needs to be read
+	unsigned int bAccCfg:1;		// Acc config - should be 1
+	unsigned int bAccCal:1;		// Acc calibration
+	unsigned int bAccReady:1;	// Accelerometer needs to be read
+	unsigned int bReadMag:1;	// reading mag
+	unsigned int bReadAcc:1;	// reading Accelerometer
+	unsigned int bReadEE1:1;	// reading EE Prom, stage 1
+	unsigned int bReadEE2:1;	// reading EE Prom, stage 2
+	unsigned int bReadEE3:1;	// reading EE Prom, stage 3 (done)
+	unsigned int bWriteEE1:1;	// write EE Prom, stage 1
+	unsigned int bWriteEE2:1;	// write EE Prom, stage 2
+	unsigned int bWriteEE3:1;	// write EE Prom, stage 2 (done)
+};
 
 // Most all the other I/O is used by a smart peripheral or not connected to anything

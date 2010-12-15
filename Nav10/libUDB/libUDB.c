@@ -53,14 +53,14 @@ _FSS ( SWRP_WRPROTECT_OFF );	// no secure sections
 _FGS( GSS_OFF &					// no code protect
 		GCP_OFF &
 		GWRP_OFF );
-_FOSCSEL(FNOSC_LPRCDIVN &		// fast RC plus PLL
-		IESO_ON );				// include file is WRONG
+_FOSCSEL( FNOSC_FRC &			// external clock + PLL enabled in code
+		IESO_OFF );				// include file is WRONG
 _FOSC(	FCKSM_CSECMD &			// clocks and monitor enabled
-		OSCIOFNC_ON &			// Fcy output on OSC2
-		POSCMD_NONE );
+		OSCIOFNC_OFF &			// Fcy output on OSC2
+		POSCMD_EC );
 _FWDT(	FWDTEN_OFF &			// wdt's disabled
 		WINDIS_OFF ) ;
-_FPOR(	FPWRT_PWR1 ) ;			// fast powerup, will need to change for ext osc
+_FPOR(	FPWRT_PWR32 ) ;			// fast powerup, will need to change for ext osc
 _FICD(	JTAGEN_OFF &			// jtag off and use 2nd set for ICSP
 		ICS_PGD2 ) ;
 #endif
@@ -81,19 +81,24 @@ void udb_init(void)
 	CLKDIVbits.PLLPRE = 1 ;
 	PLLFBDbits.PLLDIV = 50 ; // FOSC = 32 MHz (FRC = 7.37MHz, N1=3, N2=4, M = 52)
 #elif (BOARD_TYPE == ASPG_BOARD)
+	RCONbits.SWDTEN = 0;		// make sure its disabled
+	ClrWdt();
+
 	OSCTUNbits.TUN = 21;		// boost speed up to 8MHz, FRC = 7.37MHz + 21*30kHz
-	CLKDIVbits.PLLPRE = 0 ;		// pre devide = 2 (8MHz / 2 = 4MHz)
+	CLKDIVbits.PLLPRE = 1 ;		// pre devide = 3 (12MHz / 3 = 4MHz)
 	PLLFBDbits.PLLDIV = 40-2 ; 	// Fvco = 160 MHz (4MHz x 40 = 160Mhz)
 	CLKDIVbits.PLLPOST = 0;		// FOSC = Fvco / 2 = 80MHz
 
 	// Clock switch to incorporate PLL
-	__builtin_write_OSCCONH(0x01);				// Initiate Clock Switch to
-												// FRC with PLL (NOSC=0b001)
+	__builtin_write_OSCCONH(0x03);				// Initiate Clock Switch to
+												// EC with PLL (NOSC=0b001)
 	__builtin_write_OSCCONL(0x01);				// Start clock switching
-
-	while (OSCCONbits.COSC != 0b001);			// Wait for Clock switch to occur
-
 	while(OSCCONbits.LOCK!=1) {};				// Wait for PLL to lock
+//	oLED3 = LED_ON;
+
+//	oLED1 = LED_ON;
+	while (OSCCONbits.COSC != 0b011);			// Wait for Clock switch to occur
+//	oLED2 = LED_ON;
 
 #endif
 

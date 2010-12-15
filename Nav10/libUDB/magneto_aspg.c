@@ -26,7 +26,8 @@
 
 #if (BOARD_TYPE == ASPG_BOARD)
 
-const unsigned char enableMagRead[] =        { 0x3C , 0x00 , 0x10 , 0x20 , 0x00 } ;
+//const unsigned char enableMagRead[] =        { 0x3C , 0x00 , 0x10 , 0x20 , 0x00 } ;
+const unsigned char enableMagRead[] =        { 0x3C , 0x00 , 0x18 , 0x20 , 0x00 } ;	// changed to 50Hz output
 const unsigned char enableMagCalibration[] = { 0x3C , 0x00 , 0x11 , 0x20 , 0x01 } ;
 const unsigned char resetMagnetometer[]    = { 0x3C , 0x00 , 0x10 , 0x20 , 0x02 } ;
 
@@ -99,10 +100,31 @@ void (* I2C_state ) ( void ) = &I2C_idle ;
 #else
 #error Must define SYS_I2C 1 or 2
 #endif
-#define I2C2_BRGVAL 59
+#define I2C2_BRGVAL 395
 #define I2C_NORMAL ((( I2C2CON & 0b0000000000011111 ) == 0) && ( (I2C2STAT & 0b0100010011000001) == 0 ))
 
+// buffer for EEProm read / write, ACC and MAG use their own private buffers
+#define I2C_BUF_LEN 128		// page write size
+char __attribute__ ((section(".myDataSection"),address(0x2280))) I2C_buffer[I2C_BUF_LEN];	// read and write
+int	I2C_Head, I2C_Tail;
 
+struct tagI2C_flags I2C_flags;	// defined in ConfigASPG.h
+//	unsigned int bInUse:1;		// in use right now
+//	unsigned int bERROR:1;		// in use right now, restarting
+//	unsigned int bMagCfg:1;		// mag config - should be 1
+//	unsigned int bMagCal:1;		// mag calibration
+//	unsigned int bMagReady:1;	// mag needs to be read
+//	unsigned int bAccCfg:1;		// Acc config - should be 1
+//	unsigned int bAccCal:1;		// Acc calibration
+//	unsigned int bAccReady:1;	// Accelerometer needs to be read
+//	unsigned int bReadMag:1;	// reading mag
+//	unsigned int bReadAcc:1;	// reading Accelerometer
+//	unsigned int bReadEE1:1;	// reading EE Prom, stage 1
+//	unsigned int bReadEE2:1;	// reading EE Prom, stage 2
+//	unsigned int bReadEE3:1;	// reading EE Prom, stage 3 (done)
+//	unsigned int bWriteEE1:1;	// write EE Prom, stage 1
+//	unsigned int bWriteEE2:1;	// write EE Prom, stage 2
+//	unsigned int bWriteEE3:1;	// write EE Prom, stage 2 (done)
 
 void udb_init_I2C2(void)
 {
@@ -122,6 +144,12 @@ void udb_init_I2C2(void)
 	MI2CIE = 1 ; // master enable the interrupt
 
 	I2CCONbits.I2CEN = 1 ; 						// enable I2C
+#if ( MAG_YAW_DRIFT == 1 )
+	MAG_INTpr = 2, MAG_DRt = 1, MAG_INTf = 0, MAG_INTpo = 0;
+	MAG_INTe = 1;	// input pin, int on high & enabled, cleared
+#endif
+	ACC_INTpr = 2, ACC_DRt = 1, ACC_INTf = 0, ACC_INTpo = 0;
+	ACC_INTe = 1;	// input pin, int on high & enabled, cleared
 
 	return ;
 }
@@ -134,6 +162,9 @@ int I2messages = 0 ;
 void rxMagnetometer(void)  // service the magnetometer
 {
 	int magregIndex ;
+	if (oLED2 == LED_OFF)
+		oLED2 = LED_ON;
+	else oLED2 = LED_OFF;
 #if ( MAG_YAW_DRIFT == 1 )
 	I2messages++ ;
 #if ( LED_RED_MAG_CHECK == 1 )
@@ -233,6 +264,9 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 {
     indicate_loading_inter ;
 	MI2CIF = 0 ; // clear the interrupt
+	if (oLED1 == LED_OFF)
+		oLED1 = LED_ON;
+	else oLED1 = LED_OFF;
 	(* I2C_state) () ; // execute the service routine
 	return ;
 }
@@ -393,4 +427,23 @@ void I2C_idle(void)
 	return ;
 }
 
+// function triggers reading the mag in response to it raising DRDY
+void __attribute__((__interrupt__,__no_auto_psv__)) _INT1Interrupt(void)
+{
+    indicate_loading_inter ;
+	_INT1IF = 0;
+	I2C_flags.bMagReady = 1;
+	if ( !I2C_flags.bInUse )
+		rxMagnetometer();
+}
+
+// function triggers reading the ACC in response to it raising INT1
+void __attribute__((__interrupt__,__no_auto_psv__)) _INT2Interrupt(void)
+{
+    indicate_loading_inter ;
+	_INT2IF = 0;
+	I2C_flags.bAccReady = 1;
+	if ( !I2C_flags.bInUse )
+		rxMagnetometer();
+}
 #endif

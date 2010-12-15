@@ -47,6 +47,11 @@ extern unsigned int cpu_timer ;
 // "Timer On" function loses clock cycles in the timer. 
 // So the software makes a test using a parallel variable
 // called timer_5_on.
+// pfg note: this is because of prescale - ASPG doesn't use
+#if (BOARD_TYPE == ASPG_BOARD)
+#define indicate_loading_inter	T5CONbits.TON = 1
+#define indicate_loading_main	T5CONbits.TON = 0
+#else
 #define indicate_loading_inter		if ( timer_5_on == 0 )	\
 									{						\
 										T5CONbits.TON = 1 ;	\
@@ -58,7 +63,7 @@ extern unsigned int cpu_timer ;
 										T5CONbits.TON = 0 ;	\
 										timer_5_on = 0 ;	\
 									}
-
+#endif
 
 // When ISRs fire during dsp math calls, state is not preserved properly, so we
 // have to help preserve extra register state on entry and exit from ISRs.

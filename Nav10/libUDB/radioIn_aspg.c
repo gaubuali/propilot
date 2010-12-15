@@ -37,9 +37,11 @@ int udb_pwTrim[65] ;	// initial pulse widths for trimming ** CHANGED ** now Q15
 int failSafePulses = 0 ;
 WORD	T2_OF;						// count of T2 wraps
 
+// in the macro below T=Pin type, P=Port number, B=Bit, G=Global index, L=Length
+// what these should do is described in the first page of Mixer.xls - work in progress
 #define RC_PIN( T, P, B, G, L) { 0, 0, 0, 0, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, T, P, B, 0, G, L }
 
-PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x1800))) = {
+PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x2800))) = {
 		RC_PIN(0,0,0,0,0),				// unused
 		RC_PIN(12,3,8,RC_START+0,0),	// RC1
 		RC_PIN(12,3,9,RC_START+1,0),	// RC2
@@ -57,20 +59,20 @@ PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x1800))) = {
 		RC_PIN( 6,3, 5,6,0),			// SERVO6
 		RC_PIN( 6,3, 6,7,0),			// SERVO7
 		RC_PIN( 6,3, 7,8,0),			// SERVO8
-		RC_PIN(19,2,4,RC_START+8,0),	// IT1 - nominally going to put these in the pwmIn array
-		RC_PIN(19,2,3,RC_START+9,0),	// IT2
-		RC_PIN(19,2,2,RC_START+10,0),	// IT3
-		RC_PIN(19,2,1,RC_START+11,0),	// IT4
-		RC_PIN(3,2,5,RC_START+12,0),	// BUZZER
-		RC_PIN(3,6,15,RC_START+13,0),	// OUT1
-		RC_PIN(3,0,14,RC_START+14,0),	// ISCP1_AUX1
-		RC_PIN(3,0,15,RC_START+15,0),	// ISCP1_AUX2
-		RC_PIN(1,1,6,RC_START+16,0),	// SAmps
-		RC_PIN(1,1,7,RC_START+17,0),	// SVolt
-		RC_PIN(1,1,0,RC_START+18,0),	// AUX_AN1
-		RC_PIN(1,1,1,RC_START+19,0),	// AUX_AN2
-		RC_PIN(1,1,3,RC_START+20,0),	// AUX_AN3
-		RC_PIN(1,1,4,RC_START+21,0),	// AUX_AN4
+		RC_PIN(19,2,4,AUX_START+8,0),	// IT1 - nominally going to put these in the pwmIn array
+		RC_PIN(19,2,3,AUX_START+9,0),	// IT2
+		RC_PIN(19,2,2,AUX_START+10,0),	// IT3
+		RC_PIN(19,2,1,AUX_START+11,0),	// IT4
+		RC_PIN(3,2,5,AUX_START+12,0),	// BUZZER
+		RC_PIN(3,6,15,AUX_START+13,0),	// OUT1
+		RC_PIN(3,0,14,AUX_START+14,0),	// ISCP1_AUX1
+		RC_PIN(3,0,15,AUX_START+15,0),	// ISCP1_AUX2
+		RC_PIN(1,1,6,AUX_START+16,0),	// SAmps
+		RC_PIN(1,1,7,AUX_START+17,0),	// SVolt
+		RC_PIN(1,1,0,AUX_START+18,0),	// AUX_AN1
+		RC_PIN(1,1,1,AUX_START+19,0),	// AUX_AN2
+		RC_PIN(1,1,3,AUX_START+20,0),	// AUX_AN3
+		RC_PIN(1,1,4,AUX_START+21,0),	// AUX_AN4
 };
 
 void udb_init_capture(void)
@@ -119,6 +121,7 @@ void udb_init_capture(void)
 	return ;
 }
 
+// Input type digital pins - see servoOut for digital output pin handler
 void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 {
 	DWORD	dwTemp;
@@ -202,40 +205,44 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->wPrivate[0];
 				}
 			}
-			// TODO: add checks for sync pulse, has to get index into range to store
-			if (dwTemp > RC_PWM_MAX)						// limit values
-				wTemp = RC_PWM_MAX;
-			else if (dwTemp < RC_PWM_MIN)
-					wTemp = RC_PWM_MIN;
-				else {										// normal range pulse
-					wTemp = dwTemp;
-					lpTag->bFS_ON = 0, lpTag->iFS_Count = 0;
-				}
-			wTemp -= RC_PWM_CENTER;							// turn value into quasi Q15
-#if (RC_PWM_Q15 == 8)
-			wTemp = wTemp << 3;
-#else
-			wTemp *= RC_PWM_Q15;
-#endif
-			lpTag->qValue = wTemp;						// record it
-			if ( (lpTag->iIndex >= 1) && (lpTag->iIndex <= 9) )	// only 8 channels right now
-			{	lpTag->iBuffer[lpTag->iIndex++] = wTemp;	// record this channel
-				lpTag->iUpdate++;							// mark as updated
-				if ( lpTag->bFS_EN )						// do old fail safe check
-					if ( (wTemp > FAILSAFE_INPUT_MIN) && (wTemp < FAILSAFE_INPUT_MAX ) )
-					{	failSafePulses++ ;
-					} else {
-						failSafePulses = 0 ;
-						udb_flags._.radio_on = 0 ;
-						LED_GREEN = LED_OFF ;
+			// DONE: add checks for sync pulse, has to get index into range to store
+			if ( (dwTemp > RC_PPM_SYNC) && (dwTemp < RC_PPM_MAX) )	// good sync values
+				lpTag->iIndex = 1;
+			else {
+				if (dwTemp > RC_PWM_MAX)						// limit values
+					wTemp = RC_PWM_MAX;
+				else if (dwTemp < RC_PWM_MIN)
+						wTemp = RC_PWM_MIN;
+					else {										// normal range pulse
+						wTemp = dwTemp;
+						lpTag->bFS_ON = 0, lpTag->iFS_Count = 0;
 					}
-				else ;
-				if ( lpTag->iGlobal != 0)
-					udb_pwIn[lpTag->iGlobal] = wTemp;		// store in global controls too
-				else ;
-			}
+				wTemp -= RC_PWM_CENTER;							// turn value into quasi Q15
+	#if (RC_PWM_Q15 == 8)
+				wTemp = wTemp << 3;
+	#else
+				wTemp *= RC_PWM_Q15;
+	#endif
+				lpTag->qValue = wTemp;						// record it
+				if ( (lpTag->iIndex >= 1) && (lpTag->iIndex <= 9) )	// only 8 channels right now
+				{	lpTag->iBuffer[lpTag->iIndex++] = wTemp;	// record this channel
+					lpTag->iUpdate++;							// mark as updated
+					if ( lpTag->bFS_EN )						// do old fail safe check
+						if ( (wTemp > FAILSAFE_INPUT_MIN) && (wTemp < FAILSAFE_INPUT_MAX ) )
+						{	failSafePulses++ ;
+						} else {
+							failSafePulses = 0 ;
+							udb_flags._.radio_on = 0 ;
+							LED_GREEN = LED_OFF ;
+						}
+					else ;
+					if ( lpTag->iGlobal != 0)						// store in global controls too
+						udb_pwIn[lpTag->iGlobal + lpTag->iIndex - 1] = wTemp; // both of these 1 based
+					else ;
+				}; // end of in range to store
+			} // end of check for SYNC pulse
 		}
-	break;
+	break; // end case 16 & 17
 	}
 }
 // Timer 2 interrupt
