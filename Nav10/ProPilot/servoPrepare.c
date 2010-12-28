@@ -21,6 +21,12 @@
 
 #include "defines.h"
 
+#if (BOARD_TYPE == ASPG_BOARD)
+#define SERVO_CENTER 7500
+#else
+#define SERVO_CENTER 3000
+#endif
+
 //	routines to drive the PWM pins for the servos,
 //	assumes the use of the 16MHz crystal.
 
@@ -42,10 +48,10 @@ void init_servoPrepare( void )	// initialize the PWM
 
 	int i;
 	for (i=0; i <= NUM_INPUTS; i++)
-		udb_pwTrim[i] = udb_pwIn[i] = ((i == THROTTLE_INPUT_CHANNEL) ? 0 : 3000) ;
+		udb_pwTrim[i] = udb_pwIn[i] = ((i == THROTTLE_INPUT_CHANNEL) ? 0 : SERVO_CENTER) ;
 	
 	for (i=0; i <= NUM_OUTPUTS; i++)
-		udb_pwOut[i] = ((i == THROTTLE_OUTPUT_CHANNEL) ? 0 : 3000) ;
+		udb_pwOut[i] = ((i == THROTTLE_OUTPUT_CHANNEL) ? 0 : SERVO_CENTER) ;
 	
 #if (NORADIO == 1)
 	udb_pwIn[MODE_SWITCH_INPUT_CHANNEL] = udb_pwTrim[MODE_SWITCH_INPUT_CHANNEL] = 4000 ;

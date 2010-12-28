@@ -57,13 +57,13 @@ void udb_background_callback_periodic(void)
 	if ( udb_flags._.radio_on )
 	{
 		//	Select manual, automatic, or come home, based on pulse width of the switch input channel as defined in options.h.
-		if ( udb_pwIn[MODE_SWITCH_INPUT_CHANNEL] > MODE_SWITCH_THRESHOLD_HIGH )
+		if ( udb_pwIn[MODE_SWITCH_INPUT_CHANNEL+8] > MODE_SWITCH_THRESHOLD_HIGH )
 		{
 			flags._.man_req = 0 ;
 			flags._.auto_req = 0 ;
 			flags._.home_req = 1 ;
 		}
-		else if ( udb_pwIn[MODE_SWITCH_INPUT_CHANNEL] > MODE_SWITCH_THRESHOLD_LOW )
+		else if ( udb_pwIn[MODE_SWITCH_INPUT_CHANNEL+8] > MODE_SWITCH_THRESHOLD_LOW )
 		{
 			flags._.man_req = 0 ;
 			flags._.auto_req = 1 ;

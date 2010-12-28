@@ -27,6 +27,7 @@
 
 int main (void)
 {
+	RCON = 0;
 	udb_init() ;
 	dcm_init() ;
 	init_servoPrepare() ;

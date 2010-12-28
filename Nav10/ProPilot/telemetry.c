@@ -375,7 +375,7 @@ int telemetry_counter = 6 ;
 int skip = 0 ;
 
 #if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
-int pwIn_save[NUM_INPUTS + 1] ;
+int pwIn_save[NUM_INPUTS + 1 + 8] ;
 int pwOut_save[NUM_OUTPUTS + 1] ;
 char print_choice = 0 ;
 #endif
@@ -476,7 +476,7 @@ void serial_output_8hz( void )
 				// Save  pwIn and PwOut buffers for printing next time around
 				int i ;
 				for (i=0; i <= NUM_INPUTS; i++)
-					pwIn_save[i] = udb_pwIn[i] ;
+					pwIn_save[i] = udb_pwIn[i+7] ;
 				for (i=0; i <= NUM_OUTPUTS; i++)
 					pwOut_save[i] = udb_pwOut[i] ;
 				print_choice = 1 ;
@@ -485,9 +485,9 @@ void serial_output_8hz( void )
 			{
 				int i ;
 				for (i= 1; i <= NUM_INPUTS; i++)
-					serial_output("p%ii%i:",i,pwIn_save[i]);
+					serial_output("p%ii%i:",i,(int)(pwIn_save[i]/16)+3000);
 				for (i= 1; i <= NUM_OUTPUTS; i++)
-					serial_output("p%io%i:",i,pwOut_save[i]);
+					serial_output("p%io%i:",i,(int)(pwOut_save[i]/2.5));
 				serial_output("imx%i:imy%i:imz%i:fgs%X:",IMUlocationx._.W1 ,IMUlocationy._.W1 ,IMUlocationz._.W1, flags.WW );
 #if (RECORD_FREE_STACK_SPACE == 1)
 				serial_output("stk%d:", (int)(4096-maxstack));
@@ -559,7 +559,7 @@ void serial_output_8hz( void )
 {
 	if (++skip == 2)
 	{
-		serial_output("MagOffset: %i, %i, %i\r\nMagBody: %i, %i, %i\r\nMagEarth: %i, %i, %i\r\nMagGain: %i, %i, %i\r\nCalib: %i, %i, %i\r\nMagMessage: %i\r\nTotalMsg: %i\r\nI2CCON: %X, I2CSTAT: %X, I2ERROR: %X\r\n\r\n" ,
+		serial_output("MagOffset: %i, %i, %i\r\nMagBody: %i, %i, %i\r\nMagEarth: %i, %i, %i\r\nMagGain: %i, %i, %i\r\nCalib: %i, %i, %i\r\nMagMessage: %i\r\nTotalMsg: %i\r\nI2CCON: %X, I2CSTAT: %X, I2ERROR: %04X\r\n\r\n" ,
 			udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT ,
 			udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] ,
 			magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] ,

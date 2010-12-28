@@ -74,11 +74,13 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
 						if ( temp != 0 ) // check for special case of -32768 = botom of range so the now 0 works
-							temp = temp >> 1; // fast /2
+							temp = temp >> 3; // fast /4
 					} else {
-							temp = temp >> 1; // fast /2
-							temp += 0x4000; // get into top half of range
+							temp = temp >> 3; // fast /4
+							temp += 0x1000; // get into top half of range
 					}
+					if ( temp >= 0x2000 ) temp = 0x1fff; // fix range
+					temp = temp << 2;
 					temp1 = toQ15(1.0) - temp; // get the other side
 					iFactor &= 0xffc0; // kill third input channel bits
 					tempA.WW = __builtin_mulss( temp1 , iFactor );
@@ -91,12 +93,14 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					temp = udb_pwIn[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
-						if ( temp != 0 ) // check for special case of -32768
-							temp = temp >> 1; // fast /2
+						if ( temp != 0 ) // check for special case of -32768 = botom of range so the now 0 works
+							temp = temp >> 3; // fast /4
 					} else {
-							temp = temp >> 1; // fast /2
-							temp += 0x4000; // get into top half of range
+							temp = temp >> 3; // fast /4
+							temp += 0x1000; // get into top half of range
 					}
+					if ( temp >= 0x2000 ) temp = 0x1fff; // fix range
+					temp = temp << 2;
 					temp1 = toQ15(1.0) - temp; // get the other side
 					iFactor &= 0xffc0; // kill third input channel bits
 					tempA.WW = __builtin_mulss( temp1 , iInputCH );
@@ -107,12 +111,14 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					temp = udb_pwIn[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
-						if ( temp != 0 ) // check for special case of -32768
-							temp = temp >> 1; // fast /2
+						if ( temp != 0 ) // check for special case of -32768 = botom of range so the now 0 works
+							temp = temp >> 3; // fast /4
 					} else {
-							temp = temp >> 1; // fast /2
-							temp += 0x4000; // get into top half of range
+							temp = temp >> 3; // fast /4
+							temp += 0x1000; // get into top half of range
 					}
+					if ( temp >= 0x2000 ) temp = 0x1fff; // fix range
+					temp = temp << 2;
 					temp1 = toQ15(1.0) - temp; // get the other side
 					iFactor &= 0xffc0; // kill third input channel bits
 					tempA.WW = __builtin_mulss( temp1 , iInputCH );
@@ -192,7 +198,7 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 				case 16: // overide "type" for output scale Ticks = Out * Scale + Offset.
 						if ( OutA > toQ15(1.0) ) OutA = toQ15(1.0);
 						if ( OutA < toQ15(-1.0) ) OutA = toQ15(-1.0);
-						OutB  = ((((long)iFactor * OutA) >> 16)) + (*pThisMixer).iScales[0];
+						OutB  = ((((long)iFactor * OutA) >> 13)) + (*pThisMixer).iScales[0];
 						*ticks = (WORD)OutB;
 				break;
 				case 17: // overide "type" for per channel limit later
@@ -214,13 +220,14 @@ void servoMix( void )
 	// test radio once, a good compiler will produce less and faster code
 	if (udb_flags._.radio_on == 0)
 	{	for (iCH = 1; iCH <= 64; iCH++)
-		udb_pwIn[iCH] = udb_pwTrim[iCH];		// is Q15
+		if ( iCH != (MODE_SWITCH_INPUT_CHANNEL + 7))
+			udb_pwIn[iCH] = udb_pwTrim[iCH];		// is Q15
 	}
 
 	udb_pwIn[1] = roll_control + waggle;
 	udb_pwIn[2] = pitch_control;
 	udb_pwIn[3] = yaw_control - waggle;
-	udb_pwIn[4] = altitude_control;
+	udb_pwIn[4] = throttle_control;
 // TODO: mass changes to camera outputs - they are tied to the old pwm rates
 
 	if (udb_flags._.radio_on && flags._.pitch_feedback)
@@ -234,6 +241,7 @@ void servoMix( void )
 		iOut = bankMix( pThisChannel, &iPulse );
 		udb_pwOut[iCH] = iPulse;
 		DIO[iCH + SERVO_PIN_START - 1].iBuffer[DIO[iCH + SERVO_PIN_START - 1].iIndex++] = iOut;	// record it for history
+//		DIO[iCH + SERVO_PIN_START - 1].iBuffer[DIO[iCH + SERVO_PIN_START - 1].iIndex++] = udb_pwOut[iCH];	// record it for history
 	}; // end of for ( iCH = 1; iCH <= NUM_OUTPUTS; iCH++ )
 }
 

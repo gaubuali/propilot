@@ -230,8 +230,8 @@
 // Often the Flap channel will be controlled by a 3-position switch.
 // These are the thresholds for the cutoffs between low and middle, and between middle and high.
 // Normal signals should fall within about 2000 - 4000.
-#define MODE_SWITCH_THRESHOLD_LOW			2600
-#define MODE_SWITCH_THRESHOLD_HIGH			3400
+#define MODE_SWITCH_THRESHOLD_LOW			0
+#define MODE_SWITCH_THRESHOLD_HIGH			15000
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -248,8 +248,8 @@
 // FAILSAFE_INPUT_MIN and _MAX define the range within which we consider the radio on.
 // Normal signals should fall within about 2000 - 4000.
 #define FAILSAFE_INPUT_CHANNEL				THROTTLE_INPUT_CHANNEL
-#define FAILSAFE_INPUT_MIN					1500
-#define FAILSAFE_INPUT_MAX					4500
+#define FAILSAFE_INPUT_MIN					-27990
+#define FAILSAFE_INPUT_MAX					27990
 
 // FAILSAFE_TYPE controls the UDB's behavior when in failsafe mode due to loss of transmitter
 // signal.  (Set to FAILSAFE_RTL or FAILSAFE_MAIN_FLIGHTPLAN.)
@@ -285,7 +285,7 @@
 // SERIAL_UDB_EXTRA can be used with the OpenLog without characters being dropped.
 // SERIAL_UDB_EXTRA may result in dropped characters if used with the XBEE wireless transmitter.
 #define SERIAL_OUTPUT_FORMAT				SERIAL_MAGNETOMETER
-#define SERIAL_OUTPUT_BAUD					57600
+#define SERIAL_OUTPUT_BAUD					115200
 #define SERIAL_OUTPUT_INVERT				1
 
 ////////////////////////////////////////////////////////////////////////////////
