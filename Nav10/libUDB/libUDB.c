@@ -71,7 +71,51 @@ union udb_fbts_byte udb_flags ;
 boolean timer_5_on = 0 ;
 boolean needSaveExtendedState = 0 ;
 int defaultCorcon = 0 ;
+WORD wSP_Save;
+typedef struct tagRESETS {
+unsigned int StackError:1;
+unsigned int ACA_OVAERR:1;
+unsigned int ACA_COVAERR:1;
+unsigned int ACB_OVBERR:1;
+unsigned int ACB_COVBERR:1;
+unsigned int DIV0_Err:1;
+unsigned int STF_Err:1;
+unsigned int MATH_Err:1;
+unsigned int DMA_Err:1;
+unsigned int OSC_Err:1;
+unsigned int ADDR_Err:1;
+} NMI;
+NMI	SaveNMI = {0}; // clear
 
+void __attribute__((__interrupt__,__no_auto_psv__)) _DefaultInterrupt(void)
+{
+	WORD wSP_Temp;
+//	__asm__("mov WREG0,WREG15");
+//	__asm__("mov wSP_Temp,WREG0");
+	if ( _STKERR )
+		SaveNMI.StackError = 1;
+	if ( _OVAERR )
+		SaveNMI.ACA_OVAERR = 1;
+	if ( _COVAERR )
+		SaveNMI.ACA_COVAERR = 1;
+	if ( _OVBERR )
+		SaveNMI.ACB_OVBERR = 1;
+	if ( _COVBERR )
+		SaveNMI.ACB_COVBERR = 1;
+	if ( _SFTACERR )
+		SaveNMI.STF_Err = 1;
+	if ( _MATHERR )
+		SaveNMI.MATH_Err = 1;
+	if ( _DMACERR )
+		SaveNMI.DMA_Err = 1;
+	if ( _OSCFAIL || _CF )
+		SaveNMI.OSC_Err = 1;
+	if ( _ADDRERR )
+		SaveNMI.ADDR_Err = 1;
+	
+	wSP_Save = wSP_Temp;
+	__asm__("RESET");
+}
 
 void udb_init(void)
 {

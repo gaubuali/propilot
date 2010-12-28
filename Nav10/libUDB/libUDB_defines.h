@@ -143,7 +143,7 @@ struct udb_flag_bits {
 // UXBRG = (Fcy/(16*BaudRate))-1
 // UXBRG = ((32000000/2)/(16*9600))-1
 // UXBRG = 103
-#define UDB_BAUD(x)		((int)((FREQOSC / CLK_PHASES) / ((long)16 * x) - 1))
+#define UDB_BAUD(x)		((int)((FREQOSC / CLK_PHASES) / ((long)4 * x) - 1))
 
 
 // LED states

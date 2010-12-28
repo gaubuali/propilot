@@ -216,6 +216,7 @@ void udb_serial_callback_received_char(char rxchar);	// Call back
 // Output packet to the serial port
 // Don't mix this with the serial_start_sending / serial_callback mechanism
 void udb_serial_send_packet( unsigned char *ucpData, int len );
+void udb_serial_send_string( unsigned char *ucpData );
 #endif
 
 

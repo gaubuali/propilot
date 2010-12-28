@@ -48,7 +48,7 @@ void udb_init_GPS(void)
 	U1MODEbits.LPBACK = 0;	// Bit6 No Loop Back
 	U1MODEbits.ABAUD = 0;	// Bit5 No Autobaud (would require sending '55')
 	U1MODEbits.URXINV = 0;	// Bit4 IdleState = 1  (for dsPIC)
-	U1MODEbits.BRGH = 0;	// Bit3 16 clocks per bit period
+	U1MODEbits.BRGH = 1;	// Bit3 4 clocks per bit period
 	U1MODEbits.PDSEL = 0;	// Bits1,2 8bit, No Parity
 	U1MODEbits.STSEL = 0;	// Bit0 One Stop Bit
 	
@@ -205,7 +205,7 @@ void udb_init_USART(void)
 #else
 	U2MODEbits.URXINV = 0;	// Bit4 IdleState = 1  (for dsPIC)
 #endif
-	U2MODEbits.BRGH = 0;	// Bit3 16 clocks per bit period
+	U2MODEbits.BRGH = 1;	// Bit3 4 clocks per bit period
 	U2MODEbits.PDSEL = 0;	// Bits1,2 8bit, No Parity
 	U2MODEbits.STSEL = 0;	// Bit0 One Stop Bit
 	
@@ -314,6 +314,45 @@ void udb_serial_send_packet( unsigned char *ucpData, int len )
 			iU2Head = 0;
 		else ;
 	} while (len > 0);
+
+	_U2TXIF = 1 ; // fire the tx interrupt
+
+}
+
+// send a null terminated string to UART2
+void udb_serial_send_string( unsigned char *ucpData )
+{
+	int len = 0;
+//	// check and limit len, max send first 511 bytes
+//	if ( len > 511 )
+//		len = 511;
+//	else ;
+	// check if still have data to transmit, if not we reset pointers to begin of buffer
+	if (iU2Head == iU2Tail)
+	{	_DI();	// have to make sure no interrupt
+		iU2Head = 0, iU2Tail = 0;	// reset - also make it easy to see what's going on
+		_EI();
+	};
+	// first xfer data to private buffer
+//	if ( (iU2Head + len) < TX_BUF_LEN )	// case of data fits with one memcpy
+//	{	memcpy( &U2TX_buffer[iU2Head], ucpData, len );
+//		iU1Head += len;
+//	} else {							// will take multiple copies
+//		memcpy( &U2TX_buffer[iU2Head], ucpData, (TX_BUF_LEN - iU2Head) );
+//		ucpData += (TX_BUF_LEN - iU2Head);	// next address
+//		len -= (TX_BUF_LEN - iU2Head);		// what's left
+//		memcpy( &U2TX_buffer[0], ucpData, len );
+//		iU2Head = len;
+//	}
+
+	while ((len < 511) && *ucpData) 
+	{	// when memcpy no longer fails this will be removed
+		U2TX_buffer[iU2Head] = *ucpData;
+		iU2Head++, ucpData++, len++;
+		if ( iU2Head > TX_BUF_LEN )
+			iU2Head = 0;
+		else ;
+	};
 
 	_U2TXIF = 1 ; // fire the tx interrupt
 

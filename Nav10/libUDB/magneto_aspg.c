@@ -27,7 +27,7 @@
 #if (BOARD_TYPE == ASPG_BOARD)
 
 //const unsigned char enableMagRead[] =        { 0x3C , 0x00 , 0x10 , 0x20 , 0x00 } ;
-const unsigned char enableMagRead[] =        { 0x3C , 0x00 , 0x18 , 0x20 , 0x00 } ;	// changed to 50Hz output
+const unsigned char enableMagRead[] =        { 0xA6 , 0x00 , 0x18 , 0x20 , 0x00 } ;	// changed to 50Hz output
 const unsigned char enableMagCalibration[] = { 0x3C , 0x00 , 0x11 , 0x20 , 0x01 } ;
 const unsigned char resetMagnetometer[]    = { 0x3C , 0x00 , 0x10 , 0x20 , 0x02 } ;
 
@@ -131,10 +131,10 @@ void udb_init_I2C2(void)
 
 	tI2C_SDA(0), tI2C_SCL(0);					// set them as outputs for later
 	I2CCON = 0;									// clear
-	I2CBRG = I2C2_BRGVAL;						// config baud rate
+	I2CBRG = I2C2_BRGVAL*10;						// config baud rate
 	I2CCONbits.SCLREL = 1;
-	I2CCONbits.DISSLW = 1 ;						// config I2C
-	I2CTRN = 0, I2CRCV = 0;						// make sure clear
+	I2CCONbits.DISSLW = 0 ;						// config I2C
+//	I2CTRN = 0, I2CRCV = 0;						// make sure clear
 
 //	SI2CIP = 5 ; // slave I2C at priority 5
 	MI2CIP = 5 ; // master I2C at priority 5
@@ -162,9 +162,9 @@ int I2messages = 0 ;
 void rxMagnetometer(void)  // service the magnetometer
 {
 	int magregIndex ;
-	if (oLED2 == LED_OFF)
-		oLED2 = LED_ON;
-	else oLED2 = LED_OFF;
+	if (oLED1 == LED_OFF)
+		oLED1 = LED_ON;
+	else oLED1 = LED_OFF;
 #if ( MAG_YAW_DRIFT == 1 )
 	I2messages++ ;
 #if ( LED_RED_MAG_CHECK == 1 )
@@ -190,7 +190,7 @@ void rxMagnetometer(void)  // service the magnetometer
 	} 	else 	{
 		I2C_state = &I2C_idle;		// disable the response to any more interrupts
 		magMessage = 0; 			// start over again
-		I2ERROR = I2CSTAT ; 		// record the error for diagnostics
+//		I2ERROR = I2CSTAT ; 		// record the error for diagnostics
 		I2CCONbits.I2CEN = 0; 		// turn off the I2C
 		MI2CIF = 0;					// clear the I2C master interrupt
 		MI2CIE = 0; 				// disable the interrupt
@@ -264,9 +264,9 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 {
     indicate_loading_inter ;
 	MI2CIF = 0 ; // clear the interrupt
-	if (oLED1 == LED_OFF)
-		oLED1 = LED_ON;
-	else oLED1 = LED_OFF;
+	if (oLED2 == LED_OFF)
+		oLED2 = LED_ON;
+	else oLED2 = LED_OFF;
 	(* I2C_state) () ; // execute the service routine
 	return ;
 }
@@ -306,11 +306,15 @@ void I2C_readMagData(void)
 	return ;
 }
 
+unsigned char test_adr = 1;
 
 void I2C_startReadMagData(void)
 {
 	I2C_state = &I2C_recen ;
-	I2CTRN = 0x3D ;
+//	I2CTRN = 0x3D ;
+//	I2CTRN = 0xA7 ;
+	test_adr += 2;
+	I2CTRN = test_adr ;
 	return ;
 }
 
@@ -318,6 +322,7 @@ void I2C_recen(void)
 {
 	if ( I2CSTATbits.ACKSTAT == 1 )  // magnetometer not responding
 	{
+		I2ERROR = I2CSTAT ; 		// record the error for diagnostics
 		magMessage = 0 ; // start over
 		I2CCONbits.PEN = 1; // stop the bus
 		I2C_state = &I2C_idle ; 

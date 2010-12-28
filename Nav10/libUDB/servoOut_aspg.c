@@ -36,6 +36,7 @@
 // FRAME_PRE is the T3 pre-load value
 // FRAME_ROLL is the roll over for iFrameCounter
 // This 40000 value also gives a very handy 1mSec timer rate
+
 #define USEC_DIV 40
 #define FRAME_40HZ_CNT 25
 #define FRAME_40HZ_PR 40000
@@ -46,7 +47,7 @@
 #define FRAME_ROLL 100
 #define FRAME_CNT FRAME_40HZ_CNT
 #define FRAME_PRE FRAME_40HZ_PR
-#define SERVO_OUT_OFFSET 2
+#define SERVO_OUT_OFFSET 1
 
 #define TMR3_PERIOD FRAME_PRE
 
@@ -61,6 +62,12 @@ int iFrameCounter = 0;
 union longlongww tagUSec;		// top 10 bits come from else were ie gps or gcs
 union longlongww tagUSec_x40;	// this + t3 = cpu cyles
 DWORD	dwMilliSec;				// milliseconds counter, roll over ~= 49.7 days
+
+typedef struct tagOCM {			// "structure" of the 3 registers that control an
+	WORD OCRS;					// output compare module.
+	WORD OCR;
+	WORD OCCON;					// we only need the low 3 bits, the others are all default (0)
+} OCM, *LPOCM;
 
 void udb_init_pwm( void )	// initialize the PWM
 {
@@ -154,7 +161,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 		iFrameCounter = 0;
 	else ;
 
-	if ( (iFrameCounter & 1) )
+	if ( (iFrameCounter & 1) ) // only start them on odd millisec counts 
 	{	switch ( (iFrameCounter % FRAME_50HZ_CNT) >> 1  ) {
 		case 1 + SERVO_OUT_OFFSET: // start OC1 - this will end up in a pin function
 //			wTemp = TMR2 + 5;	// start clean
@@ -236,13 +243,16 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 				udb_flags._.radio_on = 0 ;
 				LED_GREEN = LED_OFF ;
 			}
-			else if ( failSafePulses >= 2 )
+			else if ( failSafePulses >= 10 )
 			{
 				udb_flags._.radio_on = 1 ;
 				LED_GREEN = LED_ON ;
+				failSafePulses = 11;
 			}
+			else if ( failSafePulses > 0 )
+				failSafePulses--;
 			twentyHertzCounter = 0 ;
-			failSafePulses = 0 ;
+			
 		}
 
 		udb_servo_callback_prepare_outputs() ;
@@ -299,6 +309,83 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _OC8Interrupt(void)
 {
 	IFS2bits.OC8IF = 0; // Clear Output Compare 8 Interrupt Flag
 	OC8CON = 0;			// TODO: need to write actual pin handler
+}
+
+// Output type digital pins - see radioIn for digital input pin handler
+// 6	Single channel 50Hz PWM output, open drain disabled
+// 7	Single channel 50Hz PWM output, open drain enabled (normally use this if you can)
+// 8	Single channel 450Hz PWM output, open drain disabled
+// 9	Single channel 450Hz PWM output, open drain enabled (normally use this)
+// 10	Multi channel 50Hz PWM output, open drain disabled (4017's)
+// 11	Multi channel 50Hz PWM output, open drain enabled (4017's normally use this)
+//
+// iState = zero if called from OC interrupt, non-zero called from T3 interrupt
+//			T3 interrupt call used to re-start the sequence for multi-channel outputs
+//			or make sure 450Hz single channel is running (OCxCON != zero)
+//			or start the single pulse output for 50Hz output
+void do_pin( int iState, LPPIN lpTag, LPOCM lpOCModule )
+{
+//	DWORD	dwTemp;
+	WORD	wTemp, wTemp2;
+	switch( lpTag->iType ) {
+	case 6: 	// 6	Single channel 50Hz PWM output, open drain disabled
+	case 7: 	// 7	Single channel 50Hz PWM output, open drain enabled (normally use this if you can)
+		if ( iState )
+		{
+			wTemp2 = udb_pwOut[lpTag->iGlobal];     // get PWM on time
+			if ( wTemp2 == 0 )
+				break;                              // if its zero then do nothing
+			else ;
+			_DI();
+			wTemp = TMR2 + 15;
+			lpOCModule->OCR = wTemp;                // turn on 15 x 8 Tcy from now
+			wTemp += wTemp2;
+			lpOCModule->OCRS = wTemp;               // turn off time
+			lpOCModule->OCCON = 4;                  // delayed one shot mode
+			_EI();
+		};
+	break;		// end case 6 + 7
+	case 8: 	// 8	Single channel 450Hz PWM output, open drain disabled
+	case 9: 	// 9	Single channel 450Hz PWM output, open drain enabled (normally use this)
+		if ( lpOCModule->OCCON == 0)                    // module not running
+		{   // delay calculated to make total PWM period at least 2222 uSec (450Hz)
+			// that works out to 11111 T2 counts - just over the 2.2 mSec servo out max
+			// techically it will always be a little slower because of interrupt latency
+			wTemp2 = udb_pwOut[lpTag->iGlobal];     // get PWM on time
+			if ( wTemp2 == 0 )
+				break;                              // if its zero then do nothing
+			else ;
+			wTemp = 11111 - wTemp2;
+			if ( wTemp < 15 )
+				wTemp = 15;                         // min delay time
+			else ;
+			_DI();                                  // disable interrupts while
+			wTemp += TMR2;                          // actually setting these registers
+			lpOCModule->OCR = wTemp;                // turn on time
+			wTemp += wTemp2;
+			lpOCModule->OCRS = wTemp;               // turn off time
+			lpOCModule->OCCON = 4;                  // delayed one shot mode
+			_EI();                                  // re-enable
+		};
+	break;		// end case 8 + 9
+	case 10:	// 10	Multi channel 50Hz PWM output, open drain disabled (4017's)
+	case 11:	// 11	Multi channel 50Hz PWM output, open drain enabled (4017's normally use this)
+		if ( iState )
+		{
+			wTemp2 = udb_pwOut[lpTag->iGlobal];     // get PWM on time
+			if ( wTemp2 == 0 )
+				break;                              // if its zero then do nothing
+			else ;
+			_DI();
+			wTemp = TMR2 + 15;
+			lpOCModule->OCR = wTemp;                // turn on 15 x 8 Tcy from now
+			wTemp += wTemp2;
+			lpOCModule->OCRS = wTemp;               // turn off time
+			lpOCModule->OCCON = 4;                  // delayed one shot mode
+			_EI();
+		};
+	break;		// end case 10 + 11
+	}
 }
 
 #endif

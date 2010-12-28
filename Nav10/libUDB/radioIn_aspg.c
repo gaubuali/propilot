@@ -20,6 +20,7 @@
 
 
 #include "libUDB_internal.h"
+#include <stdio.h>
 
 #if (BOARD_TYPE == ASPG_BOARD)
 
@@ -36,6 +37,7 @@ int udb_pwTrim[65] ;	// initial pulse widths for trimming ** CHANGED ** now Q15
 
 int failSafePulses = 0 ;
 WORD	T2_OF;						// count of T2 wraps
+unsigned char ucPWMTest[30];
 
 // in the macro below T=Pin type, P=Port number, B=Bit, G=Global index, L=Length
 // what these should do is described in the first page of Mixer.xls - work in progress
@@ -100,7 +102,7 @@ void udb_init_capture(void)
 	tRC1 = 1, tRC2 = 1, tRC3 = 1, tRC4 = 1;		// set them all as inputs
 	tRC5 = 1, tRC6 = 1, tRC7 = 1, tRC8 = 1;
 	
-	//	set the interrupt priorities to 6
+	//	set the interrupt priorities to 6, same as timer
 	_IC1IP = 6, _IC2IP = 6, _IC3IP = 6, _IC4IP = 6;
 	_IC5IP = 6, _IC6IP = 6, _IC7IP = 6, _IC8IP = 6 ;
 	
@@ -156,8 +158,8 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 			else if (dwTemp < RC_PWM_MIN)
 					wTemp = RC_PWM_MIN;
 				else {										// normal range pulse
-					wTemp = dwTemp;
-					lpTag->bFS_ON = 0, lpTag->iFS_Count = 0;
+					wTemp = dwTemp;							// only actual valid range pulse lengths
+					lpTag->bFS_ON = 0, lpTag->iFS_Count = 0; // can reset it back to ok
 				}
 			wTemp -= RC_PWM_CENTER;							// turn value into quasi Q15
 #if (RC_PWM_Q15 == 8)
@@ -165,12 +167,16 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 #else
 			wTemp *= RC_PWM_Q15;
 #endif
-			lpTag->qValue = wTemp;						// record it
-			lpTag->iBuffer[lpTag->iIndex++] = wTemp;	// record it for history
-//			if ( lpTag->iIndex > 16) lpTag->iIndex = 0; // wrap history (forgot its bitfield, autowrap)
-			lpTag->iUpdate++;							// mark as updated
-			if ( lpTag->bFS_EN )						// do old fail safe check
-				if ( (wTemp > FAILSAFE_INPUT_MIN) && (wTemp < FAILSAFE_INPUT_MAX ) )
+			lpTag->qValue = wTemp;							// record it
+//			if ( lpTag->bFS_EN )							// just print this one
+//			{	sprintf( ucPWMTest, "%6ld, %6d\r\n", dwTemp, lpTag->qValue );
+//				udb_serial_send_string( &ucPWMTest[0] );
+//			};
+			lpTag->iBuffer[lpTag->iIndex++] = wTemp;		// record it for history
+//			if ( lpTag->iIndex > 16) lpTag->iIndex = 0; 	// wrap history (forgot its bitfield, autowrap)
+			lpTag->iUpdate++;								// mark as updated
+			if ( lpTag->bFS_EN )							// do old fail safe check
+				if ( (lpTag->qValue > FAILSAFE_INPUT_MIN) && (lpTag->qValue < FAILSAFE_INPUT_MAX ) )
 				{	failSafePulses++ ;
 				} else {
 					failSafePulses = 0 ;
@@ -179,7 +185,7 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 				}
 			else ;
 			if ( lpTag->iGlobal != 0)
-			{	udb_pwIn[lpTag->iGlobal] = wTemp;		// store in global controls too
+			{	udb_pwIn[lpTag->iGlobal] = wTemp;			// store in global controls too
 			} else ;
 		}
 	break; // case 12, 13, 14 and 15
@@ -223,7 +229,7 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 	#else
 				wTemp *= RC_PWM_Q15;
 	#endif
-				lpTag->qValue = wTemp;						// record it
+				lpTag->qValue = wTemp;							// record it
 				if ( (lpTag->iIndex >= 1) && (lpTag->iIndex <= 9) )	// only 8 channels right now
 				{	lpTag->iBuffer[lpTag->iIndex++] = wTemp;	// record this channel
 					lpTag->iUpdate++;							// mark as updated
@@ -256,18 +262,17 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T2Interrupt(void)
 // Input Channel 1
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 {
-	_IC1IF = 0 ; // clear the interrupt
 	indicate_loading_inter ;
 	while ( IC1CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC1BUF, iRC1, &DIO[RC_PIN_START] );
+		rc_pin( IC1BUF, iRC1, &DIO[RC_PIN_START + 0] );
 #else
 		unsigned int time ;
 		time = IC1BUF;	// just need to read it
 #endif
 	}
-	
+	_IC1IF = 0 ; // clear the interrupt
 	return ;
 }
 
@@ -275,7 +280,6 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 // Input Channel 2
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC2Interrupt(void)
 {
-	_IC2IF = 0 ; // clear the interrupt
 	indicate_loading_inter ;
 	while ( IC2CONbits.ICBNE )
 	{
@@ -286,6 +290,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC2Interrupt(void)
 		time = IC2BUF;	// just need to read it
 #endif
 	}
+	_IC2IF = 0 ; // clear the interrupt
 	return ;
 }
 
@@ -293,7 +298,6 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC2Interrupt(void)
 // Input Channel 3
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC3Interrupt(void)
 {
-	_IC3IF = 0 ; // clear the interrupt
 	indicate_loading_inter ;
 	while ( IC3CONbits.ICBNE )
 	{
@@ -304,6 +308,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC3Interrupt(void)
 		time = IC3BUF;	// just need to read it
 #endif
 	}
+	_IC3IF = 0 ; // clear the interrupt
 	return ;
 }
 
@@ -311,7 +316,6 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC3Interrupt(void)
 // Input Channel 4
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC4Interrupt(void)
 {
-	_IC4IF =  0 ; // clear the interrupt
 	indicate_loading_inter ;
 	while ( IC4CONbits.ICBNE )
 	{
@@ -322,6 +326,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC4Interrupt(void)
 		time = IC4BUF;	// just need to read it
 #endif
 	}
+	_IC4IF =  0 ; // clear the interrupt
 	return ;
 }
 
@@ -329,17 +334,17 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC4Interrupt(void)
 // Input Channel 5
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC5Interrupt(void)
 {
-	_IC5IF =  0 ; // clear the interrupt
 	indicate_loading_inter ;
 	while ( IC5CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC5BUF, iRC5, &DIO[RC_PIN_START + 4] );
+		rc_pin( IC5BUF, iRC5, &DIO[RC_PIN_START + 6] );
 #else
 		unsigned int time ;
 		time = IC5BUF;	// just need to read it
 #endif
 	}
+	_IC5IF =  0 ; // clear the interrupt
 	return ;
 }
 
@@ -347,17 +352,17 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC5Interrupt(void)
 // Input Channel 6
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC6Interrupt(void)
 {
-	_IC6IF =  0 ; // clear the interrupt
 	indicate_loading_inter ;
 	while ( IC6CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC6BUF, iRC6, &DIO[RC_PIN_START + 5] );
+		rc_pin( IC6BUF, iRC6, &DIO[RC_PIN_START + 7] );
 #else
 		unsigned int time ;
 		time = IC6BUF;	// just need to read it
 #endif
 	}
+	_IC6IF =  0 ; // clear the interrupt
 	return ;
 }
 
@@ -365,17 +370,17 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC6Interrupt(void)
 // Input Channel 7
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC7Interrupt(void)
 {
-	_IC7IF =  0 ; // clear the interrupt
 	indicate_loading_inter ;
 	while ( IC7CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC7BUF, iRC7, &DIO[RC_PIN_START + 6] );
+		rc_pin( IC7BUF, iRC7, &DIO[RC_PIN_START + 5] );
 #else
 		unsigned int time ;
 		time = IC7BUF;	// just need to read it
 #endif
 	}
+	_IC7IF =  0 ; // clear the interrupt
 	return ;
 }
 
@@ -383,17 +388,19 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC7Interrupt(void)
 // Input Channel 8
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC8Interrupt(void)
 {
-	_IC8IF =  0 ; // clear the interrupt
 	indicate_loading_inter ;
 	while ( IC8CONbits.ICBNE )
 	{
 #if ( NORADIO == 0 )
-		rc_pin( IC8BUF, iRC8, &DIO[RC_PIN_START + 7] );
+		rc_pin( IC8BUF, iRC8, &DIO[RC_PIN_START + 4] );
 #else
 		unsigned int time ;
 		time = IC8BUF;	// just need to read it
 #endif
 	}
+	_IC8IF =  0 ; // clear the interrupt
+	return ;
+}
 
 /* save example of old code
 			unsigned int time ;
@@ -429,7 +436,5 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC8Interrupt(void)
 		#endif
 
 */
-	return ;
-}
 
 #endif
