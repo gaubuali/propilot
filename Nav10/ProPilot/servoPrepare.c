@@ -37,9 +37,7 @@ int pitch_control, roll_control, yaw_control, throttle_control ;
 char eightHertzCounter = 0 ;
 boolean startTelemetry = 0 ;
 
-
 void manualPassthrough( void ) ;
-
 
 void init_servoPrepare( void )	// initialize the PWM
 {
@@ -47,14 +45,14 @@ void init_servoPrepare( void )	// initialize the PWM
 	gpscount = 1000 ;	// wait 25 seconds for GPS to initialize
 
 	int i;
-	for (i=0; i <= NUM_INPUTS; i++)
+	for (i=1; i <= NUM_INPUTS; i++)
 		udb_pwTrim[i] = udb_pwIn[i] = ((i == THROTTLE_INPUT_CHANNEL) ? 0 : SERVO_CENTER) ;
 	
-	for (i=0; i <= NUM_OUTPUTS; i++)
+	for (i=1; i <= NUM_OUTPUTS; i++)
 		udb_pwOut[i] = ((i == THROTTLE_OUTPUT_CHANNEL) ? 0 : SERVO_CENTER) ;
 	
 #if (NORADIO == 1)
-	udb_pwIn[MODE_SWITCH_INPUT_CHANNEL] = udb_pwTrim[MODE_SWITCH_INPUT_CHANNEL] = 4000 ;
+	udb_pwIn[MODE_SWITCH_INPUT_CHANNEL] = udb_pwTrim[MODE_SWITCH_INPUT_CHANNEL] = SERVO_CENTER ;
 #endif
 	
 	return ;

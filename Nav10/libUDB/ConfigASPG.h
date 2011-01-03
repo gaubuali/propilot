@@ -63,14 +63,14 @@
 	3 = use current or basically ignore the condition, 4 = use -0.7, 5 = use +0.7,
 	6 and 7 still need to defined.
 
-	Type defines usage for this pin – not all types are valid for all pins and setting a non-possible
+	Type defines usage for this pin ï¿½ not all types are valid for all pins and setting a non-possible
 	type for a pin will produce at best garbage and at worst a lockup. Used during init to set tris
-	registers etc – be careful with this. The Port and Pin values are used to address the correct
+	registers etc ï¿½ be careful with this. The Port and Pin values are used to address the correct
 	config registers and need to be correct. Initially these would only apply to the servo output
 	and rc input pins but could be used for the extra pins that are going to be available with the
 	new boards.
 	0	unused, don't do anything
-	1	Analog input, makes sure the AdxPCFG are cleared – nominally they should be on powerup
+	1	Analog input, makes sure the AdxPCFG are cleared ï¿½ nominally they should be on powerup
 	2	Digital output, open drain disabled
 	3	Digital output, open drain enabled (normally use this for CLR on 4017's)
 	4	Digital input, pull up disabled
@@ -113,10 +113,10 @@ typedef struct tagPin {
 	unsigned int	iFS_CMD:3;		// action to take in fail safe.
 	unsigned int	bFS_EN:1;		// fail safe enabled
 	unsigned int	iUpdate:6;		// needs / has update
+	unsigned int	iIndex:4;		// keeps track of were it is in sequences
 	unsigned int	iType:5;		// pin type, see comments
 	unsigned int	iPort:3;		// cpu port, 0=A, 1=B etc
 	unsigned int	iPin:4;			// pin within port
-	unsigned int	iIndex:4;		// keeps track of were it is in sequences
 	unsigned int	iGlobal:6;		// Index into global data arrays, eg pwIn for radio rx etc
 	unsigned int	iGlen:2;		// number of spots taken, 0=1, 1=8,
 	unsigned int	iSpare:8;		// unused
@@ -124,8 +124,12 @@ typedef struct tagPin {
 		int iPrivate[4];
 		long lPrivate[2];
 		WORD wPrivate[4];
+		DWORD dwPrivate[2];
 	};
-	int	iBuffer[16];	// globally available data, can be 16 history of 1 each or 15 x 1 each, 0 unused
+	union {
+		int	iBuffer[16];	// globally available data, can be 16 history of 1 each or 15 x 1 each, 0 unused
+		WORD wBuffer[16];
+	};
 } PIN, *LPPIN;
 
 /* Mixer structure notes:
@@ -226,7 +230,7 @@ typedef union tagMixer {
 #define LOW_ANALOGS (AUX_AN1 | AUX_AN2 | AUX_AN3 | AUX_AN4 | SAmps | SVolt)
 #define HIGH_ANALOGS (YRateH | YRateL | TempY | VRef_Y | XRateH | XRateL | TempXZ | VRef_XZ | ZRateH | ZRateL )
 
-// define the analogs in each scan list, AD1 module used for gyros (DO NOT ADD TO THIS LIST) – all high
+// define the analogs in each scan list, AD1 module used for gyros (DO NOT ADD TO THIS LIST) all high
 // this is critical, don't touch without mods in analog2digital_aspg.c
 #define AD1_LIST HIGH_ANALOGS
 #define NUM_AD1_LIST 10

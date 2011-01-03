@@ -58,19 +58,19 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 	{
 		if ( iMix == (MIX_PER_CHANNEL - 1) )	// last mixer is always hardware scale
 			uiType = 16;
-		else uiType = (*pThisMixer).nType.iType;
+		else uiType = pThisMixer->nType.iType;
 		if ( uiType != 0 )
 		{
-			iInputCH = udb_pwIn[(*pThisMixer).nType.iInpCH];		// get these in one spot to save code space
-			iInputSSI = udb_pwIn[(*pThisMixer).nType.iInpSSI];
-			iFactor = (*pThisMixer).nType.iFactor;
+			iInputCH = udb_pwIn[pThisMixer->nType.iInpCH];		// get these in one spot to save code space
+			iInputSSI = udb_pwIn[pThisMixer->nType.iInpSSI];
+			iFactor = pThisMixer->nType.iFactor;
 
 			switch ( uiType )
 			{
 				case 0: // unused, skip
 				break;
 				case 1: // Out += Inputs[InputCH] * Factor * (1.0-Balance) + Inputs[InputSSI] * Factor * Balance
-					temp = udb_pwIn[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
+					temp = udb_pwIn[pThisMixer->pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
 						if ( temp != 0 ) // check for special case of -32768 = botom of range so the now 0 works
@@ -90,7 +90,7 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					OutA += tempA._.W1 + tempB._.W1;
 				break;
 				case 2: // Out += Inputs[InputCH] * (1.0-Balance) + Inputs[InputSSI] * Balance
-					temp = udb_pwIn[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
+					temp = udb_pwIn[pThisMixer->pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
 						if ( temp != 0 ) // check for special case of -32768 = botom of range so the now 0 works
@@ -108,7 +108,7 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					OutA += tempA._.W1 + tempB._.W1;
 				break;
 				case 3: // Out += Inputs[InputCH] * (1.0-Balance) + Inputs[InputSSI] * Factor * Balance
-					temp = udb_pwIn[(*pThisMixer).pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
+					temp = udb_pwIn[pThisMixer->pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
 						if ( temp != 0 ) // check for special case of -32768 = botom of range so the now 0 works
@@ -198,7 +198,7 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 				case 16: // overide "type" for output scale Ticks = Out * Scale + Offset.
 						if ( OutA > toQ15(1.0) ) OutA = toQ15(1.0);
 						if ( OutA < toQ15(-1.0) ) OutA = toQ15(-1.0);
-						OutB  = ((((long)iFactor * OutA) >> 13)) + (*pThisMixer).iScales[0];
+						OutB  = ((((long)iFactor * OutA) >> 13)) + pThisMixer->iScales[0];
 						*ticks = (WORD)OutB;
 				break;
 				case 17: // overide "type" for per channel limit later
@@ -211,8 +211,8 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 
 void servoMix( void )
 {
-	unsigned int iCH, iPulse, iOut;
-	LPMIXER pThisChannel;
+	unsigned int iCH, iPulse, iOut, uiTemp;
+//	LPMIXER pThisChannel;
 
 	// this would all change, just keeping for now
 
@@ -236,11 +236,17 @@ void servoMix( void )
 		udb_pwIn[0] = 255; // full scale value - autopilot in control
 	else udb_pwIn[0] = 0; // low value, no autopilot input
 
-	for ( iCH = 1, pThisChannel = &pMixers[0][0]; iCH <= NUM_OUTPUTS; iCH++, pThisChannel += MIX_PER_CHANNEL )
+//	for ( iCH = 1, pThisChannel = &pMixers[0][0]; iCH <= NUM_OUTPUTS; iCH++, pThisChannel += MIX_PER_CHANNEL )
+// TODO: this will need major mods to work for multi-channel outputs
+	for ( iCH = 1; iCH < NUM_OUTPUTS; iCH++ )
 	{
-		iOut = bankMix( pThisChannel, &iPulse );
+		iOut = bankMix( &pMixers[iCH][0], &iPulse );
 		udb_pwOut[iCH] = iPulse;
-		DIO[iCH + SERVO_PIN_START - 1].iBuffer[DIO[iCH + SERVO_PIN_START - 1].iIndex++] = iOut;	// record it for history
+		uiTemp = iCH + SERVO_PIN_START - 1;						// both one based
+		DIO[uiTemp].qValue = iOut;								// save
+		if ( DIO[uiTemp].iType < 10 )
+			DIO[uiTemp].iBuffer[DIO[uiTemp].iIndex++] = iOut;	// record it for history
+//		else DIO[uiTemp].iBuffer[DIO[uiTemp].iIndex] = iOut;	// record it for history
 //		DIO[iCH + SERVO_PIN_START - 1].iBuffer[DIO[iCH + SERVO_PIN_START - 1].iIndex++] = udb_pwOut[iCH];	// record it for history
 	}; // end of for ( iCH = 1; iCH <= NUM_OUTPUTS; iCH++ )
 }

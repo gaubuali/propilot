@@ -41,7 +41,8 @@ unsigned char ucPWMTest[30];
 
 // in the macro below T=Pin type, P=Port number, B=Bit, G=Global index, L=Length
 // what these should do is described in the first page of Mixer.xls - work in progress
-#define RC_PIN( T, P, B, G, L) { 0, 0, 0, 0, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, T, P, B, 0, G, L }
+#define RC_PIN( T, P, B, G, L)      { 0, 0, 0, 0, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, 0, T, P, B, G, L }
+#define RC_SERVO( T, P, B, G, L, S) { 0, 0, 0, 0, 0,                                                    0, 0, T, P, B, G, L, S }
 
 PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x2800))) = {
 		RC_PIN(0,0,0,0,0),				// unused
@@ -52,15 +53,15 @@ PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x2800))) = {
 		RC_PIN(12,3,12,RC_START+4,0),	// RC5
 		RC_PIN(12,3,13,RC_START+5,0),	// RC6
 		RC_PIN(12,3,14,RC_START+6,0),	// RC7
-		RC_PIN(12,3,15,RC_START+7,0),	// RC8
-		RC_PIN( 6,3, 0,1,0),			// SERVO1
-		RC_PIN( 6,3, 1,2,0),			// SERVO2
-		RC_PIN( 6,3, 2,3,0),			// SERVO3
-		RC_PIN( 6,3, 3,4,0),			// SERVO4
-		RC_PIN( 6,3, 4,5,0),			// SERVO5
-		RC_PIN( 6,3, 5,6,0),			// SERVO6
-		RC_PIN( 6,3, 6,7,0),			// SERVO7
-		RC_PIN( 6,3, 7,8,0),			// SERVO8
+		RC_PIN(16,3,15,RC_START+7,1),	// RC8
+		RC_SERVO( 6,3, 0,1,0,1),			// SERVO1
+		RC_SERVO( 6,3, 1,2,0,1),			// SERVO2
+		RC_SERVO( 6,3, 2,3,0,1),			// SERVO3
+		RC_SERVO( 6,3, 3,4,0,1),			// SERVO4
+		RC_SERVO( 6,3, 4,5,0,1),			// SERVO5
+		RC_SERVO( 6,3, 5,6,0,1),			// SERVO6
+		RC_SERVO( 6,3, 6,7,0,1),			// SERVO7
+		RC_SERVO(10,3, 7,8,1,1),			// SERVO8
 		RC_PIN(19,2,4,AUX_START+8,0),	// IT1 - nominally going to put these in the pwmIn array
 		RC_PIN(19,2,3,AUX_START+9,0),	// IT2
 		RC_PIN(19,2,2,AUX_START+10,0),	// IT3
@@ -77,6 +78,8 @@ PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x2800))) = {
 		RC_PIN(1,1,4,AUX_START+21,0),	// AUX_AN4
 };
 
+#define RC_INT_PRI 1
+
 void udb_init_capture(void)
 {
 	int i;
@@ -90,7 +93,7 @@ void udb_init_capture(void)
 	T2CONbits.TCS = 0 ;		// use the internal clock
 	T2CONbits.TON = 1 ;		// turn on timer 2
 	
-	_T2IP = 6, _T2IF = 0, _T2IE = 1;	// enable T2 interrupt
+	_T2IP = RC_INT_PRI, _T2IF = 0, _T2IE = 1;	// enable T2 interrupt
 
 	//	configure the capture pins
 	IC1CON = 0;				// clear all
@@ -103,8 +106,8 @@ void udb_init_capture(void)
 	tRC5 = 1, tRC6 = 1, tRC7 = 1, tRC8 = 1;
 	
 	//	set the interrupt priorities to 6, same as timer
-	_IC1IP = 6, _IC2IP = 6, _IC3IP = 6, _IC4IP = 6;
-	_IC5IP = 6, _IC6IP = 6, _IC7IP = 6, _IC8IP = 6 ;
+	_IC1IP = RC_INT_PRI, _IC2IP = RC_INT_PRI, _IC3IP = RC_INT_PRI, _IC4IP = RC_INT_PRI;
+	_IC5IP = RC_INT_PRI, _IC6IP = RC_INT_PRI, _IC7IP = RC_INT_PRI, _IC8IP = RC_INT_PRI ;
 	
 	//	clear the interrupts:
 	_IC1IF = 0, _IC2IF = 0, _IC3IF = 0, _IC4IF = 0;
@@ -198,14 +201,19 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 		{
 			lpTag->wPrivate[0] = wCounts;					// save value
 			lpTag->wPrivate[1] = T2_OF;						// save value
+			dwTemp = lpTag->lPrivate[0] - lpTag->lPrivate[1]; // calc space between pulses
+			if ( (dwTemp > RC_PPM_SYNC) && (dwTemp < RC_PPM_MAX) )	// good sync values
+				lpTag->iIndex = 1;							// also accepted as re-syncs
 		} else {		// pin changed to low -> end of pulse
+			lpTag->wPrivate[2] = wCounts;					// save value
+			lpTag->wPrivate[3] = T2_OF;						// save value
 			if ( T2_OF == lpTag->wPrivate[1] )				// check overflow
 			{
 				dwTemp = wCounts - lpTag->wPrivate[0];		// simple case
 			} else {										// complex case of T2 has wrapped
-				if ( T2_OF > lpTag->iPrivate[1])			// T2_OF wrap
+				if ( T2_OF > lpTag->wPrivate[1])			// T2_OF wrap
 				{
-					dwTemp = (((DWORD)T2_OF << 16) + wCounts) - lpTag->lPrivate[0];
+					dwTemp = lpTag->lPrivate[1] - lpTag->lPrivate[0];
 				} else {
 					wTemp = T2_OF - lpTag->wPrivate[1];		// this just works
 					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->wPrivate[0];
@@ -230,21 +238,22 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 				wTemp *= RC_PWM_Q15;
 	#endif
 				lpTag->qValue = wTemp;							// record it
-				if ( (lpTag->iIndex >= 1) && (lpTag->iIndex <= 9) )	// only 8 channels right now
-				{	lpTag->iBuffer[lpTag->iIndex++] = wTemp;	// record this channel
+				if ( (lpTag->iIndex >= 1) && (lpTag->iIndex <= 8) )	// must set in DIO array
+				{	lpTag->iBuffer[lpTag->iIndex] = wTemp;		// record this channel
 					lpTag->iUpdate++;							// mark as updated
 					if ( lpTag->bFS_EN )						// do old fail safe check
 						if ( (wTemp > FAILSAFE_INPUT_MIN) && (wTemp < FAILSAFE_INPUT_MAX ) )
-						{	failSafePulses++ ;
+						{	failSafePulses++ ;					// slow turn on
 						} else {
-							failSafePulses = 0 ;
+							failSafePulses = 0 ;				// instant turn off
 							udb_flags._.radio_on = 0 ;
 							LED_GREEN = LED_OFF ;
 						}
 					else ;
-					if ( lpTag->iGlobal != 0)						// store in global controls too
+					if ( lpTag->iGlobal != 0)					// store in global controls too
 						udb_pwIn[lpTag->iGlobal + lpTag->iIndex - 1] = wTemp; // both of these 1 based
 					else ;
+					lpTag->iIndex++;							// next one
 				}; // end of in range to store
 			} // end of check for SYNC pulse
 		}

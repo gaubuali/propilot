@@ -284,8 +284,8 @@
 // SERIAL_UDB_EXTRA will add additional telemetry fields to those of SERIAL_UDB.
 // SERIAL_UDB_EXTRA can be used with the OpenLog without characters being dropped.
 // SERIAL_UDB_EXTRA may result in dropped characters if used with the XBEE wireless transmitter.
-#define SERIAL_OUTPUT_FORMAT				SERIAL_MAGNETOMETER
-#define SERIAL_OUTPUT_BAUD					115200
+#define SERIAL_OUTPUT_FORMAT				SERIAL_UDB_EXTRA
+#define SERIAL_OUTPUT_BAUD					230400
 #define SERIAL_OUTPUT_INVERT				1
 
 ////////////////////////////////////////////////////////////////////////////////

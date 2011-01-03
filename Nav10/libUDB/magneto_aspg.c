@@ -27,9 +27,10 @@
 #if (BOARD_TYPE == ASPG_BOARD)
 
 //const unsigned char enableMagRead[] =        { 0x3C , 0x00 , 0x10 , 0x20 , 0x00 } ;
-const unsigned char enableMagRead[] =        { 0xA6 , 0x00 , 0x18 , 0x20 , 0x00 } ;	// changed to 50Hz output
+const unsigned char enableMagRead[] =        { 0xA0 , 0x00 ,  'P' , 'F' , 'G' } ;	// changed to 50Hz output
 const unsigned char enableMagCalibration[] = { 0x3C , 0x00 , 0x11 , 0x20 , 0x01 } ;
-const unsigned char resetMagnetometer[]    = { 0x3C , 0x00 , 0x10 , 0x20 , 0x02 } ;
+const unsigned char resetMagnetometer[] = { 0xA0 , 0x00 , 'P' , 'F' , 'G' } ; // write to address 000
+//const unsigned char resetMagnetometer[]    = { 0x3C , 0x00 , 0x10 , 0x20 , 0x02 } ;
 
 void I2C_readMagData(void) ;
 void I2C_writeMagCommand(void) ;
@@ -311,10 +312,11 @@ unsigned char test_adr = 1;
 void I2C_startReadMagData(void)
 {
 	I2C_state = &I2C_recen ;
+	I2CTRN = 0xA1 ;
 //	I2CTRN = 0x3D ;
 //	I2CTRN = 0xA7 ;
-	test_adr += 2;
-	I2CTRN = test_adr ;
+//	test_adr += 2;
+//	I2CTRN = test_adr ;
 	return ;
 }
 

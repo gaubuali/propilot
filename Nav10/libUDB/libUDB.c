@@ -193,7 +193,8 @@ void udb_init_leds( void )
 	_LATE1 = _LATE2 = _LATE3 = _LATE4 = LED_OFF ;
 #elif ( BOARD_TYPE == ASPG_BOARD)
 	tLED1 = tLED2 = tLED3 = tLED4 = 0 ;
-	oLED1 = oLED2 = oLED3 = oLED4 = LED_OFF ;
+	oLED1      = oLED2	  = oLED3	  = oLED4   = LED_OFF ;
+	LED_ORANGE = LED_BLUE = LED_GREEN = LED_RED = LED_OFF ;
 #endif
 	
 	return ;

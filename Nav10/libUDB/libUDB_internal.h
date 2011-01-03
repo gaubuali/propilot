@@ -39,7 +39,7 @@ extern boolean needSaveExtendedState ;
 extern boolean timer_5_on ;
 extern int defaultCorcon ;
 extern unsigned int cpu_timer ;
-
+extern WORD	T2_OF;					// count of T2 wraps
 //#define indicate_loading_main		//LATEbits.LATE4 = 0
 //#define indicate_loading_inter	//LATEbits.LATE4 = 1
 

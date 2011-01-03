@@ -297,20 +297,21 @@ void udb_init_accelerometer(void)
 
 void udb_init_ADC( void )
 {
+//	WORD	wTemp;
 	udb_init_gyros() ;
 	udb_init_accelerometer() ;
 
 	udb_flags._.firstsamp = 1 ;
 
 	AD1CSSL = AD1CSSH = AD2CSSL = 0 ; 	// start with no channels selected
-	AD2PCFGL = AD1PCFGL = !LOW_ANALOGS;	// have to set both AD cfg registers
-	AD1PCFGH = !HIGH_ANALOGS;			// ad2 only does first 16
+	AD2PCFGL = AD1PCFGL = ~LOW_ANALOGS;	// have to set both AD cfg registers
+	AD1PCFGH = ~HIGH_ANALOGS;			// ad2 only does first 16
 
 	AD1CSSH = AD1_LIST;				// ad1 scan list
 
 // configure the AD of the gyro's
 	AD1CON1bits.AD12B = 1 ;		// 12 bit A to D
-	AD1CON1bits.FORM = 2 ;		// int or fractional, vref = avss, can't be any other way
+	AD1CON1bits.FORM = 3 ;		// int or fractional, vref = avss, can't be any other way
 	AD1CON1bits.SSRC = 7 ;		// auto convert
 	AD1CON1bits.ASAM = 1 ;		// auto samp
 	AD1CON1bits.SIMSAM = 0 ;	// multiple channels in sequence
@@ -330,7 +331,7 @@ void udb_init_ADC( void )
 	AD1CON3bits.SAMC = 31 ;		// auto sample time = 30 TAD, approximately 148.80 microseconds
 
 //	AD2CON1bits.ADDMABM = 1 ;	// DMA buffer written in conversion order
-//	AD1CON2bits.SMPI = 5 ;		// 6 samples
+	AD1CON2bits.SMPI = NUM_AD1_LIST - 1;	// 10 samples
 //	AD2CON4bits.DMABL = 1 ;		// double buffering
 
 	_AD1IF = 0 ;		// clear the AD interrupt

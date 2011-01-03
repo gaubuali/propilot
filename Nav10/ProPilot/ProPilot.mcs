@@ -13,7 +13,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File001]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\behavior.o
 Folder=Intermediary
@@ -26,7 +26,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File002]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\cameraCntrl.o
 Folder=Intermediary
@@ -39,7 +39,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File003]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\main.o
 Folder=Intermediary
@@ -52,7 +52,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File004]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\navigate.o
 Folder=Intermediary
@@ -65,7 +65,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File005]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\pitchCntrl.o
 Folder=Intermediary
@@ -78,7 +78,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File006]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\rollCntrl.o
 Folder=Intermediary
@@ -91,7 +91,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File007]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\servoMix.o
 Folder=Intermediary
@@ -104,7 +104,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File008]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\states.o
 Folder=Intermediary
@@ -117,7 +117,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File009]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\yawCntrl.o
 Folder=Intermediary
@@ -130,7 +130,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File010]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\libUDB.o
 Folder=Intermediary
@@ -143,7 +143,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File011]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\telemetry.o
 Folder=Intermediary
@@ -156,7 +156,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File012]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\servoPrepare.o
 Folder=Intermediary
@@ -169,7 +169,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File013]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\estWind.o
 Folder=Intermediary
@@ -182,7 +182,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File014]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\estYawDrift.o
 Folder=Intermediary
@@ -195,7 +195,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File015]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\gpsParseCommon.o
 Folder=Intermediary
@@ -208,7 +208,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File016]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\gpsParseSTD.o
 Folder=Intermediary
@@ -221,7 +221,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File017]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\gpsParseUBX.o
 Folder=Intermediary
@@ -234,7 +234,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File018]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\mathlibNAV.o
 Folder=Intermediary
@@ -247,7 +247,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File019]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\rmat.o
 Folder=Intermediary
@@ -260,7 +260,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File020]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\libDCM.o
 Folder=Intermediary
@@ -273,7 +273,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File021]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\flightplan-waypoints.o
 Folder=Intermediary
@@ -286,7 +286,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File022]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\flightplan-logo.o
 Folder=Intermediary
@@ -299,7 +299,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File023]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\deadReckoning.o
 Folder=Intermediary
@@ -312,7 +312,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File024]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\mp_osd.o
 Folder=Intermediary
@@ -325,7 +325,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File025]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\analog2digital_aspg.o
 Folder=Intermediary
@@ -338,7 +338,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File026]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\background.o
 Folder=Intermediary
@@ -351,7 +351,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File027]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\magneto_aspg.o
 Folder=Intermediary
@@ -364,7 +364,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File028]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\osd.o
 Folder=Intermediary
@@ -377,7 +377,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File029]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\radioIn_aspg.o
 Folder=Intermediary
@@ -390,7 +390,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File030]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\serialIO_aspg.o
 Folder=Intermediary
@@ -403,7 +403,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File031]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\build\udb4\servoOut_aspg.o
 Folder=Intermediary
@@ -416,7 +416,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File032]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\ProPilot.cof
 Folder=Output
@@ -429,7 +429,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
-DebugOptions=
+DebugOptions=--defsym=__MPLAB_DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1 --defsym=__ICD2RAM=1
 [File033]
 Location=E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot\ProPilot.hex
 Folder=Output
@@ -442,7 +442,7 @@ SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl
 SuiteArgsString=
 ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
-DebugOptions=
+DebugOptions=--defsym=__MPLAB_DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1 --defsym=__ICD2RAM=1
 [TOOL_LOC_STAMPS]
 tool_loc{069BD372-6CA0-40D4-BF2F-5DC806D05083}=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 tool_loc{433C3D55-811D-409D-A6BF-159CF9355B42}=C:\Program Files\Microchip\MPLAB C30\bin\pic30-ld.exe

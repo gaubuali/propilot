@@ -49,6 +49,18 @@
 #define FRAME_PRE FRAME_40HZ_PR
 #define SERVO_OUT_OFFSET 1
 
+// this define sets the allowance for interrupt latency in PPM outputs
+// the 4017 clk input does not care how long the signal is high for
+// it only cares about rising edges, and we get the complete interrupt
+// on the falling edge of the signal - in order to make the outputs be
+// the actual time we want we have to start the following pulse at exactly
+// the right time, therefore we must end the previous one in time to
+// do all the calculations for the following one before that happens.
+// unlikely to work below 100.
+#define PPM_LATENCY 200
+// set sync length, 18000 counts = 3.6ms
+#define PPM_SYNC_COUNTS 18000
+
 #define TMR3_PERIOD FRAME_PRE
 
 #include "libUDB_internal.h"
@@ -69,12 +81,17 @@ typedef struct tagOCM {			// "structure" of the 3 registers that control an
 	WORD OCCON;					// we only need the low 3 bits, the others are all default (0)
 } OCM, *LPOCM;
 
+#define DO_INT_PRI 1
+
 void udb_init_pwm( void )	// initialize the PWM
 {
 	int i;
-	for (i=0; i <= NUM_OUTPUTS; i++)
+	for (i=1; i < 65; i++)
 		udb_pwOut[i] = 0;
 	
+	for (i=9; i <= 16; i++)
+		udb_pwOut[i] = 7700 + i;
+
 #if (NORADIO == 1)
 	udb_flags._.radio_on = 1 ;
 #endif
@@ -87,35 +104,35 @@ void udb_init_pwm( void )	// initialize the PWM
 	OC1R = OC2R = OC3R = OC4R = OC5R = OC6R = OC7R = OC8R = 0 ;  // no first pulse
 	OC1RS = OC2RS = OC3RS = OC4RS = OC5RS = OC6RS = OC7RS = OC8RS = 0 ; // initial pulse
 	
-	IPC0bits.OC1IP = 0x05; // Set Output Compare 1 Interrupt Priority Level
+	IPC0bits.OC1IP = DO_INT_PRI; // Set Output Compare 1 Interrupt Priority Level
 	IFS0bits.OC1IF = 0; // Clear Output Compare 1 Interrupt Flag
 	IEC0bits.OC1IE = 1; // Enable Output Compare 1 interrupt
 
-	IPC1bits.OC2IP = 0x05; // Set Output Compare 2 Interrupt Priority Level
+	IPC1bits.OC2IP = DO_INT_PRI; // Set Output Compare 2 Interrupt Priority Level
 	IFS0bits.OC2IF = 0; // Clear Output Compare 2 Interrupt Flag
 	IEC0bits.OC2IE = 1; // Enable Output Compare 2 interrupt
 
-	IPC6bits.OC3IP = 0x05; // Set Output Compare 3 Interrupt Priority Level
+	IPC6bits.OC3IP = DO_INT_PRI; // Set Output Compare 3 Interrupt Priority Level
 	IFS1bits.OC3IF = 0; // Clear Output Compare 3 Interrupt Flag
 	IEC1bits.OC3IE = 1; // Enable Output Compare 3 interrupt
 
-	IPC6bits.OC4IP = 0x05; // Set Output Compare 4 Interrupt Priority Level
+	IPC6bits.OC4IP = DO_INT_PRI; // Set Output Compare 4 Interrupt Priority Level
 	IFS1bits.OC4IF = 0; // Clear Output Compare 4 Interrupt Flag
 	IEC1bits.OC4IE = 1; // Enable Output Compare 4 interrupt
 
-	IPC10bits.OC5IP = 0x05; // Set Output Compare 5 Interrupt Priority Level
+	IPC10bits.OC5IP = DO_INT_PRI; // Set Output Compare 5 Interrupt Priority Level
 	IFS2bits.OC5IF = 0; // Clear Output Compare 5 Interrupt Flag
 	IEC2bits.OC5IE = 1; // Enable Output Compare 5 interrupt
 
-	IPC10bits.OC6IP = 0x05; // Set Output Compare 6 Interrupt Priority Level
+	IPC10bits.OC6IP = DO_INT_PRI; // Set Output Compare 6 Interrupt Priority Level
 	IFS2bits.OC6IF = 0; // Clear Output Compare 6 Interrupt Flag
 	IEC2bits.OC6IE = 1; // Enable Output Compare 6 interrupt
 
-	IPC10bits.OC7IP = 0x05; // Set Output Compare 7 Interrupt Priority Level
+	IPC10bits.OC7IP = DO_INT_PRI; // Set Output Compare 7 Interrupt Priority Level
 	IFS2bits.OC7IF = 0; // Clear Output Compare 7 Interrupt Flag
 	IEC2bits.OC7IE = 1; // Enable Output Compare 7 interrupt
 
-	IPC11bits.OC8IP = 0x05; // Set Output Compare 8 Interrupt Priority Level
+	IPC11bits.OC8IP = DO_INT_PRI; // Set Output Compare 8 Interrupt Priority Level
 	IFS2bits.OC8IF = 0; // Clear Output Compare 8 Interrupt Flag
 	IEC2bits.OC8IE = 1; // Enable Output Compare 8 interrupt
 
@@ -123,7 +140,7 @@ void udb_init_pwm( void )	// initialize the PWM
 	PR3 = TMR3_PERIOD ;		// set period register
 	T3CONbits.TCKPS = 0 ;	// prescaler = 0 option, counts at Tcy
 	T3CONbits.TCS = 0 ;		// use the internal clock
-	_T3IP = 3 ;				//
+	_T3IP = DO_INT_PRI ;	// Interrupt Priority Level
 	_T3IF = 0 ;				// clear the interrupt
 	_T3IE = 1 ;				// enable the interrupt
 	T3CONbits.TON = 1 ;		// turn on timer 3
@@ -131,10 +148,232 @@ void udb_init_pwm( void )	// initialize the PWM
 	return ;
 }
 
-
 void udb_set_action_state(boolean newValue)
 {
 	_LATE4 = newValue ;
+}
+
+// Output type digital pins - see radioIn for digital input pin handler
+// 6	Single channel 50Hz PWM output, open drain disabled
+// 7	Single channel 50Hz PWM output, open drain enabled (normally use this if you can)
+// 8	Single channel 450Hz PWM output, open drain disabled
+// 9	Single channel 450Hz PWM output, open drain enabled (normally use this)
+// 10	Multi channel 50Hz PWM output, open drain disabled (4017's)
+// 11	Multi channel 50Hz PWM output, open drain enabled (4017's normally use this)
+//
+// iState <= zero if called from OC interrupt, > zero called from T3 interrupt
+//			T3 interrupt call used to re-start the sequence for multi-channel outputs
+//			OR make sure 450Hz single channel is running (OCxCON != zero)
+//			OR start the single pulse output for single channel 50Hz output
+// iState = 1 for no assigned reset pin, supply exactly 10 pulses with last >3.5 mSec
+//				this also means iGlen MUST be 10 and last length will be calculated
+// iSpare contains the key for reset pin, = 1 for no reset pin
+//			2 or -2 = IT1 (RCx) reset, 3 or -3 = IT2 (RCx) for reset,
+//			4 or -4 = IT4 (RC1) reset, 5 or -5 = IT3 (RC2) for reset, 
+//			6 or -6 = Digital9 (RA14), 7 or -7 = Digital10 (RA15) for reset, 
+//			8 or -8 = OUT1 (RG15)    , 9 or -9 = BUZZER (RB5) for reset, 
+//
+void do_pin( int iState, LPPIN lpTag, LPOCM lpOCModule )
+{
+	DWORD	dwTemp;
+	WORD	wTemp, wTemp2;
+
+	wTemp2 = udb_pwOut[lpTag->iGlobal];     // get PWM on time
+	if ( wTemp2 == 0 )						// input invalid so don't do anything
+		return;
+	else ;
+
+	switch( lpTag->iType ) {
+	case 6: 	// 6	Single channel 50Hz PWM output, open drain disabled
+	case 7: 	// 7	Single channel 50Hz PWM output, open drain enabled (normally use this if you can)
+		lpOCModule->OCCON = 0;                  	// turn off
+		if ( iState > 0 )							// only do it when called from t3 interrupt
+		{
+			_DI();
+			wTemp = TMR2 + 5;
+			lpOCModule->OCR = wTemp;                // turn on 15 x 8 Tcy from now
+			wTemp += wTemp2;
+			lpOCModule->OCRS = wTemp;               // turn off time
+			lpOCModule->OCCON = 4;                  // delayed one shot mode
+			_EI();
+		};
+	break;		// end case 6 + 7
+	case 8: 	// 8	Single channel 450Hz PWM output, open drain disabled
+	case 9: 	// 9	Single channel 450Hz PWM output, open drain enabled (normally use this)
+		// module not running or called from OC interrupt - ignore calls from T3 once started
+		if ( (lpOCModule->OCCON == 0) || (iState < 0))
+		{   // delay calculated to make total PWM period at least 2222 uSec (450Hz)
+			// that works out to 11111 T2 counts - just over the 2.2 mSec servo out max
+			// techically it will always be a little slower because of interrupt latency
+			lpOCModule->OCCON = 0;					// turn off
+			wTemp = 11111 - wTemp2;					// total length, adjust this constant 
+			if ( wTemp < 5 )						// to allow for interrupt latency
+				wTemp = 5;							// min delay time
+			else ;
+			_DI();									// disable interrupts while
+			wTemp += TMR2;							// actually setting these registers
+			lpOCModule->OCR = wTemp;				// turn on time
+			wTemp += wTemp2;
+			lpOCModule->OCRS = wTemp;				// turn off time
+			lpOCModule->OCCON = 4;					// delayed one shot mode
+			_EI();									// re-enable
+		};
+	break;		// end case 8 + 9
+	case 10:	// 10	Multi channel 50Hz PWM output, open drain disabled (4017's)
+	case 11:	// 11	Multi channel 50Hz PWM output, open drain enabled (4017's normally use this)
+		switch ( iState ) {	// depends on reset pin what we do
+		case 0:
+		case 1:		// ppm output with no reset signal, once started keeps going
+			if ( lpOCModule->OCCON != 0)	// module is running - so ignore's call from T3 once started
+				break;
+			else ;
+		case -1:	// restart sequence at begining
+			lpOCModule->OCCON = 0;                 	// turn off
+			if ( lpTag->iIndex == 0 )
+			{	// soft resync - as there is no reset pin this only happens one time
+				wTemp2 = PPM_SYNC_COUNTS;			// do a sync pulse
+				wTemp = TMR2 + 20;					// R - when we actually start pulse
+				lpTag->wPrivate[0] = wTemp;			// save absolute start time
+				lpTag->wPrivate[1] = T2_OF;			// save absolute start time
+				lpTag->dwPrivate[1] = lpTag->dwPrivate[0] + wTemp2;	// store absolute start time
+				lpTag->dwPrivate[1] -= 100000L;		// store absolute start time
+				lpTag->wBuffer[0] = wTemp;			// start time of next pulse = len this one
+				goto PPM_NO_RESET;					// start it up
+			} else 
+			if ( lpTag->iIndex == 9 )
+			{	// variable length pulse to get us up to 20ms - sync pulse length
+				lpTag->iIndex = 10;
+				dwTemp = 100000L - (lpTag->dwPrivate[0] - lpTag->dwPrivate[1]);
+				if ( dwTemp < (PPM_SYNC_COUNTS + PPM_LATENCY) )		// going to be a problem, not enough counts for delay
+					dwTemp = PPM_LATENCY+1;			// use min possible
+				else dwTemp -= PPM_SYNC_COUNTS;		// leave this much time to calc delay
+				lpTag->dwPrivate[0] += dwTemp;		// add to start time
+				wTemp = lpTag->wBuffer[0];			// R - get short version
+				wTemp2 = wTemp + dwTemp;			// add actual start time
+				lpTag->wBuffer[0] = wTemp2;			// start time of next pulse = len this one
+				wTemp2 -= PPM_LATENCY;				// RS value with grace for interrupt overhead
+			} else
+			if ( lpTag->iIndex == 10 )
+			{	// sync pulse length - should be exact unless the 9th did not have enough counts available
+PPM_NO_RESET:
+				lpTag->iIndex = 1;					// and back to begining
+				dwTemp = 100000L - (lpTag->dwPrivate[0] - lpTag->dwPrivate[1]); // 20mSec - duration so far
+				if ( dwTemp < PPM_SYNC_COUNTS )	// going to be a problem, not enough counts for delay
+					dwTemp = PPM_SYNC_COUNTS;			// use min possible
+				else ;		// leave this much time to calc delay
+				lpTag->dwPrivate[0] += dwTemp;		// add to start time - should make exactly 100k counts
+				wTemp = lpTag->wBuffer[0];			// R - get short version
+				wTemp2 = wTemp + dwTemp;			// add actual start time
+				lpTag->wBuffer[0] = wTemp2;			// start time of next pulse = len this one
+				wTemp2 -= PPM_LATENCY;				// RS value with grace for interrupt overhead
+				lpTag->dwPrivate[1] = lpTag->dwPrivate[0];	// store absolute start time
+			} else {
+				wTemp = lpTag->iGlobal + lpTag->iIndex - 1; // both 1 based
+				wTemp2 = udb_pwOut[wTemp];			// get PWM on time
+				lpTag->dwPrivate[0] += wTemp2;		// add to start time
+				wTemp = lpTag->wBuffer[0];			// R - get short version
+				wTemp2 += wTemp;					// add actual start time
+				lpTag->wBuffer[0] = wTemp2;			// start time of next pulse = len this one
+				wTemp2 -= PPM_LATENCY;				// RS value with grace for interrupt overhead
+				lpTag->iIndex++;					// point to next one
+			}
+			_DI();									// disable interrupts while
+			lpOCModule->OCR = wTemp;				// turn on time
+			lpOCModule->OCRS = wTemp2;				// turn off time
+			lpOCModule->OCCON = 4;					// delayed one shot mode
+			_EI();									// re-enable
+		break;	// end case 1 & -1 (no reset pin)
+		case 2:	// IT1 reset pin
+			oIT1 = 1;				// reset on 4017
+			lpTag->iIndex = 1;
+			oIT1 = 0;				// release reset on 4017, restart index
+		case -2:
+			goto PPM_WITH_RESET;
+		break;	// end iState case 2 + -2
+		case 3:	// IT2 reset pin
+			oIT2 = 1;				// reset on 4017
+			lpTag->iIndex = 1;
+			oIT2 = 0;				// release reset on 4017
+		case -3:
+			goto PPM_WITH_RESET;
+		break;	// end iState case 3 + -3
+		case 4:	// IT3 reset pin
+			oIT3 = 1;				// reset on 4017
+			lpTag->iIndex = 1;
+			oIT3 = 0;				// release reset on 4017
+		case -4:
+			goto PPM_WITH_RESET;
+		break;	// end iState case 4 + -4
+		case 5:	// IT4 reset pin
+			oIT4 = 1;				// reset on 4017
+			lpTag->iIndex = 1;
+			oIT4 = 0;				// release reset on 4017
+		case -5:
+			goto PPM_WITH_RESET;
+		break;	// end iState case 5 + -5
+		case 6:	// DIGITAL9 reset pin
+			oDIGITAL9 = 1;			// reset on 4017
+			lpTag->iIndex = 1;
+			oDIGITAL9 = 0;			// release reset on 4017
+		case -6:
+			goto PPM_WITH_RESET;
+		break;	// end iState case 6 + -6
+		case 7:	// DIGITAL10 reset pin
+			oDIGITAL10 = 1;			// reset on 4017
+			lpTag->iIndex = 1;
+			oDIGITAL10 = 0;			// release reset on 4017
+		case -7:
+			goto PPM_WITH_RESET;
+		break;	// end iState case 7 + -7
+		case 8:	// OUT1 / Digital4 reset pin
+			oDIGITAL4 = 1;			// reset on 4017
+			lpTag->iIndex = 1;
+			oDIGITAL4 = 0;			// release reset on 4017
+		case -8:
+			goto PPM_WITH_RESET;
+		break;	// end iState case 8 + -8
+		case 9:	// Buzzer / AN5 reset pin
+			oBUZZER1 = 1;			// reset on 4017
+			lpTag->iIndex = 1;
+			oBUZZER1 = 0;			// release reset on 4017
+		case -9:
+PPM_WITH_RESET:
+			lpOCModule->OCCON = 0;                 	// turn off
+			if ( lpTag->iIndex == 1 )
+			{	
+				wTemp = TMR2 + 10;					// R - when we actually start pulse
+				lpTag->wPrivate[2] = wTemp;			// save absolute start time
+				lpTag->wPrivate[3] = T2_OF;			// save absolute start time
+				wTemp2 += wTemp;					// add actual start time
+				lpTag->wBuffer[0] = wTemp2;			// start time of next pulse = len this one
+				wTemp2 -= PPM_LATENCY;				// RS value with grace for interrupt overhead
+				lpTag->iIndex++;
+				_DI();								// disable interrupts while
+				lpOCModule->OCR = wTemp;			// turn on time
+				lpOCModule->OCRS = wTemp2;			// turn off time
+				lpOCModule->OCCON = 4;				// delayed one shot mode
+				_EI();								// re-enable
+			} else 
+			if ( lpTag->iIndex <= 8 )
+			{	
+				wTemp2 = udb_pwOut[lpTag->iGlobal + lpTag->iIndex - 1];	// get PWM on time
+				wTemp = lpTag->wBuffer[0];			// start time of next pulse = len this one
+				wTemp2 += wTemp;					// add actual start time
+				lpTag->wBuffer[0] = wTemp2;			// start time of next pulse = len this one
+				wTemp2 -= PPM_LATENCY;				// RS value with grace for interrupt overhead
+				lpTag->iIndex++;
+				_DI();								// disable interrupts while
+				lpOCModule->OCR = wTemp;			// turn on time
+				lpOCModule->OCRS = wTemp2;			// turn off time
+				lpOCModule->OCCON = 4;				// delayed one shot mode
+				_EI();								// re-enable
+			};
+		break;	// end iState case 9 + -9
+		default:
+		break;	// end iState default
+		}
+	break;	// end case 10 + 11
+	}
 }
 
 // this macro is to start a PWM output channel, have to DSI the calc and load of regs
@@ -149,7 +388,7 @@ void udb_set_action_state(boolean newValue)
 void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void) 
 {
 	// interrupt_save_extended_state ;
-	WORD	wTemp;
+//	WORD	wTemp;
 	
 	indicate_loading_inter ;
 	_T3IF = 0 ;		// clear the interrupt
@@ -164,52 +403,36 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 	if ( (iFrameCounter & 1) ) // only start them on odd millisec counts 
 	{	switch ( (iFrameCounter % FRAME_50HZ_CNT) >> 1  ) {
 		case 1 + SERVO_OUT_OFFSET: // start OC1 - this will end up in a pin function
-//			wTemp = TMR2 + 5;	// start clean
-//			OC1R = wTemp, wTemp += udb_pwOut[1];
-//			OC1RS = wTemp, OC1CON = 4;	// delay one shot
-			OC_START(udb_pwOut[1],OC1R,OC1RS,OC1CON);
+//			OC_START(udb_pwOut[1],OC1R,OC1RS,OC1CON);
+			do_pin( DIO[SERVO_PIN_START+0].iSpare, &DIO[SERVO_PIN_START+0], (LPOCM)&OC1RS );
 		break;
 		case 2 + SERVO_OUT_OFFSET: // start OC2 - this will end up in a pin function
-//			wTemp = TMR2 + 5;	// start clean
-//			OC2R = wTemp, wTemp += udb_pwOut[2];
-//			OC2RS = wTemp, OC2CON = 4;	// delay one shot
-		OC_START(udb_pwOut[2],OC2R,OC2RS,OC2CON);
+//			OC_START(udb_pwOut[2],OC2R,OC2RS,OC2CON);
+			do_pin( DIO[SERVO_PIN_START+1].iSpare, &DIO[SERVO_PIN_START+1], (LPOCM)&OC2RS );
 		break;
 		case 3 + SERVO_OUT_OFFSET: // start OC3 - this will end up in a pin function
-//			wTemp = TMR2 + 5;	// start clean
-//			OC3R = wTemp, wTemp += udb_pwOut[3];
-//			OC3RS = wTemp, OC3CON = 4;	// delay one shot
-		OC_START(udb_pwOut[3],OC3R,OC3RS,OC3CON);
+//			OC_START(udb_pwOut[3],OC3R,OC3RS,OC3CON);
+			do_pin( DIO[SERVO_PIN_START+2].iSpare, &DIO[SERVO_PIN_START+2], (LPOCM)&OC3RS );
 		break;
 		case 4 + SERVO_OUT_OFFSET: // start OC4 - this will end up in a pin function
-//			wTemp = TMR2 + 5;	// start clean
-//			OC4R = wTemp, wTemp += udb_pwOut[4];
-//			OC4RS = wTemp, OC4CON = 4;	// delay one shot
-		OC_START(udb_pwOut[4],OC4R,OC4RS,OC4CON);
+//			OC_START(udb_pwOut[4],OC4R,OC4RS,OC4CON);
+			do_pin( DIO[SERVO_PIN_START+3].iSpare, &DIO[SERVO_PIN_START+3], (LPOCM)&OC4RS );
 		break;
 		case 5 + SERVO_OUT_OFFSET: // start OC5 - this will end up in a pin function
-//			wTemp = TMR2 + 5;	// start clean
-//			OC5R = wTemp, wTemp += udb_pwOut[5];
-//			OC5RS = wTemp, OC5CON = 4;	// delay one shot
-		OC_START(udb_pwOut[5],OC5R,OC5RS,OC5CON);
+//			OC_START(udb_pwOut[5],OC5R,OC5RS,OC5CON);
+			do_pin( DIO[SERVO_PIN_START+4].iSpare, &DIO[SERVO_PIN_START+4], (LPOCM)&OC5RS );
 		break;
 		case 6 + SERVO_OUT_OFFSET: // start OC6 - this will end up in a pin function
-//			wTemp = TMR2 + 5;	// start clean
-//			OC6R = wTemp, wTemp += udb_pwOut[6];
-//			OC6RS = wTemp, OC6CON = 4;	// delay one shot
-		OC_START(udb_pwOut[6],OC6R,OC6RS,OC6CON);
+//			OC_START(udb_pwOut[6],OC6R,OC6RS,OC6CON);
+			do_pin( DIO[SERVO_PIN_START+5].iSpare, &DIO[SERVO_PIN_START+5], (LPOCM)&OC6RS );
 		break;
 		case 7 + SERVO_OUT_OFFSET: // start OC7 - this will end up in a pin function
-//			wTemp = TMR2 + 5;	// start clean
-//			OC7R = wTemp, wTemp += udb_pwOut[7];
-//			OC7RS = wTemp, OC7CON = 4;	// delay one shot
-		OC_START(udb_pwOut[7],OC7R,OC7RS,OC7CON);
+//			OC_START(udb_pwOut[7],OC7R,OC7RS,OC7CON);
+			do_pin( DIO[SERVO_PIN_START+6].iSpare, &DIO[SERVO_PIN_START+6], (LPOCM)&OC7RS );
 		break;
 		case 8 + SERVO_OUT_OFFSET: // start OC8 - this will end up in a pin function
-//			wTemp = TMR2 + 5;	// start clean
-//			OC8R = wTemp, wTemp += udb_pwOut[8];
-//			OC8RS = wTemp, OC8CON = 4;	// delay one shot
-		OC_START(udb_pwOut[8],OC8R,OC8RS,OC8CON);
+//			OC_START(udb_pwOut[8],OC8R,OC8RS,OC8CON);
+			do_pin( DIO[SERVO_PIN_START+7].iSpare, &DIO[SERVO_PIN_START+7], (LPOCM)&OC8RS );
 		break;
 		}	
 	};
@@ -218,14 +441,6 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 	//	This is a good place to compute pulse widths for servos.
 	if ( !(iFrameCounter % FRAME_50HZ_CNT) )	// has to == 0
 	{
-//		OC1RS = udb_pwOut[1] ;
-//		OC2RS = udb_pwOut[2] ;
-//		OC3RS = udb_pwOut[3] ;
-//		OC4RS = udb_pwOut[4] ;
-//		OC5RS = udb_pwOut[5] ;
-//		OC6RS = udb_pwOut[6] ;
-//		OC7RS = udb_pwOut[7] ;
-//		OC8RS = udb_pwOut[8] ;
 	}
 
 	//	Executes whatever needs to be done every 25 milliseconds, using the PWM clock.
@@ -266,126 +481,51 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 void __attribute__((__interrupt__,__no_auto_psv__)) _OC1Interrupt(void)
 {
 	IFS0bits.OC1IF = 0; // Clear Output Compare 1 Interrupt Flag
-	OC1CON = 0;			// TODO: need to write actual pin handler
+	do_pin( DIO[SERVO_PIN_START+0].iSpare * -1, &DIO[SERVO_PIN_START+0], (LPOCM)&OC1RS );
 }
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _OC2Interrupt(void)
 {
 	IFS0bits.OC2IF = 0; // Clear Output Compare 2 Interrupt Flag
-	OC2CON = 0;			// TODO: need to write actual pin handler
+	do_pin( DIO[SERVO_PIN_START+1].iSpare * -1, &DIO[SERVO_PIN_START+1], (LPOCM)&OC2RS );
 }
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _OC3Interrupt(void)
 {
 	IFS1bits.OC3IF = 0; // Clear Output Compare 3 Interrupt Flag
-	OC3CON = 0;			// TODO: need to write actual pin handler
+	do_pin( DIO[SERVO_PIN_START+2].iSpare * -1, &DIO[SERVO_PIN_START+2], (LPOCM)&OC3RS );
 }
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _OC4Interrupt(void)
 {
 	IFS1bits.OC4IF = 0; // Clear Output Compare 4 Interrupt Flag
-	OC4CON = 0;			// TODO: need to write actual pin handler
+	do_pin( DIO[SERVO_PIN_START+3].iSpare * -1, &DIO[SERVO_PIN_START+3], (LPOCM)&OC4RS );
 }
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _OC5Interrupt(void)
 {
 	IFS2bits.OC5IF = 0; // Clear Output Compare 5 Interrupt Flag
-	OC5CON = 0;			// TODO: need to write actual pin handler
+	do_pin( DIO[SERVO_PIN_START+4].iSpare * -1, &DIO[SERVO_PIN_START+4], (LPOCM)&OC5RS );
 }
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _OC6Interrupt(void)
 {
 	IFS2bits.OC6IF = 0; // Clear Output Compare 6 Interrupt Flag
-	OC6CON = 0;			// TODO: need to write actual pin handler
+	do_pin( DIO[SERVO_PIN_START+5].iSpare * -1, &DIO[SERVO_PIN_START+5], (LPOCM)&OC6RS );
 }
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _OC7Interrupt(void)
 {
 	IFS2bits.OC7IF = 0; // Clear Output Compare 7 Interrupt Flag
-	OC7CON = 0;			// TODO: need to write actual pin handler
+	do_pin( DIO[SERVO_PIN_START+6].iSpare * -1, &DIO[SERVO_PIN_START+6], (LPOCM)&OC7RS );
 }
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _OC8Interrupt(void)
 {
 	IFS2bits.OC8IF = 0; // Clear Output Compare 8 Interrupt Flag
-	OC8CON = 0;			// TODO: need to write actual pin handler
-}
+	do_pin( DIO[SERVO_PIN_START+7].iSpare * -1, &DIO[SERVO_PIN_START+7], (LPOCM)&OC8RS );
 
-// Output type digital pins - see radioIn for digital input pin handler
-// 6	Single channel 50Hz PWM output, open drain disabled
-// 7	Single channel 50Hz PWM output, open drain enabled (normally use this if you can)
-// 8	Single channel 450Hz PWM output, open drain disabled
-// 9	Single channel 450Hz PWM output, open drain enabled (normally use this)
-// 10	Multi channel 50Hz PWM output, open drain disabled (4017's)
-// 11	Multi channel 50Hz PWM output, open drain enabled (4017's normally use this)
-//
-// iState = zero if called from OC interrupt, non-zero called from T3 interrupt
-//			T3 interrupt call used to re-start the sequence for multi-channel outputs
-//			or make sure 450Hz single channel is running (OCxCON != zero)
-//			or start the single pulse output for 50Hz output
-void do_pin( int iState, LPPIN lpTag, LPOCM lpOCModule )
-{
-//	DWORD	dwTemp;
-	WORD	wTemp, wTemp2;
-	switch( lpTag->iType ) {
-	case 6: 	// 6	Single channel 50Hz PWM output, open drain disabled
-	case 7: 	// 7	Single channel 50Hz PWM output, open drain enabled (normally use this if you can)
-		if ( iState )
-		{
-			wTemp2 = udb_pwOut[lpTag->iGlobal];     // get PWM on time
-			if ( wTemp2 == 0 )
-				break;                              // if its zero then do nothing
-			else ;
-			_DI();
-			wTemp = TMR2 + 15;
-			lpOCModule->OCR = wTemp;                // turn on 15 x 8 Tcy from now
-			wTemp += wTemp2;
-			lpOCModule->OCRS = wTemp;               // turn off time
-			lpOCModule->OCCON = 4;                  // delayed one shot mode
-			_EI();
-		};
-	break;		// end case 6 + 7
-	case 8: 	// 8	Single channel 450Hz PWM output, open drain disabled
-	case 9: 	// 9	Single channel 450Hz PWM output, open drain enabled (normally use this)
-		if ( lpOCModule->OCCON == 0)                    // module not running
-		{   // delay calculated to make total PWM period at least 2222 uSec (450Hz)
-			// that works out to 11111 T2 counts - just over the 2.2 mSec servo out max
-			// techically it will always be a little slower because of interrupt latency
-			wTemp2 = udb_pwOut[lpTag->iGlobal];     // get PWM on time
-			if ( wTemp2 == 0 )
-				break;                              // if its zero then do nothing
-			else ;
-			wTemp = 11111 - wTemp2;
-			if ( wTemp < 15 )
-				wTemp = 15;                         // min delay time
-			else ;
-			_DI();                                  // disable interrupts while
-			wTemp += TMR2;                          // actually setting these registers
-			lpOCModule->OCR = wTemp;                // turn on time
-			wTemp += wTemp2;
-			lpOCModule->OCRS = wTemp;               // turn off time
-			lpOCModule->OCCON = 4;                  // delayed one shot mode
-			_EI();                                  // re-enable
-		};
-	break;		// end case 8 + 9
-	case 10:	// 10	Multi channel 50Hz PWM output, open drain disabled (4017's)
-	case 11:	// 11	Multi channel 50Hz PWM output, open drain enabled (4017's normally use this)
-		if ( iState )
-		{
-			wTemp2 = udb_pwOut[lpTag->iGlobal];     // get PWM on time
-			if ( wTemp2 == 0 )
-				break;                              // if its zero then do nothing
-			else ;
-			_DI();
-			wTemp = TMR2 + 15;
-			lpOCModule->OCR = wTemp;                // turn on 15 x 8 Tcy from now
-			wTemp += wTemp2;
-			lpOCModule->OCRS = wTemp;               // turn off time
-			lpOCModule->OCCON = 4;                  // delayed one shot mode
-			_EI();
-		};
-	break;		// end case 10 + 11
-	}
+//	OC8CON = 0;			// TODO: need to write actual pin handler
 }
 
 #endif

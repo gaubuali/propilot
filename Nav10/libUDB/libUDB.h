@@ -114,7 +114,7 @@ extern int udb_pwOut[];		// pulse widths for servo outputs
 // structures plus the timer / general inputs and outputs. see ConfigASPG.h
 #define RC_PIN_START 1
 #define SERVO_PIN_START 9
-extern PIN DIO[];		// digital I/O handling
+extern PIN DIO[] __attribute__ ((section(".myDataSection"),address(0x2800)));		// digital I/O handling
 #endif
 
 // This read-only value holds flags that tell you, among other things,
