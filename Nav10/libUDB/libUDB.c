@@ -22,7 +22,11 @@
 #include "libUDB_internal.h"
 
 #if (BOARD_IS_CLASSIC_UDB)
+#if ( CLOCK_CONFIG == CRYSTAL_CLOCK )
 _FOSC( CSW_FSCM_OFF & HS ) ;		// external high speed crystal
+#elif ( CLOCK_CONFIG == FRC8X_CLOCK ) 
+_FOSC(CSW_FSCM_OFF & FRC_PLL8);
+#endif
 _FWDT( WDT_OFF ) ;					// no watchdog timer
 _FBORPOR( 	PBOR_OFF &				// brown out detection off
 			MCLR_EN &				// enable MCLR
@@ -33,17 +37,15 @@ _FGS( CODE_PROT_OFF ) ;				// no protection
 _FICD( 0xC003 ) ;					// normal use of debugging port
 
 #elif (BOARD_TYPE == UDB4_BOARD)
-_FBS( BWRP_WRPROTECT_OFF );		// no boot segments or write protect
-_FSS ( SWRP_WRPROTECT_OFF );	// no secure sections
-_FGS( GSS_OFF &					// no code protect
-		GCP_OFF &
-		GWRP_OFF );
-_FOSCSEL(FNOSC_FRCPLL); 			// fast RC plus PLL
+_FOSCSEL(FNOSC_FRCPLL) ;			// fast RC plus PLL
 _FOSC(	FCKSM_CSECMD &
 		OSCIOFNC_ON &
-		POSCMD_NONE );
+		POSCMD_NONE ) ;
 _FWDT(	FWDTEN_OFF &
 		WINDIS_OFF ) ;
+_FGS(	GSS_OFF &
+		GCP_OFF &
+		GWRP_OFF ) ;
 _FPOR(	FPWRT_PWR1 ) ;
 _FICD(	JTAGEN_OFF &
 		ICS_PGD2 ) ;

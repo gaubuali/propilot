@@ -46,6 +46,10 @@ typedef unsigned long DWORD, * LPDWORD;
 #define CAN_INTERFACE	6
 #define ASPG_BOARD		7
 
+// Clock configurations
+#define CRYSTAL_CLOCK	1
+#define FRC8X_CLOCK		2
+
 
 // Include the necessary files for the current board type
 #if (BOARD_TYPE == RED_BOARD)
@@ -113,9 +117,20 @@ typedef unsigned long DWORD, * LPDWORD;
 
 
 #if (BOARD_TYPE == GREEN_BOARD || BOARD_TYPE == RED_BOARD || BOARD_TYPE == UDB3_BOARD || BOARD_TYPE == RUSTYS_BOARD)
+
 #define BOARD_IS_CLASSIC_UDB		1
+#define CLK_PHASES	4
+
+#if ( CLOCK_CONFIG == CRYSTAL_CLOCK )
+#define FREQOSC		16000000
+#elif ( CLOCK_CONFIG == FRC8X_CLOCK )
+#define FREQOSC		58982400
+#endif
+
 #else
 #define BOARD_IS_CLASSIC_UDB		0
+#define FREQOSC 	32000000
+#define CLK_PHASES	2
 #endif
 
 

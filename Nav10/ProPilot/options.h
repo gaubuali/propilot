@@ -35,6 +35,15 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
+// Select Clock Configuration (Set to CRYSTAL_CLOCK or FRC8X_CLOCK)
+// CRYSTAL_CLOCK is the 16 MHz crystal.  This is the speed used in the past, and is the
+// most compatible.
+// FRC8X_CLOCK is the fast RC clock (7.3728 MHz) with 8X multiplier.  Use this if you want
+// to be able to use serial baud rates above 19200.
+#define CLOCK_CONFIG 						CRYSTAL_CLOCK
+
+
+////////////////////////////////////////////////////////////////////////////////
 // Use board orientation to change the mounting direction of the board.
 // The following 4 orientations have the board parallel with the ground.
 // ORIENTATION_FORWARDS:  Component-side up,   GPS connector front
@@ -147,6 +156,7 @@
 // Out1, Out2, Out3, RE0, RE2, RE4, In3, In2, In1.
 #define USE_PPM_INPUT						0
 #define PPM_NUMBER_OF_CHANNELS				8
+#define PPM_SIGNAL_INVERTED					0
 #define PPM_ALT_OUTPUT_PINS					0
 
 // NUM_INPUTS: Set to 1-5 (or 1-8 when using PPM input)
