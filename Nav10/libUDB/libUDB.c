@@ -65,6 +65,10 @@ _FWDT(	FWDTEN_OFF &			// wdt's disabled
 _FPOR(	FPWRT_PWR32 ) ;			// fast powerup, will need to change for ext osc
 _FICD(	JTAGEN_OFF &			// jtag off and use 2nd set for ICSP
 		ICS_PGD2 ) ;
+_FUID0( 0xffff )
+_FUID1( 0xffff )
+_FUID2( 0xffff )
+_FUID3( 0xffff )
 #endif
 
 

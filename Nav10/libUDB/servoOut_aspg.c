@@ -376,14 +376,6 @@ PPM_WITH_RESET:
 	}
 }
 
-// this macro is to start a PWM output channel, have to DSI the calc and load of regs
-#define OC_START(pw,OCR,OCRS,channel)		\
-		_DI(); 						 		\
-		wTemp = TMR2 + 15;					\
-		OCR = wTemp, wTemp += pw;			\
-		OCRS = wTemp, channel = 4;			\
-		_EI()
-
 // this interrupt runs every 1mSec with 80MHz osc and 40000 preload
 void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void) 
 {
@@ -396,6 +388,12 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 
 	dwMilliSec++, iFrameCounter++;
 
+	if ( EE_Write_Timer )		// simple counter that is decremented to 0 in T3 interrupt
+		EE_Write_Timer--;
+	if ( I2C_Timeout > 0)		// simple counter that is decremented to 0 in T3 interrupt
+		if ( --I2C_Timeout == 0 )
+			I2CERROR = TIMEOUT;	// set error status
+
 	if ( iFrameCounter >= FRAME_ROLL )
 		iFrameCounter = 0;
 	else ;
@@ -403,35 +401,27 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 	if ( (iFrameCounter & 1) ) // only start them on odd millisec counts 
 	{	switch ( (iFrameCounter % FRAME_50HZ_CNT) >> 1  ) {
 		case 1 + SERVO_OUT_OFFSET: // start OC1 - this will end up in a pin function
-//			OC_START(udb_pwOut[1],OC1R,OC1RS,OC1CON);
 			do_pin( DIO[SERVO_PIN_START+0].iSpare, &DIO[SERVO_PIN_START+0], (LPOCM)&OC1RS );
 		break;
 		case 2 + SERVO_OUT_OFFSET: // start OC2 - this will end up in a pin function
-//			OC_START(udb_pwOut[2],OC2R,OC2RS,OC2CON);
 			do_pin( DIO[SERVO_PIN_START+1].iSpare, &DIO[SERVO_PIN_START+1], (LPOCM)&OC2RS );
 		break;
 		case 3 + SERVO_OUT_OFFSET: // start OC3 - this will end up in a pin function
-//			OC_START(udb_pwOut[3],OC3R,OC3RS,OC3CON);
 			do_pin( DIO[SERVO_PIN_START+2].iSpare, &DIO[SERVO_PIN_START+2], (LPOCM)&OC3RS );
 		break;
 		case 4 + SERVO_OUT_OFFSET: // start OC4 - this will end up in a pin function
-//			OC_START(udb_pwOut[4],OC4R,OC4RS,OC4CON);
 			do_pin( DIO[SERVO_PIN_START+3].iSpare, &DIO[SERVO_PIN_START+3], (LPOCM)&OC4RS );
 		break;
 		case 5 + SERVO_OUT_OFFSET: // start OC5 - this will end up in a pin function
-//			OC_START(udb_pwOut[5],OC5R,OC5RS,OC5CON);
 			do_pin( DIO[SERVO_PIN_START+4].iSpare, &DIO[SERVO_PIN_START+4], (LPOCM)&OC5RS );
 		break;
 		case 6 + SERVO_OUT_OFFSET: // start OC6 - this will end up in a pin function
-//			OC_START(udb_pwOut[6],OC6R,OC6RS,OC6CON);
 			do_pin( DIO[SERVO_PIN_START+5].iSpare, &DIO[SERVO_PIN_START+5], (LPOCM)&OC6RS );
 		break;
 		case 7 + SERVO_OUT_OFFSET: // start OC7 - this will end up in a pin function
-//			OC_START(udb_pwOut[7],OC7R,OC7RS,OC7CON);
 			do_pin( DIO[SERVO_PIN_START+6].iSpare, &DIO[SERVO_PIN_START+6], (LPOCM)&OC7RS );
 		break;
 		case 8 + SERVO_OUT_OFFSET: // start OC8 - this will end up in a pin function
-//			OC_START(udb_pwOut[8],OC8R,OC8RS,OC8CON);
 			do_pin( DIO[SERVO_PIN_START+7].iSpare, &DIO[SERVO_PIN_START+7], (LPOCM)&OC8RS );
 		break;
 		}	

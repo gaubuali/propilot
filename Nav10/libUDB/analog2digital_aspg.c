@@ -46,8 +46,8 @@ int sampcount = 1 ;
 //  CHANGED - see below
 
 #define AD1_SUPER_SAM 16
-int  AD1BufferA[AD1_SUPER_SAM][NUM_AD1_LIST+1] __attribute__((space(dma),aligned(256)));
-int  AD1BufferB[AD1_SUPER_SAM][NUM_AD1_LIST+1] __attribute__((space(dma),aligned(256)));
+int  AD1BufferA[AD1_SUPER_SAM+4][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
+int  AD1BufferB[AD1_SUPER_SAM+4][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
 
 void udb_init_gyros( void )
 {
@@ -83,8 +83,10 @@ void udb_init_ADC( void )
 	udb_flags._.firstsamp = 1 ;
 	
 	AD1CSSL = AD1CSSH = AD2CSSL = 0 ; 	// start with no channels selected
-	AD2PCFGL = AD1PCFGL = !LOW_ANALOGS;	// have to set both AD cfg registers
-	AD1PCFGH = !HIGH_ANALOGS;			// ad2 only does first 16
+	AD2PCFGL = AD1PCFGL = ~LOW_ANALOGS;	// have to set both AD cfg registers
+	AD1PCFGH = ~HIGH_ANALOGS;			// ad2 only does first 16
+
+	AD1CSSH = AD1_LIST;				// ad1 scan list
 	
 // configure the high rate AD of the gyro's - first level dsp is to add 16 values together
 	AD1CON1bits.AD12B = 1 ;		// 12 bit A to D
@@ -113,9 +115,10 @@ void udb_init_ADC( void )
 	AD1CON3bits.ADCS = 5 - 1 ;	// TAD = 125 nanoseconds
 	
 	AD1CON1bits.ADDMABM = 1 ;	// DMA buffer written in conversion order
-//	AD1CON2bits.SMPI = 10-1 ;	// 10 samples
-	AD1CON2bits.SMPI = 1 - 1 ;	// xfer each sample
+	AD1CON2bits.SMPI = NUM_AD1_LIST - 1;	// 10 samples
+//	AD1CON2bits.SMPI = 1 - 1 ;	// xfer each sample
 	AD1CON4bits.DMABL = 4 ;		// double buffering
+//	AD1CON4bits.DMABL = 0 ;		// double buffering
 
 // setup DMA
 
@@ -137,7 +140,6 @@ void udb_init_ADC( void )
 
 	DMA0CONbits.CHEN=1;				// Enable DMA
 	
-	AD1CSSH = AD1_LIST;				// ad1 scan list
 	_AD1IF = 0 ;					// clear the AD interrupt
 	_AD1IP = 5 ;					// priority 5
 //	_AD1IE = 1 ;					// enable the interrupt
@@ -155,19 +157,26 @@ void udb_init_ADC( void )
 	 	 need to decide what to do with the vref and temp signals - they don't
 	 	 require fir but should affect the final super sample values.
 =============================================================================*/
-
+extern void superSample( void *, void * );
 unsigned int DmaBuffer = 0;
 
 void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 {
+	interrupt_save_extended_state ;
+	
+	indicate_loading_inter ;
+
 	if(DmaBuffer == 0)
-	{
+	{	superSample( (void *)&AD1BufferA[0][0], (void *)&AD1_Raw[0] );
 	} 	else 	{
+		superSample( (void *)&AD1BufferB[0][0], (void *)&AD1_Raw[0] );
 	}
 
 	DmaBuffer ^= 1;
 
 	IFS0bits.DMA0IF = 0;		// Clear the DMA0 Interrupt Flag
+
+	interrupt_restore_extended_state ;
 }
 
 #define ADC2SAMPLE ((int)(ADC2BUF0))

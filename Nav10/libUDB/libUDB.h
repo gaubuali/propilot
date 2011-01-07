@@ -170,6 +170,17 @@ void udb_magnetometer_callback_data_available(void);	// Callback
 // for example udb_led_toggle(LED_RED);
 #define udb_led_toggle(x)		((x) = !(x))
 
+////////////////////////////////////////////////////////////////////////////////
+// I2C2
+void I2C_Start( int );
+extern I2C_Action uI2C_Commands[];		// command buffer, see I2C_aspg.c
+extern int I2C_Index;					// current command index
+extern int I2CERROR, I2CERROR_CON, I2CERROR_STAT;	// record for errors
+extern int I2Cinterrupts, I2Cmessages, I2C_Subcode, I2C_Sublen;
+extern I2C_Action I2C_Code;
+extern int I2C_Slave;		// on a start condition saves the slave address
+extern int EE_Write_Timer;	// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
+extern int I2C_Timeout;		// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
 
 ////////////////////////////////////////////////////////////////////////////////
 // GPS IO

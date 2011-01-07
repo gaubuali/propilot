@@ -126,7 +126,9 @@ typedef unsigned long DWORD, * LPDWORD;
 #elif ( CLOCK_CONFIG == FRC8X_CLOCK )
 #define FREQOSC		58982400
 #endif
-
+#elif (BOARD_TYPE == ASPG_BOARD)
+#define FREQOSC 	80000000
+#define CLK_PHASES	2
 #else
 #define BOARD_IS_CLASSIC_UDB		0
 #define FREQOSC 	32000000

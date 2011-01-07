@@ -21,9 +21,6 @@
 
 // used for the ASPG
 
-#define FREQOSC 	80000000
-#define CLK_PHASES	2
-
 // #define	ADCON2CONFIG 0b0010010000011000 ; //?
 
 #define XRATE_SIGN -
@@ -411,3 +408,34 @@ struct tagI2C_flags {
 };
 
 // Most all the other I/O is used by a smart peripheral or not connected to anything
+
+typedef struct tagI2C {
+ union {
+	unsigned char uChar[2];	// two bytes, one at a time
+		struct tagFields {	// field definitions to make easy to use / read
+	unsigned int uCmd:3;	// 0=nothing, 1=start, 2=restart, 3=stop, 4=TX, 5=RX with ACK, 6=RX 1 with NACK, 7 = finsihed
+	unsigned int uACK:1;	// 0=ACKSTAT must be 0, 1=ACKSTAT don't care
+	unsigned int uBuf:1;	// 0=data sent from uI2C_Commands, 1=I2C_buffer
+							// I2C_Tail used as index on TX, I2C_Head on RX
+	unsigned int uSpare:3;	// not used yet
+	unsigned int uCount:8;	// 0=1, 1=2, 2=3 etc also depends on command
+							// also used for slave address
+				} tagF;
+	unsigned int uInt;		// 16 bits all at once
+ };
+} I2C_Action, *LPI2C_Action;
+
+// some commands have implied length, start is followed by 1 byte bus address (R/W bit must be what you need)
+// wait till I2C_Command = 0 then fill uI2C_Commands with pseudo code then call I2C_Start, poll I2C_Command =
+// expected end value for done or I2CERROR != 0 for error code. Make sure you set I2C_Command back to 0 so next
+// use can happen otherwise its going to sit there forever.
+
+// these enum's are the constants used in the switches
+enum I2C_Cmd{NOTHING, START, RESTART, STOP, TX, RX_ACK, RX_NACK, FINISHED};
+enum I2C_Sub{//NOTHING, START, RESTART, STOP, TX, RX_ACK, RX_NACK, FINISHED,
+				START_ACK=11, START_NA,
+				TX_LOW=41, TX_HIGH,
+				RX_ACK_CLK=51, RX_NACK_CLK
+};
+enum I2C_ERR{ // NOTHING,
+				TIMEOUT = 1, NO_ACK, BUS, NO_REC, RUNAWAY };

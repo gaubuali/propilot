@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="libDCM" displayName="libDCM" projectFiles="true">
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/libDCM.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/libDCM_defines.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/libDCM_internal.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="libUDB" displayName="libUDB" projectFiles="true">
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/ConfigASPG.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/ConfigGreen.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/ConfigHILSIM.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/ConfigIXZ500.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/ConfigIXZ500RAD2a.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/ConfigRed.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/ConfigUDB4.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/boardRotation_defines.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/fixDeps.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/libUDB.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/libUDB_defines.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/libUDB_internal.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/magnetometerOptions.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="ProPilot" displayName="ProPilot" projectFiles="true">
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/defines.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/flightplan-logo.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/gain_variables.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/mixer.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/options.h</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/waypoints.h</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="LibraryFiles"
+                   displayName="Library Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="LinkerScript"
+                   displayName="Linker Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="ObjectFiles"
+                   displayName="Object Files"
+                   projectFiles="true">
+      <itemPath>C:/Program Files/Microchip/MPLAB C30/lib/libdsp-elf.a</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="libDCM" displayName="libDCM" projectFiles="true">
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/deadReckoning.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/estWind.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/estYawDrift.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/gpsParseCommon.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/gpsParseSTD.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/gpsParseUBX.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/libDCM.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/mathlibNAV.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM/rmat.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="libUDB" displayName="libUDB" projectFiles="true">
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/I2C_aspg.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/SuperSample.s</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/analog2digital_aspg.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/background.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/libUDB.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/magneto_aspg.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/osd.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/radioIn_aspg.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/serialIO_aspg.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/servoOut_aspg.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="ProPilot" displayName="ProPilot" projectFiles="true">
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/altitudeCntrl.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/behavior.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/cameraCntrl.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/flightplan-logo.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/flightplan-waypoints.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/main.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/mp_osd.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/navigate.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/pitchCntrl.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/rollCntrl.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/servoMix.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/servoPrepare.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/states.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/telemetry.c</itemPath>
+        <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/yawCntrl.c</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+      <itemPath>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot/ProPilot.map</itemPath>
+      <itemPath>C:/Program Files/Microchip/MPLAB C30/support/dsPIC33F/h/p33FJ256GP710A.h</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>E:/Projects/ProPilot/Nav10 Board/Nav10/ProPilot</Elem>
+    <Elem>E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB</Elem>
+    <Elem>E:/Projects/ProPilot/Nav10 Board/Nav10/libDCM</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="default" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <targetDevice>dsPIC33FJ256GP710A</targetDevice>
+        <targetHeader></targetHeader>
+        <platformTool>Simulator</platformTool>
+        <languageToolchain>C30</languageToolchain>
+        <compilerSet>C30</compilerSet>
+        <platform>3</platform>
+      </toolsSet>
+      <compileType>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <C30>
+        <property key="scalar-model" value="default"/>
+        <property key="extra-include-directories"
+                  value="E:\Projects\ProPilot\Nav10 Board\Nav10\ProPilot;E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB;E:\Projects\ProPilot\Nav10 Board\Nav10\libDCM"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="data-model" value="default"/>
+        <property key="enable-all-warnings" value="false"/>
+        <property key="pre-instruction-scheduling" value="default"/>
+        <property key="enable-short-double" value="true"/>
+        <property key="enable-procedural-abstraction" value="false"/>
+        <property key="optimization-level" value="0"/>
+        <property key="enable-ansi-warnings" value="false"/>
+        <property key="enable-fatal-warnings" value="false"/>
+        <property key="post-instruction-scheduling" value="default"/>
+        <property key="enable-omit-frame-pointer" value="false"/>
+        <property key="enable-ansi-std" value="false"/>
+        <property key="enable-unroll-loops" value="false"/>
+        <property key="const-model" value="default"/>
+        <property key="code-model" value="default"/>
+      </C30>
+      <C30-AS>
+      </C30-AS>
+      <C30-LD>
+      </C30-LD>
+      <Simulator>
+      </Simulator>
+    </conf>
+  </confs>
+</configurationDescriptor>
