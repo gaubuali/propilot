@@ -508,7 +508,7 @@ void dcm_run_imu_step(void)
 	normalize() ;
 	roll_pitch_drift() ;
 #if (MAG_YAW_DRIFT == 1)
-	if ( magMessage == 7  )
+	if ( CD[magCDindex].iResult >= 7  )
 	{
 		mag_drift() ;
 	}

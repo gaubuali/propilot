@@ -44,7 +44,7 @@ unsigned char ucPWMTest[30];
 #define RC_PIN( T, P, B, G, L)      { 0, 0, 0, 0, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, 0, T, P, B, G, L }
 #define RC_SERVO( T, P, B, G, L, S) { 0, 0, 0, 0, 0,                                                    0, 0, T, P, B, G, L, S }
 
-PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x2800))) = {
+PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x2700))) = {
 		RC_PIN(0,0,0,0,0),				// unused
 		RC_PIN(12,3,8,RC_START+0,0),	// RC1
 		RC_PIN(12,3,9,RC_START+1,0),	// RC2

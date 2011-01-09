@@ -114,7 +114,7 @@ extern int udb_pwOut[];		// pulse widths for servo outputs
 // structures plus the timer / general inputs and outputs. see ConfigASPG.h
 #define RC_PIN_START 1
 #define SERVO_PIN_START 9
-extern PIN DIO[] __attribute__ ((section(".myDataSection"),address(0x2800)));		// digital I/O handling
+extern PIN DIO[] __attribute__ ((section(".myDataSection"),address(0x2700)));		// digital I/O handling
 #endif
 
 // This read-only value holds flags that tell you, among other things,
@@ -153,16 +153,17 @@ void udb_a2d_record_offsets(void);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Magnetometer
-
 // If the magnetometer is connected and enabled, these will be the raw values, and the
 // calibration offsets.
 extern fractional udb_magFieldBody[3];
 extern fractional udb_magOffset[3];
 
-// Implement thiis callback to make use of the magetometer data.  This is called each
+// Implement this callback to make use of the magetometer data.  This is called each
 // time the magnetometer reports new data.
 void udb_magnetometer_callback_data_available(void);	// Callback
-
+void rxMagnetometer(void);  // service the magnetometer
+void doneReadMagData(void);	// use data
+#define magCDindex 1	// this driver uses CD[1]
 
 ////////////////////////////////////////////////////////////////////////////////
 // LEDs
@@ -173,14 +174,16 @@ void udb_magnetometer_callback_data_available(void);	// Callback
 ////////////////////////////////////////////////////////////////////////////////
 // I2C2
 void I2C_Start( int );
+void I2C_Reset( void );
 extern I2C_Action uI2C_Commands[];		// command buffer, see I2C_aspg.c
-extern int I2C_Index;					// current command index
-extern int I2CERROR, I2CERROR_CON, I2CERROR_STAT;	// record for errors
-extern int I2Cinterrupts, I2Cmessages, I2C_Subcode, I2C_Sublen;
-extern I2C_Action I2C_Code;
-extern int I2C_Slave;		// on a start condition saves the slave address
+extern I2CCMD CC;		// peripheral driver command buffer, never mess with this
+extern I2CCMD CD[8];	// device driver command buffers - [0] reserved
 extern int EE_Write_Timer;	// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
 extern int I2C_Timeout;		// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
+#define I2C_BUF_LEN 128+16		// page write size + enough bytes to send an address
+extern unsigned char __attribute__ ((section(".myDataSection"),address(0x2270))) I2C_buffer[I2C_BUF_LEN];	// peripheral buf
+extern void (* I2C_call_back[] ) ( void );
+extern struct tagI2C_flags I2C_flags;	// defined in ConfigASPG.h
 
 ////////////////////////////////////////////////////////////////////////////////
 // GPS IO

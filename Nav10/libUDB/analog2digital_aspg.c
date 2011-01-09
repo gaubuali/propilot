@@ -36,14 +36,12 @@ int sampcount = 1 ;
 // #define USE_AD1_DMA
 
 #if defined(USE_AD1_DMA)
-
 //	Analog to digital processing.
-//	Sampling and conversion is done automatically, so that all that needs to be done during 
-//	interrupt processing is to read the data out of the buffer.
-//	Raw samples are taken approximately 500 per second per channel.
-//	A first order digital lowpass filter with a time constant of about 32 milliseconds 
-//  is applied to improve signal to noise.
-//  CHANGED - see below
+//	Sampling and conversion is done automatically filling a DMA buffer, while one buffer is
+//	filling processing is done on the other. There are 10 channels in the sample list and
+//	each is sampled / converted 16 times for each DMA interrupt. DMA buffer if formed in
+//	sequential mode and then the total of each channel is added up and placed in AD1_Raw[]
+//  called a SuperSample. Design sample rate is 10 * 16 * 50 * 50 = 400000 samples per second.
 
 #define AD1_SUPER_SAM 16
 int  AD1BufferA[AD1_SUPER_SAM+4][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
@@ -278,6 +276,13 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _ADC2Interrupt(void)
 }
 
 #else // USE_AD1_DMA
+
+//	Analog to digital processing.
+//	Sampling and conversion is done automatically, so that all that needs to be done during
+//	interrupt processing is to read the data out of the buffer.
+//	Raw samples are taken approximately 500 per second per channel.
+//	A first order digital lowpass filter with a time constant of about 32 milliseconds
+//  is applied to improve signal to noise.
 
 void udb_init_gyros( void )
 {

@@ -266,7 +266,7 @@ void acquiringS(void)
 	return;
 #endif
 	
-	if ( dcm_flags._.nav_capable && ( ( MAG_YAW_DRIFT == 0 ) || ( magMessage == 7 ) ) )
+	if ( dcm_flags._.nav_capable && ( ( MAG_YAW_DRIFT == 0 ) || ( CD[magCDindex].iResult >= 7 ) ) )
 	{
 		if ( udb_flags._.radio_on )
 		{

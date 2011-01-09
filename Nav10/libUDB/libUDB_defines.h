@@ -186,10 +186,16 @@ struct udb_flag_bits {
 #define RMAX   0b0100000000000000	//	1.0 in 2.14 fractional format
 #define GRAVITY ((long)(5280.0/SCALEACCEL))  // gravity in AtoD/2 units
 
+#if (BOARD_TYPE == ASPG_BOARD)		// these really should come from mixer.h but thats also a different range
+#define SERVOCENTER 7500
+#define SERVORANGE (int) (SERVOSAT*2500)
+#define SERVOMAX SERVOCENTER + SERVORANGE
+#define SERVOMIN SERVOCENTER - SERVORANGE
+#else
 #define SERVOCENTER 3000
 #define SERVORANGE (int) (SERVOSAT*1000)
 #define SERVOMAX SERVOCENTER + SERVORANGE
 #define SERVOMIN SERVOCENTER - SERVORANGE
+#endif
 
-extern int magMessage ;
 #endif

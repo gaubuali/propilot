@@ -78,10 +78,61 @@
 #define I2C2_BRGVAL 95
 #define I2C_NORMAL ((( I2C2CON & 0b0000000000011111 ) == 0) && ( (I2C2STAT & 0b0100010011000001) == 0 ))
 
+void I2C_idle(void);
+
 // buffer for EEProm read / write, ACC and MAG use their own private buffers
-#define I2C_BUF_LEN 128		// page write size
-char __attribute__ ((section(".myDataSection"),address(0x2280))) I2C_buffer[I2C_BUF_LEN];	// EE read and write
-int	I2C_Head, I2C_Tail;
+unsigned char __attribute__ ((section(".myDataSection"),address(0x2270))) I2C_buffer[I2C_BUF_LEN];	// peripheral buf
+void (* I2C_call_back[8] ) ( void ) = { &I2C_idle, &I2C_idle, &I2C_idle, &I2C_idle,
+										&I2C_idle, &I2C_idle, &I2C_idle, &I2C_idle } ;
+
+const I2C_Action busReset[] = {  
+	{.uChar[0] = 0},					// empty to make Index step
+	{.F.uCmd = START, .F.uACK = 1, .F.uCount = 0x01}, // start command with address, ack don't care
+	{.F.uCmd = STOP},					// then bus stop
+	{.F.uCmd = FINISHED}				// finished, no callback / post process
+};
+
+I2C_Action uI2C_Commands[64];	// command buffer
+I2CCMD CC;		// peripheral driver command buffer, never mess with this
+I2CCMD CD[8] = {// device driver command buffers - when finished CC gets copied
+				// here - do not use 0 as its usedby the peripheral driver.
+				// use one of these for each device by setting .uResult in the
+				// to what you want FINISHED command.
+	{.Ident = 0, .piResult = &CD[0].iResult, .pcResult = &I2C_buffer[0] },	// safe default of pointers
+	{            .piResult = &CD[1].iResult, .pcResult = &I2C_buffer[0] },
+	{            .piResult = &CD[2].iResult, .pcResult = &I2C_buffer[0] },
+	{            .piResult = &CD[3].iResult, .pcResult = &I2C_buffer[0] },
+	{            .piResult = &CD[4].iResult, .pcResult = &I2C_buffer[0] },
+	{            .piResult = &CD[5].iResult, .pcResult = &I2C_buffer[0] },
+	{            .piResult = &CD[6].iResult, .pcResult = &I2C_buffer[0] },
+	{            .piResult = &CD[7].iResult, .pcResult = &I2C_buffer[0] },
+};
+
+int I2Cinterrupts = 0 ;
+int I2Cmessages = 0;
+// int I2C_Address = 0;	// tries to keep track of current address by increment by one on each read
+						// no way shape or form should this be counted on unless set externally and
+						// addressed device is totally simple
+int I2C_Timeout = 0;	// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
+
+struct tagI2C_flags I2C_flags;	// defined in ConfigASPG.h
+//	unsigned int bInUse:1;		// in use right now
+//	unsigned int bERROR:1;		// in use right now, restarting
+//	unsigned int bMagCfg:1;		// mag config - should be 1
+//	unsigned int bMagCal:1;		// mag calibration
+//	unsigned int bMagReady:1;	// mag needs to be read
+//	unsigned int bAccCfg:1;		// Acc config - should be 1
+//	unsigned int bAccCal:1;		// Acc calibration
+//	unsigned int bAccReady:1;	// Accelerometer needs to be read
+//	unsigned int bReadMag:1;	// reading mag
+//	unsigned int bReadAcc:1;	// reading Accelerometer
+//	unsigned int bReadEE1:1;	// reading EE Prom, stage 1
+//	unsigned int bReadEE2:1;	// reading EE Prom, stage 2
+//	unsigned int bReadEE3:1;	// reading EE Prom, stage 3 (done)
+//	unsigned int bWriteEE1:1;	// write EE Prom, stage 1
+//	unsigned int bWriteEE2:1;	// write EE Prom, stage 2
+//	unsigned int bWriteEE3:1;	// write EE Prom, stage 2 (done)
+
 
 void udb_init_I2C2(void)
 {
@@ -112,263 +163,308 @@ void udb_init_I2C2(void)
 	return ;
 }
 
-I2C_Action uI2C_Commands[64];	// command buffer
-int I2C_Index = 0;			// current command
-int I2CERROR = 0, I2CERROR_CON = 0, I2CERROR_STAT = 0;	// record for errors
-int I2Cinterrupts = 0 ;
-int I2Cmessages = 0;
-int I2C_Subcode = 0, I2C_Sublen = 0;
-I2C_Action I2C_Code;
-int I2C_Slave = 0;		// on a start condition saves the slave address
-// int I2C_Address = 0;	// tries to keep track of current address by increment by one on each read
-						// no way shape or form should this be counted on unless set externally and
-						// addressed device is totally simple
-int I2C_Timeout = 0;	// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
-
-
 #if SYS_I2C == 1
 void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C1Interrupt(void)
 #elif SYS_I2C == 2
 void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 #endif
 {
-	unsigned char uByte;
+	unsigned char uByte, *lpByte;
     indicate_loading_inter ;
 	MI2CIF = 0 ; // clear the interrupt
+#if ( LED_RED_MAG_CHECK == 1 )
+	if ( magMessage == 7 )
+	{
+		LED_RED = LED_OFF ;
+	}
+	else
+	{
+		LED_RED = LED_ON ;
+	}
+#endif
+
 	if (oLED2 == LED_OFF)
 		oLED2 = LED_ON;
 	else oLED2 = LED_OFF;
-	if ( I2C_Index > 63)	// run-away, terminate
-	{	I2C_Index = 61;								// end it
-		uI2C_Commands[I2C_Index].uChar[0] = STOP;		// make next command stop bus
-		uI2C_Commands[I2C_Index+1].uChar[0] = FINISHED;	// then finished
-		I2C_Subcode = 0, I2CERROR = RUNAWAY;			// say reason for termination
+
+/*
+	if ( I2CCONbits.I2CEN == 0 ) // I2C is off
+	{
+		I2C_state = &I2C_idle ; // disable response to any interrupts
+		I2C_SDA = 1, I2C_SCL = 1 ; // pull SDA and SCL high
+		udb_init_I2C2() ; // turn the I2C back on
+		magMessage = 0 ; // start over again
+		return ;
+	}
+	if (  I2C_NORMAL )
+	{
+	} 	else 	{
+		I2C_state = &I2C_idle;		// disable the response to any more interrupts
+		magMessage = 0; 			// start over again
+//		I2ERROR = I2CSTAT ; 		// record the error for diagnostics
+		I2CCONbits.I2CEN = 0; 		// turn off the I2C
+		MI2CIF = 0;					// clear the I2C master interrupt
+		MI2CIE = 0; 				// disable the interrupt
+		I2C_SDA = 0, I2C_SCL = 0;	// pull SDA and SCL low
+		return ;
+	}
+*/
+
+
+	if ( CC.I2C_Index > 63)	// run-away, terminate
+	{	CC.I2C_Index = 61;										// end it
+		uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;			// make next command stop bus
+		uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;		// then finished
+		CC.I2C_Subcode = 0, CC.I2CERROR = RUNAWAY;				// say reason for termination
 	};
 
-	switch ( I2C_Subcode ) {
+	switch ( CC.I2C_Subcode ) {
 		case 0:	// starting
-			I2C_Code.uInt = uI2C_Commands[I2C_Index].uInt;	// save it
-			switch (I2C_Code.tagF.uCmd ) {
+			CC.I2C_Code.uInt = uI2C_Commands[CC.I2C_Index].uInt;	// save it
+			switch (CC.I2C_Code.F.uCmd ) {
 				// 0=nothing, 1=start, 2=restart, 3=stop, 4=TX, 5=RX with ACK, 6=RX 1 with NACK, 7=finished
 				case NOTHING:	// nominal first command to make I2C_Index != 0, thus I2C busy
-					I2C_Index++;
-					MI2CIF = 1 ; // re-trigger the interrupt
+					CC.I2C_Index++;
+					MI2CIF = 1 ;								// re-trigger the interrupt
 				break;
 				case START:
-					I2CCONbits.SEN = 1;		// start up bus
-					I2C_Subcode = START;
+					I2CCONbits.SEN = 1;							// start up bus
+					CC.I2C_Subcode = START;
 				break;
 				case RESTART:
-					I2CCONbits.RSEN = 1;	// restart
-//					I2C_Index++;
-					I2C_Subcode = RESTART;
+					I2CCONbits.RSEN = 1;						// restart
+					CC.I2C_Subcode = RESTART;
 				break;
 				case STOP:
-					I2CCONbits.PEN = 1;		// stop bus
-//					I2C_Index++;
-					I2C_Subcode = STOP;
+					I2CCONbits.PEN = 1;							// stop bus
+					CC.I2C_Subcode = STOP;
 				break;
 				case TX:
 					I2CCONbits.ACKDT = 0;
-					I2C_Subcode = TX_LOW;
-					I2C_Sublen = I2C_Code.tagF.uCount;
-					I2C_Index++;
-					MI2CIF = 1 ; // re-trigger the interrupt
+					CC.I2C_Subcode = TX_LOW;
+					CC.I2C_Sublen = CC.I2C_Code.F.uCount;
+					CC.I2C_Index++;
+					MI2CIF = 1 ;								// re-trigger the interrupt
 				break;
 				case RX_ACK:
-					I2CCONbits.RCEN = 1;	// receive bytes with ACK's
-					I2C_Subcode = RX_ACK;
-					I2C_Sublen = I2C_Code.tagF.uCount;
-					// I2C_Index++;		// done once receive finished
+					I2CCONbits.RCEN = 1;						// receive bytes with ACK's
+					CC.I2C_Subcode = RX_ACK;
+					CC.I2C_Sublen = CC.I2C_Code.F.uCount;
 				break;
 				case RX_NACK:
-					I2CCONbits.RCEN = 1;	// receive 1 then NACK
-					I2C_Subcode = RX_NACK;
-					I2C_Sublen = I2C_Code.tagF.uCount;
-					// I2C_Index++;		// done once receive finished
+					I2CCONbits.RCEN = 1;						// receive 1 then NACK
+					CC.I2C_Subcode = RX_NACK;
+					CC.I2C_Sublen = CC.I2C_Code.F.uCount;
 				break;
 				case FINISHED:
-					I2C_Subcode = FINISHED;	// set this to finished as well
-					I2C_Timeout = -1;		// show got to finished rather than timeout
-//					I2C_Index++;			// done, remember to stop bus first please
+					CC.I2C_Subcode = FINISHED;					// set this to finished as well
+					I2C_Timeout = -1;							// show got to finished rather than timeout
+					switch ( CC.I2C_Code.F.uResult ) {			// do finished actions
+						case NOTHING:
+						default:
+						break;
+						case RSET:	// set .iResult to .uCount
+							CC.iResult = CC.I2C_Code.uChar[1];	// set mode
+						break;
+						case RADD:	// add .uCount to iResult
+							CC.iResult += CC.I2C_Code.uChar[1];	// add mode
+						break;
+						case PSET:	// set *ipResult to .uCount
+							*CC.piResult = CC.I2C_Code.uChar[1];	// set mode
+						break;
+						case PADD:	// add .uCount to iResult
+							*CC.piResult += CC.I2C_Code.uChar[1];	// add mode
+						case CCPY:								// copy .uCount characters to *puResult
+						case HCPY:								// copy .uCount characters to *puResult
+							if ( CC.I2C_Code.F.uResult == CCPY )
+								CC.I2C_Sublen = CC.I2C_Code.uChar[1];
+							else CC.I2C_Sublen = CC.I2C_Head;
+							CC.I2C_Tail = 0;						// start at begin of buffer
+							lpByte = CC.pcResult;					// get destination address
+							if ( (CC.I2C_Sublen >= 1) && (CC.I2C_Sublen <= I2C_BUF_LEN) ) // check
+								while ( CC.I2C_Sublen-- )
+									*lpByte = I2C_buffer[CC.I2C_Tail++], lpByte++;
+						break;
+					}
+					if ( CC.I2C_Code.F.uACK )
+						CC.iResult += 1;							// update iResult
+					CD[CC.Ident&0x7] = CC;							// store result state
+					if ( CC.I2C_Code.F.uBuf )
+						(* I2C_call_back[CC.Ident&0x7]) () ;		// execute the callback routine
+					// TODO: check I2C_Flags and process
+					I2C_flags.bInUse = 0;
 				break;
 			}
 		break;	// starting
-		case START:		// bus started now sending address
-			if ( I2C_Code.tagF.uACK )
-				I2C_Subcode = START_NA;						// no ACKSTAT check
-			else I2C_Subcode = START_ACK;					// check ACKSTAT bit, still checks other errors
-			I2C_Slave = I2C_Code.uChar[1];					// save it
-			I2CTRN = I2C_Slave;								// send it
-//			I2C_Index++;									// point to next command
+		case START:													// bus started now sending address
+			if ( CC.I2C_Code.F.uACK )
+				CC.I2C_Subcode = START_NA;							// no ACKSTAT check
+			else CC.I2C_Subcode = START_ACK;						// check ACKSTAT bit, still checks other errors
+			CC.I2C_Slave = CC.I2C_Code.uChar[1];					// save it
+			I2CTRN = CC.I2C_Slave;									// send it
 		break;
 		case START_ACK: // started and check device responded
 			if ( I2CSTATbits.ACKSTAT == 1 )
-				I2CERROR = NO_ACK;							// no ACK received
+				CC.I2CERROR = NO_ACK;								// no ACK received
 		case START_NA: // check other bus errors
 			if ( !I2C_NORMAL )
-				I2CERROR = BUS;								// some other bus error
+				CC.I2CERROR = BUS;									// some other bus error
 			else ;
-			I2C_Subcode = NOTHING;							// either way do next command
-			I2C_Index++;									// point to next
-			if ( I2CERROR )
+			CC.I2C_Subcode = NOTHING;								// either way do next command
+			CC.I2C_Index++;											// point to next
+			if ( CC.I2CERROR )
 			{
-				I2CERROR_CON = I2CCON, I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[I2C_Index].uChar[0] = STOP;	// make next command stop bus
-				uI2C_Commands[I2C_Index+1].uChar[0] = FINISHED; // then finished
+				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
+				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
+				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
 			};
-			MI2CIF = 1;			 							// re-trigger the interrupt
+			MI2CIF = 1;												// re-trigger the interrupt
 		break;
 		case RESTART:	// same handling as start but resends the stored address in read mode (ie bit0 = 1)
-			if ( uI2C_Commands[I2C_Index].tagF.uACK )
-				I2C_Subcode = START_NA;						// no ACKSTAT check
-			else I2C_Subcode = START_ACK;					// check ACKSTAT bit, still checks other errors
-			I2CTRN = (I2C_Slave | 0x01);					// send it
-//			I2C_Index++;									// point to next command
+			if ( uI2C_Commands[CC.I2C_Index].F.uACK )
+				CC.I2C_Subcode = START_NA;							// no ACKSTAT check
+			else CC.I2C_Subcode = START_ACK;						// check ACKSTAT bit, still checks other errors
+			I2CTRN = (CC.I2C_Slave | 0x01);							// send it
 		break;
 		case STOP:
-//			I2CCONbits.PEN = 1;		// stop bus
-			I2C_Index++;
-			I2C_Subcode = NOTHING;
-			MI2CIF = 1;			 							// re-trigger the interrupt
+			CC.I2C_Index++;
+			CC.I2C_Subcode = NOTHING;
+			MI2CIF = 1;												// re-trigger the interrupt
 		break;
 		case TX_LOW:
-			if ( I2CSTATbits.ACKSTAT == 1 )					// always expects ACK
-				I2CERROR = NO_ACK;							// no ACK received
-			if ( !I2C_NORMAL )								// and no bus errors
-				I2CERROR = BUS;								// some other bus error
+			if ( I2CSTATbits.ACKSTAT == 1 )							// always expects ACK
+				CC.I2CERROR = NO_ACK;								// no ACK received
+			if ( !I2C_NORMAL )										// and no bus errors
+				CC.I2CERROR = BUS;									// some other bus error
 			else ;
-			if ( I2CERROR )									// save info for debug etc
+			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				I2CERROR_CON = I2CCON, I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				I2C_Subcode = NOTHING;						// either way do next command
-				MI2CIF = 1;		 							// re-trigger the interrupt
+				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
+				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
+				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
+				CC.I2C_Subcode = NOTHING;							// either way do next command
+				MI2CIF = 1;											// re-trigger the interrupt
 			} else {
-				if ( I2C_Code.tagF.uBuf ) 
+				if ( CC.I2C_Code.F.uBuf )
 				{
-					I2CTRN = I2C_buffer[I2C_Tail++];		// send it
+					I2CTRN = I2C_buffer[CC.I2C_Tail++];				// send it
 				} else {
-//					I2C_Index++;							// point to next one to send
-					I2CTRN = uI2C_Commands[I2C_Index].uChar[0];	// send it
-					I2C_Subcode = TX_HIGH;					// set to send other byte in pair
+//					CC.I2C_Index++;									// point to next one to send
+					I2CTRN = uI2C_Commands[CC.I2C_Index].uChar[0];	// send it
+					CC.I2C_Subcode = TX_HIGH;						// set to send other byte in pair
 				}
-				I2C_Sublen--;								// reduce length
-				if ( I2C_Sublen < 0 )
-					I2C_Subcode = NOTHING, I2C_Index++;	// run out of bytes to send
+				CC.I2C_Sublen--;									// reduce length
+				if ( CC.I2C_Sublen < 0 )
+					CC.I2C_Subcode = NOTHING, CC.I2C_Index++;		// run out of bytes to send
 			}
 		break;
 		case TX_HIGH:
-			if ( I2CSTATbits.ACKSTAT == 1 )					// always expects ACK
-				I2CERROR = NO_ACK;							// no ACK received
-			if ( !I2C_NORMAL )								// and no bus errors
-				I2CERROR = BUS;								// some other bus error
+			if ( I2CSTATbits.ACKSTAT == 1 )							// always expects ACK
+				CC.I2CERROR = NO_ACK;								// no ACK received
+			if ( !I2C_NORMAL )										// and no bus errors
+				CC.I2CERROR = BUS;									// some other bus error
 			else ;
-			if ( I2CERROR )									// save info for debug etc
+			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				I2CERROR_CON = I2CCON, I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				I2C_Subcode = NOTHING;						// either way do next command
-				MI2CIF = 1;		 							// re-trigger the interrupt
+				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
+				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
+				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
+				CC.I2C_Subcode = NOTHING;							// either way do next command
+				MI2CIF = 1;											// re-trigger the interrupt
 			} else {
-				if ( I2C_Code.tagF.uBuf ) 
+				if ( CC.I2C_Code.F.uBuf )
 				{
-					I2CTRN = I2C_buffer[I2C_Tail++];		// send it
+					I2CTRN = I2C_buffer[CC.I2C_Tail++];				// send it
 				} else {
-					I2CTRN = uI2C_Commands[I2C_Index].uChar[1];	// send it
-					I2C_Subcode = TX_LOW;					// set to send other byte in pair
+					I2CTRN = uI2C_Commands[CC.I2C_Index].uChar[1];	// send it
+					CC.I2C_Subcode = TX_LOW;						// set to send other byte in pair
 				}
-				I2C_Sublen--;								// reduce length
-				I2C_Index++;								// point to next one to send / command
-				if ( I2C_Sublen < 0 )
-					I2C_Subcode = NOTHING;					// run out of bytes to send
+				CC.I2C_Sublen--;									// reduce length
+				CC.I2C_Index++;										// point to next one to send / command
+				if ( CC.I2C_Sublen < 0 )
+					CC.I2C_Subcode = NOTHING;						// run out of bytes to send
 			}
 		break;
-		case RX_ACK:										// last byte always NACK received
+		case RX_ACK:												// last byte always NACK received
 			if ( !I2CSTATbits.RBF )
-				I2CERROR = NO_REC;							// did not get a byte for some reason
+				CC.I2CERROR = NO_REC;								// did not get a byte for some reason
 			else uByte = I2CRCV;
-			if ( !I2C_NORMAL )								// and no bus errors
-				I2CERROR = BUS;								// some other bus error
+			if ( !I2C_NORMAL )										// and no bus errors
+				CC.I2CERROR = BUS;									// some other bus error
 			else ;
-			if ( I2CERROR )									// save info for debug etc
+			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				I2CERROR_CON = I2CCON, I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				I2C_Subcode = NOTHING;						// either way do next command
-				MI2CIF = 1;		 							// re-trigger the interrupt
+				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
+				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
+				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
+				CC.I2C_Subcode = NOTHING;							// either way do next command
+				MI2CIF = 1;											// re-trigger the interrupt
 			} else {
-//				if ( I2C_Code.uRec )						// check if we want to save it
-				I2C_buffer[I2C_Head++] = uByte;				// save it
-				I2C_Sublen--;								// point to next one to send
-				if ( I2C_Sublen < 0 )
-				{	I2C_Subcode = RX_NACK_CLK;				// run out of bytes to rec
-//					I2CCONbits.RCEN = 1;
-					I2CCONbits.ACKDT = 1;					// clk 9th bit with NACK
+//				if ( CC.I2C_Code.uRec )								// check if we want to save it
+				I2C_buffer[CC.I2C_Head++] = uByte;					// save it
+				CC.I2C_Sublen--;									// point to next one to send
+				if ( CC.I2C_Sublen < 0 )
+				{	CC.I2C_Subcode = RX_NACK_CLK;					// run out of bytes to rec
+					I2CCONbits.ACKDT = 1;							// clk 9th bit with NACK
 					I2CCONbits.ACKEN = 1;
 				} else {
-					I2C_Subcode = RX_ACK_CLK;				// run out of bytes to rec
-//					I2CCONbits.RCEN = 1;
-					I2CCONbits.ACKDT = 0;					// clk 9th bit with ACK
+					CC.I2C_Subcode = RX_ACK_CLK;					// run out of bytes to rec
+					I2CCONbits.ACKDT = 0;							// clk 9th bit with ACK
 					I2CCONbits.ACKEN = 1;
 				}
 			}
 		break;
-		case RX_ACK_CLK:									// send 9th bit
-			if ( !I2C_NORMAL )								// and no bus errors
-				I2CERROR = BUS;								// some other bus error
+		case RX_ACK_CLK:											// send 9th bit
+			if ( !I2C_NORMAL )										// and no bus errors
+				CC.I2CERROR = BUS;									// some other bus error
 			else ;
-			if ( I2CERROR )									// save info for debug etc
+			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				I2CERROR_CON = I2CCON, I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				I2C_Subcode = NOTHING;						// either way do next command
-				MI2CIF = 1;		 							// re-trigger the interrupt
+				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
+				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
+				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
+				CC.I2C_Subcode = NOTHING;							// either way do next command
+				MI2CIF = 1;											// re-trigger the interrupt
 			} else {
-				I2C_Subcode = RX_ACK;						// do next one
+				CC.I2C_Subcode = RX_ACK;							// do next one
 				I2CCONbits.RCEN = 1;
 			}
 		break;
-		case RX_NACK:										// last byte always NACK received
+		case RX_NACK:												// last byte always NACK received
 			if ( !I2CSTATbits.RBF )
-				I2CERROR = NO_REC;							// did not get a byte for some reason
+				CC.I2CERROR = NO_REC;								// did not get a byte for some reason
 			else uByte = I2CRCV;
-			if ( !I2C_NORMAL )								// and no bus errors
-				I2CERROR = BUS;								// some other bus error
+			if ( !I2C_NORMAL )										// and no bus errors
+				CC.I2CERROR = BUS;									// some other bus error
 			else ;
-			if ( I2CERROR )									// save info for debug etc
+			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				I2CERROR_CON = I2CCON, I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				I2C_Subcode = NOTHING;						// either way do next command
+				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
+				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
+				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
+				CC.I2C_Subcode = NOTHING;							// either way do next command
 			} else {
-//				if ( I2C_Code.uRec )						// check if we want to save it
-				I2C_buffer[I2C_Head++] = uByte;				// save it
-//				I2C_Subcode = NOTHING, I2C_Index++;		// run out of bytes to rec
-				I2CCONbits.ACKDT = 1;					// clk 9th bit with NACK
+				I2C_buffer[CC.I2C_Head++] = uByte;					// save it
+//				CC.I2C_Subcode = NOTHING, I2C_Index++;				// run out of bytes to rec
+				I2CCONbits.ACKDT = 1;								// clk 9th bit with NACK
 				I2CCONbits.ACKEN = 1;
-				I2C_Subcode = RX_NACK_CLK;				// run out of bytes to rec			
+				CC.I2C_Subcode = RX_NACK_CLK;						// run out of bytes to rec
 			}
 		break;
-		case RX_NACK_CLK:									// send 9th bit
-			if ( !I2C_NORMAL )								// and no bus errors
-				I2CERROR = BUS;								// some other bus error
+		case RX_NACK_CLK:											// send 9th bit
+			if ( !I2C_NORMAL )										// and no bus errors
+				CC.I2CERROR = BUS;									// some other bus error
 			else ;
-			if ( I2CERROR )									// save info for debug etc
+			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				I2CERROR_CON = I2CCON, I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				I2C_Subcode = NOTHING;						// either way do next command
+				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
+				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
+				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
+				CC.I2C_Subcode = NOTHING;							// either way do next command
 			} else {
-				I2C_Subcode = NOTHING, I2C_Index++;			// run out of bytes to rec
+				CC.I2C_Subcode = NOTHING, CC.I2C_Index++;			// run out of bytes to rec
 			}
-			MI2CIF = 1;		 								// re-trigger the interrupt
+			MI2CIF = 1;												// re-trigger the interrupt
 		break;
 	}
 
@@ -377,13 +473,27 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 
 void I2C_Start( int T_O )
 {
-	if ( T_O < 2 )											// set 2ms minimum timeout
+	if ( T_O < 2 )													// set 2ms minimum timeout
 		I2C_Timeout = 2;
 	else I2C_Timeout = T_O;
 
-	I2C_Subcode = NOTHING, I2C_Head = I2C_Index = 0;		// reset everything
-	I2CERROR = I2CERROR_CON = I2CERROR_STAT = NOTHING;		// store
+	CC.I2C_Subcode = NOTHING, CC.I2C_Head = CC.I2C_Index = 0;		// reset everything
+	CC.I2CERROR = CC.I2CERROR_CON = CC.I2CERROR_STAT = NOTHING;		// store
 	MI2CIF = 1 ; // Start the interrupt, may need to do checks here for bus busy
+}
+
+void I2C_Reset( void )
+{
+	udb_init_I2C2();	// turn off then turn on module
+	uI2C_Commands[0] = busReset[0];
+	uI2C_Commands[1] = busReset[1];
+	uI2C_Commands[2] = busReset[2];
+	I2C_Start( 0 );		// fake start and stop on address 0
+}
+
+void I2C_idle(void)
+{
+        return ;
 }
 
 #endif

@@ -392,7 +392,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 		EE_Write_Timer--;
 	if ( I2C_Timeout > 0)		// simple counter that is decremented to 0 in T3 interrupt
 		if ( --I2C_Timeout == 0 )
-			I2CERROR = TIMEOUT;	// set error status
+			CC.I2CERROR = TIMEOUT;	// set error status
 
 	if ( iFrameCounter >= FRAME_ROLL )
 		iFrameCounter = 0;

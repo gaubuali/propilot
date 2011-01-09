@@ -409,20 +409,33 @@ struct tagI2C_flags {
 
 // Most all the other I/O is used by a smart peripheral or not connected to anything
 
-typedef struct tagI2C {
- union {
+typedef union tagI2C {
 	unsigned char uChar[2];	// two bytes, one at a time
+	unsigned int uInt;		// 16 bits all at once
 		struct tagFields {	// field definitions to make easy to use / read
 	unsigned int uCmd:3;	// 0=nothing, 1=start, 2=restart, 3=stop, 4=TX, 5=RX with ACK, 6=RX 1 with NACK, 7 = finsihed
 	unsigned int uACK:1;	// 0=ACKSTAT must be 0, 1=ACKSTAT don't care
+							// just for FINISHED command,
+							//		0 = nothing,
+							//		1 = iResult += 1;
 	unsigned int uBuf:1;	// 0=data sent from uI2C_Commands, 1=I2C_buffer
 							// I2C_Tail used as index on TX, I2C_Head on RX
-	unsigned int uSpare:3;	// not used yet
+							// just for FINISHED command,
+							//		0 = no call back,
+							//		1 = call I2C_call_back[CC.Ident&0x7]
+	unsigned int uResult:3;	// FINISHED command, copies CC into result buffer ie
+							// CD[CC.Ident&0x7] = CC at end, CD[0] reserved
+							//	0 = nothing,
+							//	RSET = 1 = iResult is set to .uCount,
+							//	RADD = 2 = add .uCount to iResult
+							//	PSET = 3 = *piResult is set to .uCount,
+							//	PADD = 4 = add .uCount to *piResult
+							//	CCPY = 5 = copy .uCount bytes from I2C_buffer to *pcResult,
+							//	HCPY = 6 = copy I2C_Head bytes from I2C_buffer to *pcResult,
+							//	7 = not implimented yet, *result could be a function call
 	unsigned int uCount:8;	// 0=1, 1=2, 2=3 etc also depends on command
 							// also used for slave address
-				} tagF;
-	unsigned int uInt;		// 16 bits all at once
- };
+				} F;
 } I2C_Action, *LPI2C_Action;
 
 // some commands have implied length, start is followed by 1 byte bus address (R/W bit must be what you need)
@@ -431,11 +444,26 @@ typedef struct tagI2C {
 // use can happen otherwise its going to sit there forever.
 
 // these enum's are the constants used in the switches
-enum I2C_Cmd{NOTHING, START, RESTART, STOP, TX, RX_ACK, RX_NACK, FINISHED};
-enum I2C_Sub{//NOTHING, START, RESTART, STOP, TX, RX_ACK, RX_NACK, FINISHED,
+enum I2C_Cmd {NOTHING, START, RESTART, STOP, TX, RX_ACK, RX_NACK, FINISHED};
+enum I2C_Sub {//NOTHING, START, RESTART, STOP, TX, RX_ACK, RX_NACK, FINISHED,
 				START_ACK=11, START_NA,
 				TX_LOW=41, TX_HIGH,
 				RX_ACK_CLK=51, RX_NACK_CLK
 };
-enum I2C_ERR{ // NOTHING,
+enum I2C_ERR { // NOTHING,	// error codes in I2CERROR
 				TIMEOUT = 1, NO_ACK, BUS, NO_REC, RUNAWAY };
+enum I2C_FIN { // NOTHING,	// .uResult codes for FINISHED command
+				RSET = 1, RADD, PSET, PADD, CCPY, HCPY };
+
+typedef struct tagI2Ccommand {	// structure used in running I2C devices and saving results
+	int	Ident;					// application layer use, low 3 bits = result buffer
+	int I2C_Index;				// current command index into uI2C_Commands
+	int I2CERROR, I2CERROR_CON, I2CERROR_STAT;	// record for errors
+	int I2C_Subcode, I2C_Sublen;// subcode driven by hardware status, length is used in TX and RX
+	I2C_Action I2C_Code;		// current action, also used to keep flags when data is in buffer
+	int I2C_Slave;				// on a start condition saves the slave address
+	int	I2C_Head, I2C_Tail;		// index into data buffer
+			  int iResult;		// data add or set mode
+			  int *piResult;	// int pointer mode
+	unsigned char *pcResult;	// pointer to string
+} I2CCMD, *LPI2CCMD;

@@ -535,20 +535,20 @@ extern int udb_magOffset[3] ;
 extern int magGain[3] ;
 extern int offsetDelta[3] ;
 extern int rawMagCalib[3] ;
-extern int magMessage ;
+// extern int magMessage ;
 
 extern union longww HHIntegral ;
 
 #define OFFSETSHIFT 1
 
-extern int I2ERROR ;
+//extern int I2ERROR ;
 extern int I2messages ;
 extern int I2interrupts ;
 /*
 void serial_output_8hz( void )
 {
 	serial_output("MagMessage: %i\r\nI2CCON: %X, I2CSTAT: %X, I2ERROR: %X\r\nMessages: %i\r\nInterrupts: %i\r\n\r\n" ,
-		magMessage ,
+		CD[magCDindex].R.iResult ,
 		I2CCON , I2CSTAT , I2ERROR ,
 		I2messages, I2interrupts ) ;
 	return ;
@@ -559,15 +559,27 @@ void serial_output_8hz( void )
 {
 	if (++skip == 2)
 	{
+		if ( CD[0].I2CERROR )	{
 		serial_output("MagOffset: %i, %i, %i\r\nMagBody: %i, %i, %i\r\nMagEarth: %i, %i, %i\r\nMagGain: %i, %i, %i\r\nCalib: %i, %i, %i\r\nMagMessage: %i\r\nTotalMsg: %i\r\nI2CCON: %X, I2CSTAT: %X, I2ERROR: %04X\r\n\r\n" ,
 			udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT ,
 			udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] ,
 			magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] ,
 			magGain[0] , magGain[1] , magGain[2] ,
 			rawMagCalib[0] , rawMagCalib[1] , rawMagCalib[2] ,
-			magMessage ,
+			CD[magCDindex].iResult ,
 			I2messages ,
-			I2CCON , I2CSTAT , I2ERROR ) ;
+			CD[0].I2CERROR_CON , CD[0].I2CERROR_STAT , CD[0].I2CERROR ) ;
+		} else {
+		serial_output("MagOffset: %i, %i, %i\r\nMagBody: %i, %i, %i\r\nMagEarth: %i, %i, %i\r\nMagGain: %i, %i, %i\r\nCalib: %i, %i, %i\r\nMagMessage: %i\r\nTotalMsg: %i\r\nI2CCON: %X, I2CSTAT: %X, I2ERROR: %04X\r\n\r\n" ,
+			udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT ,
+			udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] ,
+			magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] ,
+			magGain[0] , magGain[1] , magGain[2] ,
+			rawMagCalib[0] , rawMagCalib[1] , rawMagCalib[2] ,
+			CD[magCDindex].iResult ,
+			I2messages ,
+			I2CCON , I2CSTAT , CD[0].I2CERROR ) ;
+		}
 		skip = 0;
 	}
 	return ;
