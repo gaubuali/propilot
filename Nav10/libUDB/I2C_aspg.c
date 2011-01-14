@@ -52,6 +52,8 @@
 #define I2C_SCL		_LATG2
 #define tI2C_SDA( x ) _TRISG3 = x, _ODCG3 = 1
 #define tI2C_SCL( x ) _TRISG2 = x, _ODCG2 = 1
+#define iI2C_SDA	_RG3
+#define iI2C_SCL	_RG2
 #elif SYS_I2C == 2
 #define I2CCON		I2C2CON
 #define I2CCONbits	I2C2CONbits
@@ -70,6 +72,8 @@
 #define I2C_SCL		_LATA2
 #define tI2C_SDA( x ) _TRISA3 = x, _ODCA3 = 1
 #define tI2C_SCL( x ) _TRISA2 = x, _ODCA2 = 1
+#define iI2C_SDA	_RA3
+#define iI2C_SCL	_RA2
 #else
 #error Must define SYS_I2C 1 or 2
 #endif
@@ -78,12 +82,14 @@
 #define I2C2_BRGVAL 95
 #define I2C_NORMAL ((( I2C2CON & 0b0000000000011111 ) == 0) && ( (I2C2STAT & 0b0100010011000001) == 0 ))
 
-void I2C_idle(void);
+void I2C_default(void);
 
 // buffer for EEProm read / write, ACC and MAG use their own private buffers
 unsigned char __attribute__ ((section(".myDataSection"),address(0x2270))) I2C_buffer[I2C_BUF_LEN];	// peripheral buf
-void (* I2C_call_back[8] ) ( void ) = { &I2C_idle, &I2C_idle, &I2C_idle, &I2C_idle,
-										&I2C_idle, &I2C_idle, &I2C_idle, &I2C_idle } ;
+void (* I2C_call_back[8] ) ( void ) = { &I2C_default, &I2C_default,
+										&I2C_default, &I2C_default,
+										&I2C_default, &I2C_default,
+										&I2C_default, &I2C_default };
 
 const I2C_Action busReset[] = {  
 	{.uChar[0] = 0},					// empty to make Index step
@@ -110,6 +116,7 @@ I2CCMD CD[8] = {// device driver command buffers - when finished CC gets copied
 
 int I2Cinterrupts = 0 ;
 int I2Cmessages = 0;
+
 // int I2C_Address = 0;	// tries to keep track of current address by increment by one on each read
 						// no way shape or form should this be counted on unless set externally and
 						// addressed device is totally simple
@@ -118,11 +125,7 @@ int I2C_Timeout = 0;	// simple counter decremented to 0 in T3 interrupt (servoOu
 struct tagI2C_flags I2C_flags;	// defined in ConfigASPG.h
 //	unsigned int bInUse:1;		// in use right now
 //	unsigned int bERROR:1;		// in use right now, restarting
-//	unsigned int bMagCfg:1;		// mag config - should be 1
-//	unsigned int bMagCal:1;		// mag calibration
 //	unsigned int bMagReady:1;	// mag needs to be read
-//	unsigned int bAccCfg:1;		// Acc config - should be 1
-//	unsigned int bAccCal:1;		// Acc calibration
 //	unsigned int bAccReady:1;	// Accelerometer needs to be read
 //	unsigned int bReadMag:1;	// reading mag
 //	unsigned int bReadAcc:1;	// reading Accelerometer
@@ -133,10 +136,14 @@ struct tagI2C_flags I2C_flags;	// defined in ConfigASPG.h
 //	unsigned int bWriteEE2:1;	// write EE Prom, stage 2
 //	unsigned int bWriteEE3:1;	// write EE Prom, stage 2 (done)
 
+int	I2C_one_time_init = 0;
 
 void udb_init_I2C2(void)
 {
-
+	int	iCounter, iGiveUp;
+	I2CCONbits.I2CEN = 0 ; 						// disable I2C
+	SI2CIE = 0 ; // slave disable the interrupt
+	MI2CIE = 0 ; // master disable the interrupt
 	tI2C_SDA(0), tI2C_SCL(0);					// set them as outputs for later
 	I2CCON = 0;									// clear
 	I2C_SDA = I2C_SCL = 0;						// force both low, bus reset
@@ -144,6 +151,22 @@ void udb_init_I2C2(void)
 	I2CCONbits.SCLREL = 1;
 	I2CCONbits.DISSLW = 0 ;						// config I2C
 	I2C_SDA = I2C_SCL = 1;						// force both high, bus reset
+	if ( (iI2C_SDA != 1) || (iI2C_SCL != 1) )	// try reset bus
+	{	iGiveUp = 0;							// of course nothing we can do
+		do {									// if a slave is streching SCL
+			for ( iCounter = 1; iCounter < 32; iCounter++ )
+				;
+			I2C_SCL = 0;
+			for ( iCounter = 1; iCounter < 32; iCounter++ )
+				;
+			I2C_SCL = 1;
+			for ( iCounter = 1; iCounter < 32; iCounter++ )
+				;
+			iGiveUp++;
+		} while (((iI2C_SDA != 1) || (iI2C_SCL != 1)) && iGiveUp <= 100);
+		if ( iGiveUp >= 100 )					// gave up, mark bus as in use
+			I2C_flags.bInUse = 1, CC.I2CERROR = BUS; // un-recoverable bus error
+	}
 
 //	SI2CIP = 5 ; // slave I2C at priority 5
 	MI2CIP = 5 ; // master I2C at priority 5
@@ -153,13 +176,16 @@ void udb_init_I2C2(void)
 	MI2CIE = 1 ; // master enable the interrupt
 
 	I2CCONbits.I2CEN = 1 ; 						// enable I2C
+	if ( I2C_one_time_init == 0 )
+	{
+		I2C_one_time_init = 1;
 #if ( MAG_YAW_DRIFT == 1 )
-	MAG_INTpr = 2, MAG_DRt = 1, MAG_INTf = 0, MAG_INTpo = 0;
-	MAG_INTe = 1;	// input pin, int on high & enabled, cleared
+		MAG_INTpr = 2, MAG_DRt = 1, MAG_INTf = 0, MAG_INTpo = 0;
+		MAG_INTe = 0;	// input pin, int on high & disabled, cleared
 #endif
-	ACC_INTpr = 2, ACC_DRt = 1, ACC_INTf = 0, ACC_INTpo = 0;
-	ACC_INTe = 1;	// input pin, int on high & enabled, cleared
-
+		ACC_INTpr = 2, ACC_DRt = 1, ACC_INTf = 0, ACC_INTpo = 0;
+		ACC_INTe = 0;	// input pin, int on high & disabled, cleared
+	};
 	return ;
 }
 
@@ -291,8 +317,23 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 					CD[CC.Ident&0x7] = CC;							// store result state
 					if ( CC.I2C_Code.F.uBuf )
 						(* I2C_call_back[CC.Ident&0x7]) () ;		// execute the callback routine
+					I2Cmessages++;
 					// TODO: check I2C_Flags and process
-					I2C_flags.bInUse = 0;
+//					if ( I2C_flags.bMagReady || (iMAG_DR1 & MAG_INTe) )	// high priority as it has no buffer
+					if ( I2C_flags.bMagReady )	// high priority as it has no buffer
+					{
+						magSetupRead();	// do a read of device
+						I2C_Start( 0 );								// re-trigger the interrupt
+					} else
+//					if ( I2C_flags.bAccReady || iACC_DR1)	// lower priority as it has buffer
+					if ( I2C_flags.bAccReady || ACC_INTe)	// lower priority as it has buffer
+					{	uByte = iACC_DR1;
+						if ( (I2C_buffer[7] & 0x1f) || I2C_flags.bAccReady )
+						{
+							accSetupRead();	// do a read of device
+							I2C_Start( 0 );							// re-trigger the interrupt
+						} else I2C_flags.bInUse = 0;
+					} else I2C_flags.bInUse = 0;
 				break;
 			}
 		break;	// starting
@@ -324,7 +365,12 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 			if ( uI2C_Commands[CC.I2C_Index].F.uACK )
 				CC.I2C_Subcode = START_NA;							// no ACKSTAT check
 			else CC.I2C_Subcode = START_ACK;						// check ACKSTAT bit, still checks other errors
-			I2CTRN = (CC.I2C_Slave | 0x01);							// send it
+			if ( uI2C_Commands[CC.I2C_Index].F.uBuf )				// make read
+				I2CTRN = (CC.I2C_Slave | 0x01);						// send it
+			else {
+				CC.I2C_Slave = CC.I2C_Code.uChar[1];				// save it
+				I2CTRN = CC.I2C_Slave;								// send it
+			};
 		break;
 		case STOP:
 			CC.I2C_Index++;
@@ -339,11 +385,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 			else ;
 			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				CC.I2C_Subcode = NOTHING;							// either way do next command
-				MI2CIF = 1;											// re-trigger the interrupt
+				goto I2C_ERROR;										// process error
 			} else {
 				if ( CC.I2C_Code.F.uBuf )
 				{
@@ -366,11 +408,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 			else ;
 			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				CC.I2C_Subcode = NOTHING;							// either way do next command
-				MI2CIF = 1;											// re-trigger the interrupt
+				goto I2C_ERROR;										// process error
 			} else {
 				if ( CC.I2C_Code.F.uBuf )
 				{
@@ -394,11 +432,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 			else ;
 			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				CC.I2C_Subcode = NOTHING;							// either way do next command
-				MI2CIF = 1;											// re-trigger the interrupt
+				goto I2C_ERROR;										// process error
 			} else {
 //				if ( CC.I2C_Code.uRec )								// check if we want to save it
 				I2C_buffer[CC.I2C_Head++] = uByte;					// save it
@@ -420,11 +454,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 			else ;
 			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				CC.I2C_Subcode = NOTHING;							// either way do next command
-				MI2CIF = 1;											// re-trigger the interrupt
+				goto I2C_ERROR;										// process error
 			} else {
 				CC.I2C_Subcode = RX_ACK;							// do next one
 				I2CCONbits.RCEN = 1;
@@ -439,10 +469,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 			else ;
 			if ( CC.I2CERROR )										// save info for debug etc
 			{
-				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				CC.I2C_Subcode = NOTHING;							// either way do next command
+				goto I2C_ERROR;										// process error
 			} else {
 				I2C_buffer[CC.I2C_Head++] = uByte;					// save it
 //				CC.I2C_Subcode = NOTHING, I2C_Index++;				// run out of bytes to rec
@@ -456,11 +483,8 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 				CC.I2CERROR = BUS;									// some other bus error
 			else ;
 			if ( CC.I2CERROR )										// save info for debug etc
-			{
-				CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
-				uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
-				uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
-				CC.I2C_Subcode = NOTHING;							// either way do next command
+			{	
+				goto I2C_ERROR;										// process error
 			} else {
 				CC.I2C_Subcode = NOTHING, CC.I2C_Index++;			// run out of bytes to rec
 			}
@@ -468,7 +492,19 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 		break;
 	}
 
-	return ;
+	goto I2C_DONE;
+I2C_ERROR:
+	CC.I2CERROR_CON = I2CCON, CC.I2CERROR_STAT = I2CSTAT;	// store
+	uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;		// make next command stop bus
+	uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;	// then finished
+	uI2C_Commands[CC.I2C_Index+1].uChar[1] = 0;			// and do nothing extra
+	CC.I2C_Subcode = NOTHING;							// either way do next command
+	if ( CC.I2CERROR == BUS )							// reset module
+		udb_init_I2C2();
+	else ;
+	MI2CIF = 1;											// re-trigger the interrupt
+I2C_DONE:
+	__asm( "Nop" );
 }
 
 void I2C_Start( int T_O )
@@ -479,7 +515,8 @@ void I2C_Start( int T_O )
 
 	CC.I2C_Subcode = NOTHING, CC.I2C_Head = CC.I2C_Index = 0;		// reset everything
 	CC.I2CERROR = CC.I2CERROR_CON = CC.I2CERROR_STAT = NOTHING;		// store
-	MI2CIF = 1 ; // Start the interrupt, may need to do checks here for bus busy
+	MI2CIF = 1 ;	// Start the interrupt, may need to do checks here for bus busy
+					// but this is also the only way to get out of a timeout
 }
 
 void I2C_Reset( void )
@@ -491,7 +528,7 @@ void I2C_Reset( void )
 	I2C_Start( 0 );		// fake start and stop on address 0
 }
 
-void I2C_idle(void)
+void I2C_default(void)
 {
         return ;
 }

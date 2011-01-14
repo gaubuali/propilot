@@ -443,11 +443,7 @@ void serial_output_8hz( void )
 				rmat[6] , rmat[7] , rmat[8] ,
 				(unsigned int)cog_gps.BB, sog_gps.BB, (unsigned int)udb_cpu_load(), voltage_milis.BB,
 				air_speed_magnitude, estimatedWind[0], estimatedWind[1],estimatedWind[2]) ;
-			
-			// Approximate time passing between each telemetry line, even though
-			// we may not have new GPS time data each time through.
-			if (tow.WW > 0) tow.WW += 500 ;
-				
+		
 #elif ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
 			if (print_choice == 0 )
 			{
@@ -468,10 +464,6 @@ void serial_output_8hz( void )
 #endif
 					
 					svs, hdop ) ;
-				
-				// Approximate time passing between each telemetry line, even though
-				// we may not have new GPS time data each time through.
-			/*	if (tow.WW > 0) */ tow.WW += 250 ;
 				
 				// Save  pwIn and PwOut buffers for printing next time around
 				int i ;
@@ -508,6 +500,10 @@ void serial_output_8hz( void )
 			
 			return ;
 	}
+				// Approximate time passing between each telemetry line, even though
+				// we may not have new GPS time data each time through.
+			/*	if (tow.WW > 0) */ tow.WW += 250 ;
+				
 	telemetry_counter-- ;
 	return ;
 }
@@ -560,28 +556,36 @@ void serial_output_8hz( void )
 	if (++skip == 2)
 	{
 		if ( CD[0].I2CERROR )	{
-		serial_output("MagOffset: %i, %i, %i\r\nMagBody: %i, %i, %i\r\nMagEarth: %i, %i, %i\r\nMagGain: %i, %i, %i\r\nCalib: %i, %i, %i\r\nMagMessage: %i\r\nTotalMsg: %i\r\nI2CCON: %X, I2CSTAT: %X, I2ERROR: %04X\r\n\r\n" ,
+		serial_output("mSec: %li, CPU: %li Tcy/s\r\nMagOffset: %i, %i, %i\r\nMagBody:  %5i, %5i, %5i\r\nMagEarth: %5i, %5i, %5i\r\nCalib:    %5i, %5i, %5i\r\nMagGain:  %i, %i, %i\r\nRaw: %i, %i, %i\r\n" ,
+			tow.WW, old_cpu_counter<<1,	// Tcy / sec
 			udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT ,
 			udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] ,
 			magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] ,
-			magGain[0] , magGain[1] , magGain[2] ,
 			rawMagCalib[0] , rawMagCalib[1] , rawMagCalib[2] ,
-			CD[magCDindex].iResult ,
-			I2messages ,
+			magGain[0] , magGain[1] , magGain[2] ,
+			previousMagFieldRaw[0] , previousMagFieldRaw[1] , previousMagFieldRaw[2] ) ;
+		serial_output("MagMessage: %i, TotalMsg: %i\r\nI2CCON: 0x%04X, I2CSTAT: 0x%04X, I2ERROR: 0x%04X\r\n\r\n" ,
+			CD[magCDindex].iResult , I2Cmessages ,
 			CD[0].I2CERROR_CON , CD[0].I2CERROR_STAT , CD[0].I2CERROR ) ;
 		} else {
-		serial_output("MagOffset: %i, %i, %i\r\nMagBody: %i, %i, %i\r\nMagEarth: %i, %i, %i\r\nMagGain: %i, %i, %i\r\nCalib: %i, %i, %i\r\nMagMessage: %i\r\nTotalMsg: %i\r\nI2CCON: %X, I2CSTAT: %X, I2ERROR: %04X\r\n\r\n" ,
+		serial_output("mSec: %li, CPU: %li Tcy/s\r\nMagOffset: %i, %i, %i\r\nMagBody:  %5i, %5i, %5i\r\nMagEarth: %5i, %5i, %5i\r\nCalib:    %5i, %5i, %5i\r\nMagGain:  %i, %i, %i\r\nRaw: %i, %i, %i\r\n" ,
+			tow.WW, old_cpu_counter<<1,	// Tcy / sec
 			udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT ,
 			udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] ,
 			magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] ,
-			magGain[0] , magGain[1] , magGain[2] ,
 			rawMagCalib[0] , rawMagCalib[1] , rawMagCalib[2] ,
-			CD[magCDindex].iResult ,
-			I2messages ,
+			magGain[0] , magGain[1] , magGain[2] ,
+			previousMagFieldRaw[0] , previousMagFieldRaw[1] , previousMagFieldRaw[2] ) ;
+		serial_output("MagMessage: %i, TotalMsg: %i\r\nI2CCON: 0x%04X, I2CSTAT: 0x%04X, I2ERROR: 0x%04X\r\n\r\n" ,
+			CD[magCDindex].iResult , I2Cmessages ,
 			I2CCON , I2CSTAT , CD[0].I2CERROR ) ;
 		}
 		skip = 0;
 	}
+	// Approximate time passing between each telemetry line, even though
+	// we may not have new GPS time data each time through.
+	/*	if (tow.WW > 0) */ tow.WW += 125 ;
+				
 	return ;
 }
 

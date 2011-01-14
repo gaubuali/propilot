@@ -84,6 +84,9 @@ void udb_background_callback_triggered(void);			// Callback
 // This function returns the current CPU load as an integer percentage value
 // from 0-100.
 unsigned char udb_cpu_load(void);
+// ASPG board cpu_timer is in 1/10's of a % updated twice a second
+extern unsigned int cpu_timer;
+extern unsigned long old_cpu_counter;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -144,6 +147,10 @@ void udb_set_action_state(boolean newValue);
 extern struct ADchannel udb_xaccel, udb_yaccel, udb_zaccel;	// x, y, and z accelerometer channels
 extern struct ADchannel udb_xrate, udb_yrate, udb_zrate;	// x, y, and z gyro channels
 extern struct ADchannel udb_vref;							// reference voltage
+extern int AD1_Raw[NUM_AD1_LIST+7] __attribute__ ((section(".myDataSection"),address(0x2220)));	// save raw values to look at
+#define xaccel 11
+#define yaccel 12
+#define zaccel 13
 
 // Calibrate the sensors
 // Call this function once, soon after booting up, after a few seconds of
@@ -157,6 +164,7 @@ void udb_a2d_record_offsets(void);
 // calibration offsets.
 extern fractional udb_magFieldBody[3];
 extern fractional udb_magOffset[3];
+extern int previousMagFieldRaw[3];
 
 // Implement this callback to make use of the magetometer data.  This is called each
 // time the magnetometer reports new data.
@@ -164,6 +172,13 @@ void udb_magnetometer_callback_data_available(void);	// Callback
 void rxMagnetometer(void);  // service the magnetometer
 void doneReadMagData(void);	// use data
 #define magCDindex 1	// this driver uses CD[1]
+
+////////////////////////////////////////////////////////////////////////////////
+// Accelerometer
+void rxAccel(void);  // service the magnetometer
+void doneReadAccData(void);	// use data
+#define accCDindex 2		// this driver uses CD[2]
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // LEDs
@@ -178,6 +193,7 @@ void I2C_Reset( void );
 extern I2C_Action uI2C_Commands[];		// command buffer, see I2C_aspg.c
 extern I2CCMD CC;		// peripheral driver command buffer, never mess with this
 extern I2CCMD CD[8];	// device driver command buffers - [0] reserved
+extern int I2Cmessages;	// FINISHED messages
 extern int EE_Write_Timer;	// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
 extern int I2C_Timeout;		// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
 #define I2C_BUF_LEN 128+16		// page write size + enough bytes to send an address

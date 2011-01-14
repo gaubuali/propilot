@@ -431,6 +431,10 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 	//	This is a good place to compute pulse widths for servos.
 	if ( !(iFrameCounter % FRAME_50HZ_CNT) )	// has to == 0
 	{
+		if ( CD[magCDindex].iResult >= MAG_NORMAL )		// is in MAG_NORMAL mode
+			I2C_flags.bMagReady = 1;					// mark it
+		if ( CD[accCDindex].iResult >= ACC_NORMAL )		// is in ACC_NORMAL mode
+			I2C_flags.bAccReady = 1;					// mark it
 	}
 
 	//	Executes whatever needs to be done every 25 milliseconds, using the PWM clock.

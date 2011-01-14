@@ -56,6 +56,6 @@
 // These are used to help detect when the magnetometer has stopped working properly due to
 // RF interference that may put it into an unknown state.
 
-#define MAGNETICMINIMUM 500
+#define MAGNETICMINIMUM 100
 #define MAGNETICMAXIMUM 1000
 

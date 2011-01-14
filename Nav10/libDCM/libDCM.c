@@ -68,6 +68,7 @@ void udb_servo_callback_prepare_outputs(void)
 	if ( dcm_fourHertzCounter >= 10 )
 	{
 		rxMagnetometer() ;
+		rxAccel() ;
 		dcm_fourHertzCounter = 0 ;
 	}
 #endif

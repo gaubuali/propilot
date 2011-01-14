@@ -391,11 +391,7 @@ typedef union tagMixer {
 struct tagI2C_flags {
 	unsigned int bInUse:1;		// in use right now
 	unsigned int bERROR:1;		// in use right now, restarting
-	unsigned int bMagCfg:1;		// mag config - should be 1
-	unsigned int bMagCal:1;		// mag calibration
 	unsigned int bMagReady:1;	// mag needs to be read
-	unsigned int bAccCfg:1;		// Acc config - should be 1
-	unsigned int bAccCal:1;		// Acc calibration
 	unsigned int bAccReady:1;	// Accelerometer needs to be read
 	unsigned int bReadMag:1;	// reading mag
 	unsigned int bReadAcc:1;	// reading Accelerometer
@@ -455,15 +451,40 @@ enum I2C_ERR { // NOTHING,	// error codes in I2CERROR
 enum I2C_FIN { // NOTHING,	// .uResult codes for FINISHED command
 				RSET = 1, RADD, PSET, PADD, CCPY, HCPY };
 
+// read's call doneMagReadData() & inc, others just increment CD[magCDindex].iResult
+enum magSetup { MAG_WAIT,					// 0 value on c runtime startup
+				MAG_DREAD1,					// dummy read 1 from buffer, read auto-inc
+				MAG_RESET, MAG_DREAD2,		// send reset + read (puts in one shot mode)
+				MAG_DELAY1,					// iResult only get inc in rxMag so its a delay
+				MAG_CAL, MAG_CAL_DOREAD,	// send cal command + read it
+				MAG_CAL_PROCESS,			// iResult only get inc in rxMag so its a delay
+				MAG_SEND_CFG,				// send config
+				MAG_NORMAL					// this value or higher is normal run mode
+};
+
+
+enum accSetup { ACC_WAIT,					// 0 value on c runtime startup
+				ACC_DREAD1,					// dummy read 1 from buffer, read auto-inc
+				ACC_RESET, ACC_DREAD2,		// send reset + read (puts in one shot mode)
+				ACC_DELAY1,					// iResult only get inc in rxAcc so its a delay
+				ACC_CAL, ACC_CAL_DOREAD,	// send cal command + read it
+				ACC_CAL_PROCESS,			// iResult only get inc in rxMag so its a delay
+				ACC_SEND_CFG,				// send config
+				ACC_NORMAL					// this value or higher is normal run mode
+};
+
+
 typedef struct tagI2Ccommand {	// structure used in running I2C devices and saving results
 	int	Ident;					// application layer use, low 3 bits = result buffer
 	int I2C_Index;				// current command index into uI2C_Commands
-	int I2CERROR, I2CERROR_CON, I2CERROR_STAT;	// record for errors
-	int I2C_Subcode, I2C_Sublen;// subcode driven by hardware status, length is used in TX and RX
-	I2C_Action I2C_Code;		// current action, also used to keep flags when data is in buffer
+	int I2C_Subcode;			// subcode driven by hardware status
+	int I2C_Sublen;				// length is used in TX and RX
 	int I2C_Slave;				// on a start condition saves the slave address
-	int	I2C_Head, I2C_Tail;		// index into data buffer
-			  int iResult;		// data add or set mode
-			  int *piResult;	// int pointer mode
+	int	I2C_Head;				// index into data buffer
+	int I2C_Tail;
+	int iResult;				// data add or set mode
+	int *piResult;				// int pointer mode
 	unsigned char *pcResult;	// pointer to string
+	int I2CERROR, I2CERROR_CON, I2CERROR_STAT;	// record for errors
+	I2C_Action I2C_Code;		// current action, also used to keep flags when data is in buffer
 } I2CCMD, *LPI2CCMD;

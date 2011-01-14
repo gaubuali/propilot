@@ -39,10 +39,10 @@ unsigned int cpu_timer = 0 ;
 #elif ( BOARD_TYPE == ASPG_BOARD )
 #define tmr1_period 		15625 // sets time period for timer 1 interrupt to 0.1 seconds
 #define TMR1_CNTS 5
-#define CPU_LOAD_PERCENT	400000	// cpu% = counts / (40MHz/100) = counts / 400000
+#define CPU_LOAD_PERCENT	20000	// cpu% in 1/10% = counts / (40MHz/2000) = counts / 20000
 int timer1_counts = 0;
 unsigned int cpu_timer = 0 ;
-unsigned long	cpu_counter = 0;
+unsigned long cpu_counter = 0, old_cpu_counter = 0;
 #endif
 
 boolean skip_timer_reset = 1;
@@ -137,6 +137,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void)
 #if ( BOARD_TYPE == ASPG_BOARD )
 		cpu_counter += TMR5 ;			// add last bit + calc %
 		cpu_timer = (int)((cpu_counter / CPU_LOAD_PERCENT));
+		old_cpu_counter = cpu_counter;
 		cpu_counter = 0;				// clear it after
 #else
 		cpu_timer = TMR5 ;
@@ -197,7 +198,7 @@ void udb_background_trigger(void)
 unsigned char udb_cpu_load(void)
 {
 #if ( BOARD_TYPE == ASPG_BOARD )
-	return (unsigned char)cpu_timer;
+	return (unsigned char)cpu_timer/10;
 #else
 return (unsigned char)(__builtin_muluu(cpu_timer, CPU_LOAD_PERCENT) >> 16) ;
 #endif

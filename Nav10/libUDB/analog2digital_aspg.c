@@ -29,7 +29,7 @@ struct ADchannel udb_xaccel, udb_yaccel , udb_zaccel ; // x, y, and z accelerome
 struct ADchannel udb_xrate , udb_yrate, udb_zrate ;  // x, y, and z gyro channels
 struct ADchannel udb_vref ; // reference voltage
 
-int	AD1_Raw[NUM_AD1_LIST+1] __attribute__ ((section(".myDataSection"),address(0x2220)));	// save raw values to look at
+int	AD1_Raw[NUM_AD1_LIST+7] __attribute__ ((section(".myDataSection"),address(0x2220)));	// save raw values to look at
 
 int sampcount = 1 ;
 
@@ -160,15 +160,17 @@ unsigned int DmaBuffer = 0;
 
 void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 {
-	interrupt_save_extended_state ;
-	
 	indicate_loading_inter ;
+	interrupt_save_extended_state ;
+
+	udb_setDSPLibInUse(true) ;	// this uses DO loops
 
 	if(DmaBuffer == 0)
 	{	superSample( (void *)&AD1BufferA[0][0], (void *)&AD1_Raw[0] );
 	} 	else 	{
 		superSample( (void *)&AD1BufferB[0][0], (void *)&AD1_Raw[0] );
 	}
+	udb_setDSPLibInUse(false) ;
 
 	DmaBuffer ^= 1;
 
