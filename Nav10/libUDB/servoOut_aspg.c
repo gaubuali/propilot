@@ -81,7 +81,7 @@ typedef struct tagOCM {			// "structure" of the 3 registers that control an
 	WORD OCCON;					// we only need the low 3 bits, the others are all default (0)
 } OCM, *LPOCM;
 
-#define DO_INT_PRI 1
+#define DO_INT_PRI 5
 
 void udb_init_pwm( void )	// initialize the PWM
 {
@@ -177,6 +177,7 @@ void do_pin( int iState, LPPIN lpTag, LPOCM lpOCModule )
 {
 	DWORD	dwTemp;
 	WORD	wTemp, wTemp2;
+	indicate_loading_inter ;
 
 	wTemp2 = udb_pwOut[lpTag->iGlobal];     // get PWM on time
 	if ( wTemp2 == 0 )						// input invalid so don't do anything
@@ -464,7 +465,10 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 			
 		}
 
+#if (BOARD_TYPE != ASPG_BOARD)
+// changed to run on T4 lower priority
 		udb_servo_callback_prepare_outputs() ;
+#endif
 #endif
 	}
 	

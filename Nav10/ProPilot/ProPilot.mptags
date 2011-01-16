@@ -30,25 +30,26 @@ ACC_RESET	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	468;"	e	line:468	enum:acc
 ACC_S	E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s	79;"	v	line:79
 ACC_SEND_CFG	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	472;"	e	line:472	enum:accSetup
 ACC_WAIT	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	466;"	e	line:466	enum:accSetup
-AD1BufferA	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	47;"	v	line:47
-AD1BufferB	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	48;"	v	line:48
+AD1BufferA	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	55;"	v	line:55
+AD1BufferB	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	56;"	v	line:56
+AD1_Filt	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	50;"	v	line:50
 AD1_LIST::HIGH_ANALOGS	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	232;"	d	line:232
 AD1_Raw	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	32;"	v	line:32
-AD1_SUPER_SAM::16	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	46;"	d	line:46	file:
+AD1_SUPER_SAM::16	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	54;"	d	line:54	file:
 AD2_LIST::LOW_ANALOGS	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	244;"	d	line:244
-ADC2SAMPLE::((int)(ADC2BUF0))	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	182;"	d	line:182	file:
+ADC2SAMPLE::((int)(ADC2BUF0))	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	206;"	d	line:206	file:
 ADCON2CONFIG::0b0000010000011000;	E:\Projects\DevPFG\Nav10\libUDB\ConfigGreen.h	21;"	d	line:21
 ADCON2CONFIG::0b0010010000011000;	E:\Projects\DevPFG\Nav10\libUDB\ConfigIXZ500.h	25;"	d	line:25
 ADCON2CONFIG::0b0010010000011000;	E:\Projects\DevPFG\Nav10\libUDB\ConfigIXZ500RAD2a.h	25;"	d	line:25
 ADCON2CONFIG::0b0010010000011000;	E:\Projects\DevPFG\Nav10\libUDB\ConfigRed.h	25;"	d	line:25
 ADCON2CONFIG::0b0010010000011000;	E:\Projects\DevPFG\Nav10\libUDB\ConfigUDB4.h	24;"	d	line:24
-ADCSAMPLE::((int)(ADC1BUF0))	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	362;"	d	line:362	file:
+ADCSAMPLE::((int)(ADC1BUF0))	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	386;"	d	line:386	file:
 ADDR_Err	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	92;"	m	line:92	struct:tagRESETS	file:
 ADchannel	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	144;"	s	line:144
 AH_FULL::3	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	79;"	d	line:79
 AH_NONE::0	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	77;"	d	line:77
 AH_PITCH_ONLY::1	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	78;"	d	line:78
-AILERON_BOOST::1.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	362;"	d	line:362
+AILERON_BOOST::1.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	364;"	d	line:364
 AILERON_CHANNEL_REVERSED::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	225;"	d	line:225
 AILERON_INPUT_CHANNEL::CHANNEL_2	E:\Projects\DevPFG\Nav10\ProPilot\options.h	172;"	d	line:172
 AILERON_NAVIGATION::1	E:\Projects\DevPFG\Nav10\ProPilot\options.h	89;"	d	line:89
@@ -64,11 +65,11 @@ ALTITUDEHOLD_STABILIZED::AH_NONE	E:\Projects\DevPFG\Nav10\ProPilot\options.h	97;
 ALTITUDEHOLD_WAYPOINT::AH_FULL	E:\Projects\DevPFG\Nav10\ProPilot\options.h	98;"	d	line:98
 ALT_DOWN::(z)_MV_Z(-z,0,0)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	129;"	d	line:129	file:
 ALT_DOWN_PARAM::_MV_Z(-1,0,1)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	132;"	d	line:132	file:
-ALT_HOLD_PITCH_HIGH::-15.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	491;"	d	line:491
-ALT_HOLD_PITCH_MAX::15.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	490;"	d	line:490
-ALT_HOLD_PITCH_MIN::-15.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	489;"	d	line:489
-ALT_HOLD_THROTTLE_MAX::1.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	482;"	d	line:482
-ALT_HOLD_THROTTLE_MIN::0.35	E:\Projects\DevPFG\Nav10\ProPilot\options.h	481;"	d	line:481
+ALT_HOLD_PITCH_HIGH::-15.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	493;"	d	line:493
+ALT_HOLD_PITCH_MAX::15.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	492;"	d	line:492
+ALT_HOLD_PITCH_MIN::-15.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	491;"	d	line:491
+ALT_HOLD_THROTTLE_MAX::1.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	484;"	d	line:484
+ALT_HOLD_THROTTLE_MIN::0.35	E:\Projects\DevPFG\Nav10\ProPilot\options.h	483;"	d	line:483
 ALT_UP::(z)_MV_Z(z,0,0)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	128;"	d	line:128	file:
 ALT_UP_PARAM::_MV_Z(1,0,1)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	131;"	d	line:131	file:
 AN0::0x0001	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	172;"	d	line:172
@@ -113,7 +114,7 @@ AUX_AN2::AN1	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	206;"	d	line:206
 AUX_AN3::AN3	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	207;"	d	line:207
 AUX_AN4::AN4	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	208;"	d	line:208
 AUX_START::16	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	99;"	d	line:99
-AccFieldRaw	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	575;"	l	line:575
+AccFieldRaw	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	605;"	l	line:605
 B	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	73;"	m	line:73	union:dcm_fbts_byte
 B	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	125;"	m	line:125	union:udb_fbts_byte
 B0	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	26;"	m	line:26	struct:bb
@@ -146,21 +147,21 @@ CAMERA_ROLL_OUTPUT_CHANNEL::CHANNEL_UNUSED	E:\Projects\DevPFG\Nav10\ProPilot\opt
 CAMERA_YAW_CHANNEL_REVERSED::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	232;"	d	line:232
 CAMERA_YAW_INPUT_CHANNEL::CHANNEL_UNUSED	E:\Projects\DevPFG\Nav10\ProPilot\options.h	178;"	d	line:178
 CAMERA_YAW_OUTPUT_CHANNEL::CHANNEL_UNUSED	E:\Projects\DevPFG\Nav10\ProPilot\options.h	211;"	d	line:211
-CAM_PITCH_OFFSET_CENTRED::38	E:\Projects\DevPFG\Nav10\ProPilot\options.h	445;"	d	line:445
-CAM_PITCH_SERVO_MAX::85	E:\Projects\DevPFG\Nav10\ProPilot\options.h	443;"	d	line:443
-CAM_PITCH_SERVO_MIN::-22	E:\Projects\DevPFG\Nav10\ProPilot\options.h	444;"	d	line:444
-CAM_PITCH_SERVO_THROW::95	E:\Projects\DevPFG\Nav10\ProPilot\options.h	442;"	d	line:442
-CAM_TAN_PITCH_IN_STABILIZED_MODE::1433	E:\Projects\DevPFG\Nav10\ProPilot\options.h	437;"	d	line:437
-CAM_TESTING_OVERIDE::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	459;"	d	line:459
-CAM_TESTING_PITCH_ANGLE::90	E:\Projects\DevPFG\Nav10\ProPilot\options.h	461;"	d	line:461
-CAM_TESTING_YAW_ANGLE::90	E:\Projects\DevPFG\Nav10\ProPilot\options.h	460;"	d	line:460
+CAM_PITCH_OFFSET_CENTRED::38	E:\Projects\DevPFG\Nav10\ProPilot\options.h	447;"	d	line:447
+CAM_PITCH_SERVO_MAX::85	E:\Projects\DevPFG\Nav10\ProPilot\options.h	445;"	d	line:445
+CAM_PITCH_SERVO_MIN::-22	E:\Projects\DevPFG\Nav10\ProPilot\options.h	446;"	d	line:446
+CAM_PITCH_SERVO_THROW::95	E:\Projects\DevPFG\Nav10\ProPilot\options.h	444;"	d	line:444
+CAM_TAN_PITCH_IN_STABILIZED_MODE::1433	E:\Projects\DevPFG\Nav10\ProPilot\options.h	439;"	d	line:439
+CAM_TESTING_OVERIDE::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	461;"	d	line:461
+CAM_TESTING_PITCH_ANGLE::90	E:\Projects\DevPFG\Nav10\ProPilot\options.h	463;"	d	line:463
+CAM_TESTING_YAW_ANGLE::90	E:\Projects\DevPFG\Nav10\ProPilot\options.h	462;"	d	line:462
 CAM_TEST_TIMER::200	E:\Projects\DevPFG\Nav10\ProPilot\cameraCntrl.c	53;"	d	line:53	file:
 CAM_VIEW_LAUNCH::{0,0,0}	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	220;"	d	line:220
-CAM_YAW_IN_STABILIZED_MODE::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	438;"	d	line:438
-CAM_YAW_OFFSET_CENTRED::11	E:\Projects\DevPFG\Nav10\ProPilot\options.h	452;"	d	line:452
-CAM_YAW_SERVO_MAX::130	E:\Projects\DevPFG\Nav10\ProPilot\options.h	450;"	d	line:450
-CAM_YAW_SERVO_MIN::-130	E:\Projects\DevPFG\Nav10\ProPilot\options.h	451;"	d	line:451
-CAM_YAW_SERVO_THROW::350	E:\Projects\DevPFG\Nav10\ProPilot\options.h	449;"	d	line:449
+CAM_YAW_IN_STABILIZED_MODE::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	440;"	d	line:440
+CAM_YAW_OFFSET_CENTRED::11	E:\Projects\DevPFG\Nav10\ProPilot\options.h	454;"	d	line:454
+CAM_YAW_SERVO_MAX::130	E:\Projects\DevPFG\Nav10\ProPilot\options.h	452;"	d	line:452
+CAM_YAW_SERVO_MIN::-130	E:\Projects\DevPFG\Nav10\ProPilot\options.h	453;"	d	line:453
+CAM_YAW_SERVO_THROW::350	E:\Projects\DevPFG\Nav10\ProPilot\options.h	451;"	d	line:451
 CAN_INTERFACE::6	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	46;"	d	line:46
 CC	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	102;"	v	line:102
 CCPY	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	452;"	e	line:452	enum:I2C_FIN
@@ -178,9 +179,9 @@ CHANNEL_8::8	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	180;"	d	line:180
 CHANNEL_9::9	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	181;"	d	line:181
 CHANNEL_UNUSED::0	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	172;"	d	line:172
 CK_A	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	41;"	v	line:41
-CK_A	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	139;"	l	line:139
+CK_A	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	142;"	l	line:142
 CK_B	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	42;"	v	line:42
-CK_B	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	140;"	l	line:140
+CK_B	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	143;"	l	line:143
 CLK_PHASES::2	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	131;"	d	line:131
 CLK_PHASES::2	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	135;"	d	line:135
 CLK_PHASES::4	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	122;"	d	line:122
@@ -189,8 +190,8 @@ CODE_PROT_OFF	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	36;"	v	line:36
 COURSEDEG_2_BYTECIR::466	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	66;"	d	line:66
 CPU_LOAD_PERCENT::100	E:\Projects\DevPFG\Nav10\libUDB\background.c	36;"	d	line:36	file:
 CPU_LOAD_PERCENT::109	E:\Projects\DevPFG\Nav10\libUDB\background.c	30;"	d	line:30	file:
-CPU_LOAD_PERCENT::20000	E:\Projects\DevPFG\Nav10\libUDB\background.c	42;"	d	line:42	file:
 CPU_LOAD_PERCENT::400	E:\Projects\DevPFG\Nav10\libUDB\background.c	27;"	d	line:27	file:
+CPU_LOAD_PERCENT::40000	E:\Projects\DevPFG\Nav10\libUDB\background.c	42;"	d	line:42	file:
 CRYSTAL_CLOCK::1	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	50;"	d	line:50
 CTDEADBAND::0	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	153;"	d	line:153	file:
 CTGAIN::2	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	155;"	d	line:155	file:
@@ -211,16 +212,16 @@ DIV0_Err	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	87;"	m	line:87	struct:tagRESET
 DMA_Err	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	90;"	m	line:90	struct:tagRESETS	file:
 DO::(func)_DO(func,0,0)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	152;"	d	line:152	file:
 DO_ARG::(func,arg)_DO(func,arg,0)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	153;"	d	line:153	file:
-DO_INT_PRI::1	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	84;"	d	line:84	file:
+DO_INT_PRI::5	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	84;"	d	line:84	file:
 DO_PARAM::(func)_DO(func,1,1)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	154;"	d	line:154	file:
 DR_FILTER_GAIN::(int)(TIMESTEP*MAX16)	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	48;"	d	line:48	file:
 DR_PERIOD::(int)(40/GPS_RATE)	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	37;"	d	line:37	file:
 DWORD	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	38;"	t	line:38
-DmaBuffer	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	159;"	v	line:159
+DmaBuffer	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	173;"	v	line:173
 EAST::(x)_MV_X(x,1,0)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	113;"	d	line:113	file:
 EAST_PARAM::_MV_X(1,1,1)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	116;"	d	line:116	file:
 EE_Write_Timer	E:\Projects\DevPFG\Nav10\libUDB\eeprom_aspg.c	56;"	v	line:56
-ELEVATOR_BOOST::0.5	E:\Projects\DevPFG\Nav10\ProPilot\options.h	374;"	d	line:374
+ELEVATOR_BOOST::0.5	E:\Projects\DevPFG\Nav10\ProPilot\options.h	376;"	d	line:376
 ELEVATOR_CHANNEL_REVERSED::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	226;"	d	line:226
 ELEVATOR_INPUT_CHANNEL::CHANNEL_3	E:\Projects\DevPFG\Nav10\ProPilot\options.h	173;"	d	line:173
 ELEVATOR_OUTPUT_CHANNEL::CHANNEL_3	E:\Projects\DevPFG\Nav10\ProPilot\options.h	206;"	d	line:206
@@ -240,7 +241,9 @@ FAILSAFE_TYPE::FAILSAFE_RTL	E:\Projects\DevPFG\Nav10\ProPilot\options.h	279;"	d	
 FD::(x)_FD(x,1,0)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	99;"	d	line:99	file:
 FD_PARAM::_FD(1,1,1)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	101;"	d	line:101	file:
 FILTERSHIFT::3	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	185;"	d	line:185
+FILTER_ASPG_H	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.h	2;"	d	line:2
 FINISHED	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	443;"	e	line:443	enum:I2C_Cmd
+FIRFILT_H	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	3;"	d	line:3
 FIXED_ORIGIN_LOCATION::{-1219950467,374124664,2.00}	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.h	49;"	d	line:49
 FIXED_ORIGIN_LOCATION::{-1219950467,374124664,30.0}	E:\Projects\DevPFG\Nav10\ProPilot\waypoints.h	49;"	d	line:49
 FIXED_OUTPUT_OVERRIDE::15	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	40;"	d	line:40
@@ -248,20 +251,30 @@ FIXED_WP_THROTTLE::(2.0*SERVORANGE*RACING_MODE_WP	E:\Projects\DevPFG\Nav10\ProPi
 FLAG_OFF::(f)_FLAG_OFF(f)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	136;"	d	line:136	file:
 FLAG_ON::(f)_FLAG_ON(f)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	135;"	d	line:135	file:
 FLAG_TOGGLE::(f)_FLAG_TOGGLE(f)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	137;"	d	line:137	file:
-FLIGHT_PLAN_TYPE::FP_WAYPOINTS	E:\Projects\DevPFG\Nav10\ProPilot\options.h	517;"	d	line:517
+FLIGHT_PLAN_TYPE::FP_WAYPOINTS	E:\Projects\DevPFG\Nav10\ProPilot\options.h	519;"	d	line:519
+FLT_Value	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	33;"	v	line:33
 FNOSC_FRCPLL	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	40;"	v	line:40
 FPWRT_PWR1	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	49;"	v	line:49
 FPWRT_PWR32	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	65;"	v	line:65
 FP_LOGO::2	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	139;"	d	line:139
 FP_WAYPOINTS::1	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	138;"	d	line:138
+FRAME_20HZ_CNT::50	E:\Projects\DevPFG\Nav10\libUDB\background.c	60;"	d	line:60	file:
 FRAME_20HZ_CNT::50	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	45;"	d	line:45	file:
+FRAME_20HZ_PR::40000	E:\Projects\DevPFG\Nav10\libUDB\background.c	61;"	d	line:61	file:
 FRAME_20HZ_PR::40000	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	46;"	d	line:46	file:
+FRAME_40HZ_CNT::25	E:\Projects\DevPFG\Nav10\libUDB\background.c	56;"	d	line:56	file:
 FRAME_40HZ_CNT::25	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	41;"	d	line:41	file:
+FRAME_40HZ_PR::40000	E:\Projects\DevPFG\Nav10\libUDB\background.c	57;"	d	line:57	file:
 FRAME_40HZ_PR::40000	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	42;"	d	line:42	file:
+FRAME_50HZ_CNT::20	E:\Projects\DevPFG\Nav10\libUDB\background.c	58;"	d	line:58	file:
 FRAME_50HZ_CNT::20	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	43;"	d	line:43	file:
+FRAME_50HZ_PR::40000	E:\Projects\DevPFG\Nav10\libUDB\background.c	59;"	d	line:59	file:
 FRAME_50HZ_PR::40000	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	44;"	d	line:44	file:
+FRAME_CNT::FRAME_40HZ_CNT	E:\Projects\DevPFG\Nav10\libUDB\background.c	63;"	d	line:63	file:
 FRAME_CNT::FRAME_40HZ_CNT	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	48;"	d	line:48	file:
+FRAME_PRE::FRAME_40HZ_PR	E:\Projects\DevPFG\Nav10\libUDB\background.c	64;"	d	line:64	file:
 FRAME_PRE::FRAME_40HZ_PR	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	49;"	d	line:49	file:
+FRAME_ROLL::100	E:\Projects\DevPFG\Nav10\libUDB\background.c	62;"	d	line:62	file:
 FRAME_ROLL::100	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	47;"	d	line:47	file:
 FRC8X_CLOCK::2	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	51;"	d	line:51
 FRC_PLL8	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	28;"	v	line:28
@@ -281,7 +294,7 @@ F_ROLL_LEFT::8	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	171;"	d	line:171
 F_ROLL_RIGHT::16	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	172;"	d	line:172
 F_TAKEOFF::1	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	168;"	d	line:168
 F_TRIGGER::32	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	173;"	d	line:173
-GGAIN::SCALEGYRO*6*(RMAX*0.025)	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	40;"	d	line:40	file:
+GGAIN::SCALEGYRO*6*(RMAX*0.025)	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	43;"	d	line:43	file:
 GPSFILT::(4.0/GPSTAU)*RMAX	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	44;"	d	line:44	file:
 GPSTAU::3.0	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	42;"	d	line:42	file:
 GPS_DATA_MAX_AGE::9	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	63;"	d	line:63
@@ -310,14 +323,14 @@ GRAVITY_SIGN::-	E:\Projects\DevPFG\Nav10\libUDB\boardRotation_defines.h	158;"	d	
 GREEN_BOARD::2	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	42;"	d	line:42
 GWRP_OFF	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	48;"	v	line:48
 GWRP_OFF	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	57;"	v	line:57
-GYROSAT::15000	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	56;"	d	line:56	file:
+GYROSAT::15000	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	59;"	d	line:59	file:
 HCPY	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	452;"	e	line:452	enum:I2C_FIN
 HEIGHTTHROTTLEGAIN::((1.5*HEIGHT_TARGET_MAX*1024.0	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	41;"	d	line:41	file:
-HEIGHT_MARGIN::10	E:\Projects\DevPFG\Nav10\ProPilot\options.h	474;"	d	line:474
-HEIGHT_TARGET_MAX::100.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	469;"	d	line:469
-HEIGHT_TARGET_MIN::25.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	468;"	d	line:468
+HEIGHT_MARGIN::10	E:\Projects\DevPFG\Nav10\ProPilot\options.h	476;"	d	line:476
+HEIGHT_TARGET_MAX::100.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	471;"	d	line:471
+HEIGHT_TARGET_MIN::25.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	470;"	d	line:470
 HIGH_ANALOGS::(YRateH|YRateL|TempY|VRef_Y|XR	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	228;"	d	line:228
-HILSIM::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	507;"	d	line:507
+HILSIM::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	509;"	d	line:509
 HILSIM_NUM_SERVOS::8	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	45;"	d	line:45	file:
 HOME::_HOME(1)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	169;"	d	line:169	file:
 HOVERING_STABILIZED_MODE::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	107;"	d	line:107
@@ -325,16 +338,16 @@ HOVERING_WAYPOINT_MODE::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	108;"	d	li
 HOVERPOFFSET::((long)(HOVER_PITCH_OFFSET*(RM	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	28;"	d	line:28	file:
 HOVERPTOWP::((long)(HOVER_PITCH_TOWARDS_WP	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	29;"	d	line:29	file:
 HOVERYOFFSET::((long)(HOVER_YAW_OFFSET*(RMAX	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	24;"	d	line:24	file:
-HOVER_NAV_MAX_PITCH_RADIUS::20	E:\Projects\DevPFG\Nav10\ProPilot\options.h	415;"	d	line:415
-HOVER_PITCHGAIN::0.2	E:\Projects\DevPFG\Nav10\ProPilot\options.h	408;"	d	line:408
-HOVER_PITCHKD::0.25	E:\Projects\DevPFG\Nav10\ProPilot\options.h	409;"	d	line:409
-HOVER_PITCH_OFFSET::0.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	410;"	d	line:410
-HOVER_PITCH_TOWARDS_WP::30.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	414;"	d	line:414
-HOVER_ROLLKD::0.05	E:\Projects\DevPFG\Nav10\ProPilot\options.h	407;"	d	line:407
-HOVER_ROLLKP::0.05	E:\Projects\DevPFG\Nav10\ProPilot\options.h	406;"	d	line:406
-HOVER_YAWKD::0.25	E:\Projects\DevPFG\Nav10\ProPilot\options.h	412;"	d	line:412
-HOVER_YAWKP::0.2	E:\Projects\DevPFG\Nav10\ProPilot\options.h	411;"	d	line:411
-HOVER_YAW_OFFSET::0.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	413;"	d	line:413
+HOVER_NAV_MAX_PITCH_RADIUS::20	E:\Projects\DevPFG\Nav10\ProPilot\options.h	417;"	d	line:417
+HOVER_PITCHGAIN::0.2	E:\Projects\DevPFG\Nav10\ProPilot\options.h	410;"	d	line:410
+HOVER_PITCHKD::0.25	E:\Projects\DevPFG\Nav10\ProPilot\options.h	411;"	d	line:411
+HOVER_PITCH_OFFSET::0.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	412;"	d	line:412
+HOVER_PITCH_TOWARDS_WP::30.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	416;"	d	line:416
+HOVER_ROLLKD::0.05	E:\Projects\DevPFG\Nav10\ProPilot\options.h	409;"	d	line:409
+HOVER_ROLLKP::0.05	E:\Projects\DevPFG\Nav10\ProPilot\options.h	408;"	d	line:408
+HOVER_YAWKD::0.25	E:\Projects\DevPFG\Nav10\ProPilot\options.h	414;"	d	line:414
+HOVER_YAWKP::0.2	E:\Projects\DevPFG\Nav10\ProPilot\options.h	413;"	d	line:413
+HOVER_YAW_OFFSET::0.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	415;"	d	line:415
 HS	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	26;"	v	line:26
 HW_SWITCH_1::(PORTDbits.RD3==0)	E:\Projects\DevPFG\Nav10\libUDB\ConfigGreen.h	55;"	d	line:55
 HW_SWITCH_1::(PORTDbits.RD3==0)	E:\Projects\DevPFG\Nav10\libUDB\ConfigIXZ500.h	58;"	d	line:58
@@ -357,14 +370,14 @@ HW_SWITCH_3::0	E:\Projects\DevPFG\Nav10\libUDB\ConfigUDB4.h	60;"	d	line:60
 I2C2_BRGVAL::95	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	82;"	d	line:82	file:
 I2CBRG::I2C1BRG	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	42;"	d	line:42	file:
 I2CBRG::I2C2BRG	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	62;"	d	line:62	file:
-I2CCMD	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	490;"	t	line:490
+I2CCMD	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	491;"	t	line:491
 I2CCON::I2C1CON	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	38;"	d	line:38	file:
 I2CCON::I2C2CON	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	58;"	d	line:58	file:
 I2CCONbits::I2C1CONbits	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	39;"	d	line:39	file:
 I2CCONbits::I2C2CONbits	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	59;"	d	line:59	file:
-I2CERROR	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	488;"	m	line:488	struct:tagI2Ccommand
-I2CERROR_CON	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	488;"	m	line:488	struct:tagI2Ccommand
-I2CERROR_STAT	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	488;"	m	line:488	struct:tagI2Ccommand
+I2CERROR	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	489;"	m	line:489	struct:tagI2Ccommand
+I2CERROR_CON	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	489;"	m	line:489	struct:tagI2Ccommand
+I2CERROR_STAT	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	489;"	m	line:489	struct:tagI2Ccommand
 I2CRCV::I2C1RCV	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	44;"	d	line:44	file:
 I2CRCV::I2C2RCV	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	64;"	d	line:64	file:
 I2CSTAT::I2C1STAT	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	40;"	d	line:40	file:
@@ -374,38 +387,39 @@ I2CSTATbits::I2C2STATbits	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	61;"	d	line
 I2CTRN::I2C1TRN	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	43;"	d	line:43	file:
 I2CTRN::I2C2TRN	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	63;"	d	line:63	file:
 I2C_Action	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	435;"	t	line:435
-I2C_BUF_LEN::128+16	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	199;"	d	line:199
+I2C_BUF_LEN::128+16	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	225;"	d	line:225
+I2C_COM_LEN::64	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	218;"	d	line:218
 I2C_Cmd	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	443;"	g	line:443
-I2C_Code	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	489;"	m	line:489	struct:tagI2Ccommand
+I2C_Code	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	490;"	m	line:490	struct:tagI2Ccommand
 I2C_ERR	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	449;"	g	line:449
 I2C_FIN	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	451;"	g	line:451
-I2C_Head	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	483;"	m	line:483	struct:tagI2Ccommand
+I2C_Head	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	484;"	m	line:484	struct:tagI2Ccommand
 I2C_Index	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	479;"	m	line:479	struct:tagI2Ccommand
 I2C_NORMAL::(((I2C2CON&0b0000000000011111)	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	83;"	d	line:83	file:
-I2C_Reset	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	522;"	f	line:522	signature:( void )
-I2C_Reset	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	192;"	p	line:192	signature:( void )
+I2C_Reset	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	532;"	f	line:532	signature:( void )
+I2C_Reset	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	217;"	p	line:217	signature:( void )
 I2C_SCL::_LATA2	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	72;"	d	line:72	file:
 I2C_SCL::_LATG2	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	52;"	d	line:52	file:
 I2C_SDA::_LATA3	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	71;"	d	line:71	file:
 I2C_SDA::_LATG3	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	51;"	d	line:51	file:
 I2C_Slave	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	482;"	m	line:482	struct:tagI2Ccommand
-I2C_Start	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	510;"	f	line:510	signature:( int T_O )
-I2C_Start	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	191;"	p	line:191	signature:( int )
+I2C_Start	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	514;"	f	line:514	signature:( int T_O )
+I2C_Start	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	216;"	p	line:216	signature:( int )
 I2C_Sub	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	444;"	g	line:444
 I2C_Subcode	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	480;"	m	line:480	struct:tagI2Ccommand
 I2C_Sublen	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	481;"	m	line:481	struct:tagI2Ccommand
-I2C_Tail	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	484;"	m	line:484	struct:tagI2Ccommand
-I2C_Timeout	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	123;"	v	line:123
+I2C_Tail	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	485;"	m	line:485	struct:tagI2Ccommand
+I2C_Timeout	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	122;"	v	line:122
 I2C_buffer	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	88;"	v	line:88
 I2C_call_back	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	89;"	v	line:89
-I2C_default	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	531;"	f	line:531	signature:(void)
+I2C_default	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	541;"	f	line:541	signature:(void)
 I2C_default	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	85;"	p	line:85	file:	signature:(void)
-I2C_flags	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	125;"	v	line:125
-I2C_one_time_init	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	139;"	v	line:139
-I2Cinterrupts	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	117;"	v	line:117
-I2Cmessages	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	118;"	v	line:118
-I2_ADone	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	463;"	v	line:463
-I2_Done	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	102;"	v	line:102
+I2C_flags	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	124;"	v	line:124
+I2C_one_time_init	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	138;"	v	line:138
+I2Cinterrupts	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	116;"	v	line:116
+I2Cmessages	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	117;"	v	line:117
+I2_ADone	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	481;"	v	line:481
+I2_Done	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	101;"	v	line:101
 ICS_PGD2	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	51;"	v	line:51
 ICS_PGD2	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	67;"	v	line:67
 IESO_OFF	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	59;"	v	line:59
@@ -418,15 +432,15 @@ IMUvelocityy	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	56;"	v	line:56
 IMUvelocityz	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	57;"	v	line:57
 INVERTED_FLIGHT_STABILIZED_MODE::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	102;"	d	line:102
 INVERTED_FLIGHT_WAYPOINT_MODE::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	103;"	d	line:103
-INVERTED_NEUTRAL_PITCH::8.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	378;"	d	line:378
+INVERTED_NEUTRAL_PITCH::8.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	380;"	d	line:380
 INVNPITCH::((long)(INVERTED_NEUTRAL_PITCH	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	27;"	d	line:27	file:
 Ident	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	478;"	m	line:478	struct:tagI2Ccommand
-KIROLLPITCH::256	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	46;"	d	line:46	file:
-KIROLLPITCH::256*2	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	50;"	d	line:50	file:
-KIYAW::32	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	54;"	d	line:54	file:
-KPROLLPITCH::256*10	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	49;"	d	line:49	file:
-KPROLLPITCH::256*5	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	45;"	d	line:45	file:
-KPYAW::256*4	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	53;"	d	line:53	file:
+KIROLLPITCH::256	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	49;"	d	line:49	file:
+KIROLLPITCH::256*2	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	53;"	d	line:53	file:
+KIYAW::32	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	57;"	d	line:57	file:
+KPROLLPITCH::256*10	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	52;"	d	line:52	file:
+KPROLLPITCH::256*5	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	48;"	d	line:48	file:
+KPYAW::256*4	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	56;"	d	line:56	file:
 LED_BLUE::LATBbits.LATB9	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	45;"	d	line:45
 LED_BLUE::LATEbits.LATE2	E:\Projects\DevPFG\Nav10\libUDB\ConfigUDB4.h	53;"	d	line:53
 LED_GREEN::LATBbits.LATB10	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	46;"	d	line:46
@@ -456,7 +470,7 @@ LONGDEG_2_BYTECIR::305	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	65;"	d	l
 LONGDEG_2_BYTECIR::305	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	68;"	d	line:68
 LOW_ANALOGS::(AUX_AN1|AUX_AN2|AUX_AN3|AUX_A	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	227;"	d	line:227
 LPDWORD	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	38;"	t	line:38
-LPI2CCMD	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	490;"	t	line:490
+LPI2CCMD	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	491;"	t	line:491
 LPI2C_Action	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	435;"	t	line:435
 LPMIXER	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	159;"	t	line:159
 LPOCM	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	82;"	t	line:82	file:
@@ -490,7 +504,7 @@ MAG_Y_AXIS::0	E:\Projects\DevPFG\Nav10\libUDB\magnetometerOptions.h	48;"	d	line:
 MAG_Y_SIGN::-	E:\Projects\DevPFG\Nav10\libUDB\magnetometerOptions.h	52;"	d	line:52
 MAG_Z_AXIS::2	E:\Projects\DevPFG\Nav10\libUDB\magnetometerOptions.h	49;"	d	line:49
 MAG_Z_SIGN::-	E:\Projects\DevPFG\Nav10\libUDB\magnetometerOptions.h	53;"	d	line:53
-MANUAL_AILERON_RUDDER_MIX::0.20	E:\Projects\DevPFG\Nav10\ProPilot\options.h	390;"	d	line:390
+MANUAL_AILERON_RUDDER_MIX::0.20	E:\Projects\DevPFG\Nav10\ProPilot\options.h	392;"	d	line:392
 MANUAL_SIMPLE::7	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	32;"	d	line:32
 MANUAL_SIMPLE_2_INPUT::8	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	33;"	d	line:33
 MATH_Err	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	89;"	m	line:89	struct:tagRESETS	file:
@@ -513,6 +527,10 @@ MAX_OUTPUTS::6	E:\Projects\DevPFG\Nav10\libUDB\ConfigRed.h	51;"	d	line:51
 MAX_OUTPUTS::8	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	41;"	d	line:41
 MAX_OUTPUTS::8	E:\Projects\DevPFG\Nav10\libUDB\ConfigUDB4.h	49;"	d	line:49
 MAX_OUTPUTS::9	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	101;"	d	line:101
+MDSFIR	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	19;"	p	line:19	signature:( int, int *, int *, MDSFIRStruct * )
+MDSFIRDelayInit	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	20;"	p	line:20	signature:( MDSFIRStruct * )
+MDSFIRFilterInit	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	21;"	p	line:21	signature:( MDSFIRStruct * )
+MDSFIRStruct	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	16;"	t	line:16
 MI2CIE::_MI2C1IE	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	50;"	d	line:50	file:
 MI2CIE::_MI2C2IE	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	70;"	d	line:70	file:
 MI2CIF::_MI2C1IF	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	48;"	d	line:48	file:
@@ -527,6 +545,8 @@ MIX_PER_CHANNEL::8	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	38;"	d	line:38	f
 MODE_SWITCH_INPUT_CHANNEL::CHANNEL_5	E:\Projects\DevPFG\Nav10\ProPilot\options.h	175;"	d	line:175
 MODE_SWITCH_THRESHOLD_HIGH::15000	E:\Projects\DevPFG\Nav10\ProPilot\options.h	244;"	d	line:244
 MODE_SWITCH_THRESHOLD_LOW::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	243;"	d	line:243
+MagFieldFilter	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	265;"	v	line:265
+Messages	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	483;"	m	line:483	struct:tagI2Ccommand
 NEGATIVE_DIFFERENTIAL::14	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	39;"	d	line:39
 NMI	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	93;"	t	line:93	file:
 NORADIO::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	142;"	d	line:142
@@ -539,8 +559,8 @@ NUMBER_POINTS::((sizeofwaypoints)/sizeof(stru	E:\Projects\DevPFG\Nav10\ProPilot\
 NUMBER_RTL_POINTS::((sizeofrtlWaypoints)/sizeof(s	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	34;"	d	line:34	file:
 NUM_AD1_LIST::10	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	233;"	d	line:233
 NUM_AP_COMMANDS::7	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	44;"	d	line:44	file:
-NUM_FLAG_SIGNED::2	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	262;"	d	line:262
-NUM_FLAG_ZERO_PADDED::1	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	261;"	d	line:261
+NUM_FLAG_SIGNED::2	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	288;"	d	line:288
+NUM_FLAG_ZERO_PADDED::1	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	287;"	d	line:287
 NUM_INPUTS::8	E:\Projects\DevPFG\Nav10\ProPilot\options.h	165;"	d	line:165
 NUM_INSTRUCTIONS::((sizeofinstructions)/sizeof(s	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	175;"	d	line:175	file:
 NUM_OUTPUTS::8	E:\Projects\DevPFG\Nav10\ProPilot\options.h	191;"	d	line:191
@@ -551,6 +571,7 @@ OCM	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	82;"	t	line:82	file:
 OCR	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	80;"	m	line:80	struct:tagOCM	file:
 OCRS	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	79;"	m	line:79	struct:tagOCM	file:
 OFFSETSHIFT::1	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	538;"	d	line:538	file:
+OFFSETSHIFT::1	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	606;"	d	line:606	file:
 ORIENTATION_BACKWARDS::1	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	110;"	d	line:110
 ORIENTATION_FLIPPED::3	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	112;"	d	line:112
 ORIENTATION_FORWARDS::0	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	109;"	d	line:109
@@ -558,7 +579,7 @@ ORIENTATION_INVERTED::2	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	111;"	d
 ORIENTATION_ROLLCW180::5	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	114;"	d	line:114
 ORIENTATION_ROLLCW::4	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	113;"	d	line:113
 OSC_Err	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	91;"	m	line:91	struct:tagRESETS	file:
-OSD_CALL_SIGN::{0x95,0x8B,0x81,0x8C,0x8D,0x8E	E:\Projects\DevPFG\Nav10\ProPilot\options.h	307;"	d	line:307
+OSD_CALL_SIGN::{0x95,0x8B,0x81,0x8C,0x8D,0x8E	E:\Projects\DevPFG\Nav10\ProPilot\options.h	309;"	d	line:309
 OSD_CS::_LATE0	E:\Projects\DevPFG\Nav10\libUDB\osd.c	6;"	d	line:6	file:
 OSD_MISO::0	E:\Projects\DevPFG\Nav10\libUDB\osd.c	9;"	d	line:9	file:
 OSD_MODE_SWITCH_INPUT_CHANNEL::CHANNEL_UNUSED	E:\Projects\DevPFG\Nav10\ProPilot\options.h	179;"	d	line:179
@@ -566,10 +587,10 @@ OSD_MOSI::_LATE4	E:\Projects\DevPFG\Nav10\libUDB\osd.c	8;"	d	line:8	file:
 OSD_NTSC::0	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	228;"	d	line:228
 OSD_PAL::1	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	229;"	d	line:229
 OSD_SCK::_LATE2	E:\Projects\DevPFG\Nav10\libUDB\osd.c	7;"	d	line:7	file:
-OSD_SHOW_HORIZON::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	306;"	d	line:306
+OSD_SHOW_HORIZON::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	308;"	d	line:308
 OSD_SPACING::4	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	34;"	d	line:34	file:
 OSD_SPACING::5	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	36;"	d	line:36	file:
-OSD_VIDEO_FORMAT::OSD_NTSC	E:\Projects\DevPFG\Nav10\ProPilot\options.h	305;"	d	line:305
+OSD_VIDEO_FORMAT::OSD_NTSC	E:\Projects\DevPFG\Nav10\ProPilot\options.h	307;"	d	line:307
 OutA	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	54;"	l	line:54
 OutB	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	54;"	l	line:54
 PADD	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	452;"	e	line:452	enum:I2C_FIN
@@ -593,13 +614,13 @@ PIN	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	130;"	t	line:130
 PITCHATMAX::(ALT_HOLD_PITCH_MAX*(RMAX/57.3	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	35;"	d	line:35	file:
 PITCHATMIN::(ALT_HOLD_PITCH_MIN*(RMAX/57.3	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	36;"	d	line:36	file:
 PITCHATZERO::(ALT_HOLD_PITCH_HIGH*(RMAX/57.	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	37;"	d	line:37	file:
-PITCHGAIN::0.150	E:\Projects\DevPFG\Nav10\ProPilot\options.h	370;"	d	line:370
+PITCHGAIN::0.150	E:\Projects\DevPFG\Nav10\ProPilot\options.h	372;"	d	line:372
 PITCHHEIGHTGAIN::((PITCHATMAX-PITCHATMIN)/(HEIG	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	39;"	d	line:39	file:
-PITCHKD::0.0625	E:\Projects\DevPFG\Nav10\ProPilot\options.h	371;"	d	line:371
+PITCHKD::0.0625	E:\Projects\DevPFG\Nav10\ProPilot\options.h	373;"	d	line:373
 PITCH_SERVO_HIGH_RATIO::((2000.0/((CAM_PITCH_SERVO_THR	E:\Projects\DevPFG\Nav10\ProPilot\cameraCntrl.c	26;"	d	line:26	file:
 PITCH_SERVO_RATIO::(2000.0/((CAM_PITCH_SERVO_THRO	E:\Projects\DevPFG\Nav10\ProPilot\cameraCntrl.c	28;"	d	line:28	file:
 PITCH_STABILIZATION::1	E:\Projects\DevPFG\Nav10\ProPilot\options.h	83;"	d	line:83
-PI_feedback	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	433;"	f	line:433	signature:(void)
+PI_feedback	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	436;"	f	line:436	signature:(void)
 PLANE::0	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	35;"	d	line:35	file:
 POSCMD_EC	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	62;"	v	line:62
 POSCMD_NONE	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	43;"	v	line:43
@@ -619,7 +640,7 @@ RADPERSEC::((longlong)5632.0/SCALEGYRO)	E:\Projects\DevPFG\Nav10\libDCM\libDCM_d
 RC_AUX1_FLAPS::13	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	21;"	d	line:21
 RC_AUX2_CAM_P::14	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	22;"	d	line:22
 RC_AUX3_CAM_Y::15	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	23;"	d	line:23
-RC_INT_PRI::1	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	81;"	d	line:81	file:
+RC_INT_PRI::6	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	81;"	d	line:81	file:
 RC_MODE_FAILSAFE::12	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	20;"	d	line:20
 RC_PIN::(T,P,B,G,L){0,0,0,0,((FAILSAFE	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	44;"	d	line:44	file:
 RC_PIN_START::1	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	118;"	d	line:118
@@ -635,29 +656,29 @@ RC_SERVO::(T,P,B,G,L,S){0,0,0,0,0,0,0,T,	E:\Projects\DevPFG\Nav10\libUDB\radioIn
 RC_START::8	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	98;"	d	line:98
 RC_THROTTLE::8	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	16;"	d	line:16
 RC_YAW::11	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	19;"	d	line:19
-RECORD_FREE_STACK_SPACE::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	529;"	d	line:529
+RECORD_FREE_STACK_SPACE::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	531;"	d	line:531
 RED_BOARD::1	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	41;"	d	line:41
 REPEAT::(n)_REPEAT(n,0)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	145;"	d	line:145	file:
 REPEAT_FOREVER::_REPEAT(-1,0)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	147;"	d	line:147	file:
 REPEAT_PARAM::_REPEAT(1,1)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	146;"	d	line:146	file:
 RESTART	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	443;"	e	line:443	enum:I2C_Cmd
 REVERSE_IF_NEEDED::(NEEDS_REVERSING,VALUE)((NEEDS	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	96;"	d	line:96
-RMAX15::0b0110000000000000	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	38;"	d	line:38	file:
+RMAX15::0b0110000000000000	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	41;"	d	line:41	file:
 RMAX::0b0100000000000000	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	186;"	d	line:186
-ROLLKD::0.125	E:\Projects\DevPFG\Nav10\ProPilot\options.h	359;"	d	line:359
-ROLLKP::0.25	E:\Projects\DevPFG\Nav10\ProPilot\options.h	358;"	d	line:358
-ROLLKP_RUDDER::0.0625	E:\Projects\DevPFG\Nav10\ProPilot\options.h	389;"	d	line:389
-ROLL_ELEV_MIX::0.1	E:\Projects\DevPFG\Nav10\ProPilot\options.h	373;"	d	line:373
+ROLLKD::0.125	E:\Projects\DevPFG\Nav10\ProPilot\options.h	361;"	d	line:361
+ROLLKP::0.25	E:\Projects\DevPFG\Nav10\ProPilot\options.h	360;"	d	line:360
+ROLLKP_RUDDER::0.0625	E:\Projects\DevPFG\Nav10\ProPilot\options.h	391;"	d	line:391
+ROLL_ELEV_MIX::0.1	E:\Projects\DevPFG\Nav10\ProPilot\options.h	375;"	d	line:375
 ROLL_STABILIZATION_AILERONS::1	E:\Projects\DevPFG\Nav10\ProPilot\options.h	81;"	d	line:81
 ROLL_STABILIZATION_RUDDER::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	82;"	d	line:82
 RSET	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	452;"	e	line:452	enum:I2C_FIN
 RT::(x)_RT(x,0)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	104;"	d	line:104	file:
 RTLKICK::((long)(RTL_PITCH_DOWN*(RMAX/5	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	26;"	d	line:26	file:
-RTL_PITCH_DOWN::0.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	500;"	d	line:500
+RTL_PITCH_DOWN::0.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	502;"	d	line:502
 RT_PARAM::_RT(1,1)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	107;"	d	line:107	file:
-RUDDER_BOOST::1.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	391;"	d	line:391
+RUDDER_BOOST::1.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	393;"	d	line:393
 RUDDER_CHANNEL_REVERSED::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	227;"	d	line:227
-RUDDER_ELEV_MIX::0.5	E:\Projects\DevPFG\Nav10\ProPilot\options.h	372;"	d	line:372
+RUDDER_ELEV_MIX::0.5	E:\Projects\DevPFG\Nav10\ProPilot\options.h	374;"	d	line:374
 RUDDER_INPUT_CHANNEL::CHANNEL_4	E:\Projects\DevPFG\Nav10\ProPilot\options.h	174;"	d	line:174
 RUDDER_NAVIGATION::1	E:\Projects\DevPFG\Nav10\ProPilot\options.h	90;"	d	line:90
 RUDDER_OUTPUT_CHANNEL::CHANNEL_4	E:\Projects\DevPFG\Nav10\ProPilot\options.h	207;"	d	line:207
@@ -691,9 +712,9 @@ SERIAL_MAGNETOMETER::6	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	209;"	d	line:
 SERIAL_NONE::0	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	203;"	d	line:203
 SERIAL_OSD_IF::5	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	208;"	d	line:208
 SERIAL_OSD_REMZIBI::4	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	207;"	d	line:207
-SERIAL_OUTPUT_BAUD::230400	E:\Projects\DevPFG\Nav10\ProPilot\options.h	298;"	d	line:298
-SERIAL_OUTPUT_FORMAT::SERIAL_MAGNETOMETER	E:\Projects\DevPFG\Nav10\ProPilot\options.h	297;"	d	line:297
-SERIAL_OUTPUT_INVERT::1	E:\Projects\DevPFG\Nav10\ProPilot\options.h	299;"	d	line:299
+SERIAL_OUTPUT_BAUD::230400	E:\Projects\DevPFG\Nav10\ProPilot\options.h	300;"	d	line:300
+SERIAL_OUTPUT_FORMAT::SERIAL_STATUS	E:\Projects\DevPFG\Nav10\ProPilot\options.h	299;"	d	line:299
+SERIAL_OUTPUT_INVERT::1	E:\Projects\DevPFG\Nav10\ProPilot\options.h	301;"	d	line:301
 SERIAL_UDB::3	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	206;"	d	line:206
 SERIAL_UDB_EXTRA::7	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	210;"	d	line:210
 SERVOCENTER::3000	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	195;"	d	line:195
@@ -704,7 +725,7 @@ SERVOMIN::SERVOCENTER-SERVORANGE	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.
 SERVOMIN::SERVOCENTER-SERVORANGE	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	198;"	d	line:198
 SERVORANGE::(int)(SERVOSAT*1000)	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	196;"	d	line:196
 SERVORANGE::(int)(SERVOSAT*2500)	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	191;"	d	line:191
-SERVOSAT::1.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	350;"	d	line:350
+SERVOSAT::1.0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	352;"	d	line:352
 SERVO_CENTER::3000	E:\Projects\DevPFG\Nav10\ProPilot\servoPrepare.c	27;"	d	line:27	file:
 SERVO_CENTER::7500	E:\Projects\DevPFG\Nav10\ProPilot\servoPrepare.c	25;"	d	line:25	file:
 SERVO_CENTER_PULSE::7500	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	4;"	d	line:4
@@ -712,8 +733,8 @@ SERVO_OUT_OFFSET::1	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	50;"	d	line:
 SERVO_PIN_START::9	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	119;"	d	line:119
 SERVO_PULSE_RANGE::3500	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	5;"	d	line:5
 SERVO_PULSE_REV::-3500	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	6;"	d	line:6
-SETUP_I2C_AMSG::(x)I2C_flags.bInUse=1;	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	469;"	d	line:469	file:
-SETUP_I2C_MSG::(x)I2C_flags.bInUse=1;	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	109;"	d	line:109	file:
+SETUP_I2C_AMSG::(x)I2C_flags.bInUse=1;	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	489;"	d	line:489	file:
+SETUP_I2C_MSG::(x)I2C_flags.bInUse=1;	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	111;"	d	line:111	file:
 SET_ABS_POS::(x,y)_SET_ABS_VAL_HIGH((((unsi	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	168;"	d	line:168	file:
 SET_ALT::(z)_SET_Z(z,0,0)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	130;"	d	line:130	file:
 SET_ALT_PARAM::_SET_Z(1,0,1)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	133;"	d	line:133	file:
@@ -752,6 +773,7 @@ SVolt::AN7	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	211;"	d	line:211
 SWRP_WRPROTECT_OFF	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	54;"	v	line:54
 SYS_I2C::2	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	36;"	d	line:36	file:
 SaveNMI	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	94;"	v	line:94
+SetupPointers	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.s	134;"	l	line:134
 StackError	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	82;"	m	line:82	struct:tagRESETS	file:
 T2_OF	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	39;"	v	line:39
 THROTTLEFILTSHIFT::12	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	26;"	d	line:26	file:
@@ -765,17 +787,17 @@ TMR1_CNTS::1	E:\Projects\DevPFG\Nav10\libUDB\background.c	35;"	d	line:35	file:
 TMR1_CNTS::5	E:\Projects\DevPFG\Nav10\libUDB\background.c	41;"	d	line:41	file:
 TMR3_PERIOD::FRAME_PRE	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	64;"	d	line:64	file:
 TO::(func)_TO(func)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	150;"	d	line:150	file:
-TRIGGER_ACTION::TRIGGER_PULSE_HIGH	E:\Projects\DevPFG\Nav10\ProPilot\options.h	337;"	d	line:337
+TRIGGER_ACTION::TRIGGER_PULSE_HIGH	E:\Projects\DevPFG\Nav10\ProPilot\options.h	339;"	d	line:339
 TRIGGER_OUTPUT_CHANNEL::CHANNEL_UNUSED	E:\Projects\DevPFG\Nav10\ProPilot\options.h	212;"	d	line:212
-TRIGGER_PULSE_DURATION::250	E:\Projects\DevPFG\Nav10\ProPilot\options.h	340;"	d	line:340
+TRIGGER_PULSE_DURATION::250	E:\Projects\DevPFG\Nav10\ProPilot\options.h	342;"	d	line:342
 TRIGGER_PULSE_HIGH::4	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	189;"	d	line:189
 TRIGGER_PULSE_LOW::8	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	190;"	d	line:190
 TRIGGER_REPEATING::32	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	192;"	d	line:192
-TRIGGER_REPEAT_PERIOD::4000	E:\Projects\DevPFG\Nav10\ProPilot\options.h	341;"	d	line:341
-TRIGGER_SERVO_HIGH::4000	E:\Projects\DevPFG\Nav10\ProPilot\options.h	339;"	d	line:339
-TRIGGER_SERVO_LOW::2000	E:\Projects\DevPFG\Nav10\ProPilot\options.h	338;"	d	line:338
+TRIGGER_REPEAT_PERIOD::4000	E:\Projects\DevPFG\Nav10\ProPilot\options.h	343;"	d	line:343
+TRIGGER_SERVO_HIGH::4000	E:\Projects\DevPFG\Nav10\ProPilot\options.h	341;"	d	line:341
+TRIGGER_SERVO_LOW::2000	E:\Projects\DevPFG\Nav10\ProPilot\options.h	340;"	d	line:340
 TRIGGER_TOGGLE::16	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	191;"	d	line:191
-TRIGGER_TYPE::TRIGGER_TYPE_NONE	E:\Projects\DevPFG\Nav10\ProPilot\options.h	336;"	d	line:336
+TRIGGER_TYPE::TRIGGER_TYPE_NONE	E:\Projects\DevPFG\Nav10\ProPilot\options.h	338;"	d	line:338
 TRIGGER_TYPE_DIGITAL::2	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	187;"	d	line:187
 TRIGGER_TYPE_NONE::0	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	185;"	d	line:185
 TRIGGER_TYPE_SERVO::1	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	186;"	d	line:186
@@ -783,7 +805,7 @@ TX	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	443;"	e	line:443	enum:I2C_Cmd
 TX_BUF_LEN::512	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	27;"	d	line:27	file:
 TX_HIGH	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	446;"	e	line:446	enum:I2C_Sub
 TX_LOW	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	446;"	e	line:446	enum:I2C_Sub
-TempBB	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	141;"	l	line:141
+TempBB	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	144;"	l	line:144
 TempXZ::AN28	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	220;"	d	line:220
 TempY::AN24	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	215;"	d	line:215
 U0	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	29;"	m	line:29	struct:uu
@@ -807,19 +829,20 @@ UDB_ZACCEL::udb_zaccel	E:\Projects\DevPFG\Nav10\libUDB\boardRotation_defines.h	1
 UNUSED::0	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	8;"	d	line:8
 UNUSED_MIX::0	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	25;"	d	line:25
 USEC_DIV::40	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	40;"	d	line:40	file:
+USE_AD1_DMA	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	37;"	d	line:37	file:
 USE_ANGLE_TO_GOAL::_USE_ANGLE_TO_GOAL	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	111;"	d	line:111	file:
 USE_CAMERA_STABILIZATION::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	125;"	d	line:125
 USE_CURRENT_ANGLE::_USE_CURRENT_ANGLE	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	110;"	d	line:110	file:
 USE_CURRENT_POS::_USE_CURRENT_POS(1)	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	119;"	d	line:119	file:
 USE_FIXED_ORIGIN::0	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.h	48;"	d	line:48
 USE_FIXED_ORIGIN::0	E:\Projects\DevPFG\Nav10\ProPilot\waypoints.h	48;"	d	line:48
-USE_OSD::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	304;"	d	line:304
+USE_OSD::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	306;"	d	line:306
 USE_PPM_INPUT::0	E:\Projects\DevPFG\Nav10\ProPilot\options.h	157;"	d	line:157
 VELOCITY2LOCATION::(TIMESTEP*.01*MAX16*16.0)	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	43;"	d	line:43	file:
 VREF	E:\Projects\DevPFG\Nav10\libUDB\ConfigGreen.h	41;"	d	line:41
 VRef_XZ::AN29	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	221;"	d	line:221
 VRef_Y::AN25	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	216;"	d	line:216
-VectorCross	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	125;"	f	line:125	signature:( fractional * dest , fractional * src1 , fractional * src2 )
+VectorCross	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	128;"	f	line:128	signature:( fractional * dest , fractional * src1 , fractional * src2 )
 W	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	180;"	m	line:180	union:bfbts_word
 W0	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	28;"	m	line:28	struct:ww
 W1	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	28;"	m	line:28	struct:ww
@@ -889,10 +912,10 @@ YACCEL_SIGN_ORIENTED::-	E:\Projects\DevPFG\Nav10\libUDB\boardRotation_defines.h	
 YACCEL_SIGN_ORIENTED::-	E:\Projects\DevPFG\Nav10\libUDB\boardRotation_defines.h	93;"	d	line:93
 YACCEL_VALUE::(YACCEL_SIGN_ORIENTED((udb_yac	E:\Projects\DevPFG\Nav10\libUDB\boardRotation_defines.h	128;"	d	line:128
 YACCEL_VALUE::(YACCEL_SIGN_ORIENTED((udb_yac	E:\Projects\DevPFG\Nav10\libUDB\boardRotation_defines.h	149;"	d	line:149
-YAWKD_AILERON::0.2	E:\Projects\DevPFG\Nav10\ProPilot\options.h	361;"	d	line:361
-YAWKD_RUDDER::0.5	E:\Projects\DevPFG\Nav10\ProPilot\options.h	388;"	d	line:388
-YAWKP_AILERON::0.100	E:\Projects\DevPFG\Nav10\ProPilot\options.h	360;"	d	line:360
-YAWKP_RUDDER::0.0625	E:\Projects\DevPFG\Nav10\ProPilot\options.h	387;"	d	line:387
+YAWKD_AILERON::0.2	E:\Projects\DevPFG\Nav10\ProPilot\options.h	363;"	d	line:363
+YAWKD_RUDDER::0.5	E:\Projects\DevPFG\Nav10\ProPilot\options.h	390;"	d	line:390
+YAWKP_AILERON::0.100	E:\Projects\DevPFG\Nav10\ProPilot\options.h	362;"	d	line:362
+YAWKP_RUDDER::0.0625	E:\Projects\DevPFG\Nav10\ProPilot\options.h	389;"	d	line:389
 YAW_SERVO_HIGH_RATIO::((2000.0/((CAM_YAW_SERVO_THROW	E:\Projects\DevPFG\Nav10\ProPilot\cameraCntrl.c	27;"	d	line:27	file:
 YAW_SERVO_RATIO::(2000.0/((CAM_YAW_SERVO_THROW/	E:\Projects\DevPFG\Nav10\ProPilot\cameraCntrl.c	29;"	d	line:29	file:
 YAW_STABILIZATION_AILERON::1	E:\Projects\DevPFG\Nav10\ProPilot\options.h	85;"	d	line:85
@@ -963,11 +986,11 @@ _	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	32;"	m	line:32	union:intbb
 _	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	33;"	m	line:33	union:longbbbb
 _	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	34;"	m	line:34	union:longww
 _	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	35;"	m	line:35	union:longlongww
-_ADC1Interrupt	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	364;"	f	line:364	signature:(void)
-_ADC2Interrupt	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	184;"	f	line:184	signature:(void)
+_ADC1Interrupt	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	388;"	f	line:388	signature:(void)
+_ADC2Interrupt	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	208;"	f	line:208	signature:(void)
 _ADDED_C_LIB::1	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	26;"	d	line:26	file:
 _DI::__asm__volatile("disi#0xFFF")	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	31;"	d	line:31
-_DMA0Interrupt	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	161;"	f	line:161	signature:(void)
+_DMA0Interrupt	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	175;"	f	line:175	signature:(void)
 _DO::(fn,x,pr){2,0,pr,fn,x},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	59;"	d	line:59	file:
 _DefaultInterrupt	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	96;"	f	line:96	signature:(void)
 _EI::__asm__volatile("disi#0")	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	32;"	d	line:32
@@ -986,20 +1009,23 @@ _IC5Interrupt	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	344;"	f	line:344	si
 _IC6Interrupt	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	362;"	f	line:362	signature:(void)
 _IC7Interrupt	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	380;"	f	line:380	signature:(void)
 _IC8Interrupt	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	398;"	f	line:398	signature:(void)
-_INT1Interrupt	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	325;"	f	line:325	signature:(void)
-_INT2Interrupt	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	642;"	f	line:642	signature:(void)
-_MI2C1Interrupt	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	193;"	f	line:193	signature:(void)
+_INT1Interrupt	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	343;"	f	line:343	signature:(void)
+_INT2Interrupt	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	679;"	f	line:679	signature:(void)
+_MDSFIR	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.s	90;"	l	line:90
+_MDSFIRDelayInit	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.s	210;"	l	line:210
+_MDSFIRFilterInit	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.s	211;"	l	line:211
+_MI2C1Interrupt	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	197;"	f	line:197	signature:(void)
 _MV_X::(x,fl,pr){5,fl,pr,0,x},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	69;"	d	line:69	file:
 _MV_Y::(y,fl,pr){5,fl,pr,2,y},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	71;"	d	line:71	file:
 _MV_Z::(z,fl,pr){5,fl,pr,4,z},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	73;"	d	line:73	file:
-_OC1Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	475;"	f	line:475	signature:(void)
-_OC2Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	481;"	f	line:481	signature:(void)
-_OC3Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	487;"	f	line:487	signature:(void)
-_OC4Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	493;"	f	line:493	signature:(void)
-_OC5Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	499;"	f	line:499	signature:(void)
-_OC6Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	505;"	f	line:505	signature:(void)
-_OC7Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	511;"	f	line:511	signature:(void)
-_OC8Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	517;"	f	line:517	signature:(void)
+_OC1Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	479;"	f	line:479	signature:(void)
+_OC2Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	485;"	f	line:485	signature:(void)
+_OC3Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	491;"	f	line:491	signature:(void)
+_OC4Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	497;"	f	line:497	signature:(void)
+_OC5Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	503;"	f	line:503	signature:(void)
+_OC6Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	509;"	f	line:509	signature:(void)
+_OC7Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	515;"	f	line:515	signature:(void)
+_OC8Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	521;"	f	line:521	signature:(void)
 _PARAM_ADD::(x){9,0,0,1,x},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	93;"	d	line:93	file:
 _PARAM_DIV::(x){9,0,0,3,x},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	95;"	d	line:95	file:
 _PARAM_MUL::(x){9,0,0,2,x},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	94;"	d	line:94	file:
@@ -1017,22 +1043,23 @@ _SET_TURTLE::(x){8,0,0,0,x},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c
 _SET_X::(x,fl,pr){5,fl,pr,1,x},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	70;"	d	line:70	file:
 _SET_Y::(y,fl,pr){5,fl,pr,3,y},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	72;"	d	line:72	file:
 _SET_Z::(z,fl,ar){5,fl,ar,5,z},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	74;"	d	line:74	file:
-_T1Interrupt	E:\Projects\DevPFG\Nav10\libUDB\background.c	115;"	f	line:115	signature:(void)
+_T1Interrupt	E:\Projects\DevPFG\Nav10\libUDB\background.c	142;"	f	line:142	signature:(void)
 _T2Interrupt	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	264;"	f	line:264	signature:(void)
-_T3Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	380;"	f	line:380	signature:(void)
-_T4Interrupt	E:\Projects\DevPFG\Nav10\libUDB\background.c	170;"	f	line:170	signature:(void)
-_T5Interrupt	E:\Projects\DevPFG\Nav10\libUDB\background.c	160;"	f	line:160	signature:(void)
+_T3Interrupt	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	381;"	f	line:381	signature:(void)
+_T4Interrupt	E:\Projects\DevPFG\Nav10\libUDB\background.c	197;"	f	line:197	signature:(void)
+_T5Interrupt	E:\Projects\DevPFG\Nav10\libUDB\background.c	187;"	f	line:187	signature:(void)
 _TO::(fn){1,0,0,2,fn},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	57;"	d	line:57	file:
-_TTRIGGERIE::_T3IE	E:\Projects\DevPFG\Nav10\libUDB\background.c	62;"	d	line:62	file:
-_TTRIGGERIE::_T4IE	E:\Projects\DevPFG\Nav10\libUDB\background.c	53;"	d	line:53	file:
-_TTRIGGERIE::_T7IE	E:\Projects\DevPFG\Nav10\libUDB\background.c	58;"	d	line:58	file:
-_TTRIGGERIF::_T3IF	E:\Projects\DevPFG\Nav10\libUDB\background.c	61;"	d	line:61	file:
-_TTRIGGERIF::_T4IF	E:\Projects\DevPFG\Nav10\libUDB\background.c	52;"	d	line:52	file:
-_TTRIGGERIF::_T7IF	E:\Projects\DevPFG\Nav10\libUDB\background.c	57;"	d	line:57	file:
-_TTRIGGERIP::_T3IP	E:\Projects\DevPFG\Nav10\libUDB\background.c	60;"	d	line:60	file:
-_TTRIGGERIP::_T4IP	E:\Projects\DevPFG\Nav10\libUDB\background.c	51;"	d	line:51	file:
-_TTRIGGERIP::_T7IP	E:\Projects\DevPFG\Nav10\libUDB\background.c	56;"	d	line:56	file:
-_TTRIGGERPR::PR4	E:\Projects\DevPFG\Nav10\libUDB\background.c	54;"	d	line:54	file:
+_TTRIGGERIE::_T3IE	E:\Projects\DevPFG\Nav10\libUDB\background.c	82;"	d	line:82	file:
+_TTRIGGERIE::_T4IE	E:\Projects\DevPFG\Nav10\libUDB\background.c	72;"	d	line:72	file:
+_TTRIGGERIE::_T7IE	E:\Projects\DevPFG\Nav10\libUDB\background.c	78;"	d	line:78	file:
+_TTRIGGERIF::_T3IF	E:\Projects\DevPFG\Nav10\libUDB\background.c	81;"	d	line:81	file:
+_TTRIGGERIF::_T4IF	E:\Projects\DevPFG\Nav10\libUDB\background.c	71;"	d	line:71	file:
+_TTRIGGERIF::_T7IF	E:\Projects\DevPFG\Nav10\libUDB\background.c	77;"	d	line:77	file:
+_TTRIGGERIP::_T3IP	E:\Projects\DevPFG\Nav10\libUDB\background.c	80;"	d	line:80	file:
+_TTRIGGERIP::_T4IP	E:\Projects\DevPFG\Nav10\libUDB\background.c	70;"	d	line:70	file:
+_TTRIGGERIP::_T7IP	E:\Projects\DevPFG\Nav10\libUDB\background.c	76;"	d	line:76	file:
+_TTRIGGERPR::PR4	E:\Projects\DevPFG\Nav10\libUDB\background.c	73;"	d	line:73	file:
+_TTRIGGERPv::FRAME_40HZ_PR	E:\Projects\DevPFG\Nav10\libUDB\background.c	74;"	d	line:74	file:
 _U1RXInterrupt	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	100;"	f	line:100	signature:(void)
 _U1TXInterrupt	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	169;"	f	line:169	signature:(void)
 _U2RXInterrupt	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	264;"	f	line:264	signature:(void)
@@ -1043,33 +1070,43 @@ _USE_CURRENT_POS::(fl){5,fl,0,6,0},	E:\Projects\DevPFG\Nav10\ProPilot\flightplan
 __	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	33;"	m	line:33	union:longbbbb
 __	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	34;"	m	line:34	union:longww
 __	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	35;"	m	line:35	union:longlongww
+_filter_aspgFilterX	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.s	47;"	l	line:47
+_filter_aspgFilterY	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.s	58;"	l	line:58
+_filter_aspgFilterZ	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.s	69;"	l	line:69
+_filter_aspg_I2CX_Filter	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg_I2C.s	46;"	l	line:46
+_filter_aspg_I2CY_Filter	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg_I2C.s	57;"	l	line:57
+_filter_aspg_I2CZ_Filter	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg_I2C.s	68;"	l	line:68
 _superSample	E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s	56;"	l	line:56
+abort	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.h	4;"	p	line:4	signature:(void)
 absolute	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	161;"	m	line:161	struct:behavior_flag_bits
 absolute2D	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	36;"	s	line:36
 absolute3D	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	38;"	s	line:38
 absoluteHighWord	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	179;"	v	line:179
 absoluteXLong	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	180;"	v	line:180
 absoluteYLong	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	581;"	l	line:581
-accCDindex::2	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	180;"	d	line:180
-accCal	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	355;"	v	line:355
-accCfg	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	416;"	v	line:416
-accRead	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	342;"	v	line:342
-accReset	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	373;"	v	line:373
-accSameReadings	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	569;"	v	line:569
+accCDindex::2	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	205;"	d	line:205
+accCal	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	373;"	v	line:373
+accCfg	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	434;"	v	line:434
+accRead	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	360;"	v	line:360
+accReadStart::magReadStart-(((sizeofaccRead)	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	483;"	d	line:483	file:
+accReset	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	391;"	v	line:391
+accSameReadings	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	599;"	v	line:599
 accSetup	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	466;"	g	line:466
 accSetupRead	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	38;"	p	line:38	signature:( void )
-accSetupRead	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	471;"	f	line:471	signature:( void )
-accelEarth	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	79;"	v	line:79
-accelEarthFiltered	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	81;"	v	line:81
-accreg	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	340;"	v	line:340
-accregIndex	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	473;"	l	line:473
-accregIndex	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	484;"	l	line:484
+accSetupRead	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	491;"	f	line:491	signature:( void )
+accelEarth	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	82;"	v	line:82
+accelEarthFiltered	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	84;"	v	line:84
+accel_x::4	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	172;"	d	line:172
+accel_y::5	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	173;"	d	line:173
+accel_z::6	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	174;"	d	line:174
+accreg	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	358;"	v	line:358
+accregIndex	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	510;"	l	line:510
 accum	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	296;"	l	line:296
 accum	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	65;"	l	line:65
 accum	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	126;"	l	line:126
 accum_nav	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	83;"	l	line:83
-accum_nav	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	100;"	l	line:100
-accum_nav	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	119;"	l	line:119
+accum_nav	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	103;"	l	line:103
+accum_nav	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	122;"	l	line:122
 accum_velocity	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	66;"	l	line:66
 ack_class	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	38;"	v	line:38
 ack_id	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	39;"	v	line:39
@@ -1079,13 +1116,13 @@ acquiringS	E:\Projects\DevPFG\Nav10\ProPilot\states.c	31;"	p	line:31	file:	signa
 actualX	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	291;"	l	line:291
 actualY	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	292;"	l	line:292
 actual_dir	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	34;"	v	line:34
-adj_accel	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	219;"	f	line:219
-adjustment	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	401;"	l	line:401
+adj_accel	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	222;"	f	line:222
+adjustment	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	404;"	l	line:404
 ail_offset	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	103;"	l	line:103
 ail_rud_mix	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	63;"	l	line:63
 aileronbgain	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	31;"	v	line:31
 air_speed_magnitude	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	38;"	v	line:38
-align_rmat_to_mag	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	347;"	f	line:347	signature:(void)
+align_rmat_to_mag	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	350;"	f	line:350	signature:(void)
 alt_origin	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	33;"	v	line:33
 alt_sl_gps	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	29;"	v	line:29
 alt_sl_gps_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	85;"	v	line:85
@@ -1133,6 +1170,7 @@ bfbts_word	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	180;"	u	line:180
 bin_mode	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	45;"	v	line:45
 bin_mode_nonmea	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	69;"	v	line:69
 bin_mode_withnmea	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	67;"	v	line:67
+blockLoop	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.s	175;"	l	line:175
 boolean	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	140;"	t	line:140
 busReset	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	94;"	v	line:94
 cRaw	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	144;"	m	line:144	union:tagMixer
@@ -1194,7 +1232,7 @@ cosang	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	125;"	l	line:125
 cosine	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	64;"	p	line:64	signature:( signed char angle )
 cosine	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	115;"	f	line:115	signature:( signed char angle )
 cosphi	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	112;"	m	line:112	struct:waypointparameters
-costheta	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	351;"	l	line:351
+costheta	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	354;"	l	line:354
 costhetaDiff	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	53;"	l	line:53
 counter_slow_down	E:\Projects\DevPFG\Nav10\ProPilot\cameraCntrl.c	61;"	v	line:61
 courseLeg	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	90;"	l	line:90
@@ -1203,7 +1241,7 @@ cpu_timer	E:\Projects\DevPFG\Nav10\libUDB\background.c	37;"	v	line:37
 cpu_timer	E:\Projects\DevPFG\Nav10\libUDB\background.c	44;"	v	line:44
 crossWind	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	124;"	l	line:124
 cross_track	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	163;"	m	line:163	struct:behavior_flag_bits
-crossaccum	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	127;"	l	line:127
+crossaccum	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	130;"	l	line:130
 crossprod	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	288;"	l	line:288
 crosstrack	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	164;"	l	line:164
 currentInstructionSet	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	182;"	v	line:182
@@ -1220,9 +1258,9 @@ cyclesUntilStartTriggerAction	E:\Projects\DevPFG\Nav10\ProPilot\behavior.c	27;"	
 cyclesUntilStopTriggerAction	E:\Projects\DevPFG\Nav10\ProPilot\behavior.c	28;"	v	line:28
 d	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	107;"	l	line:107
 d	E:\Projects\DevPFG\Nav10\libUDB\osd.c	131;"	l	line:131
-dcm_absolute_to_relative	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	116;"	f	line:116	signature:(struct waypoint3D absolute)
+dcm_absolute_to_relative	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	119;"	f	line:119	signature:(struct waypoint3D absolute)
 dcm_absolute_to_relative	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	53;"	p	line:53	signature:(struct waypoint3D absolute)
-dcm_calibrate	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	90;"	f	line:90	signature:(void)
+dcm_calibrate	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	93;"	f	line:93	signature:(void)
 dcm_calibrate	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	37;"	p	line:37	signature:(void)
 dcm_callback_gps_location_updated	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	63;"	f	line:63	signature:(void)
 dcm_callback_gps_location_updated	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	42;"	p	line:42	signature:(void)
@@ -1236,18 +1274,18 @@ dcm_has_calibrated	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	25;"	v	line:25
 dcm_init	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	51;"	f	line:51	signature:( void )
 dcm_init	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	36;"	p	line:36	signature:( void )
 dcm_init_rmat	E:\Projects\DevPFG\Nav10\libDCM\libDCM_internal.h	24;"	p	line:24	signature:(void)
-dcm_init_rmat	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	115;"	f	line:115	signature:( void )
+dcm_init_rmat	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	118;"	f	line:118	signature:( void )
 dcm_run_imu_step	E:\Projects\DevPFG\Nav10\libDCM\libDCM_internal.h	34;"	p	line:34	signature:(void)
-dcm_run_imu_step	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	495;"	f	line:495	signature:(void)
+dcm_run_imu_step	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	499;"	f	line:499	signature:(void)
 dcm_servo_callback_prepare_outputs	E:\Projects\DevPFG\Nav10\ProPilot\servoPrepare.c	62;"	f	line:62	signature:(void)
 dcm_servo_callback_prepare_outputs	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	50;"	p	line:50	signature:(void)
-dcm_set_origin_location	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	98;"	f	line:98	signature:(long o_long, long o_lat, long o_alt)
+dcm_set_origin_location	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	101;"	f	line:101	signature:(long o_long, long o_lat, long o_alt)
 dcm_set_origin_location	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	38;"	p	line:38	signature:(long o_long, long o_lat, long o_alt)
 dead_reckon	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	81;"	f	line:81	signature:(void)
-dead_reckon	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	493;"	p	line:493	file:	signature:(void)
+dead_reckon	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	496;"	p	line:496	file:	signature:(void)
 dead_reckon_clock	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	52;"	v	line:52
 dead_reckon_enable	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	43;"	m	line:43	struct:dcm_flag_bits
-declinationVector	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	112;"	v	line:112
+declinationVector	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	115;"	v	line:115
 defaultCorcon	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	79;"	v	line:79
 deflectionAccum	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	286;"	l	line:286
 delta_roll_control	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	343;"	l	line:343
@@ -1265,8 +1303,8 @@ determine_navigation_deflection	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	110;
 determine_navigation_deflection	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	284;"	f	line:284	signature:(char navType)
 dir_to_goal	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	525;"	l	line:525
 dir_to_goal	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	208;"	l	line:208
-dirovergndHGPS	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	93;"	v	line:93
-dirovergndHRmat	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	96;"	v	line:96
+dirovergndHGPS	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	96;"	v	line:96
+dirovergndHRmat	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	99;"	v	line:99
 disable_GLL	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	74;"	v	line:74
 disable_GSA	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	75;"	v	line:75
 disable_GSV	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	72;"	v	line:72
@@ -1275,10 +1313,10 @@ dist_to_goal	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	209;"	l	line:209
 do_fly	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	29;"	m	line:29	struct:logoInstructionDef	file:
 do_fly	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	686;"	l	line:686
 do_pin	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	176;"	f	line:176	signature:( int iState, LPPIN lpTag, LPOCM lpOCModule )
-doneReadAccData	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	179;"	p	line:179	signature:(void)
-doneReadAccData	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	571;"	f	line:571	signature:(void)
-doneReadMagData	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	173;"	p	line:173	signature:(void)
-doneReadMagData	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	250;"	f	line:250	signature:(void)
+doneReadAccData	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	203;"	p	line:203	signature:(void)
+doneReadAccData	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	601;"	f	line:601	signature:(void)
+doneReadMagData	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	197;"	p	line:197	signature:(void)
+doneReadMagData	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	267;"	f	line:267	signature:(void)
 dotprod	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	287;"	l	line:287
 doubleangle	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	78;"	l	line:78
 dwMilliSec	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	76;"	v	line:76
@@ -1314,11 +1352,11 @@ ent_manualS	E:\Projects\DevPFG\Nav10\ProPilot\states.c	160;"	f	line:160
 ent_returnS	E:\Projects\DevPFG\Nav10\ProPilot\states.c	212;"	f	line:212
 ent_stabilizedS	E:\Projects\DevPFG\Nav10\ProPilot\states.c	175;"	f	line:175
 ent_waypointS	E:\Projects\DevPFG\Nav10\ProPilot\states.c	191;"	f	line:191
-error	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	110;"	v	line:110
-errorRP	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	105;"	v	line:105
-errorRPScaled	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	435;"	l	line:435
-errorYawground	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	106;"	v	line:106
-errorYawplane	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	107;"	v	line:107
+error	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	113;"	v	line:113
+errorRP	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	108;"	v	line:108
+errorRPScaled	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	438;"	l	line:438
+errorYawground	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	109;"	v	line:109
+errorYawplane	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	110;"	v	line:110
 estYawDrift	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	63;"	f	line:63	signature:(void)
 estYawDrift	E:\Projects\DevPFG\Nav10\libDCM\libDCM_internal.h	26;"	p	line:26	signature:(void)
 estimateWind	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	33;"	f	line:33	signature:( void )
@@ -1330,6 +1368,14 @@ failSafePulses	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	38;"	v	line:38
 false::0	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	142;"	d	line:142
 fbts_int	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	54;"	u	line:54
 filterManual	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	44;"	v	line:44
+filter_aspgDelayX	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.s	25;"	l	line:25
+filter_aspgDelayY	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.s	30;"	l	line:30
+filter_aspgDelayZ	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.s	35;"	l	line:35
+filter_aspgTaps	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.s	13;"	l	line:13
+filter_aspg_I2CTaps	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg_I2C.s	13;"	l	line:13
+filter_aspg_I2CX_Delay	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg_I2C.s	25;"	l	line:25
+filter_aspg_I2CY_Delay	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg_I2C.s	30;"	l	line:30
+filter_aspg_I2CZ_Delay	E:\Projects\DevPFG\Nav10\libUDB\filter_aspg_I2C.s	35;"	l	line:35
 filteredIMUlocationx	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	72;"	v	line:72
 filteredIMUlocationy	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	73;"	v	line:73
 filteredIMUlocationz	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	74;"	v	line:74
@@ -1368,9 +1414,9 @@ get_fixed_altitude	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	127;"	p	line:127	
 get_fixed_origin	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	126;"	p	line:126	signature:( void )
 get_fixed_origin	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	277;"	f	line:277	signature:( void )
 get_fixed_origin	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	115;"	f	line:115	signature:( void )
-ggain	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	41;"	v	line:41
+ggain	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	44;"	v	line:44
 goal	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	39;"	v	line:39
-gplane	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	90;"	v	line:90
+gplane	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	93;"	v	line:93
 gps_data_age	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	42;"	v	line:42
 gps_nav_valid	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	116;"	f	line:116	signature:(void)
 gps_nav_valid	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	390;"	f	line:390	signature:(void)
@@ -1379,6 +1425,7 @@ gps_startup_sequence	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	235;"	p	line:23
 gps_startup_sequence	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	122;"	f	line:122	signature:(int gpscount)
 gps_startup_sequence	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	336;"	f	line:336	signature:(int gpscount)
 gps_startup_sequence	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	57;"	p	line:57	signature:( int gpscount )
+gps_timeout	E:\Projects\DevPFG\Nav10\libUDB\background.c	46;"	v	line:46
 gpscount	E:\Projects\DevPFG\Nav10\ProPilot\servoPrepare.c	33;"	v	line:33
 gpsoutbin	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	59;"	f	line:59	signature:(int length , const unsigned char msg[] )
 gpsoutbin	E:\Projects\DevPFG\Nav10\libDCM\libDCM_internal.h	32;"	p	line:32	signature:(int length , const unsigned char msg[] )
@@ -1388,15 +1435,18 @@ groundVelocity	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	40;"	l	line:40
 groundVelocityDiff	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	42;"	l	line:42
 groundVelocityHistory	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	24;"	v	line:24
 groundVelocitySum	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	41;"	l	line:41
-gx	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	149;"	l	line:149
-gy	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	149;"	l	line:149
-gyroCorrectionIntegral	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	84;"	v	line:84
+gx	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	152;"	l	line:152
+gy	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	152;"	l	line:152
+gyroCorrectionIntegral	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	87;"	v	line:87
 gyroRollFeedback	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	123;"	l	line:123
 gyroRollFeedback	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	65;"	l	line:65
 gyroYawFeedback	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	66;"	l	line:66
 gyroYawFeedback	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	125;"	l	line:125
 gyroYawFeedback	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	62;"	l	line:62
-gz	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	149;"	l	line:149
+gyro_x::1	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	169;"	d	line:169
+gyro_y::2	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	170;"	d	line:170
+gyro_z::3	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	171;"	d	line:171
+gz	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	152;"	l	line:152
 h	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	68;"	l	line:68
 hdop	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	31;"	v	line:31
 hdop_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	87;"	v	line:87
@@ -1433,15 +1483,18 @@ i	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	369;"	l	line:369
 i	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	383;"	l	line:383
 i	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	65;"	l	line:65
 i	E:\Projects\DevPFG\Nav10\ProPilot\servoPrepare.c	47;"	l	line:47
-i	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	138;"	l	line:138
-i	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	238;"	l	line:238
+i	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	141;"	l	line:141
+i	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	240;"	l	line:240
 i	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	85;"	l	line:85
 i	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	88;"	l	line:88
 iACC_DR1::PORTAbits.RA13	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	381;"	d	line:381
+iAnalog_Head	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	51;"	v	line:51
+iAnalog_Tail	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	51;"	v	line:51
 iBUZZER1::PORTBbits.RB5	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	286;"	d	line:286
 iBuffer	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	127;"	m	line:127	union:tagPin::<anonymous>
 iCH	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	214;"	l	line:214
-iCounter	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	143;"	l	line:143
+iCounter	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	144;"	l	line:144
+iDCMframe	E:\Projects\DevPFG\Nav10\libUDB\background.c	47;"	v	line:47
 iDIGITAL10::PORTAbits.RA15	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	274;"	d	line:274
 iDIGITAL1::PORTGbits.RG12	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	247;"	d	line:247
 iDIGITAL2::PORTGbits.RG13	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	250;"	d	line:250
@@ -1458,13 +1511,15 @@ iFactor	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	52;"	l	line:52
 iFactor	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	150;"	m	line:150	struct:tagMixer::nTypes
 iFactor	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	157;"	m	line:157	struct:tagMixer::pTypes
 iFrameCounter	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	73;"	v	line:73
-iGiveUp	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	143;"	l	line:143
+iGiveUp	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	144;"	l	line:144
 iGlen	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	118;"	m	line:118	struct:tagPin
 iGlobal	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	117;"	m	line:117	struct:tagPin
+iI2C_Head	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	52;"	v	line:52
 iI2C_SCL::_RA2	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	76;"	d	line:76	file:
 iI2C_SCL::_RG2	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	56;"	d	line:56	file:
 iI2C_SDA::_RA3	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	75;"	d	line:75	file:
 iI2C_SDA::_RG3	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	55;"	d	line:55	file:
+iI2C_Tail	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	52;"	v	line:52
 iIT1::PORTCbits.RC4	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	343;"	d	line:343
 iIT2::PORTCbits.RC3	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	346;"	d	line:346
 iIT3::PORTCbits.RC2	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	349;"	d	line:349
@@ -1483,6 +1538,7 @@ iLED3::PORTBbits.RB10	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	363;"	d	line:
 iLED4::PORTBbits.RB11	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	366;"	d	line:366
 iMAG_DR1::PORTAbits.RA12	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	371;"	d	line:371
 iMix	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	55;"	l	line:55
+iNumSamples	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	505;"	l	line:505
 iOut	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	214;"	l	line:214
 iPin	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	116;"	m	line:116	struct:tagPin
 iPort	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	115;"	m	line:115	struct:tagPin
@@ -1496,7 +1552,7 @@ iRC5::PORTDbits.RD12	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	329;"	d	line:3
 iRC6::PORTDbits.RD13	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	332;"	d	line:332
 iRC7::PORTDbits.RD14	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	335;"	d	line:335
 iRC8::PORTDbits.RD15	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	338;"	d	line:338
-iResult	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	485;"	m	line:485	struct:tagI2Ccommand
+iResult	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	486;"	m	line:486	struct:tagI2Ccommand
 iSERVO1::PORTDbits.RD0	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	291;"	d	line:291
 iSERVO2::PORTDbits.RD1	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	294;"	d	line:294
 iSERVO3::PORTDbits.RD2	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	297;"	d	line:297
@@ -1538,7 +1594,7 @@ init_servoPrepare	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	61;"	p	line:61	sig
 init_servoPrepare	E:\Projects\DevPFG\Nav10\ProPilot\servoPrepare.c	42;"	f	line:42	signature:( void )
 init_states	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	31;"	p	line:31	signature:( void )
 init_states	E:\Projects\DevPFG\Nav10\ProPilot\states.c	42;"	f	line:42	signature:(void)
-initialBodyField	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	350;"	l	line:350
+initialBodyField	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	353;"	l	line:353
 input	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	145;"	m	line:145	struct:ADchannel
 instructionIndex	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	177;"	v	line:177
 instructions	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.h	231;"	v	line:231
@@ -1551,7 +1607,9 @@ lPrivate	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	122;"	m	line:122	union:tag
 labs	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	269;"	p	line:269	file:	signature:(lat_gps.WW/10)
 labs	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	272;"	p	line:272	file:	signature:(long_gps.WW/10)
 land	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	160;"	m	line:160	struct:behavior_flag_bits
+lastAccelSamples	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	497;"	v	line:497
 lastGoal	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	210;"	v	line:210
+lastGyroSamples	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	497;"	v	line:497
 lastHeight	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	75;"	l	line:75
 lastPitch	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	50;"	v	line:50
 lastRoll	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	49;"	v	line:49
@@ -1582,33 +1640,36 @@ longaccum	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	55;"	l	line:55
 longbbbb	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	33;"	u	line:33
 longlongww	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	35;"	u	line:35
 longww	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	34;"	u	line:34
-lpByte	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	198;"	l	line:198
-magCDindex::1	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	174;"	d	line:174
+lpByte	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	202;"	l	line:202
+magCDindex::1	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	198;"	d	line:198
 magCalM	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	57;"	v	line:57
 magCalP	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	47;"	v	line:47
 magCfg	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	81;"	v	line:81
-magConfigAttempts	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	103;"	v	line:103
+magConfigAttempts	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	102;"	v	line:102
 magDirectionDiff	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	47;"	l	line:47
-magFieldBodyPrevious	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	341;"	v	line:341
-magFieldEarth	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	335;"	v	line:335
-magFieldEarthPrevious	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	340;"	v	line:340
-magFieldRaw	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	253;"	l	line:253
-magGain	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	97;"	v	line:97
+magFieldBodyPrevious	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	344;"	v	line:344
+magFieldEarth	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	338;"	v	line:338
+magFieldEarthPrevious	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	343;"	v	line:343
+magFieldRaw	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	270;"	l	line:270
+magGain	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	96;"	v	line:96
 magHorizontalDirectionDiff	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	49;"	l	line:49
 magHorizontalVelocityDiff	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	48;"	l	line:48
 magRead	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	33;"	v	line:33
+magReadStart::((sizeofuI2C_Commands)/2)-(((s	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	105;"	d	line:105	file:
 magReset	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	69;"	v	line:69
-magSameReadings	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	249;"	v	line:249
+magSameReadings	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	266;"	v	line:266
 magSetup	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	455;"	g	line:455
 magSetupRead	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	37;"	p	line:37	signature:( void )
-magSetupRead	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	111;"	f	line:111	signature:( void )
+magSetupRead	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	113;"	f	line:113	signature:( void )
 magVelocityDiff	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	46;"	l	line:46
-mag_drift	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	364;"	f	line:364
+mag_drift	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	367;"	f	line:367
 mag_drift_req	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	46;"	m	line:46	struct:dcm_flag_bits
-mag_error	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	366;"	l	line:366
+mag_error	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	369;"	l	line:369
+mag_x::7	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	175;"	d	line:175
+mag_y::8	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	176;"	d	line:176
+mag_z::9	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	177;"	d	line:177
 magreg	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	31;"	v	line:31
-magregIndex	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	113;"	l	line:113
-magregIndex	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	124;"	l	line:124
+magregIndex	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	135;"	l	line:135
 main	E:\Projects\DevPFG\Nav10\ProPilot\main.c	28;"	f	line:28	signature:(void)
 man_req	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	47;"	m	line:47	struct:flag_bits
 manualPassthrough	E:\Projects\DevPFG\Nav10\ProPilot\servoPrepare.c	132;"	f	line:132	signature:( void )
@@ -1705,7 +1766,8 @@ next_waypoint	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	128;"	f	l
 nmea_passthrough	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	50;"	m	line:50	struct:dcm_flag_bits
 nmea_passthru	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	431;"	f	line:431	signature:( unsigned char gpschar)
 nmea_passthru_countdown	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	429;"	v	line:429
-norm	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	262;"	l	line:262
+no_psv	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.s	127;"	l	line:127
+norm	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	265;"	l	line:265
 normalAltitudeCntrl	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	105;"	f	line:105	signature:(void)
 normalAltitudeCntrl	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	48;"	p	line:48	file:	signature:(void)
 normalPitchCntrl	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	52;"	p	line:52	file:	signature:(void)
@@ -1714,9 +1776,10 @@ normalRollCntrl	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	43;"	p	line:43	fil
 normalRollCntrl	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	62;"	f	line:62	signature:(void)
 normalYawCntrl	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	39;"	p	line:39	file:	signature:(void)
 normalYawCntrl	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	58;"	f	line:58	signature:(void)
-normalize	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	255;"	f	line:255	signature:(void)
+normalize	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	258;"	f	line:258	signature:(void)
 numInstructionsInCurrentSet	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	183;"	v	line:183
 numPointsInCurrentSet	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	39;"	v	line:39
+numTaps	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	9;"	m	line:9
 oACC_DR1::LATAbits.LATA13	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	382;"	d	line:382
 oAZ_XZ::oDIGITAL2	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	281;"	d	line:281
 oAZ_Y::oDIGITAL1	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	279;"	d	line:279
@@ -1760,17 +1823,17 @@ oSERVO6::LATDbits.LATD5	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	307;"	d	lin
 oSERVO7::LATDbits.LATD6	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	310;"	d	line:310
 oSERVO8::LATDbits.LATD7	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	313;"	d	line:313
 offset	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	147;"	m	line:147	struct:ADchannel
-offsetDelta	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	345;"	v	line:345
-offsetSum	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	369;"	l	line:369
+offsetDelta	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	348;"	v	line:348
+offsetSum	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	372;"	l	line:372
 old_cpu_counter	E:\Projects\DevPFG\Nav10\libUDB\background.c	45;"	v	line:45
 old_rtl_flags	E:\Projects\DevPFG\Nav10\ProPilot\states.c	25;"	v	line:25
-omega	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	72;"	v	line:72
-omegaAccum	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	87;"	v	line:87
+omega	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	75;"	v	line:75
+omegaAccum	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	90;"	v	line:90
 omegaAccum2	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	69;"	l	line:69
-omegaSOG	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	197;"	f	line:197	signature:( int omega , unsigned int speed )
-omegacorrI	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	76;"	v	line:76
-omegacorrP	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	75;"	v	line:75
-omegagyro	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	71;"	v	line:71
+omegaSOG	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	200;"	f	line:200	signature:( int omega , unsigned int speed )
+omegacorrI	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	79;"	v	line:79
+omegacorrP	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	78;"	v	line:78
+omegagyro	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	74;"	v	line:74
 origin	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	279;"	l	line:279
 origin	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	117;"	l	line:117
 origin	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	50;"	l	line:50
@@ -1780,33 +1843,38 @@ osd_on	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	282;"	l	line:282
 osd_phase	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	43;"	v	line:43
 osd_setup_screen	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	120;"	f	line:120	signature:( void )
 osd_spi_read	E:\Projects\DevPFG\Nav10\libUDB\osd.c	86;"	f	line:86	signature:(char addr)
-osd_spi_write	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	256;"	p	line:256	signature:(char address, char byte)
+osd_spi_write	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	282;"	p	line:282	signature:(char address, char byte)
 osd_spi_write	E:\Projects\DevPFG\Nav10\libUDB\osd.c	69;"	f	line:69	signature:(char addr, char byte)
-osd_spi_write_byte	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	257;"	p	line:257	signature:(char byte)
+osd_spi_write_byte	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	283;"	p	line:283	signature:(char byte)
 osd_spi_write_byte	E:\Projects\DevPFG\Nav10\libUDB\osd.c	53;"	f	line:53	signature:(char byte)
-osd_spi_write_location	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	258;"	p	line:258	signature:(char row, char column)
+osd_spi_write_location	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	284;"	p	line:284	signature:(char row, char column)
 osd_spi_write_location	E:\Projects\DevPFG\Nav10\libUDB\osd.c	106;"	f	line:106	signature:(char row, char column)
-osd_spi_write_number	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	263;"	p	line:263	signature:(long val, char num_digits, char num_flags, char header, char footer)
+osd_spi_write_number	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	289;"	p	line:289	signature:(long val, char num_digits, char num_flags, char header, char footer)
 osd_spi_write_number	E:\Projects\DevPFG\Nav10\libUDB\osd.c	128;"	f	line:128	signature:(long val, char num_digits, char num_flags, char header, char footer)
-osd_spi_write_string	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	259;"	p	line:259	signature:(const unsigned char *str)
+osd_spi_write_string	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	285;"	p	line:285	signature:(const unsigned char *str)
 osd_spi_write_string	E:\Projects\DevPFG\Nav10\libUDB\osd.c	115;"	f	line:115	signature:(const unsigned char *str)
 osd_update_horizon	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	52;"	f	line:52	signature:( void )
 osd_update_values	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	166;"	f	line:166	signature:( void )
 osd_was_on	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	44;"	v	line:44
 osd_write_arrow	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	105;"	f	line:105	signature:( signed char dir_to_goal )
 outchar	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	50;"	l	line:50
+pDelayBase	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	13;"	m	line:13
+pDelayEnd	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	14;"	m	line:14
+pDelayPtr	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	15;"	m	line:15
 pMixers	E:\Projects\DevPFG\Nav10\ProPilot\mixer.h	42;"	v	line:42
+pTapsBase	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	10;"	m	line:10
+pTapsEnd	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	11;"	m	line:11
 pType	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	158;"	m	line:158	union:tagMixer
 pTypes	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	152;"	s	line:152	union:tagMixer
 p_sim	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	261;"	v	line:261
 p_sim_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	260;"	v	line:260
 payloadlength	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	33;"	v	line:33
 payloadlength	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	34;"	v	line:34
-pcResult	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	487;"	m	line:487	struct:tagI2Ccommand
+pcResult	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	488;"	m	line:488	struct:tagI2Ccommand
 penState	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	216;"	v	line:216
 pfgMix	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	35;"	d	line:35	file:
 phi	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	112;"	m	line:112	struct:waypointparameters
-piResult	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	486;"	m	line:486	struct:tagI2Ccommand
+piResult	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	487;"	m	line:487	struct:tagI2Ccommand
 pitchAccum	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	108;"	l	line:108
 pitchAccum	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	146;"	l	line:146
 pitchAccum	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	73;"	l	line:73
@@ -1826,8 +1894,8 @@ pitchgain	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	39;"	v	line:39
 pitchkd	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	33;"	v	line:33
 pitchkd	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	40;"	v	line:40
 pitchrate	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	48;"	v	line:48
-previousAccFieldRaw	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	568;"	v	line:568
-previousMagFieldRaw	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	248;"	v	line:248
+previousAccFieldRaw	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	598;"	v	line:598
+previousMagFieldRaw	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	264;"	v	line:264
 previous_waypoint	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	138;"	l	line:138
 previous_waypoint	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	153;"	l	line:153
 print_choice	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	380;"	v	line:380
@@ -1848,12 +1916,12 @@ q_sim_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	260;"	v	line:260
 r_sim	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	261;"	v	line:261
 r_sim_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	260;"	v	line:260
 radio_on	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	154;"	m	line:154	struct:udb_flag_bits
-rawMagCalib	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	98;"	v	line:98
-rbuff	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	102;"	v	line:102
+rawMagCalib	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	97;"	v	line:97
+rbuff	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	105;"	v	line:105
 rc_pin	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	130;"	f	line:130	signature:( WORD wCounts, int iState, LPPIN lpTag )
 readEEtest	E:\Projects\DevPFG\Nav10\libUDB\eeprom_aspg.c	45;"	v	line:45
-read_accel	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	169;"	f	line:169
-read_gyros	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	145;"	f	line:145
+read_accel	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	172;"	f	line:172
+read_gyros	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	148;"	f	line:148
 reckon_req	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	44;"	m	line:44	struct:dcm_flag_bits
 rect_to_polar	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	67;"	p	line:67	signature:( struct relative2D *xy )
 rect_to_polar	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	139;"	f	line:139	signature:( struct relative2D *xy )
@@ -1861,24 +1929,24 @@ rect_to_polar16	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	68;"	p	line:68	signatur
 rect_to_polar16	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	184;"	f	line:184	signature:( struct relative2D *xy )
 rel	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	589;"	l	line:589
 rel	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	52;"	l	line:52
-rel	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	118;"	l	line:118
+rel	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	121;"	l	line:121
 relWaypointDef	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	27;"	s	line:27	file:
 relative2D	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	35;"	s	line:35
 relative3D	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	37;"	s	line:37
 remaining	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	230;"	l	line:230
-renorm	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	263;"	l	line:263
+renorm	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	266;"	l	line:266
 returnInstructionIndex	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	195;"	m	line:195	struct:logoStackFrame	file:
 returnS	E:\Projects\DevPFG\Nav10\ProPilot\states.c	35;"	p	line:35	file:	signature:(void)
 returnS	E:\Projects\DevPFG\Nav10\ProPilot\states.c	362;"	f	line:362	signature:(void)
-rmat	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	64;"	v	line:64
+rmat	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	67;"	v	line:67
 rmat1filt	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	31;"	v	line:31
 rmat4filt	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	32;"	v	line:32
 rmat6	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	81;"	l	line:81
 rmat6	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	68;"	l	line:68
 rmat7	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	82;"	l	line:82
 rmat8	E:\Projects\DevPFG\Nav10\ProPilot\pitchCntrl.c	83;"	l	line:83
-rmatPrevious	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	343;"	v	line:343
-rmatTransposeMagField	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	368;"	l	line:368
+rmatPrevious	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	346;"	v	line:346
+rmatTransposeMagField	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	371;"	l	line:371
 rmat_transpose	E:\Projects\DevPFG\Nav10\ProPilot\cameraCntrl.c	114;"	l	line:114
 rollAccum	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	64;"	l	line:64
 rollCntrl	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	67;"	p	line:67	signature:( void )
@@ -1890,7 +1958,7 @@ rollNavDeflection	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	122;"	l	line:122
 rollRight	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	157;"	m	line:157	struct:behavior_flag_bits
 rollStabilization	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	61;"	l	line:61
 roll_control	E:\Projects\DevPFG\Nav10\ProPilot\servoPrepare.c	35;"	v	line:35
-roll_pitch_drift	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	297;"	f	line:297
+roll_pitch_drift	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	300;"	f	line:300
 rollkd	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	29;"	v	line:29
 rollkd	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	37;"	v	line:37
 rollkp	E:\Projects\DevPFG\Nav10\ProPilot\rollCntrl.c	28;"	v	line:28
@@ -1909,22 +1977,23 @@ rudderbgain	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	33;"	v	line:33
 run_flightplan	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	128;"	p	line:128	signature:( void )
 run_flightplan	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	316;"	f	line:316	signature:( void )
 run_flightplan	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	168;"	f	line:168	signature:( void )
-rup	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	68;"	v	line:68
-rupdate	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	229;"	f	line:229	signature:(void)
-rxAccel	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	178;"	p	line:178	signature:(void)
-rxAccel	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	482;"	f	line:482	signature:(void)
+rup	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	71;"	v	line:71
+rupdate	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	232;"	f	line:232	signature:(void)
+rxAccel	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	202;"	p	line:202	signature:(void)
+rxAccel	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	508;"	f	line:508	signature:(void)
 rxMagnetometer	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	526;"	p	line:526	file:	signature:(void)
+rxMagnetometer	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	594;"	p	line:594	file:	signature:(void)
 rxMagnetometer	E:\Projects\DevPFG\Nav10\libDCM\libDCM_internal.h	35;"	p	line:35	signature:(void)
-rxMagnetometer	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	172;"	p	line:172	signature:(void)
-rxMagnetometer	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	122;"	f	line:122	signature:(void)
+rxMagnetometer	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	196;"	p	line:196	signature:(void)
+rxMagnetometer	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	133;"	f	line:133	signature:(void)
 rxchar	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	108;"	l	line:108
 rxchar	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	272;"	l	line:272
-sampcount	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	34;"	v	line:34
+sampcount	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	35;"	v	line:35
 save_origin	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	42;"	m	line:42	struct:flag_bits
 sb_index	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	48;"	v	line:48
 scaleShift	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	150;"	l	line:150
 scaleShift	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	191;"	l	line:191
-send_HILSIM_outputs	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	135;"	f	line:135	signature:( void )
+send_HILSIM_outputs	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	138;"	f	line:138	signature:( void )
 send_HILSIM_outputs	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	47;"	p	line:47	file:	signature:( void )
 serial_buffer	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	47;"	v	line:47
 serial_output	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	199;"	p	line:199	signature:( char* format, ... )
@@ -1935,7 +2004,8 @@ serial_output_8hz	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	292;"	f	line:292
 serial_output_8hz	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	389;"	f	line:389	signature:( void )
 serial_output_8hz	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	514;"	f	line:514	signature:( void )
 serial_output_8hz	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	554;"	f	line:554	signature:( void )
-serial_output_8hz	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	595;"	f	line:595	signature:( void )
+serial_output_8hz	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	611;"	f	line:611	signature:( void )
+serial_output_8hz	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	655;"	f	line:655	signature:( void )
 servoMix	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	85;"	p	line:85	signature:( void )
 servoMix	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	212;"	f	line:212	signature:( void )
 servoMix	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	256;"	f	line:256	signature:( void )
@@ -1956,7 +2026,7 @@ sine	E:\Projects\DevPFG\Nav10\libDCM\libDCM.h	65;"	p	line:65	signature:( signed 
 sine	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	41;"	f	line:41	signature:( signed char angle )
 sinphi	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	112;"	m	line:112	struct:waypointparameters
 sintab	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	31;"	v	line:31
-sintheta	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	352;"	l	line:352
+sintheta	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	355;"	l	line:355
 sinthetaDiff	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	54;"	l	line:54
 sio_fp_checksum	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	193;"	f	line:193	signature:( unsigned char inchar )
 sio_fp_checksum	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	39;"	p	line:39	file:	signature:( unsigned char inchar )
@@ -1972,7 +2042,8 @@ sio_voltage_low	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	35;"	p	line:35	fil
 skip	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	288;"	v	line:288
 skip	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	375;"	v	line:375
 skip	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	524;"	v	line:524
-skip_timer_reset	E:\Projects\DevPFG\Nav10\libUDB\background.c	48;"	v	line:48
+skip	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	592;"	v	line:592
+skip_timer_reset	E:\Projects\DevPFG\Nav10\libUDB\background.c	67;"	v	line:67
 skip_yaw_drift	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	48;"	m	line:48	struct:dcm_flag_bits
 sog_gps	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	30;"	v	line:30
 sog_gps_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	86;"	v	line:86
@@ -1997,7 +2068,7 @@ store_index	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	166;"	v	line:166
 store_index	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	422;"	v	line:422
 subHeight	E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c	70;"	l	line:70
 subcmd	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	31;"	m	line:31	struct:logoInstructionDef	file:
-superSample	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	158;"	p	line:158	file:	signature:( void *, void * )
+superSample	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	172;"	p	line:172	file:	signature:( void *, void * )
 svs	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	37;"	v	line:37
 svs_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	62;"	v	line:62
 svs_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	252;"	v	line:252
@@ -2060,6 +2131,7 @@ tagUSec	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	74;"	v	line:74
 tagUSec_x40	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	75;"	v	line:75
 takeoff	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	153;"	m	line:153	struct:behavior_flag_bits
 tan_pitch_in_stabilized_mode	E:\Projects\DevPFG\Nav10\ProPilot\cameraCntrl.c	39;"	v	line:39
+tapsPage	E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h	12;"	m	line:12
 telemetry_counter	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	374;"	v	line:374
 temp	E:\Projects\DevPFG\Nav10\ProPilot\altitudeCntrl.c	83;"	l	line:83
 temp	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	258;"	l	line:258
@@ -2071,8 +2143,8 @@ tempB	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	53;"	l	line:53
 temporary	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	123;"	l	line:123
 theta	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	146;"	l	line:146
 theta	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	193;"	l	line:193
-theta	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	349;"	l	line:349
-theta	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	99;"	v	line:99
+theta	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	102;"	v	line:102
+theta	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	352;"	l	line:352
 theta16	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	192;"	l	line:192
 thetaDiff	E:\Projects\DevPFG\Nav10\libDCM\estWind.c	52;"	l	line:52
 theta_rot	E:\Projects\DevPFG\Nav10\libDCM\mathlibNAV.c	148;"	l	line:148
@@ -2101,6 +2173,7 @@ togoal	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	40;"	v	line:40
 tow	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	29;"	v	line:29
 tow_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	85;"	v	line:85
 tow_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	254;"	v	line:254
+tow_error_save	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	139;"	v	line:139
 trigger	E:\Projects\DevPFG\Nav10\ProPilot\defines.h	158;"	m	line:158	struct:behavior_flag_bits
 triggerActionSetValue	E:\Projects\DevPFG\Nav10\ProPilot\behavior.c	190;"	f	line:190	signature:( boolean newValue )
 triggerActionSetValue	E:\Projects\DevPFG\Nav10\ProPilot\behavior.c	31;"	p	line:31	file:	signature:( boolean newValue )
@@ -2111,7 +2184,7 @@ twentyHertzCounter	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	72;"	v	line:7
 txchar	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	257;"	l	line:257
 uACK	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	413;"	m	line:413	struct:tagI2C::tagFields
 uBuf	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	417;"	m	line:417	struct:tagI2C::tagFields
-uByte	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	198;"	l	line:198
+uByte	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	202;"	l	line:202
 uChar	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	409;"	m	line:409	union:tagI2C
 uCmd	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	412;"	m	line:412	struct:tagI2C::tagFields
 uCount	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	432;"	m	line:432	struct:tagI2C::tagFields
@@ -2123,84 +2196,84 @@ u_dot_sim_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	258;"	v	line:258
 ucPWMTest	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	40;"	v	line:40
 ucSend	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	171;"	l	line:171
 ucSend	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	373;"	l	line:373
-udb_a2d_record_offsets	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	220;"	f	line:220	signature:(void)
-udb_a2d_record_offsets	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	158;"	p	line:158	signature:(void)
+udb_a2d_record_offsets	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	222;"	f	line:222	signature:(void)
+udb_a2d_record_offsets	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	182;"	p	line:182	signature:(void)
 udb_background_callback_periodic	E:\Projects\DevPFG\Nav10\ProPilot\states.c	52;"	f	line:52	signature:(void)
 udb_background_callback_periodic	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	74;"	p	line:74	signature:(void)
 udb_background_callback_triggered	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	81;"	f	line:81	signature:(void)
 udb_background_callback_triggered	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	82;"	p	line:82	signature:(void)
-udb_background_trigger	E:\Projects\DevPFG\Nav10\libUDB\background.c	191;"	f	line:191	signature:(void)
+udb_background_trigger	E:\Projects\DevPFG\Nav10\libUDB\background.c	240;"	f	line:240	signature:(void)
 udb_background_trigger	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	78;"	p	line:78	signature:(void)
-udb_cpu_load	E:\Projects\DevPFG\Nav10\libUDB\background.c	198;"	f	line:198	signature:(void)
+udb_cpu_load	E:\Projects\DevPFG\Nav10\libUDB\background.c	248;"	f	line:248	signature:(void)
 udb_cpu_load	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	86;"	p	line:86	signature:(void)
 udb_fbts_byte	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	125;"	u	line:125
 udb_flag_bits	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	151;"	s	line:151
 udb_flags	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	75;"	v	line:75
 udb_gps_callback_received_char	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	72;"	f	line:72	signature:(char rxchar)
-udb_gps_callback_received_char	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	215;"	p	line:215	signature:(char rxchar)
-udb_gps_check_rate	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	209;"	p	line:209	signature:(int rate)
+udb_gps_callback_received_char	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	241;"	p	line:241	signature:(char rxchar)
+udb_gps_check_rate	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	235;"	p	line:235	signature:(int rate)
 udb_gps_check_rate	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	94;"	f	line:94	signature:(int rate)
-udb_gps_send_char	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	212;"	p	line:212	signature:(char txchar)
+udb_gps_send_char	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	238;"	p	line:238	signature:(char txchar)
 udb_gps_send_char	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	160;"	f	line:160	signature:( char outchar )
-udb_gps_send_packet	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	220;"	p	line:220	signature:( unsigned char *ucpData, int len )
+udb_gps_send_packet	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	246;"	p	line:246	signature:( unsigned char *ucpData, int len )
 udb_gps_send_packet	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	122;"	f	line:122	signature:( unsigned char *ucpData, int len )
-udb_gps_set_rate	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	208;"	p	line:208	signature:(int rate)
+udb_gps_set_rate	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	234;"	p	line:234	signature:(int rate)
 udb_gps_set_rate	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	87;"	f	line:87	signature:(int rate)
 udb_init	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	126;"	f	line:126	signature:(void)
 udb_init	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	54;"	p	line:54	signature:(void)
-udb_init_ADC	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	314;"	f	line:314	signature:( void )
-udb_init_ADC	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	76;"	f	line:76	signature:( void )
+udb_init_ADC	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	338;"	f	line:338	signature:( void )
+udb_init_ADC	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	90;"	f	line:90	signature:( void )
 udb_init_ADC	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	28;"	p	line:28	signature:(void)
 udb_init_GPS	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	32;"	p	line:32	signature:(void)
 udb_init_GPS	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	37;"	f	line:37	signature:(void)
-udb_init_I2C2	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	141;"	f	line:141	signature:(void)
+udb_init_I2C2	E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c	142;"	f	line:142	signature:(void)
 udb_init_I2C2	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	31;"	p	line:31	signature:(void)
 udb_init_USART	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	33;"	p	line:33	signature:(void)
 udb_init_USART	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	190;"	f	line:190	signature:(void)
-udb_init_accelerometer	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	299;"	f	line:299	signature:(void)
-udb_init_accelerometer	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	60;"	f	line:60	signature:(void)
+udb_init_accelerometer	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	323;"	f	line:323	signature:(void)
+udb_init_accelerometer	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	71;"	f	line:71	signature:(void)
 udb_init_capture	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	30;"	p	line:30	signature:(void)
 udb_init_capture	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	83;"	f	line:83	signature:(void)
-udb_init_clock	E:\Projects\DevPFG\Nav10\libUDB\background.c	66;"	f	line:66	signature:(void)
+udb_init_clock	E:\Projects\DevPFG\Nav10\libUDB\background.c	86;"	f	line:86	signature:(void)
 udb_init_clock	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	29;"	p	line:29	signature:(void)
-udb_init_gyros	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	289;"	f	line:289	signature:( void )
-udb_init_gyros	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	50;"	f	line:50	signature:( void )
+udb_init_gyros	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	313;"	f	line:313	signature:( void )
+udb_init_gyros	E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c	58;"	f	line:58	signature:( void )
 udb_init_leds	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	191;"	f	line:191	signature:( void )
 udb_init_leds	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	27;"	p	line:27	signature:(void)
 udb_init_osd	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	35;"	p	line:35	signature:( void )
 udb_init_osd	E:\Projects\DevPFG\Nav10\libUDB\osd.c	12;"	f	line:12	signature:( void )
 udb_init_pwm	E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h	34;"	p	line:34	signature:(void)
 udb_init_pwm	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	86;"	f	line:86	signature:( void )
-udb_led_toggle::(x)((x)=!(x))	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	187;"	d	line:187
-udb_magFieldBody	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	94;"	v	line:94
-udb_magFieldBodyInput	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	95;"	v	line:95
-udb_magOffset	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	96;"	v	line:96
+udb_led_toggle::(x)((x)=!(x))	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	212;"	d	line:212
+udb_magFieldBody	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	93;"	v	line:93
+udb_magFieldBodyInput	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	94;"	v	line:94
+udb_magOffset	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	95;"	v	line:95
 udb_magnetometer_callback_data_available	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	48;"	f	line:48	signature:( void )
-udb_magnetometer_callback_data_available	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	171;"	p	line:171	signature:(void)
+udb_magnetometer_callback_data_available	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	195;"	p	line:195	signature:(void)
 udb_pwIn	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	35;"	v	line:35
 udb_pwOut	E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c	70;"	v	line:70
 udb_pwTrim	E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c	36;"	v	line:36
 udb_run	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	179;"	f	line:179	signature:(void)
 udb_run	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	61;"	p	line:61	signature:(void)
 udb_serial_callback_get_char_to_send	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	255;"	f	line:255	signature:(void)
-udb_serial_callback_get_char_to_send	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	240;"	p	line:240	signature:(void)
+udb_serial_callback_get_char_to_send	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	266;"	p	line:266	signature:(void)
 udb_serial_callback_received_char	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	70;"	f	line:70	signature:(char rxchar)
-udb_serial_callback_received_char	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	243;"	p	line:243	signature:(char rxchar)
-udb_serial_send_char	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	236;"	p	line:236	signature:( char outchar )
+udb_serial_callback_received_char	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	269;"	p	line:269	signature:(char rxchar)
+udb_serial_send_char	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	262;"	p	line:262	signature:( char outchar )
 udb_serial_send_char	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	362;"	f	line:362	signature:( char outchar )
-udb_serial_send_packet	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	248;"	p	line:248	signature:( unsigned char *ucpData, int len )
+udb_serial_send_packet	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	274;"	p	line:274	signature:( unsigned char *ucpData, int len )
 udb_serial_send_packet	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	286;"	f	line:286	signature:( unsigned char *ucpData, int len )
-udb_serial_send_string	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	249;"	p	line:249	signature:( unsigned char *ucpData )
+udb_serial_send_string	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	275;"	p	line:275	signature:( unsigned char *ucpData )
 udb_serial_send_string	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	323;"	f	line:323	signature:( unsigned char *ucpData )
-udb_serial_set_rate	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	229;"	p	line:229	signature:(long int rate)
+udb_serial_set_rate	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	255;"	p	line:255	signature:(long int rate)
 udb_serial_set_rate	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	249;"	f	line:249	signature:(long int rate)
-udb_serial_start_sending	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	232;"	p	line:232	signature:(void)
+udb_serial_start_sending	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	258;"	p	line:258	signature:(void)
 udb_serial_start_sending	E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c	256;"	f	line:256	signature:(void)
 udb_servo_callback_prepare_outputs	E:\Projects\DevPFG\Nav10\libDCM\libDCM.c	63;"	f	line:63	signature:(void)
 udb_servo_callback_prepare_outputs	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	137;"	p	line:137	signature:(void)
-udb_servo_pulsesat	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	247;"	f	line:247	signature:( long pw )
+udb_servo_pulsesat	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	249;"	f	line:249	signature:( long pw )
 udb_servo_pulsesat	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	129;"	p	line:129	signature:(long pw)
-udb_servo_record_trims	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	236;"	f	line:236	signature:(void)
+udb_servo_record_trims	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	238;"	f	line:238	signature:(void)
 udb_servo_record_trims	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	133;"	p	line:133	signature:(void)
 udb_setDSPLibInUse	E:\Projects\DevPFG\Nav10\libUDB\libUDB.c	213;"	f	line:213	signature:(boolean inUse)
 udb_setDSPLibInUse	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	66;"	p	line:66	signature:(boolean inUse)
@@ -2236,9 +2309,9 @@ v	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	206;"	l	line:206
 v_dot_sim	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	259;"	v	line:259
 v_dot_sim_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	258;"	v	line:258
 value	E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h	146;"	m	line:146	struct:ADchannel
-vectorIndex	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	252;"	l	line:252
+vectorIndex	E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c	269;"	l	line:269
 vectorToGoal	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	522;"	l	line:522
-vector_index	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	367;"	l	line:367
+vector_index	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	370;"	l	line:370
 velocityErrorEarth	E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c	79;"	v	line:79
 velocity_magnitude	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	35;"	v	line:35
 velocity_previous	E:\Projects\DevPFG\Nav10\libDCM\estYawDrift.c	37;"	v	line:37
@@ -2250,7 +2323,7 @@ viewpoint	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	28;"	m	line:2
 voltage_milis	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	31;"	v	line:31
 voltage_temp	E:\Projects\DevPFG\Nav10\ProPilot\telemetry.c	32;"	v	line:32
 vrefBUFF::ADCBUF3	E:\Projects\DevPFG\Nav10\libUDB\ConfigGreen.h	27;"	d	line:27
-vref_adj	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	143;"	v	line:143
+vref_adj	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	146;"	v	line:146
 vtail_yaw_control	E:\Projects\DevPFG\Nav10\ProPilot\servoMix.c	310;"	l	line:310
 wBuffer	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	128;"	m	line:128	union:tagPin::<anonymous>
 wPrivate	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	123;"	m	line:123	union:tagPin::<anonymous>
@@ -2273,7 +2346,7 @@ waypoints	E:\Projects\DevPFG\Nav10\ProPilot\waypoints.h	138;"	v	line:138
 week_no	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	30;"	v	line:30
 week_no_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	86;"	v	line:86
 week_no_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	255;"	v	line:255
-working	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	199;"	l	line:199
+working	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	202;"	l	line:202
 wp	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c	585;"	l	line:585
 wp_inject	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	41;"	v	line:41
 wp_inject_byte_order	E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c	44;"	v	line:44
@@ -2290,7 +2363,7 @@ x	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	37;"	m	line:37	struct:relativ
 x	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	38;"	m	line:38	struct:absolute3D
 x	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	39;"	m	line:39	struct:waypoint3D
 x	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	40;"	m	line:40	struct:fixedOrigin3D
-xaccel::11	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	151;"	d	line:151
+xaccel::(NUM_AD1_LIST+1)	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	162;"	d	line:162
 xaccelBUFF	E:\Projects\DevPFG\Nav10\libUDB\ConfigHILSIM.h	31;"	d	line:31
 xaccelBUFF::-1	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	239;"	d	line:239
 xaccelBUFF::5	E:\Projects\DevPFG\Nav10\libUDB\ConfigUDB4.h	30;"	d	line:30
@@ -2299,6 +2372,9 @@ xaccelBUFF::ADCBUF4	E:\Projects\DevPFG\Nav10\libUDB\ConfigHILSIM.h	35;"	d	line:3
 xaccelBUFF::ADCBUF4	E:\Projects\DevPFG\Nav10\libUDB\ConfigIXZ500.h	32;"	d	line:32
 xaccelBUFF::ADCBUF4	E:\Projects\DevPFG\Nav10\libUDB\ConfigIXZ500RAD2a.h	32;"	d	line:32
 xaccelBUFF::ADCBUF4	E:\Projects\DevPFG\Nav10\libUDB\ConfigRed.h	32;"	d	line:32
+xgyro_in::5	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	156;"	d	line:156
+xgyro_ref::7	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	157;"	d	line:157
+xmag::(NUM_AD1_LIST+4)	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	165;"	d	line:165
 xpg	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	35;"	v	line:35
 xpg_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	60;"	v	line:60
 xpg_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	250;"	v	line:250
@@ -2322,7 +2398,7 @@ y	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	37;"	m	line:37	struct:relativ
 y	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	38;"	m	line:38	struct:absolute3D
 y	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	39;"	m	line:39	struct:waypoint3D
 y	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	40;"	m	line:40	struct:fixedOrigin3D
-yaccel::12	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	152;"	d	line:152
+yaccel::(NUM_AD1_LIST+2)	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	163;"	d	line:163
 yaccelBUFF	E:\Projects\DevPFG\Nav10\libUDB\ConfigHILSIM.h	32;"	d	line:32
 yaccelBUFF::-2	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	240;"	d	line:240
 yaccelBUFF::6	E:\Projects\DevPFG\Nav10\libUDB\ConfigUDB4.h	31;"	d	line:31
@@ -2337,7 +2413,7 @@ yawCntrl	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	43;"	f	line:43	signature:(
 yawInput	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	131;"	l	line:131
 yawNavDeflection	E:\Projects\DevPFG\Nav10\ProPilot\yawCntrl.c	60;"	l	line:60
 yaw_control	E:\Projects\DevPFG\Nav10\ProPilot\servoPrepare.c	35;"	v	line:35
-yaw_drift	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	305;"	f	line:305
+yaw_drift	E:\Projects\DevPFG\Nav10\libDCM\rmat.c	308;"	f	line:308
 yaw_offset_centred_pwm	E:\Projects\DevPFG\Nav10\ProPilot\cameraCntrl.c	42;"	v	line:42
 yaw_req	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	47;"	m	line:47	struct:dcm_flag_bits
 yaw_servo_high_ratio	E:\Projects\DevPFG\Nav10\ProPilot\cameraCntrl.c	35;"	v	line:35
@@ -2352,6 +2428,9 @@ yawkpail	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	32;"	v	line:32
 yawkpail	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	35;"	v	line:35
 yawkprud	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	33;"	v	line:33
 yawkprud	E:\Projects\DevPFG\Nav10\ProPilot\navigate.c	36;"	v	line:36
+ygyro_in::1	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	158;"	d	line:158
+ygyro_ref::3	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	159;"	d	line:159
+ymag::(NUM_AD1_LIST+5)	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	166;"	d	line:166
 ypg	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	35;"	v	line:35
 ypg_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	60;"	v	line:60
 ypg_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	250;"	v	line:250
@@ -2371,7 +2450,7 @@ z	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	37;"	m	line:37	struct:relativ
 z	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	38;"	m	line:38	struct:absolute3D
 z	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	39;"	m	line:39	struct:waypoint3D
 z	E:\Projects\DevPFG\Nav10\libDCM\libDCM_defines.h	40;"	m	line:40	struct:fixedOrigin3D
-zaccel::13	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	153;"	d	line:153
+zaccel::(NUM_AD1_LIST+3)	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	164;"	d	line:164
 zaccelBUFF	E:\Projects\DevPFG\Nav10\libUDB\ConfigHILSIM.h	33;"	d	line:33
 zaccelBUFF::-3	E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h	241;"	d	line:241
 zaccelBUFF::4	E:\Projects\DevPFG\Nav10\libUDB\ConfigUDB4.h	32;"	d	line:32
@@ -2380,6 +2459,9 @@ zaccelBUFF::ADCBUF6	E:\Projects\DevPFG\Nav10\libUDB\ConfigHILSIM.h	37;"	d	line:3
 zaccelBUFF::ADCBUF6	E:\Projects\DevPFG\Nav10\libUDB\ConfigIXZ500.h	34;"	d	line:34
 zaccelBUFF::ADCBUF6	E:\Projects\DevPFG\Nav10\libUDB\ConfigIXZ500RAD2a.h	34;"	d	line:34
 zaccelBUFF::ADCBUF6	E:\Projects\DevPFG\Nav10\libUDB\ConfigRed.h	34;"	d	line:34
+zgyro_in::9	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	160;"	d	line:160
+zgyro_ref::7	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	161;"	d	line:161
+zmag::(NUM_AD1_LIST+6)	E:\Projects\DevPFG\Nav10\libUDB\libUDB.h	167;"	d	line:167
 zpg	E:\Projects\DevPFG\Nav10\libDCM\gpsParseCommon.c	35;"	v	line:35
 zpg_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseSTD.c	60;"	v	line:60
 zpg_	E:\Projects\DevPFG\Nav10\libDCM\gpsParseUBX.c	250;"	v	line:250

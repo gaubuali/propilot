@@ -556,36 +556,96 @@ void serial_output_8hz( void )
 	if (++skip == 2)
 	{
 		if ( CD[0].I2CERROR )	{
-		serial_output("mSec: %li, CPU: %li Tcy/s\r\nMagOffset: %i, %i, %i\r\nMagBody:  %5i, %5i, %5i\r\nMagEarth: %5i, %5i, %5i\r\nCalib:    %5i, %5i, %5i\r\nMagGain:  %i, %i, %i\r\nRaw: %i, %i, %i\r\n" ,
-			tow.WW, old_cpu_counter<<1,	// Tcy / sec
-			udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT ,
-			udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] ,
-			magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] ,
-			rawMagCalib[0] , rawMagCalib[1] , rawMagCalib[2] ,
-			magGain[0] , magGain[1] , magGain[2] ,
-			previousMagFieldRaw[0] , previousMagFieldRaw[1] , previousMagFieldRaw[2] ) ;
-		serial_output("MagMessage: %i, TotalMsg: %i\r\nI2CCON: 0x%04X, I2CSTAT: 0x%04X, I2ERROR: 0x%04X\r\n\r\n" ,
+		serial_output("mSec: %li, CPU: %li Tcy/s\r\n", tow.WW, old_cpu_counter<<2 );	// Tcy / sec
+//		serial_output("MagOffset: %i, %i, %i\r\n", udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT );
+		serial_output("MagBody:  %5i, %5i, %5i\r\n", udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] );
+		serial_output("MagEarth: %5i, %5i, %5i\r\n", magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] );
+		serial_output("Calib:    %5i, %5i, %5i\r\n", rawMagCalib[0] , rawMagCalib[1] , rawMagCalib[2] );
+		serial_output("MagGain:  %5i, %5i, %5i\r\n", magGain[0] , magGain[1] , magGain[2] );
+		serial_output("MagRaw:   %5i, %5i, %5i\r\n", previousMagFieldRaw[0] , previousMagFieldRaw[1] , previousMagFieldRaw[2] ) ;
+		serial_output("AccRaw:   %5i, %5i, %5i\r\n", previousAccFieldRaw[0] , previousAccFieldRaw[1] , previousAccFieldRaw[2] ) ;
+		serial_output("MagMessage: %i, TotalMsg: %u\r\nI2CCON: 0x%04X, I2CSTAT: 0x%04X, I2ERROR: 0x%04X\r\n\r\n" ,
 			CD[magCDindex].iResult , I2Cmessages ,
 			CD[0].I2CERROR_CON , CD[0].I2CERROR_STAT , CD[0].I2CERROR ) ;
 		} else {
-		serial_output("mSec: %li, CPU: %li Tcy/s\r\nMagOffset: %i, %i, %i\r\nMagBody:  %5i, %5i, %5i\r\nMagEarth: %5i, %5i, %5i\r\nCalib:    %5i, %5i, %5i\r\nMagGain:  %i, %i, %i\r\nRaw: %i, %i, %i\r\n" ,
-			tow.WW, old_cpu_counter<<1,	// Tcy / sec
-			udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT ,
-			udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] ,
-			magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] ,
-			rawMagCalib[0] , rawMagCalib[1] , rawMagCalib[2] ,
-			magGain[0] , magGain[1] , magGain[2] ,
-			previousMagFieldRaw[0] , previousMagFieldRaw[1] , previousMagFieldRaw[2] ) ;
-		serial_output("MagMessage: %i, TotalMsg: %i\r\nI2CCON: 0x%04X, I2CSTAT: 0x%04X, I2ERROR: 0x%04X\r\n\r\n" ,
+		serial_output("mSec: %li, CPU: %li Tcy/s\r\n", tow.WW, old_cpu_counter<<2 );	// Tcy / sec
+//		serial_output("MagOffset: %i, %i, %i\r\n", udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT );
+		serial_output("MagBody:  %5i, %5i, %5i\r\n", udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] );
+		serial_output("MagEarth: %5i, %5i, %5i\r\n", magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] );
+		serial_output("Calib:    %5i, %5i, %5i\r\n", rawMagCalib[0] , rawMagCalib[1] , rawMagCalib[2] );
+		serial_output("MagGain:  %5i, %5i, %5i\r\n", magGain[0] , magGain[1] , magGain[2] );
+		serial_output("MagRaw:   %5i, %5i, %5i\r\n", previousMagFieldRaw[0] , previousMagFieldRaw[1] , previousMagFieldRaw[2] ) ;
+		serial_output("AccRaw:   %5i, %5i, %5i\r\n", previousAccFieldRaw[0] , previousAccFieldRaw[1] , previousAccFieldRaw[2] ) ;
+		serial_output("MagMessage: %i, TotalMsg: %u\r\nI2CCON: 0x%04X, I2CSTAT: 0x%04X, I2ERROR: 0x%04X\r\n\r\n" ,
 			CD[magCDindex].iResult , I2Cmessages ,
 			I2CCON , I2CSTAT , CD[0].I2CERROR ) ;
 		}
 		skip = 0;
 	}
-	// Approximate time passing between each telemetry line, even though
-	// we may not have new GPS time data each time through.
-	/*	if (tow.WW > 0) */ tow.WW += 125 ;
-				
+
+	return ;
+}
+
+
+#elif ( SERIAL_OUTPUT_FORMAT == SERIAL_STATUS )
+
+int skip = 0 ;
+
+extern void rxMagnetometer(void) ;
+extern int udb_magFieldBody[3] ;
+extern unsigned char magreg[6] ;
+extern int magFieldEarth[3] ;
+extern int udb_magOffset[3] ;
+extern int magGain[3] ;
+extern int offsetDelta[3] ;
+extern int rawMagCalib[3] ;
+// extern int magMessage ;
+
+extern union longww HHIntegral ;
+
+#define OFFSETSHIFT 1
+
+//extern int I2ERROR ;
+extern int I2messages ;
+extern int I2interrupts ;
+void serial_output_8hz( void )
+{
+//	if (++skip == 2)
+//	{
+		if ( CD[0].I2CERROR )	{
+		serial_output("mSec:%10lu, CPU: %2d.%01d%%/10, %10lu Tcy/s\r\n", tow.WW, cpu_timer/10, cpu_timer%10, old_cpu_counter );	// Tcy / sec
+//		serial_output("MagOffset: %i, %i, %i\r\n", udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT );
+		serial_output("MagBody:  %5i, %5i, %5i\r\n", udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] );
+//		serial_output("MagEarth: %5i, %5i, %5i\r\n", magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] );
+//		serial_output("Calib:    %5i, %5i, %5i\r\n", rawMagCalib[0] , rawMagCalib[1] , rawMagCalib[2] );
+//		serial_output("MagGain:  %5i, %5i, %5i\r\n", magGain[0] , magGain[1] , magGain[2] );
+		serial_output("MagRaw:   %5i, %5i, %5i\r\n", previousMagFieldRaw[0] , previousMagFieldRaw[1] , previousMagFieldRaw[2] ) ;
+		serial_output("AccRaw:   %5i, %5i, %5i\r\n", previousAccFieldRaw[0] , previousAccFieldRaw[1] , previousAccFieldRaw[2] ) ;
+		serial_output("GyroRaw:  %5i, %5i, %5i\r\n", AD1_Raw[xgyro_in] , AD1_Raw[ygyro_in] , AD1_Raw[zgyro_in] ) ;
+		serial_output("GyroFLT:  %5i, %5i, %5i\r\n", FLT_Value[1] , FLT_Value[2] , FLT_Value[3] ) ;
+		serial_output("GyroSamples:  %5i, AccelMsgs: %5u, MagMsgs: %5u\r\n", lastGyroSamples, CD[accCDindex].Messages, CD[magCDindex].Messages ) ;
+		serial_output("MagMessage: %i, TotalMsg: %u\r\nI2CCON: 0x%04X, I2CSTAT: 0x%04X, I2ERROR: 0x%04X\r\n\r\n" ,
+			CD[magCDindex].iResult , I2Cmessages ,
+			CD[0].I2CERROR_CON , CD[0].I2CERROR_STAT , CD[0].I2CERROR ) ;
+		} else {
+		serial_output("mSec:%10lu, CPU: %2d.%01d%%/10, %10lu Tcy/s\r\n", tow.WW, cpu_timer/10, cpu_timer%10, old_cpu_counter );	// Tcy / sec
+//		serial_output("MagOffset: %i, %i, %i\r\n", udb_magOffset[0]>>OFFSETSHIFT , udb_magOffset[1]>>OFFSETSHIFT , udb_magOffset[2]>>OFFSETSHIFT );
+		serial_output("MagBody:  %5i, %5i, %5i\r\n", udb_magFieldBody[0] , udb_magFieldBody[1] , udb_magFieldBody[2] );
+//		serial_output("MagEarth: %5i, %5i, %5i\r\n", magFieldEarth[0] , magFieldEarth[1] , magFieldEarth[2] );
+//		serial_output("Calib:    %5i, %5i, %5i\r\n", rawMagCalib[0] , rawMagCalib[1] , rawMagCalib[2] );
+//		serial_output("MagGain:  %5i, %5i, %5i\r\n", magGain[0] , magGain[1] , magGain[2] );
+		serial_output("MagRaw:   %5i, %5i, %5i\r\n", previousMagFieldRaw[0] , previousMagFieldRaw[1] , previousMagFieldRaw[2] ) ;
+		serial_output("AccRaw:   %5i, %5i, %5i\r\n", previousAccFieldRaw[0] , previousAccFieldRaw[1] , previousAccFieldRaw[2] ) ;
+		serial_output("GyroRaw:  %5i, %5i, %5i\r\n", AD1_Raw[xgyro_in] , AD1_Raw[ygyro_in] , AD1_Raw[zgyro_in] ) ;
+		serial_output("GyroFLT:  %5i, %5i, %5i\r\n", FLT_Value[1] , FLT_Value[2] , FLT_Value[3] ) ;
+		serial_output("GyroSamples:  %5i, AccelMsgs: %5u, MagMsgs: %5u\r\n", lastGyroSamples, CD[accCDindex].Messages, CD[magCDindex].Messages ) ;
+		serial_output("MagMessage: %i, TotalMsg: %u\r\nI2CCON: 0x%04X, I2CSTAT: 0x%04X, I2ERROR: 0x%04X\r\n\r\n" ,
+			CD[magCDindex].iResult , I2Cmessages ,
+			I2CCON , I2CSTAT , CD[0].I2CERROR ) ;
+		}
+//		skip = 0;
+//	}
+
 	return ;
 }
 

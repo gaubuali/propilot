@@ -30,7 +30,7 @@
 
 unsigned char magreg[6] ;  // magnetometer read-write buffer
 
-const I2C_Action magRead[] = {  
+const I2C_Action magRead[8] = {  
 	{.uChar[0] = 0},							// empty to make Index step
 	{.F.uCmd = START, .F.uCount = 0x3c},		// start command with address
 	{.F.uCmd = TX, .F.uCount = 1 - 1},			// send 1 bytes,
@@ -82,9 +82,8 @@ const I2C_Action magCfg[] = {
 	{.uChar[0] = 0}, 	// empty to make Index step
 	{.F.uCmd = START, .F.uCount = 0x3c}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 4 - 1},			// send 4 bytes,
-		{.uChar[0] = 0, .uChar[1] = 0x10}, 			// first byte address then 10Hz & no bias 
-		{.uChar[0] = 0x20, .uChar[1] = 0x14},			// then +- 1Ga range then 50Hz continious
-//		{.uChar[0] = 0x20, .uChar[1] = 0x00},			// then +- 1Ga range then 5Hz continious
+		{.uChar[0] = 0, .uChar[1] = 0x18},			// first byte address then 50Hz & no bias
+		{.uChar[0] = 0x20, .uChar[1] = 0x00},		// then +- 1Ga range then continious
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished
 			.F.uACK = 1}						// inc
@@ -102,29 +101,41 @@ int rawMagCalib[3] = { 0 , 0 , 0 } ;
 int I2_Done = 0;
 int magConfigAttempts = 0;		// going to limit this in case there is a problem
 
+// the + 3 at the end of this is to leave space for the on error bus stop + finished
+#define magReadStart ((sizeof uI2C_Commands)/2) - (((sizeof magRead)/2) + 3)
+
 #define SETUP_I2C_MSG( x ) I2C_flags.bInUse = 1;							\
 			CC = CD[magCDindex];											\
 			I2_Done = ((sizeof x)>>1) - 1;									\
 			for ( magregIndex = 0 ; magregIndex <= I2_Done; magregIndex++ )	\
 				uI2C_Commands[magregIndex] = x[magregIndex]
 
-void magSetupRead( void )	// setup a device read
+void __attribute__((__no_auto_psv__)) magSetupRead( void )	// setup a device read
 {
-	int magregIndex ;
-	interrupt_save_extended_state ;
+//	int magregIndex ;
+//	interrupt_save_extended_state ;
 
+	I2C_flags.bInUse = 1;
 	I2C_flags.bReadMag = 1;					// mark as in progress
 	I2C_flags.bMagReady = 0;				// mark as started
-	SETUP_I2C_MSG( magRead );
-	interrupt_restore_extended_state ;
+//	SETUP_I2C_MSG( magRead );
+	CC = CD[magCDindex];
+	I2C_Timeout = 3;
+	CC.I2C_Subcode = NOTHING, CC.I2C_Tail = 0, CC.I2C_Head = 0;		// reset everything
+	CC.I2CERROR = CC.I2CERROR_CON = CC.I2CERROR_STAT = NOTHING;		// store
+	CC.I2C_Index = magReadStart;
+//	CC.I2C_Index -= ((sizeof magRead)>>1) - 1;;
+//	CC.I2C_Index -= 3;
+
+//	interrupt_restore_extended_state ;
 }
 
 void rxMagnetometer(void)  // service the magnetometer
 {
 	int magregIndex ;
-	if (oLED1 == LED_OFF)
-		oLED1 = LED_ON;
-	else oLED1 = LED_OFF;
+//	if (oLED1 == LED_OFF)
+//		oLED1 = LED_ON;
+//	else oLED1 = LED_OFF;
 
 #if ( MAG_YAW_DRIFT == 1 )
 	if ( CD[magCDindex].Ident != magCDindex )			// do one time init of structure
@@ -133,9 +144,13 @@ void rxMagnetometer(void)  // service the magnetometer
 		CD[magCDindex].iResult = MAG_DREAD1;			// start it up
 		CD[magCDindex].pcResult = &magreg[0];			// set destination
 		I2C_call_back[magCDindex] = &doneReadMagData;	// set call back
+		CD[magCDindex].I2C_Subcode = FINISHED;
+		I2_Done = ((sizeof magRead)>>1) - 1;			// pre-copy most used
+		for ( magregIndex = 0 ; magregIndex <= I2_Done; magregIndex++ )
+			uI2C_Commands[magregIndex+magReadStart] = magRead[magregIndex];
 	}
 
-	if ( CD[magCDindex].I2CERROR || (CD[magCDindex].I2C_Index == I2_Done) || (I2C_Timeout == 0) )
+	if ( (CD[magCDindex].I2C_Subcode == FINISHED) || CD[magCDindex].I2CERROR || (CD[magCDindex].I2C_Index == I2_Done) || (I2C_Timeout == 0) )
 	{
 		if ( CD[magCDindex].iResult >= MAG_NORMAL )
 			CD[magCDindex].iResult = MAG_NORMAL ;
@@ -152,7 +167,7 @@ void rxMagnetometer(void)  // service the magnetometer
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				magSetupRead();			// do a read of device
-				I2C_Start( 0 );
+				I2C_Start( -1 );
 			}
 		break ;
 		case  MAG_RESET:	// put magnetomter into the power up defaults on a reset
@@ -174,7 +189,7 @@ void rxMagnetometer(void)  // service the magnetometer
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				magSetupRead();			// do a read of device
-				I2C_Start( 0 );
+				I2C_Start( -1 );
 			}
 		break ;
 		case  MAG_DELAY1:	// delay one call cycle
@@ -197,6 +212,7 @@ void rxMagnetometer(void)  // service the magnetometer
 					I2C_Start( 0 );
 				} else {
 					magSetupRead();			// do a read of device
+					I2C_Start( -1 );
 				}
 				magConfigAttempts++;
 			}
@@ -207,7 +223,7 @@ void rxMagnetometer(void)  // service the magnetometer
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				magSetupRead();			// do a read of device
-				I2C_Start( 0 );
+				I2C_Start( -1 );
 			}
 		break ;
 		case MAG_CAL_PROCESS:	// actually handled in doneReadMagData
@@ -233,7 +249,7 @@ void rxMagnetometer(void)  // service the magnetometer
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				magSetupRead();			// do a read of device
-				I2C_Start( 0 );
+				I2C_Start( -1 );
 			}
 		break ;
 		default  :
@@ -246,6 +262,7 @@ void rxMagnetometer(void)  // service the magnetometer
 }
 
 int previousMagFieldRaw[3] = { 0 , 0 , 0 } ;
+int MagFieldFilter[3] = { 0 , 0 , 0 } ;
 int magSameReadings = 0;
 void doneReadMagData(void)
 {
@@ -266,31 +283,32 @@ void doneReadMagData(void)
 			&& ( magFieldRaw[2] == previousMagFieldRaw[2] ) )
 		{
 	//		I2C_state = &I2C_idle ;
-			if ( magSameReadings++ > 50)			// make sure its actually stuck
+			if ( magSameReadings++ > 4)			// make sure its actually stuck
 				CD[magCDindex].iResult = MAG_DREAD1 ;
 		} else magSameReadings = 0;
+		I2C_flags.bReadMag = 0;					// mark as done
+		MagFieldFilter[0] = (MagFieldFilter[0] - (MagFieldFilter[0] / 8)) + (magFieldRaw[0] / 8);	// super simple filter
+		MagFieldFilter[1] = (MagFieldFilter[1] - (MagFieldFilter[1] / 8)) + (magFieldRaw[1] / 8);	// super simple filter
+		MagFieldFilter[2] = (MagFieldFilter[2] - (MagFieldFilter[2] / 8)) + (magFieldRaw[2] / 8);	// super simple filter
+
 		previousMagFieldRaw[0] = magFieldRaw[0] ;
 		previousMagFieldRaw[1] = magFieldRaw[1] ;
 		previousMagFieldRaw[2] = magFieldRaw[2] ;
-		I2C_flags.bReadMag = 0;					// mark as done
 
-		udb_magFieldBodyInput[0] = MAG_X_SIGN((__builtin_mulsu((magFieldRaw[MAG_X_AXIS]), magGain[MAG_X_AXIS] ))>>14)-(udb_magOffset[0]>>1) ;
-		udb_magFieldBodyInput[1] = MAG_Y_SIGN((__builtin_mulsu((magFieldRaw[MAG_Y_AXIS]), magGain[MAG_Y_AXIS] ))>>14)-(udb_magOffset[1]>>1) ;
-		udb_magFieldBodyInput[2] = MAG_Z_SIGN((__builtin_mulsu((magFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
-		udb_magFieldBody[0] = (udb_magFieldBody[0] / 2) + (udb_magFieldBodyInput[0] / 2);	// super simple filter
-		udb_magFieldBody[1] = (udb_magFieldBody[1] / 2) + (udb_magFieldBodyInput[1] / 2);	// super simple filter
-		udb_magFieldBody[2] = (udb_magFieldBody[2] / 2) + (udb_magFieldBodyInput[2] / 2);	// super simple filter
+		udb_magFieldBody[0] = MAG_X_SIGN((__builtin_mulsu((magFieldRaw[MAG_X_AXIS]), magGain[MAG_X_AXIS] ))>>14)-(udb_magOffset[0]>>1) ;
+		udb_magFieldBody[1] = MAG_Y_SIGN((__builtin_mulsu((magFieldRaw[MAG_Y_AXIS]), magGain[MAG_Y_AXIS] ))>>14)-(udb_magOffset[1]>>1) ;
+		udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((magFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
+
+		AD1_Raw[xmag] = FLT_Value[mag_x] = udb_magFieldBody[0];
+		AD1_Raw[ymag] = FLT_Value[mag_y] = udb_magFieldBody[1];
+		AD1_Raw[zmag] = FLT_Value[mag_z] = udb_magFieldBody[2];
 //		I2C_state = &I2C_idle ;
-		if ( ( abs(udb_magFieldBody[0]) < MAGNETICMAXIMUM ) &&
-			 ( abs(udb_magFieldBody[1]) < MAGNETICMAXIMUM ) &&
-			 ( abs(udb_magFieldBody[2]) < MAGNETICMAXIMUM ) )
+		if ( ( abs(previousMagFieldRaw[0]) < MAGNETICMAXIMUM ) &&
+			 ( abs(previousMagFieldRaw[1]) < MAGNETICMAXIMUM ) &&
+			 ( abs(previousMagFieldRaw[2]) < MAGNETICMAXIMUM ) )
 		{
 			//dcm_flags._.mag_drift_req = 1 ;
 			udb_magnetometer_callback_data_available();
-//				MAG_INTe = 0;
-//				MAG_INTpo = iMAG_DR1;						// flip polarity each time
-//				_INT1IF = 0;
-//				MAG_INTe = 1;
 		}
 		else
 		{
@@ -428,13 +446,13 @@ const I2C_Action accCfg[] = {
 		{.uChar[0] = 0x00, .uChar[1] = 0x00},			// TAP_AXES = 0 (disable)
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 5 - 1},			// send 5 bytes,
-//		{.uChar[0] = 0x2c, .uChar[1] = 0x0e}, 			// first byte address then LOW_POWER = 0
-//														// BW_RATE = 1110 = 1600Hz
-		{.uChar[0] = 0x2c, .uChar[1] = 0x0c}, 			// first byte address then LOW_POWER = 0
-														// BW_RATE = 1000 = 50Hz
-		{.uChar[0] = 0x08, .uChar[1] = 0x80},			// POWER_CTL = 0b00001000 = normal mode
-														// INT_ENABLE = 0b10000000 = DATA_READY
-		{.uChar[0] = 0x7f, .uChar[1] = 0x00},			// INT_MAP = 0b01111111 = INT1 = DATA_READY
+		{.uChar[0] = 0x2c, .uChar[1] = 0x0e}, 			// first byte address then LOW_POWER = 0
+														// BW_RATE = 1110 = 1600Hz
+//		{.uChar[0] = 0x2c, .uChar[1] = 0x0c}, 			// first byte address then LOW_POWER = 0
+//														// BW_RATE = 1100 = 400Hz
+		{.uChar[0] = 0x08, .uChar[1] = 0x02},			// POWER_CTL = 0b00001000 = normal mode
+														// INT_ENABLE = 0b00000010 = Watermark
+		{.uChar[0] = 0xfd, .uChar[1] = 0x00},			// INT_MAP = 0b11111101 = INT1 = Watermark
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 2 bytes,
 		{.uChar[0] = 0x31, .uChar[1] = 0x0e}, 		// first byte address then DATA_FORMAT
@@ -448,11 +466,11 @@ const I2C_Action accCfg[] = {
 														// 1&0       10 = rang +- 8g
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 2 bytes,
-		{.uChar[0] = 0x38, .uChar[1] = 0xbf},		// first byte address then FIFO_CTRL
-														// = 0b10111111 = 0x7f
+		{.uChar[0] = 0x38, .uChar[1] = 0xa1},		// first byte address then FIFO_CTRL
+														// = 0b10100001 = 0xa1
 														// 7&6 10 = STREAM mode on
 														// 5     1 = trigger = int2
-														// 4-0    11111 = samples max
+														// 4-0    00001 = 1 sample
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished
 			.F.uACK = 1}						// inc
@@ -462,21 +480,29 @@ const I2C_Action accCfg[] = {
 
 int I2_ADone = 0;
 
+#define accReadStart magReadStart - (((sizeof accRead)/2) + 1)
+
 #define SETUP_I2C_AMSG( x ) I2C_flags.bInUse = 1;							\
 			CC = CD[accCDindex];											\
 			I2_ADone = ((sizeof x)>>1) - 1;									\
 			for ( accregIndex = 0 ; accregIndex <= I2_ADone; accregIndex++ )	\
 				uI2C_Commands[accregIndex] = x[accregIndex]
 
-void accSetupRead( void )	// setup a device read
+void __attribute__((__no_auto_psv__)) accSetupRead( void )	// setup a device read
 {
-	int accregIndex ;
-	interrupt_save_extended_state ;
+//	int accregIndex ;
+//	interrupt_save_extended_state ;
 
+	I2C_flags.bInUse = 1;
 	I2C_flags.bReadAcc = 1;					// mark as in progress
 	I2C_flags.bAccReady = 0;				// mark as started
-	SETUP_I2C_AMSG( accRead );
-	interrupt_restore_extended_state ;
+//	SETUP_I2C_AMSG( accRead );
+	CC = CD[accCDindex];
+	I2C_Timeout = 4;
+	CC.I2C_Subcode = NOTHING, CC.I2C_Tail = 0, CC.I2C_Head = 0;		// reset everything
+	CC.I2CERROR = CC.I2CERROR_CON = CC.I2CERROR_STAT = NOTHING;		// store
+	CC.I2C_Index = accReadStart;
+//	interrupt_restore_extended_state ;
 }
 
 void rxAccel(void)  // service the ACC
@@ -493,9 +519,13 @@ void rxAccel(void)  // service the ACC
 		CD[accCDindex].iResult = ACC_SEND_CFG;			// start it up
 		CD[accCDindex].pcResult = &accreg[0];			// set destination
 		I2C_call_back[accCDindex] = &doneReadAccData;	// set call back
+		CD[accCDindex].I2C_Subcode = FINISHED;
+		I2_ADone = ((sizeof accRead)>>1) - 1;			// pre-copy most used
+		for ( accregIndex = 0 ; accregIndex <= I2_Done; accregIndex++ )
+			uI2C_Commands[accregIndex+accReadStart] = accRead[accregIndex];
 	}
 
-	if ( CD[accCDindex].I2CERROR || (CD[accCDindex].I2C_Index == I2_ADone) || (I2C_Timeout == 0) )
+	if ( (CD[accCDindex].I2C_Subcode == FINISHED) || CD[accCDindex].I2CERROR || (CD[accCDindex].I2C_Index == I2_ADone) || (I2C_Timeout == 0) )
 	{
 		if ( CD[accCDindex].iResult >= ACC_NORMAL )
 			CD[accCDindex].iResult = ACC_NORMAL ;
@@ -507,8 +537,8 @@ void rxAccel(void)  // service the ACC
 		case ACC_DREAD1:	// read the accel in case it is still sending data, so as to NACK it
 			if ( (I2C_flags.bInUse == 0) )	// not running right now
 			{
-				SETUP_I2C_AMSG( accRead );
-				I2C_Start( 0 );
+				accSetupRead();
+				I2C_Start( -1 );
 			}
 			break ;
 		case  ACC_RESET:	// put accel into the power up defaults on a reset
@@ -521,8 +551,8 @@ void rxAccel(void)  // service the ACC
 		case  ACC_DREAD2:  // clear out any data that is still there
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
-				SETUP_I2C_AMSG( accRead );
-				I2C_Start( 0 );
+				accSetupRead();
+				I2C_Start( -1 );
 			}
 		break ;
 		case  ACC_CAL:  // enable the self test process
@@ -535,8 +565,8 @@ void rxAccel(void)  // service the ACC
 		case  ACC_CAL_DOREAD :  // read the calibration data
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
-				SETUP_I2C_AMSG( accRead );
-				I2C_Start( 0 );
+				accSetupRead();
+				I2C_Start( -1 );
 			}
 		break ;
 		case  ACC_CAL_PROCESS:	// enable normal continuous readings
@@ -554,8 +584,8 @@ void rxAccel(void)  // service the ACC
 		case ACC_NORMAL+2:		// read the accel data
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
-				SETUP_I2C_AMSG( accRead );
-				I2C_Start( 0 );
+				accSetupRead();
+				I2C_Start( -1 );
 			} else I2C_flags.bReadAcc = 1;		// mark as needing
 			break ;
 		default  :
@@ -595,6 +625,13 @@ void doneReadAccData(void)
 		AD1_Raw[xaccel] = AccFieldRaw[0];
 		AD1_Raw[yaccel] = AccFieldRaw[1];
 		AD1_Raw[zaccel] = AccFieldRaw[2];
+		AD1_Filt[0][accel_x][iI2C_Head] = AD1_Raw[xaccel];	// buffer the results
+		AD1_Filt[0][accel_y][iI2C_Head] = AD1_Raw[yaccel];
+		AD1_Filt[0][accel_z][iI2C_Head] = AD1_Raw[zaccel];
+		if ( ++iI2C_Head > 64 )
+			iI2C_Head = 0;
+		else ;
+
 		I2C_flags.bReadAcc = 0;					// mark as done
 
 //		udb_magFieldBodyInput[0] = MAG_X_SIGN((__builtin_mulsu((AccFieldRaw[MAG_X_AXIS]), magGain[MAG_X_AXIS] ))>>14)-(udb_magOffset[0]>>1) ;

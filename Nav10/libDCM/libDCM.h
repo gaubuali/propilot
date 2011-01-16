@@ -95,4 +95,5 @@ extern int air_speed_magnitude;
 extern union longbbbb lat_gps , long_gps , alt_sl_gps ;
 extern union longbbbb lat_origin , long_origin , alt_origin ;
 
+extern unsigned int lastGyroSamples, lastAccelSamples;
 #endif

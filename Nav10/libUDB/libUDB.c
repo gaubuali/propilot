@@ -75,7 +75,7 @@ _FUID3( 0xffff )
 union udb_fbts_byte udb_flags ;
 
 boolean timer_5_on = 0 ;
-boolean needSaveExtendedState = 0 ;
+int needSaveExtendedState = 0 ;
 int defaultCorcon = 0 ;
 WORD wSP_Save;
 typedef struct tagRESETS {
@@ -212,7 +212,9 @@ void udb_init_leds( void )
 // reset CORCON if firing in the middle of a math lib call.
 void udb_setDSPLibInUse(boolean inUse)
 {
-	needSaveExtendedState = inUse ;
+	if ( inUse )
+		needSaveExtendedState += 1 ;
+	else needSaveExtendedState -= 1 ;
 	return ;
 }
 
@@ -236,7 +238,7 @@ void udb_a2d_record_offsets(void)
 void udb_servo_record_trims(void)
 {
 	int i;
-	for (i=0; i <= NUM_INPUTS; i++)
+	for (i=0; i < 65; i++)
 		udb_pwTrim[i] = udb_pwIn[i] ;
 	
 	return ;

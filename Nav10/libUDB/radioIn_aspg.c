@@ -78,7 +78,7 @@ PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x2700))) = {
 		RC_PIN(1,1,4,AUX_START+21,0),	// 30 - AUX_AN4
 };
 
-#define RC_INT_PRI 1
+#define RC_INT_PRI 6
 
 void udb_init_capture(void)
 {

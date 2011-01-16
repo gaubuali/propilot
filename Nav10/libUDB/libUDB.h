@@ -148,9 +148,33 @@ extern struct ADchannel udb_xaccel, udb_yaccel, udb_zaccel;	// x, y, and z accel
 extern struct ADchannel udb_xrate, udb_yrate, udb_zrate;	// x, y, and z gyro channels
 extern struct ADchannel udb_vref;							// reference voltage
 extern int AD1_Raw[NUM_AD1_LIST+7] __attribute__ ((section(".myDataSection"),address(0x2220)));	// save raw values to look at
-#define xaccel 11
-#define yaccel 12
-#define zaccel 13
+extern int FLT_Value[16]__attribute__ ((address(0x2D22)));	// space to put in right order
+extern int AD1_Filt[2][7][64]__attribute__ ((address(0x2E00))); // filter in[0][][] and out[1][][]
+extern int iAnalog_Head, iAnalog_Tail;	// index to keep track of buffer and de-buffer (GYRO's)
+extern int iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer (Accel's)
+// AD1_Raw offsets
+#define xgyro_in 5
+#define xgyro_ref 7
+#define ygyro_in 1
+#define ygyro_ref 3
+#define zgyro_in 9
+#define zgyro_ref 7
+#define xaccel (NUM_AD1_LIST + 1)
+#define yaccel (NUM_AD1_LIST + 2)
+#define zaccel (NUM_AD1_LIST + 3)
+#define xmag   (NUM_AD1_LIST + 4)
+#define ymag   (NUM_AD1_LIST + 5)
+#define zmag   (NUM_AD1_LIST + 6)
+// AD1_Filt offsets 1 - 6 and FLT_Value 1-16
+#define gyro_x 1
+#define gyro_y 2
+#define gyro_z 3
+#define accel_x 4
+#define accel_y 5
+#define accel_z 6
+#define mag_x 7
+#define mag_y 8
+#define mag_z 9
 
 // Calibrate the sensors
 // Call this function once, soon after booting up, after a few seconds of
@@ -177,6 +201,7 @@ void doneReadMagData(void);	// use data
 // Accelerometer
 void rxAccel(void);  // service the magnetometer
 void doneReadAccData(void);	// use data
+extern int previousAccFieldRaw[3];
 #define accCDindex 2		// this driver uses CD[2]
 
 
@@ -190,10 +215,11 @@ void doneReadAccData(void);	// use data
 // I2C2
 void I2C_Start( int );
 void I2C_Reset( void );
-extern I2C_Action uI2C_Commands[];		// command buffer, see I2C_aspg.c
+#define I2C_COM_LEN 64		// commands
+extern I2C_Action uI2C_Commands[I2C_COM_LEN];		// command buffer, see I2C_aspg.c
 extern I2CCMD CC;		// peripheral driver command buffer, never mess with this
 extern I2CCMD CD[8];	// device driver command buffers - [0] reserved
-extern int I2Cmessages;	// FINISHED messages
+extern unsigned int I2Cmessages;	// FINISHED messages
 extern int EE_Write_Timer;	// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
 extern int I2C_Timeout;		// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
 #define I2C_BUF_LEN 128+16		// page write size + enough bytes to send an address

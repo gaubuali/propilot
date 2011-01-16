@@ -38,7 +38,7 @@ void magSetupRead( void );	// setup a device read
 void accSetupRead( void );	// setup a device read
 
 
-extern boolean needSaveExtendedState ;
+extern int needSaveExtendedState ;
 extern boolean timer_5_on ;
 extern int defaultCorcon ;
 extern unsigned int cpu_timer ;

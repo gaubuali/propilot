@@ -64,6 +64,9 @@ void udb_servo_callback_prepare_outputs(void)
 {
 #if (MAG_YAW_DRIFT == 1)
 	// This is a simple counter to do stuff at 4hz
+		// Approximate time passing between each telemetry line, even though
+		// we may not have new GPS time data each time through.
+		/*	if (tow.WW > 0) */ tow.WW += 25 ;
 	dcm_fourHertzCounter++ ;
 	if ( dcm_fourHertzCounter >= 10 )
 	{

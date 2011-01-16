@@ -480,6 +480,7 @@ typedef struct tagI2Ccommand {	// structure used in running I2C devices and savi
 	int I2C_Subcode;			// subcode driven by hardware status
 	int I2C_Sublen;				// length is used in TX and RX
 	int I2C_Slave;				// on a start condition saves the slave address
+	unsigned int Messages;		// count of messages to this device
 	int	I2C_Head;				// index into data buffer
 	int I2C_Tail;
 	int iResult;				// data add or set mode

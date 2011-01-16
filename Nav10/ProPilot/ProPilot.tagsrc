@@ -23,7 +23,6 @@ E:\Projects\DevPFG\Nav10\ProPilot\flightplan-waypoints.c
 E:\Projects\DevPFG\Nav10\ProPilot\flightplan-logo.c
 E:\Projects\DevPFG\Nav10\libDCM\deadReckoning.c
 E:\Projects\DevPFG\Nav10\ProPilot\mp_osd.c
-E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c
 E:\Projects\DevPFG\Nav10\libUDB\background.c
 E:\Projects\DevPFG\Nav10\libUDB\magneto_aspg.c
 E:\Projects\DevPFG\Nav10\libUDB\osd.c
@@ -31,8 +30,12 @@ E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c
 E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c
 E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c
 E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s
+E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.s
+E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.s
 E:\Projects\DevPFG\Nav10\libUDB\eeprom_aspg.c
 E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c
+E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c
+E:\Projects\DevPFG\Nav10\libUDB\filter_aspg_I2C.s
 E:\Projects\DevPFG\Nav10\libUDB\ConfigGreen.h
 E:\Projects\DevPFG\Nav10\libUDB\ConfigIXZ500.h
 E:\Projects\DevPFG\Nav10\libUDB\ConfigRed.h
@@ -53,3 +56,5 @@ E:\Projects\DevPFG\Nav10\ProPilot\waypoints.h
 E:\Projects\DevPFG\Nav10\libUDB\ConfigHILSIM.h
 E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h
 E:\Projects\DevPFG\Nav10\ProPilot\mixer.h
+E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h
+E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.h

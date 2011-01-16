@@ -29,11 +29,12 @@ struct ADchannel udb_xaccel, udb_yaccel , udb_zaccel ; // x, y, and z accelerome
 struct ADchannel udb_xrate , udb_yrate, udb_zrate ;  // x, y, and z gyro channels
 struct ADchannel udb_vref ; // reference voltage
 
-int	AD1_Raw[NUM_AD1_LIST+7] __attribute__ ((section(".myDataSection"),address(0x2220)));	// save raw values to look at
+int	AD1_Raw[NUM_AD1_LIST+7] __attribute__ ((section(".myDataSection"),address(0x2D00)));	// save raw values to look at
+int FLT_Value[16]__attribute__ ((address(0x2D22)));	// space to put in right order
 
 int sampcount = 1 ;
 
-// #define USE_AD1_DMA
+#define USE_AD1_DMA
 
 #if defined(USE_AD1_DMA)
 //	Analog to digital processing.
@@ -43,15 +44,25 @@ int sampcount = 1 ;
 //	sequential mode and then the total of each channel is added up and placed in AD1_Raw[]
 //  called a SuperSample. Design sample rate is 10 * 16 * 50 * 50 = 400000 samples per second.
 
+#include "FIR_Filter.h"
+#include "filter_aspg.h"
+
+int AD1_Filt[2][7][64]__attribute__ ((address(0x2E00))); // filter in[0][][] and out[1][][]
+int	iAnalog_Head, iAnalog_Tail;	// index to keep track of buffer and de-buffer (GYRO's)
+int	iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer (Accel's)
+
 #define AD1_SUPER_SAM 16
-int  AD1BufferA[AD1_SUPER_SAM+4][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
-int  AD1BufferB[AD1_SUPER_SAM+4][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
+int  AD1BufferA[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
+int  AD1BufferB[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
 
 void udb_init_gyros( void )
 {
 	// turn off auto zeroing 
 	tAZ_Y = tAZ_XZ = 0 ;
 	oAZ_Y = oAZ_XZ = 0 ;
+	MDSFIRFilterInit( &filter_aspgFilterX );
+	MDSFIRFilterInit( &filter_aspgFilterY );
+	MDSFIRFilterInit( &filter_aspgFilterZ );
 	
 	return ;
 }
@@ -68,6 +79,9 @@ void udb_init_accelerometer(void)
 //	_TRISB9 = 1 ;
 //	_TRISB10 = 1 ;
 //	_TRISB11 = 1 ;
+	MDSFIRFilterInit( &filter_aspg_I2CX_Filter );
+	MDSFIRFilterInit( &filter_aspg_I2CY_Filter );
+	MDSFIRFilterInit( &filter_aspg_I2CZ_Filter );
 	
 	return ;
 }
@@ -175,6 +189,16 @@ void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 	DmaBuffer ^= 1;
 
 	IFS0bits.DMA0IF = 0;		// Clear the DMA0 Interrupt Flag
+
+	AD1_Filt[0][gyro_x][iAnalog_Head] = AD1_Raw[xgyro_in] - AD1_Raw[xgyro_ref];
+	AD1_Filt[0][gyro_y][iAnalog_Head] = AD1_Raw[ygyro_in] - AD1_Raw[ygyro_ref];
+	AD1_Filt[0][gyro_z][iAnalog_Head] = AD1_Raw[zgyro_in] - AD1_Raw[zgyro_ref];
+
+	// TODO: apply temp compensation
+
+	if ( ++iAnalog_Head > 64 )
+		iAnalog_Head = 0;
+	else ;
 
 	interrupt_restore_extended_state ;
 }
