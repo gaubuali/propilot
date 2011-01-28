@@ -37,11 +37,14 @@ int udb_pwTrim[65] ;	// initial pulse widths for trimming ** CHANGED ** now Q15
 
 int failSafePulses = 0 ;
 WORD	T2_OF;						// count of T2 wraps
-unsigned char ucPWMTest[30];
+// unsigned char ucPWMTest[30];
+
+extern LEDCTRL	GreenLED;			// radio state - set in states.c
+
 
 // in the macro below T=Pin type, P=Port number, B=Bit, G=Global index, L=Length
 // what these should do is described in the first page of Mixer.xls - work in progress
-#define RC_PIN( T, P, B, G, L)      { 0, 0, 0, 0, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, 0, T, P, B, G, L }
+#define RC_PIN( T, P, B, G, L)      { 0, 0, 0, 6, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, 0, T, P, B, G, L }
 #define RC_SERVO( T, P, B, G, L, S) { 0, 0, 0, 0, 0,                                                    0, 0, T, P, B, G, L, S }
 
 PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x2700))) = {
@@ -144,26 +147,56 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 			lpTag->wPrivate[0] = wCounts;					// save value
 			lpTag->wPrivate[1] = T2_OF;						// save value
 		} else {		// pin changed to low -> end of pulse
-			if ( T2_OF == lpTag->iPrivate[1] )				// check overflow
-			{
-				dwTemp = wCounts - lpTag->wPrivate[0];		// simple case
-			} else {										// complex case of T2 has wrapped
-				if ( T2_OF > lpTag->wPrivate[1])			// T2_OF wrap
-				{
-					dwTemp = (((DWORD)T2_OF << 16) + wCounts) - lpTag->lPrivate[0];
-				} else {
-					wTemp = T2_OF - lpTag->wPrivate[1];		// this just works
-					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->wPrivate[0];
-				}
-			}
+			lpTag->wPrivate[2] = wCounts;					// save value
+			lpTag->wPrivate[3] = T2_OF;						// save value
+			dwTemp = lpTag->lPrivate[1] - lpTag->lPrivate[0];
+			if ( dwTemp > 0x10000 )							// presume we have good data
+				dwTemp -= 0x10000;							// because the timer is only 16 bit
+			if ( dwTemp < 0 )								// and the overflow interrupt is
+				dwTemp += 0x10000;							// async to counter and capture
+
 			if (dwTemp > RC_PWM_MAX)						// limit values
 				wTemp = RC_PWM_MAX;
 			else if (dwTemp < RC_PWM_MIN)
 					wTemp = RC_PWM_MIN;
 				else {										// normal range pulse
 					wTemp = dwTemp;							// only actual valid range pulse lengths
-					lpTag->bFS_ON = 0, lpTag->iFS_Count = 0; // can reset it back to ok
+					if (lpTag->bFS_ON)
+					{
+						if ( --lpTag->iFS_Count == 0)
+							lpTag->bFS_ON = 0, lpTag->iFS_Count = 8;
+					}
 				}
+			if ( lpTag->bFS_ON )							// failsafe activated
+			{
+				switch (lpTag->iFS_CMD) {
+				case 0: // ignore / not configured
+				break;
+				case 1: // use min
+					wTemp = RC_PWM_MIN;
+				break;
+				case 2: // use max
+					wTemp = RC_PWM_MAX;
+				break;
+				case 3: // center the control
+					wTemp = RC_PWM_CENTER;
+				break;
+				case 4: // use -70%
+					wTemp = RC_PWM_CENTER - ((RC_PWM_CENTER - RC_PWM_MIN) * 0.7);
+				break;
+				case 5: // use +70%
+					wTemp = RC_PWM_CENTER + ((RC_PWM_MAX - RC_PWM_CENTER) * 0.7);
+				break;
+				case 6: // use recorded trim or center
+					if ( lpTag->iGlobal != 0)
+					{
+						wTemp = (udb_pwIn[lpTag->iGlobal]/RC_PWM_Q15) + RC_PWM_CENTER;
+					} else wTemp = RC_PWM_CENTER;
+				break;
+				case 7: // undefined - use ignore
+				break;
+				}
+			} else lpTag->iFS_Count++;
 			wTemp -= RC_PWM_CENTER;							// turn value into quasi Q15
 #if (RC_PWM_Q15 == 8)
 			wTemp = wTemp << 3;
@@ -182,9 +215,12 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 				if ( (lpTag->qValue > FAILSAFE_INPUT_MIN) && (lpTag->qValue < FAILSAFE_INPUT_MAX ) )
 				{	failSafePulses++ ;
 				} else {
-					failSafePulses = 0 ;
-					udb_flags._.radio_on = 0 ;
-					LED_GREEN = LED_OFF ;
+					if ( udb_flags._.radio_on )
+					{
+						failSafePulses = 0 ;
+						udb_flags._.radio_on = 0 ;
+						LED_GREEN = LED_OFF ;
+					};
 				}
 			else ;
 			if ( lpTag->iGlobal != 0)
@@ -207,18 +243,12 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 		} else {		// pin changed to low -> end of pulse
 			lpTag->wPrivate[2] = wCounts;					// save value
 			lpTag->wPrivate[3] = T2_OF;						// save value
-			if ( T2_OF == lpTag->wPrivate[1] )				// check overflow
-			{
-				dwTemp = wCounts - lpTag->wPrivate[0];		// simple case
-			} else {										// complex case of T2 has wrapped
-				if ( T2_OF > lpTag->wPrivate[1])			// T2_OF wrap
-				{
-					dwTemp = lpTag->lPrivate[1] - lpTag->lPrivate[0];
-				} else {
-					wTemp = T2_OF - lpTag->wPrivate[1];		// this just works
-					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->wPrivate[0];
-				}
-			}
+			dwTemp = lpTag->lPrivate[1] - lpTag->lPrivate[0];
+			if ( dwTemp > 0x10000 )							// presume we have good data
+				dwTemp -= 0x10000;							// because the timer is only 16 bit
+			if ( dwTemp < 0 )								// and the overflow interrupt is
+				dwTemp += 0x10000;							// async to counter and capture
+
 			// DONE: add checks for sync pulse, has to get index into range to store
 			if ( (dwTemp > RC_PPM_SYNC) && (dwTemp < RC_PPM_MAX) )	// good sync values
 				lpTag->iIndex = 1;
@@ -444,6 +474,26 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC8Interrupt(void)
 			}
 		#endif
 
+*/
+/*
+			if ( T2_OF == lpTag->iPrivate[1] )				// check overflow
+			{
+				dwTemp = wCounts - lpTag->wPrivate[0];		// simple case
+				if (dwTemp < 0)								// expressly presume we have good data
+					dwTemp += 0x10000;						// because this called before T2_OF
+			} else {										// complex case of T2 has wrapped
+				if ( T2_OF > lpTag->wPrivate[1])			// T2_OF wrap
+				{
+					dwTemp = (((DWORD)T2_OF << 16) + wCounts) - lpTag->lPrivate[0];
+					if (dwTemp < 0)							// expressly presume we have good data
+						dwTemp += 0x10000;					// because this called before T2_OF
+				} else {
+					wTemp = T2_OF - lpTag->wPrivate[1];		// this just works
+					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->wPrivate[0];
+					if (dwTemp < 0)							// expressly presume we have good data
+						dwTemp += 0x10000;					// because this called before T2_OF
+				}
+			}
 */
 
 #endif

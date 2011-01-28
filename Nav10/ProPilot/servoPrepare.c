@@ -78,8 +78,8 @@ void dcm_servo_callback_prepare_outputs(void)
 			servoMix() ;
 #if ( USE_CAMERA_STABILIZATION == 1 )
 			cameraCntrl() ;
-#endif
 			cameraServoMix() ;
+#endif
 			updateTriggerAction() ;
 			break ;
 		}
@@ -91,6 +91,13 @@ void dcm_servo_callback_prepare_outputs(void)
 			dcm_calibrate() ;
 			manualPassthrough() ;	// Allow manual control while starting up
 			startTelemetry = 1 ;
+			break ;
+		}
+		case 2: {
+			// almost ready to turn the control on, save the sensor offsets to allow testing
+			// the dcm before the radio is on.  we record offsets again along with trims
+			// immediately before the first wag.
+			udb_gyro_autoZero();
 			break ;
 		}
 		default: {

@@ -1,4 +1,4 @@
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 1
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 1
 
 
    1              	;******************************************************************************
@@ -9,7 +9,7 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
    6              	;   A/D DMA buffer and store the result in ASM30 assembler language.          *
    7              	;                                                                             *
    8              	;   The function SuperSample must be called with two arguments, first is the  *
-   9              	;   address of the DMA buffer and sencond is the destination buffer. The      *
+   9              	;   address of the DMA buffer and second is the destination buffer. The       *
   10              	;   function is hard coded to expect 16 samples x 10 channels.                *
   11              	;                                                                             *
   12              	;   Declare the function in c as follows:                                     *
@@ -58,7 +58,7 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
   11              	.include "p33FJ06GS102.inc"
   12              	.equ VALID_ID,1
   13              	.endif
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 2
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 2
 
 
   14              	
@@ -118,7 +118,7 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
   68              	.endif
   69              	
   70              	.ifdef __33FJ128GP708
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 3
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 3
 
 
   71              	.include "p33FJ128GP708.inc"
@@ -178,7 +178,7 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
  125              	.ifdef __33FJ128MC510A
  126              	.include "p33FJ128MC510A.inc"
  127              	.equ VALID_ID,1
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 4
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 4
 
 
  128              	.endif
@@ -238,7 +238,7 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
  182              	.equ VALID_ID,1
  183              	.endif
  184              	
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 5
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 5
 
 
  185              	.ifdef __33FJ12MC202
@@ -298,7 +298,7 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
  239              	
  240              	.ifdef __33FJ256GP710
  241              	.include "p33FJ256GP710.inc"
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 6
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 6
 
 
  242              	.equ VALID_ID,1
@@ -358,7 +358,7 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
  289              	
  290              	.ifdef __33FJ32GS406
  291              	.include "p33FJ32GS406.inc"
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 7
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 7
 
 
  292              	.equ VALID_ID,1
@@ -418,7 +418,7 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
  346              	.include "p33FJ64GP206A.inc"
  347              	.equ VALID_ID,1
  348              	.endif
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 8
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 8
 
 
  349              	
@@ -478,7 +478,7 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
  403              	.endif
  404              	
  405              	.ifdef __33FJ64GP804
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 9
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 9
 
 
  406              	.include "p33FJ64GP804.inc"
@@ -538,7 +538,7 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
  460              	.ifdef __33FJ64MC510
  461              	.include "p33FJ64MC510.inc"
  462              	.equ VALID_ID,1
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 10
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 10
 
 
  463              	.endif
@@ -595,81 +595,91 @@ MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.
   56              	_superSample:
   57 000000  88 1F 78 			push	W8			; save c runtime regs
   58 000002  89 1F 78 			push	W9			; save c runtime regs
-  59 000004  8A 1F 78 			push	W10			; save c runtime regs
-  60 000006  8B 1F 78 			push	W11			; save c runtime regs
-  61 000008  8C 1F 78 			push	W12			; save c runtime regs
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 11
+  59              	;;		push	W10			; save c runtime regs
+  60              	;;		push	W11			; save c runtime regs
+  61              	;;		push	W12			; save c runtime regs
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 11
 
 
-  62 00000a  8D 1F 78 			push	W13			; save c runtime regs
-  63 00000c  80 06 78 			mov		W0, W13		; move source address
-  64 00000e  81 1F 78 			push	W1			; save destination
+  62 000004  8D 1F 78 			push	W13			; save c runtime regs
+  63 000006  80 06 78 			mov		W0, W13		; move source address
+  64 000008  81 1F 78 			push	W1			; save destination
   65              	
-  66 000010  00 00 20 			mov		#0, W0		; clear all accumulators
-  67 000012  01 00 20 			mov		#0, W1		; clear all accumulators
-  68 000014  02 00 20 			mov		#0, W2		; clear all accumulators
-  69 000016  03 00 20 			mov		#0, W3		; clear all accumulators
-  70 000018  04 00 20 			mov		#0, W4		; clear all accumulators
-  71 00001a  05 00 20 			mov		#0, W5		; clear all accumulators
-  72 00001c  06 00 20 			mov		#0, W6		; clear all accumulators
-  73 00001e  07 00 20 			mov		#0, W7		; clear all accumulators
-  74 000020  08 00 20 			mov		#0, W8		; clear all accumulators
-  75 000022  09 00 20 			mov		#0, W9		; clear all accumulators
-  76 000024  0B 00 20 			mov		#0, W11		; clear all accumulators
-  77 000026  0C 00 20 			mov		#0, W12		; clear all accumulators
-  78              	
-  79 000028  10 00 08 	ACC_S:	DO		#16, ACC_E	; add em all up
-  79         00 00 00 
-  80 00002c  3D 00 40 			ADD		W0, [W13++], W0
-  81 00002e  BD 80 40 			ADD		W1, [W13++], W1
-  82 000030  3D 01 41 			ADD		W2, [W13++], W2
-  83 000032  BD 81 41 			ADD		W3, [W13++], W3
-  84 000034  3D 02 42 			ADD		W4, [W13++], W4
-  85 000036  BD 82 42 			ADD		W5, [W13++], W5
-  86 000038  3D 03 43 			ADD		W6, [W13++], W6
-  87 00003a  BD 83 43 			ADD		W7, [W13++], W7
-  88 00003c  3D 04 44 			ADD		W8, [W13++], W8
-  89 00003e  BD 84 44 	ACC_E:	ADD		W9, [W13++], W9		;; accululate each value steping pointer
-  90              	;;		ADD		W10, [W13++], W10
-  91              	;;		ADD		W11, [W13++], W11
-  92              	;;		ADD		W13, [W13++], W12
-  93              	
-  94 000040  CF 06 78 			pop		W13			; restore destination
-  95 000042  80 1E 78 			MOV		W0, [W13++]
-  96 000044  81 1E 78 			MOV		W1, [W13++]
-  97 000046  82 1E 78 			MOV		W2, [W13++]
-  98 000048  83 1E 78 			MOV		W3, [W13++]
-  99 00004a  84 1E 78 			MOV		W4, [W13++]
- 100 00004c  85 1E 78 			MOV		W5, [W13++]
- 101 00004e  86 1E 78 			MOV		W6, [W13++]
- 102 000050  87 1E 78 			MOV		W7, [W13++]
- 103 000052  88 1E 78 			MOV		W8, [W13++]
- 104 000054  89 1E 78 			MOV		W9, [W13++]			;; store each value steping pointer
- 105              	;;		MOV		W10, [W13++]
- 106              	;;		MOV		W11, [W13++]
- 107              	;;		MOV		W13, [W13++]
- 108              	
- 109              	
- 110 000056  CF 06 78 			pop		W13			; save c runtime regs
- 111 000058  4F 06 78 			pop		W12			; save c runtime regs
- 112 00005a  CF 05 78 			pop		W11			; save c runtime regs
- 113 00005c  4F 05 78 			pop		W10			; save c runtime regs
- 114 00005e  CF 04 78 			pop		W9			; save c runtime regs
- 115 000060  4F 04 78 			pop		W8			; save c runtime regs
- 116              	
- 117 000062  00 00 06 			return
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 12
+  66 00000a  00 00 20 			mov		#0, W0		; clear all accumulators
+  67 00000c  01 00 20 			mov		#0, W1		; clear all accumulators
+  68 00000e  02 00 20 			mov		#0, W2		; clear all accumulators
+  69 000010  03 00 20 			mov		#0, W3		; clear all accumulators
+  70 000012  04 00 20 			mov		#0, W4		; clear all accumulators
+  71 000014  05 00 20 			mov		#0, W5		; clear all accumulators
+  72 000016  06 00 20 			mov		#0, W6		; clear all accumulators
+  73 000018  07 00 20 			mov		#0, W7		; clear all accumulators
+  74 00001a  08 00 20 			mov		#0, W8		; clear all accumulators
+  75 00001c  09 00 20 			mov		#0, W9		; clear all accumulators
+  76              	;;		mov		#0, W11		; clear all accumulators
+  77              	;;		mov		#0, W10		; clear all accumulators
+  78              	;;		mov		#0, W12		; clear all accumulators
+  79              	
+  80 00001e  0F 00 08 	ACC_S:	DO		#15, ACC_E	; add em all up
+  80         00 00 00 
+  81 000022  3D 00 40 			ADD		W0, [W13++], W0
+  82 000024  BD 80 40 			ADD		W1, [W13++], W1
+  83 000026  3D 01 41 			ADD		W2, [W13++], W2
+  84 000028  BD 81 41 			ADD		W3, [W13++], W3
+  85 00002a  3D 02 42 			ADD		W4, [W13++], W4
+  86 00002c  BD 82 42 			ADD		W5, [W13++], W5
+  87 00002e  3D 03 43 			ADD		W6, [W13++], W6
+  88 000030  BD 83 43 			ADD		W7, [W13++], W7
+  89 000032  3D 04 44 			ADD		W8, [W13++], W8
+  90 000034  BD 84 44 	ACC_E:	ADD		W9, [W13++], W9		;; accululate each value steping pointer
+  91              	;;		ADD		W10, [W13++], W10
+  92              	;;		ADD		W11, [W13++], W11
+  93              	;;		ADD		W13, [W13++], W12
+  94              	
+  95 000036  CF 06 78 			POP		W13					;; restore destination
+  96 000038  80 1E 78 			MOV		W0, [W13++]			;; store each value steping pointer
+  97 00003a  81 1E 78 			MOV		W1, [W13++]
+  98 00003c  82 1E 78 			MOV		W2, [W13++]
+  99 00003e  83 1E 78 			MOV		W3, [W13++]
+ 100 000040  84 1E 78 			MOV		W4, [W13++]
+ 101 000042  85 1E 78 			MOV		W5, [W13++]
+ 102 000044  86 1E 78 			MOV		W6, [W13++]
+ 103 000046  87 1E 78 			MOV		W7, [W13++]
+ 104 000048  88 1E 78 			MOV		W8, [W13++]
+ 105 00004a  89 1E 78 			MOV		W9, [W13++]
+ 106              	;;		LSR		W0, [W13++]
+ 107              	;;		LSR		W1, [W13++]
+ 108              	;;		LSR		W2, [W13++]
+ 109              	;;		LSR		W3, [W13++]
+ 110              	;;		LSR		W4, [W13++]
+ 111              	;;		LSR		W5, [W13++]
+ 112              	;;		LSR		W6, [W13++]
+ 113              	;;		LSR		W7, [W13++]
+ 114              	;;		LSR		W8, [W13++]
+ 115              	;;		LSR		W9, [W13++]			;; store each value steping pointer
+ 116              	;;		LSR		W10, [W13++]
+ 117              	;;		LSR		W11, [W13++]
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 12
 
 
- 118              	;--------End of All Code Sections ---------------------------------------------
- 119              	        .end                               ;End of program code in this file
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 13
+ 118              	;;		LSR		W13, [W13++]
+ 119              	
+ 120 00004c  CF 06 78 			pop		W13			; save c runtime regs
+ 121              	;;		pop		W12			; save c runtime regs
+ 122              	;;		pop		W11			; save c runtime regs
+ 123              	;;		pop		W10			; save c runtime regs
+ 124 00004e  CF 04 78 			pop		W9			; save c runtime regs
+ 125 000050  4F 04 78 			pop		W8			; save c runtime regs
+ 126              	
+ 127 000052  00 00 06 			return
+ 128              	;--------End of All Code Sections ---------------------------------------------
+ 129              	        .end                               ;End of program code in this file
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 13
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 c:/program files/microchip/mplab c30/support/dsPIC33F/inc/p33FJ256GP710A.inc
                             *ABS*:00000000 c:/program files/microchip/mplab c30/support/dsPIC33F/inc/p33Fxxxx.inc
-                            *ABS*:00000000 E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/SuperSample.s
+                            *ABS*:00000000 E:/Projects/DevPFG/Nav10/libUDB/SuperSample.s
                             *ABS*:00000001 __MPLAB_DEBUGGER_PK3
                             *ABS*:00000001 __DEBUG
                             *ABS*:00000001 __33FJ256GP710A
@@ -723,7 +733,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1874   *ABS*:0000000b BWM3
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1878   *ABS*:0000000f BREN
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1880   *ABS*:00000000 XB0
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 14
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 14
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1881   *ABS*:00000001 XB1
@@ -783,7 +793,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1947   *ABS*:00000000 CN16PUE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1948   *ABS*:00000001 CN17PUE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1949   *ABS*:00000002 CN18PUE
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 15
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 15
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1950   *ABS*:00000003 CN19PUE
@@ -843,7 +853,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2016   *ABS*:0000000d INT2IF
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2017   *ABS*:0000000e U2RXIF
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2018   *ABS*:0000000f U2TXIF
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 16
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 16
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2020   *ABS*:00000000 SI2CIF
@@ -903,7 +913,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2089   *ABS*:00000006 IC7IE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2090   *ABS*:00000007 IC8IE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2091   *ABS*:00000008 DMA2IE
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 17
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 17
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2092   *ABS*:00000009 OC3IE
@@ -963,7 +973,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2162   *ABS*:00000001 DMA0IP1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2163   *ABS*:00000002 DMA0IP2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2164   *ABS*:00000004 IC2IP0
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 18
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 18
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2165   *ABS*:00000005 IC2IP1
@@ -1023,7 +1033,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2234   *ABS*:00000005 OC3IP1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2235   *ABS*:00000006 OC3IP2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2236   *ABS*:00000008 OC4IP0
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 19
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 19
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2237   *ABS*:00000009 OC4IP1
@@ -1083,7 +1093,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2306   *ABS*:00000001 OC8IP1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2307   *ABS*:00000002 OC8IP2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2308   *ABS*:00000008 DMA4IP0
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 20
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 20
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2309   *ABS*:00000009 DMA4IP1
@@ -1143,7 +1153,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2381   *ABS*:00000009 C1TXIP1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2382   *ABS*:0000000a C1TXIP2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2383   *ABS*:0000000c C2TXIP0
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 21
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 21
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2384   *ABS*:0000000d C2TXIP1
@@ -1203,7 +1213,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2703   *ABS*:00000003 S
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2704   *ABS*:00000004 P
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2705   *ABS*:00000005 D_A
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 22
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 22
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2706   *ABS*:00000006 I2COV
@@ -1263,7 +1273,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2872   *ABS*:00000000 SPIRBF
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2873   *ABS*:00000001 SPITBF
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2874   *ABS*:00000006 SPIROV
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 23
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 23
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2875   *ABS*:0000000d SPISIDL
@@ -1323,7 +1333,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2984   *ABS*:00000006 TSE6
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2985   *ABS*:00000007 TSE7
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2986   *ABS*:00000008 TSE8
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 24
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 24
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2987   *ABS*:00000009 TSE9
@@ -1383,7 +1393,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3053   *ABS*:00000003 LATA3
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3054   *ABS*:00000004 LATA4
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3055   *ABS*:00000005 LATA5
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 25
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 25
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3056   *ABS*:00000006 LATA6
@@ -1443,7 +1453,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3119   *ABS*:0000000e LATB14
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3120   *ABS*:0000000f LATB15
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3124   *ABS*:00000001 TRISC1
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 26
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 26
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3125   *ABS*:00000002 TRISC2
@@ -1503,7 +1513,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3191   *ABS*:0000000f RD15
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3195   *ABS*:00000000 LATD0
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3196   *ABS*:00000001 LATD1
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 27
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 27
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3197   *ABS*:00000002 LATD2
@@ -1563,7 +1573,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3266   *ABS*:00000005 RF5
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3267   *ABS*:00000006 RF6
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3268   *ABS*:00000007 RF7
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 28
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 28
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3269   *ABS*:00000008 RF8
@@ -1623,7 +1633,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3338   *ABS*:0000000a AD12B
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3339   *ABS*:0000000c ADDMABM
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3340   *ABS*:0000000d ADSIDL
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 29
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 29
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3341   *ABS*:0000000f ADON
@@ -1683,7 +1693,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3415   *ABS*:00000003 PCFG19
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3416   *ABS*:00000004 PCFG20
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3417   *ABS*:00000005 PCFG21
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 30
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 30
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3418   *ABS*:00000006 PCFG22
@@ -1743,7 +1753,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3481   *ABS*:0000000c CSS12
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3482   *ABS*:0000000d CSS13
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3483   *ABS*:0000000e CSS14
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 31
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 31
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3484   *ABS*:0000000f CSS15
@@ -1803,7 +1813,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3856   *ABS*:00000005 OPMODE0
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3857   *ABS*:00000006 OPMODE1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3858   *ABS*:00000007 OPMODE2
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 32
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 32
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3859   *ABS*:00000008 REQOP0
@@ -1863,7 +1873,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3931   *ABS*:00000001 RBIE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3932   *ABS*:00000002 RBOVIE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3933   *ABS*:00000003 FIFOIE
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 33
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 33
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3934   *ABS*:00000005 ERRIE
@@ -1923,7 +1933,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4001   *ABS*:0000000f FLTEN15
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4005   *ABS*:00000000 F0MSK0
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4006   *ABS*:00000001 F0MSK1
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 34
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 34
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4007   *ABS*:00000002 F1MSK0
@@ -1983,7 +1993,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4070   *ABS*:00000008 RXFUL8
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4071   *ABS*:00000009 RXFUL9
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4072   *ABS*:0000000a RXFUL10
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 35
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 35
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4073   *ABS*:0000000b RXFUL11
@@ -2043,7 +2053,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4139   *ABS*:00000001 F12BP1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4140   *ABS*:00000002 F12BP2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4141   *ABS*:00000003 F12BP3
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 36
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 36
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4142   *ABS*:00000004 F13BP0
@@ -2103,7 +2113,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4206   *ABS*:0000000c SID7
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4207   *ABS*:0000000d SID8
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4208   *ABS*:0000000e SID9
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 37
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 37
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4209   *ABS*:0000000f SID10
@@ -2163,7 +2173,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4295   *ABS*:00000007 TXEN4
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4296   *ABS*:0000000a RTREN5
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4297   *ABS*:0000000b TXREQ5
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 38
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 38
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4298   *ABS*:0000000c TXERR5
@@ -2223,7 +2233,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6138   *ABS*:00000000 ODCF0
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6139   *ABS*:00000001 ODCF1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6140   *ABS*:00000002 ODCF2
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 39
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 39
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6141   *ABS*:00000003 ODCF3
@@ -2283,7 +2293,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6209   *ABS*:0000000c DOZE0
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6210   *ABS*:0000000d DOZE1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6211   *ABS*:0000000e DOZE2
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 40
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 40
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6215   *ABS*:00000000 PLLDIV0
@@ -2343,7 +2353,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6288   *ABS*:0000000b IC4MD
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6289   *ABS*:0000000c IC5MD
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6290   *ABS*:0000000d IC6MD
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 41
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 41
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6291   *ABS*:0000000e IC7MD
@@ -2403,7 +2413,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6482   *ABS*:0000ffff SSS_NO_FLASH
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6483   *ABS*:0000ffff SSS_NO_SEC_CODE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6485   *ABS*:0000fffe SWRP_WRPROTECT_ON
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 42
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 42
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6486   *ABS*:0000ffff SWRP_WRPROTECT_OFF
@@ -2463,7 +2473,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6665   *ABS*:0000fffb FPWRT_PWR8
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6666   *ABS*:0000fffc FPWRT_PWR16
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6667   *ABS*:0000fffd FPWRT_PWR32
-MPLAB ASM30 Listing:  E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s 			page 43
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 43
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6668   *ABS*:0000fffe FPWRT_PWR64
@@ -2475,17 +2485,17 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6691   *ABS*:0000fffe ICS_PGD2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6692   *ABS*:0000ffff ICS_PGD1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33Fxxxx.inc:247    *ABS*:00000001 VALID_ID
-E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s:56     .text:00000000 _superSample
-E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s:57     .text:00000000 $AUTOLINE$
-E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s:79     .text:00000028 ACC_S
-E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s:89     .text:0000003e ACC_E
+..\libUDB\SuperSample.s:56     .text:00000000 _superSample
+..\libUDB\SuperSample.s:57     .text:00000000 $AUTOLINE$
+..\libUDB\SuperSample.s:80     .text:0000001e ACC_S
+..\libUDB\SuperSample.s:90     .text:00000034 ACC_E
 
 NO UNDEFINED SYMBOLS
 
 EQUATE SYMBOLS
 c:/program files/microchip/mplab c30/support/dsPIC33F/inc/p33FJ256GP710A.inc = 0x0
 c:/program files/microchip/mplab c30/support/dsPIC33F/inc/p33Fxxxx.inc = 0x0
-E:/Projects/ProPilot/Nav10 Board/Nav10/libUDB/SuperSample.s = 0x0
+E:/Projects/DevPFG/Nav10/libUDB/SuperSample.s = 0x0
             __MPLAB_DEBUGGER_PK3 = 0x1
                          __DEBUG = 0x1
                  __33FJ256GP710A = 0x1

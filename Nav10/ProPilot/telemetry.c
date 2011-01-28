@@ -369,146 +369,6 @@ void serial_output_8hz( void )
 }
 
 
-#elif ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB || SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
-
-int telemetry_counter = 6 ;
-int skip = 0 ;
-
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
-int pwIn_save[NUM_INPUTS + 1 + 8] ;
-int pwOut_save[NUM_OUTPUTS + 1] ;
-char print_choice = 0 ;
-#endif
-
-extern int waypointIndex ;
-
-#if (RECORD_FREE_STACK_SPACE == 1)
-extern unsigned int maxstack ;
-#endif
-
-void serial_output_8hz( void )
-{
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB )	// Only run through this function twice per second, by skipping all but every 4 runs through it.
-	// Saves CPU and XBee power.
-	if (++skip < 4) return ;
-	skip = 0 ;
-	
-#elif ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
-	// SERIAL_UDB_EXTRA expected to be used with the OpenLog which can take greater transfer speeds than Xbee
-	// F2: SERIAL_UDB_EXTRA format is printed out every other time, although it is being called at 8Hz, this
-	//		version will output four F2 lines every second (4Hz updates)
-#endif
-
-	switch (telemetry_counter)
-	{
-		// The first lines of telemetry contain info about the compile-time settings from the options.h file
-		case 6:
-			serial_output("F11:WIND_EST=%i:GPS_TYPE=%i:DR=%i:BOARD_TYPE=%i:AIRFRAME=%i:RCON=%i:\r\n",
-				WIND_ESTIMATION, GPS_TYPE, DEADRECKONING, BOARD_TYPE, AIRFRAME_TYPE, RCON) ;
-				RCON = 0 ;
-			break ;
-		case 5:
-			serial_output("F4:R_STAB_A=%i:R_STAB_RD=%i:P_STAB=%i:Y_STAB_R=%i:Y_STAB_A=%i:AIL_NAV=%i:RUD_NAV=%i:AH_STAB=%i:AH_WP=%i:RACE=%i:\r\n",
-				ROLL_STABILIZATION_AILERONS, ROLL_STABILIZATION_RUDDER, PITCH_STABILIZATION, YAW_STABILIZATION_RUDDER, YAW_STABILIZATION_AILERON,
-				AILERON_NAVIGATION, RUDDER_NAVIGATION, ALTITUDEHOLD_STABILIZED, ALTITUDEHOLD_WAYPOINT, RACING_MODE) ;
-			break ;
-		case 4:
-			serial_output("F5:YAWKP_A=%5.3f:YAWKD_A=%5.3f:ROLLKP=%5.3f:ROLLKD=%5.3f:A_BOOST=%3.1f:\r\n",
-				YAWKP_AILERON, YAWKD_AILERON, ROLLKP, ROLLKD, AILERON_BOOST ) ;
-			break ;
-		case 3:
-			serial_output("F6:P_GAIN=%5.3f:P_KD=%5.3f:RUD_E_MIX=%5.3f:ROL_E_MIX=%5.3f:E_BOOST=%3.1f:\r\n",
-				PITCHGAIN, PITCHKD, RUDDER_ELEV_MIX, ROLL_ELEV_MIX, ELEVATOR_BOOST) ;
-			break ;
-		case 2:
-			serial_output("F7:Y_KP_R=%5.4f:Y_KD_R=%5.3f:RLKP_RUD=%5.3f:RUD_BOOST=%5.3f:RTL_PITCH_DN=%5.3f:\r\n",
-				YAWKP_RUDDER, YAWKD_RUDDER, ROLLKP_RUDDER , RUDDER_BOOST, RTL_PITCH_DOWN) ;
-			break ;
-		case 1:
-			serial_output("F8:H_MAX=%6.1f:H_MIN=%6.1f:MIN_THR=%3.2f:MAX_THR=%3.2f:PITCH_MIN_THR=%4.1f:PITCH_MAX_THR=%4.1f:PITCH_ZERO_THR=%4.1f:\r\n",
-				HEIGHT_TARGET_MAX, HEIGHT_TARGET_MIN, ALT_HOLD_THROTTLE_MIN, ALT_HOLD_THROTTLE_MAX,
-				ALT_HOLD_PITCH_MIN, ALT_HOLD_PITCH_MAX, ALT_HOLD_PITCH_HIGH) ;
-			break ;
-		default:
-			// F2 below means "Format Revision 2: and is used by a Telemetry parser to invoke the right pattern matching
-			// F2 is a compromise between easy reading of raw data in a file and not droppping chars in transmission.
-			
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB )
-			serial_output("F2:T%li:S%d%d%d:N%li:E%li:A%li:W%i:a%i:b%i:c%i:d%i:e%i:f%i:g%i:h%i:i%i:c%u:s%i:cpu%u:bmv%i:"
-				"as%i:wvx%i:wvy%i:wvz%i:\r\n",
-				tow.WW, udb_flags._.radio_on, dcm_flags._.nav_capable, flags._.GPS_steering,
-				lat_gps.WW , long_gps.WW , alt_sl_gps.WW, waypointIndex,
-				rmat[0] , rmat[1] , rmat[2] ,
-				rmat[3] , rmat[4] , rmat[5] ,
-				rmat[6] , rmat[7] , rmat[8] ,
-				(unsigned int)cog_gps.BB, sog_gps.BB, (unsigned int)udb_cpu_load(), voltage_milis.BB,
-				air_speed_magnitude, estimatedWind[0], estimatedWind[1],estimatedWind[2]) ;
-		
-#elif ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
-			if (print_choice == 0 )
-			{
-				serial_output("F2:T%li:S%d%d%d:N%li:E%li:A%li:W%i:a%i:b%i:c%i:d%i:e%i:f%i:g%i:h%i:i%i:c%u:s%i:cpu%u:bmv%i:"
-					"as%i:wvx%i:wvy%i:wvz%i:ma%i:mb%i:mc%i:svs%i:hd%i:",
-					tow.WW, udb_flags._.radio_on, dcm_flags._.nav_capable, flags._.GPS_steering,
-					lat_gps.WW , long_gps.WW , alt_sl_gps.WW, waypointIndex,
-					rmat[0] , rmat[1] , rmat[2] ,
-					rmat[3] , rmat[4] , rmat[5] ,
-					rmat[6] , rmat[7] , rmat[8] ,
-					(unsigned int)cog_gps.BB, sog_gps.BB, (unsigned int)udb_cpu_load(), voltage_milis.BB,
-					air_speed_magnitude, estimatedWind[0], estimatedWind[1],estimatedWind[2],
-					
-#if (MAG_YAW_DRIFT == 1)
-					magFieldEarth[0],magFieldEarth[1],magFieldEarth[2],
-#else
-					(int)0, (int)0, (int)0,
-#endif
-					
-					svs, hdop ) ;
-				
-				// Save  pwIn and PwOut buffers for printing next time around
-				int i ;
-				for (i=0; i <= NUM_INPUTS; i++)
-					pwIn_save[i] = udb_pwIn[i+7] ;
-				for (i=0; i <= NUM_OUTPUTS; i++)
-					pwOut_save[i] = udb_pwOut[i] ;
-				print_choice = 1 ;
-			}
-			else
-			{
-				int i ;
-				for (i= 1; i <= NUM_INPUTS; i++)
-					serial_output("p%ii%i:",i,(int)(pwIn_save[i]/16)+3000);
-				for (i= 1; i <= NUM_OUTPUTS; i++)
-					serial_output("p%io%i:",i,(int)(pwOut_save[i]/2.5));
-				serial_output("imx%i:imy%i:imz%i:fgs%X:",IMUlocationx._.W1 ,IMUlocationy._.W1 ,IMUlocationz._.W1, flags.WW );
-#if (RECORD_FREE_STACK_SPACE == 1)
-				serial_output("stk%d:", (int)(4096-maxstack));
-#endif
-				serial_output("\r\n");
-				print_choice = 0 ;
-			}
-#endif
-			if (flags._.f13_print_req == 1)
-			{
-				// The F13 line of telemetry is printed when origin has been captured and inbetween F2 lines in SERIAL_UDB_EXTRA
-#if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
-				if (print_choice != 0) return ;
-#endif
-				serial_output("F13:week%i:origN%li:origE%li:origA%li:\r\n", week_no, lat_origin.WW, long_origin.WW, alt_origin) ;
-				flags._.f13_print_req = 0 ;
-			}
-			
-			return ;
-	}
-				// Approximate time passing between each telemetry line, even though
-				// we may not have new GPS time data each time through.
-			/*	if (tow.WW > 0) */ tow.WW += 250 ;
-				
-	telemetry_counter-- ;
-	return ;
-}
-
-
 #elif ( SERIAL_OUTPUT_FORMAT == SERIAL_OSD_REMZIBI )
 
 void serial_output_8hz( void )
@@ -586,6 +446,12 @@ void serial_output_8hz( void )
 	return ;
 }
 
+#elif ( SERIAL_OUTPUT_FORMAT == SERIAL_RAW )
+void serial_output_8hz( void )
+{
+	return ;
+}
+
 
 #elif ( SERIAL_OUTPUT_FORMAT == SERIAL_STATUS )
 
@@ -648,6 +514,146 @@ void serial_output_8hz( void )
 
 	return ;
 }
+#elif (( SERIAL_OUTPUT_FORMAT == SERIAL_UDB ) || ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA ))
+
+int telemetry_counter = 6 ;
+int skip = 0 ;
+
+#if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
+int pwIn_save[NUM_INPUTS + 1 + 8] ;
+int pwOut_save[NUM_OUTPUTS + 1] ;
+char print_choice = 0 ;
+#endif
+
+extern int waypointIndex ;
+
+#if (RECORD_FREE_STACK_SPACE == 1)
+extern unsigned int maxstack ;
+#endif
+
+void serial_output_8hz( void )
+{
+#if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB )
+	// Only run through this function twice per second, by skipping all but every 4th run through it.
+	// Saves CPU and XBee power.
+	if (++skip < 4) return ;
+	skip = 0 ;
+
+#elif ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
+	// SERIAL_UDB_EXTRA expected to be used with the OpenLog which can take greater transfer speeds than Xbee
+	// F2: SERIAL_UDB_EXTRA format is printed out every other time, although it is being called at 8Hz, this
+	//		version will output four F2 lines every second (4Hz updates)
+#endif
+
+	switch (telemetry_counter)
+	{
+		// The first lines of telemetry contain info about the compile-time settings from the options.h file
+		case 6:
+			serial_output("F11:WIND_EST=%i:GPS_TYPE=%i:DR=%i:BOARD_TYPE=%i:AIRFRAME=%i:RCON=%i:\r\n",
+				WIND_ESTIMATION, GPS_TYPE, DEADRECKONING, BOARD_TYPE, AIRFRAME_TYPE, RCON) ;
+				RCON = 0 ;
+			break ;
+		case 5:
+			serial_output("F4:R_STAB_A=%i:R_STAB_RD=%i:P_STAB=%i:Y_STAB_R=%i:Y_STAB_A=%i:AIL_NAV=%i:RUD_NAV=%i:AH_STAB=%i:AH_WP=%i:RACE=%i:\r\n",
+				ROLL_STABILIZATION_AILERONS, ROLL_STABILIZATION_RUDDER, PITCH_STABILIZATION, YAW_STABILIZATION_RUDDER, YAW_STABILIZATION_AILERON,
+				AILERON_NAVIGATION, RUDDER_NAVIGATION, ALTITUDEHOLD_STABILIZED, ALTITUDEHOLD_WAYPOINT, RACING_MODE) ;
+			break ;
+		case 4:
+			serial_output("F5:YAWKP_A=%5.3f:YAWKD_A=%5.3f:ROLLKP=%5.3f:ROLLKD=%5.3f:A_BOOST=%3.1f:\r\n",
+				YAWKP_AILERON, YAWKD_AILERON, ROLLKP, ROLLKD, AILERON_BOOST ) ;
+			break ;
+		case 3:
+			serial_output("F6:P_GAIN=%5.3f:P_KD=%5.3f:RUD_E_MIX=%5.3f:ROL_E_MIX=%5.3f:E_BOOST=%3.1f:\r\n",
+				PITCHGAIN, PITCHKD, RUDDER_ELEV_MIX, ROLL_ELEV_MIX, ELEVATOR_BOOST) ;
+			break ;
+		case 2:
+			serial_output("F7:Y_KP_R=%5.4f:Y_KD_R=%5.3f:RLKP_RUD=%5.3f:RUD_BOOST=%5.3f:RTL_PITCH_DN=%5.3f:\r\n",
+				YAWKP_RUDDER, YAWKD_RUDDER, ROLLKP_RUDDER , RUDDER_BOOST, RTL_PITCH_DOWN) ;
+			break ;
+		case 1:
+			serial_output("F8:H_MAX=%6.1f:H_MIN=%6.1f:MIN_THR=%3.2f:MAX_THR=%3.2f:PITCH_MIN_THR=%4.1f:PITCH_MAX_THR=%4.1f:PITCH_ZERO_THR=%4.1f:\r\n",
+				HEIGHT_TARGET_MAX, HEIGHT_TARGET_MIN, ALT_HOLD_THROTTLE_MIN, ALT_HOLD_THROTTLE_MAX,
+				ALT_HOLD_PITCH_MIN, ALT_HOLD_PITCH_MAX, ALT_HOLD_PITCH_HIGH) ;
+			break ;
+		default:
+			// F2 below means "Format Revision 2: and is used by a Telemetry parser to invoke the right pattern matching
+			// F2 is a compromise between easy reading of raw data in a file and not droppping chars in transmission.
+
+#if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB )
+			serial_output("F2:T%li:S%d%d%d:N%li:E%li:A%li:W%i:a%i:b%i:c%i:d%i:e%i:f%i:g%i:h%i:i%i:c%u:s%i:cpu%u:bmv%i:"
+				"as%i:wvx%i:wvy%i:wvz%i:\r\n",
+				tow.WW, udb_flags._.radio_on, dcm_flags._.nav_capable, flags._.GPS_steering,
+				lat_gps.WW , long_gps.WW , alt_sl_gps.WW, waypointIndex,
+				rmat[0] , rmat[1] , rmat[2] ,
+				rmat[3] , rmat[4] , rmat[5] ,
+				rmat[6] , rmat[7] , rmat[8] ,
+				(unsigned int)cog_gps.BB, sog_gps.BB, (unsigned int)udb_cpu_load(), voltage_milis.BB,
+				air_speed_magnitude, estimatedWind[0], estimatedWind[1],estimatedWind[2]) ;
+
+#elif ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
+			if (print_choice == 0 )
+			{
+				serial_output("F2:T%li:S%d%d%d:N%li:E%li:A%li:W%i:a%i:b%i:c%i:d%i:e%i:f%i:g%i:h%i:i%i:c%u:s%i:cpu%u:bmv%i:"
+					"as%i:wvx%i:wvy%i:wvz%i:ma%i:mb%i:mc%i:svs%i:hd%i:",
+					tow.WW, udb_flags._.radio_on, dcm_flags._.nav_capable, flags._.GPS_steering,
+					lat_gps.WW , long_gps.WW , alt_sl_gps.WW, waypointIndex,
+					rmat[0] , rmat[1] , rmat[2] ,
+					rmat[3] , rmat[4] , rmat[5] ,
+					rmat[6] , rmat[7] , rmat[8] ,
+					(unsigned int)cog_gps.BB, sog_gps.BB, (unsigned int)udb_cpu_load(), voltage_milis.BB,
+					air_speed_magnitude, estimatedWind[0], estimatedWind[1],estimatedWind[2],
+
+#if (MAG_YAW_DRIFT == 1)
+					magFieldEarth[0],magFieldEarth[1],magFieldEarth[2],
+#else
+					(int)0, (int)0, (int)0,
+#endif
+
+					svs, hdop ) ;
+
+				// Save  pwIn and PwOut buffers for printing next time around
+				int i ;
+				for (i=0; i <= NUM_INPUTS; i++)
+					pwIn_save[i] = udb_pwIn[i+7] ;
+				for (i=0; i <= NUM_OUTPUTS; i++)
+					pwOut_save[i] = udb_pwOut[i] ;
+				print_choice = 1 ;
+			}
+			else
+			{
+				int i ;
+				for (i= 1; i <= NUM_INPUTS; i++)
+					serial_output("p%ii%i:",i,(int)(pwIn_save[i]/16)+3000);
+				for (i= 1; i <= NUM_OUTPUTS; i++)
+					serial_output("p%io%i:",i,(int)(pwOut_save[i]/2.5));
+				serial_output("imx%i:imy%i:imz%i:fgs%X:",IMUlocationx._.W1 ,IMUlocationy._.W1 ,IMUlocationz._.W1, flags.WW );
+#if (RECORD_FREE_STACK_SPACE == 1)
+				serial_output("stk%d:", (int)(4096-maxstack));
+#endif
+				serial_output("\r\n");
+				print_choice = 0 ;
+			}
+#endif
+			if (flags._.f13_print_req == 1)
+			{
+				// The F13 line of telemetry is printed when origin has been captured and inbetween F2 lines in SERIAL_UDB_EXTRA
+#if ( SERIAL_OUTPUT_FORMAT == SERIAL_UDB_EXTRA )
+				if (print_choice != 0) return ;
+#endif
+				serial_output("F13:week%i:origN%li:origE%li:origA%li:\r\n", week_no, lat_origin.WW, long_origin.WW, alt_origin) ;
+				flags._.f13_print_req = 0 ;
+			}
+
+			return ;
+	}
+				// Approximate time passing between each telemetry line, even though
+				// we may not have new GPS time data each time through.
+			/*	if (tow.WW > 0) */ tow.WW += 250 ;
+
+	telemetry_counter-- ;
+	return ;
+}
+
 
 
 #else // If SERIAL_OUTPUT_FORMAT is set to SERIAL_NONE, or is not set

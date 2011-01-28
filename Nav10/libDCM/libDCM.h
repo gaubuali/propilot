@@ -25,6 +25,8 @@
 
 #include "../libUDB/libUDB.h"
 #include "libDCM_defines.h"
+#define _DI()	__asm__ volatile("disi #0xFFF")
+#define _EI()	__asm__ volatile("disi #0")
 
 // libDCM.h defines the API for accessing the location and orientation information
 // from the DCM algorithm and GPS.

@@ -159,7 +159,7 @@ void udb_init(void)
 	udb_init_clock() ;
 	udb_init_capture() ;
 	
-#if (MAG_YAW_DRIFT == 1)
+#if (MAG_YAW_DRIFT == 1) || (BOARD_TYPE == ASPG_BOARD)
 	udb_init_I2C2() ;
 #endif
 	

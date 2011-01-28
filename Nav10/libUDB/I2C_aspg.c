@@ -239,7 +239,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 
 
 	if ( CC.I2C_Index > 63)	// run-away, terminate
-	{	CC.I2C_Index = 61;										// end it
+	{	CC.I2C_Index = 62;										// end it
 		uI2C_Commands[CC.I2C_Index].uChar[0] = STOP;			// make next command stop bus
 		uI2C_Commands[CC.I2C_Index+1].uChar[0] = FINISHED;		// then finished
 		CC.I2C_Subcode = 0, CC.I2CERROR = RUNAWAY;				// say reason for termination
@@ -284,11 +284,11 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 					CC.I2C_Sublen = CC.I2C_Code.F.uCount;
 				break;
 				case FINISHED:
-
-	if (oLED2 == LED_OFF)
-		oLED2 = LED_ON;
-	else oLED2 = LED_OFF;
-
+/*
+ *	if (oLED2 == LED_OFF)
+ *		oLED2 = LED_ON;
+ *	else oLED2 = LED_OFF;
+ */
 					CC.I2C_Subcode = FINISHED;					// set this to finished as well
 					I2C_Timeout = -1;							// show got to finished rather than timeout
 					switch ( CC.I2C_Code.F.uResult ) {			// do finished actions

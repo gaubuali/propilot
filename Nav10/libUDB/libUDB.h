@@ -22,8 +22,8 @@
 #ifndef LIB_UDB_H
 #define LIB_UDB_H
 
-
-#include "options.h"
+#include "../ProPilot/options.h"
+//#include "defines.h"
 #include "fixDeps.h"
 #include "libUDB_defines.h"
 #include "magnetometerOptions.h"
@@ -147,16 +147,16 @@ void udb_set_action_state(boolean newValue);
 extern struct ADchannel udb_xaccel, udb_yaccel, udb_zaccel;	// x, y, and z accelerometer channels
 extern struct ADchannel udb_xrate, udb_yrate, udb_zrate;	// x, y, and z gyro channels
 extern struct ADchannel udb_vref;							// reference voltage
-extern int AD1_Raw[NUM_AD1_LIST+7] __attribute__ ((section(".myDataSection"),address(0x2220)));	// save raw values to look at
-extern int FLT_Value[16]__attribute__ ((address(0x2D22)));	// space to put in right order
+extern int AD1_Raw[24] __attribute__ ((section(".myDataSection"),address(0x2220)));	// save raw values to look at
+extern int FLT_Value[24]__attribute__ ((address(0x2D30)));	// space to put in right order
 extern int AD1_Filt[2][7][64]__attribute__ ((address(0x2E00))); // filter in[0][][] and out[1][][]
 extern int iAnalog_Head, iAnalog_Tail;	// index to keep track of buffer and de-buffer (GYRO's)
 extern int iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer (Accel's)
 // AD1_Raw offsets
-#define xgyro_in 5
-#define xgyro_ref 7
-#define ygyro_in 1
-#define ygyro_ref 3
+#define xgyro_in 1
+#define xgyro_ref 3
+#define ygyro_in 4
+#define ygyro_ref 7
 #define zgyro_in 9
 #define zgyro_ref 7
 #define xaccel (NUM_AD1_LIST + 1)
@@ -169,8 +169,8 @@ extern int iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer 
 #define gyro_x 1
 #define gyro_y 2
 #define gyro_z 3
-#define accel_x 4
-#define accel_y 5
+#define accel_x 5
+#define accel_y 4
 #define accel_z 6
 #define mag_x 7
 #define mag_y 8
@@ -180,7 +180,7 @@ extern int iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer 
 // Call this function once, soon after booting up, after a few seconds of
 // holding the UDB very still.
 void udb_a2d_record_offsets(void);
-
+void udb_gyro_autoZero( void );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Magnetometer

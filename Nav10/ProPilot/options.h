@@ -31,7 +31,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Set Up Board Type (Set to RED_BOARD, GREEN_BOARD, UDB3_BOARD, RUSTYS_BOARD, or UDB4_BOARD)
 // If building for UDB4, use the MatrixPilot-udb4.mcp project file.
-#define BOARD_TYPE 							ASPG_BOARD
+#define BOARD_TYPE 				ASPG_BOARD
+//#define BOARD_TYPE 			UDB4_BOARD
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -288,17 +289,34 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Serial Output Format (Can be SERIAL_NONE, SERIAL_DEBUG, SERIAL_ARDUSTATION, SERIAL_UDB,
-// SERIAL_UDB_EXTRA, SERIAL_OSD_REMZIBI or SERIAL_MAGNETOMETER )
+// SERIAL_UDB_EXTRA, SERIAL_OSD_REMZIBI or SERIAL_MAGNETOMETER, SERIAL_STATUS, SERIAL_RAW )
 // This determines the format of the output sent out the spare serial port.
 // Note that SERIAL_OSD_REMZIBI only works with GPS_UBX.
 // SERIAL_UDB_EXTRA will add additional telemetry fields to those of SERIAL_UDB.
 // SERIAL_UDB_EXTRA can be used with the OpenLog without characters being dropped.
 // SERIAL_UDB_EXTRA may result in dropped characters if used with the XBEE wireless transmitter.
 //#define SERIAL_OUTPUT_FORMAT				SERIAL_MAGNETOMETER
-//#define SERIAL_OUTPUT_FORMAT				SERIAL_UDB_EXTRA
-#define SERIAL_OUTPUT_FORMAT				SERIAL_STATUS
+#define SERIAL_OUTPUT_FORMAT				SERIAL_UDB_EXTRA
+//#define SERIAL_OUTPUT_FORMAT				SERIAL_STATUS
+//#define SERIAL_OUTPUT_FORMAT				SERIAL_RAW
+//#define SERIAL_OUTPUT_BAUD					115200
+//#define SERIAL_OUTPUT_BAUD					1000000
 #define SERIAL_OUTPUT_BAUD					230400
+//#define SERIAL_OUTPUT_BAUD					500000
 #define SERIAL_OUTPUT_INVERT				1
+// Serial Output Format
+#define SERIAL_NONE			0	// No serial data is sent
+#define SERIAL_DEBUG		1	// UAV Dev Board debug info
+#define SERIAL_ARDUSTATION	2	// Compatible with ArduStation
+#define SERIAL_UDB			3	// Pete's efficient UAV Dev Board format
+#define SERIAL_OSD_REMZIBI	4	// Output data formatted to use as input to a Remzibi OSD (only works with GPS_UBX)
+#define SERIAL_OSD_IF		5	// Output data formatted to use as input to a IF OSD (only works with GPS_UBX)
+#define SERIAL_MAGNETOMETER	6	// Debugging the magnetometer
+#define SERIAL_UDB_EXTRA	7	// Extra Telemetry beyond that provided by SERIAL_UDB for higher bandwidth connections
+#define SERIAL_STATUS		8	// some low level a/d + process status
+#define SERIAL_RAW			9	// extreme high speed (1megabit) serial of raw a/d
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // On Screen Display

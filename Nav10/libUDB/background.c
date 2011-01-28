@@ -162,10 +162,12 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void)
 	else
 	{
 #if ( BOARD_TYPE == ASPG_BOARD )
+		_DI();
 		cpu_counter += TMR5 ;			// add last bit + calc %
 		cpu_timer = (int)((cpu_counter / CPU_LOAD_PERCENT));
 		old_cpu_counter = cpu_counter;
 		cpu_counter = 0;				// clear it after
+		_EI();
 #else
 		cpu_timer = TMR5 ;
 #endif
@@ -208,13 +210,13 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 	
 	_TTRIGGERIF = 0 ;			// clear the interrupt
 	
-	iDCMframe++, gps_timeout++;
+	iDCMframe++; // , gps_timeout++;
 
 	if ( iDCMframe >= FRAME_ROLL )
 		iDCMframe = 0;
 	else ;
 
-	if ( gps_timeout >= 10000 )
+	if ( gps_timeout == 10000 )
 			udb_background_callback_triggered(), gps_timeout = 0;
 	else ;
 

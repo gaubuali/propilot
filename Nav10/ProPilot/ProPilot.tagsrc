@@ -29,19 +29,19 @@ E:\Projects\DevPFG\Nav10\libUDB\osd.c
 E:\Projects\DevPFG\Nav10\libUDB\radioIn_aspg.c
 E:\Projects\DevPFG\Nav10\libUDB\serialIO_aspg.c
 E:\Projects\DevPFG\Nav10\libUDB\servoOut_aspg.c
-E:\Projects\ProPilot\Nav10 Board\Nav10\libUDB\SuperSample.s
-E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.s
 E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.s
 E:\Projects\DevPFG\Nav10\libUDB\eeprom_aspg.c
 E:\Projects\DevPFG\Nav10\libUDB\I2C_aspg.c
 E:\Projects\DevPFG\Nav10\libUDB\analog2digital_aspg.c
 E:\Projects\DevPFG\Nav10\libUDB\filter_aspg_I2C.s
+E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.s
+E:\Projects\DevPFG\Nav10\libUDB\SuperSample.s
+E:\Projects\DevPFG\Nav10\libUDB\averageSample.s
 E:\Projects\DevPFG\Nav10\libUDB\ConfigGreen.h
 E:\Projects\DevPFG\Nav10\libUDB\ConfigIXZ500.h
 E:\Projects\DevPFG\Nav10\libUDB\ConfigRed.h
 E:\Projects\DevPFG\Nav10\ProPilot\defines.h
 E:\Projects\DevPFG\Nav10\libUDB\magnetometerOptions.h
-E:\Projects\DevPFG\Nav10\ProPilot\options.h
 E:\Projects\DevPFG\Nav10\libUDB\libUDB.h
 E:\Projects\DevPFG\Nav10\libUDB\libUDB_internal.h
 E:\Projects\DevPFG\Nav10\libUDB\libUDB_defines.h
@@ -58,3 +58,5 @@ E:\Projects\DevPFG\Nav10\libUDB\ConfigASPG.h
 E:\Projects\DevPFG\Nav10\ProPilot\mixer.h
 E:\Projects\DevPFG\Nav10\libUDB\FIR_Filter.h
 E:\Projects\DevPFG\Nav10\libUDB\filter_aspg.h
+E:\Projects\DevPFG\Nav10\ProPilot\options.h
+E:\Projects\DevPFG\Nav10\libUDB\fixDeps.h

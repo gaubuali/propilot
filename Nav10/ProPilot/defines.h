@@ -18,6 +18,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MatrixPilot.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef DEFINES_H
+#define DEFINES_H
 
 #include "../libDCM/libDCM.h"
 #include "gain_variables.h"
@@ -199,17 +201,6 @@ void init_serial( void ) ;
 void serial_output( char* format, ... ) ;
 void serial_output_8hz( void ) ;
 
-// Serial Output Format
-#define SERIAL_NONE			0	// No serial data is sent
-#define SERIAL_DEBUG		1	// UAV Dev Board debug info
-#define SERIAL_ARDUSTATION	2	// Compatible with ArduStation
-#define SERIAL_UDB			3	// Pete's efficient UAV Dev Board format
-#define SERIAL_OSD_REMZIBI	4	// Output data formatted to use as input to a Remzibi OSD (only works with GPS_UBX)
-#define SERIAL_OSD_IF		5	// Output data formatted to use as input to a IF OSD (only works with GPS_UBX)
-#define SERIAL_MAGNETOMETER	6	// Debugging the magnetometer
-#define SERIAL_UDB_EXTRA	7	// Extra Telemetry beyond that provided by SERIAL_UDB for higher bandwidth connections
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // cameraCntrl.c
@@ -233,3 +224,5 @@ void osd_countdown(int countdown);
 // GPS Parsers - gpsParseSTD.c, gpsParseUBX.c
 // FIXME: This should move into libDCM
 void gps_startup_sequence( int gpscount ) ;
+
+#endif

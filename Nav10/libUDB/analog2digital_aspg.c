@@ -29,8 +29,8 @@ struct ADchannel udb_xaccel, udb_yaccel , udb_zaccel ; // x, y, and z accelerome
 struct ADchannel udb_xrate , udb_yrate, udb_zrate ;  // x, y, and z gyro channels
 struct ADchannel udb_vref ; // reference voltage
 
-int	AD1_Raw[NUM_AD1_LIST+7] __attribute__ ((section(".myDataSection"),address(0x2D00)));	// save raw values to look at
-int FLT_Value[16]__attribute__ ((address(0x2D22)));	// space to put in right order
+int	AD1_Raw[24] __attribute__ ((section(".myDataSection"),address(0x2D00)));	// save raw values to look at
+int FLT_Value[24]__attribute__ ((address(0x2D30)));	// space to put in right order
 
 int sampcount = 1 ;
 
@@ -54,15 +54,33 @@ int	iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer (Accel'
 #define AD1_SUPER_SAM 16
 int  AD1BufferA[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
 int  AD1BufferB[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
+int  AD2BufferA[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
+// int  AD2BufferB[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
+int	AD2_Raw[24];	// save raw values to look at
 
 void udb_init_gyros( void )
 {
+	int r,c;
 	// turn off auto zeroing 
 	tAZ_Y = tAZ_XZ = 0 ;
 	oAZ_Y = oAZ_XZ = 0 ;
 	MDSFIRFilterInit( &filter_aspgFilterX );
 	MDSFIRFilterInit( &filter_aspgFilterY );
 	MDSFIRFilterInit( &filter_aspgFilterZ );
+
+	for ( r = 0; r < AD1_SUPER_SAM; r++ )
+	{
+		AD2BufferA[r][0] = 0;
+		AD2BufferA[r][1] = 10;
+		AD2BufferA[r][2] = 4085;
+		AD2BufferA[r][3] = 4095;
+		AD2BufferA[r][4] = 4096/10;
+		AD2BufferA[r][5] = 4096/4;
+		AD2BufferA[r][6] = 4096/2;
+		AD2BufferA[r][7] = 4096/4*3;
+		AD2BufferA[r][8] = 4096 - (4096/10);
+		AD2BufferA[r][9] = 0;
+	}	
 	
 	return ;
 }
@@ -190,9 +208,35 @@ void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 
 	IFS0bits.DMA0IF = 0;		// Clear the DMA0 Interrupt Flag
 
-	AD1_Filt[0][gyro_x][iAnalog_Head] = AD1_Raw[xgyro_in] - AD1_Raw[xgyro_ref];
-	AD1_Filt[0][gyro_y][iAnalog_Head] = AD1_Raw[ygyro_in] - AD1_Raw[ygyro_ref];
-	AD1_Filt[0][gyro_z][iAnalog_Head] = AD1_Raw[zgyro_in] - AD1_Raw[zgyro_ref];
+	AD1_Filt[0][2][iAnalog_Head] = AD1_Raw[xgyro_in] - AD1_Raw[xgyro_ref];
+	AD1_Filt[0][1][iAnalog_Head] = AD1_Raw[ygyro_in] - AD1_Raw[ygyro_ref];
+	AD1_Filt[0][3][iAnalog_Head] = AD1_Raw[zgyro_in] - AD1_Raw[zgyro_ref];
+	
+#if ( SERIAL_OUTPUT_FORMAT == SERIAL_RAW )
+//#error print(SERIAL_OUTPUT_FORMAT)
+//	_DI();
+//	U2TXREG = (unsigned char) AD1_Raw[xgyro_in] & 0xff;
+//	U2TXREG = (unsigned char) (AD1_Raw[xgyro_in]>>8) & 0xff;
+//	_EI();
+	AD1_Raw[20] = 1234;	// sync
+//	AD1_Raw[21] = AD1_Raw[1], AD1_Raw[22] = AD1_Raw[4], AD1_Raw[23] = AD1_Raw[9];
+	AD1_Raw[21] = AD1_Raw[xgyro_in] - AD1_Raw[xgyro_ref];
+	AD1_Raw[22] = AD1_Raw[ygyro_in] - AD1_Raw[ygyro_ref];
+	AD1_Raw[23] = AD1_Raw[zgyro_in] - AD1_Raw[zgyro_ref];
+//	AD1_Raw[21] = 10, AD1_Raw[22] = 32000;
+//	if (AD1_Raw[19])
+//		AD1_Raw[23]--;
+//	else AD1_Raw[23]++;
+//	if (AD1_Raw[23] == AD1_Raw[22])
+//		AD1_Raw[19] = 1;
+//
+//	if (AD1_Raw[23] == AD1_Raw[21])
+//		AD1_Raw[19] = 0;
+
+	udb_serial_send_packet( (unsigned char *)&AD1_Raw[20], 8 );
+	superSample( (void *)&AD2BufferA[0][0], (void *)&AD2_Raw[0] );
+//	udb_serial_send_packet( (unsigned char *)&AD2_Raw[0], 8 );
+#endif
 
 	// TODO: apply temp compensation
 

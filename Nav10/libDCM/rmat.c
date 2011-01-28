@@ -20,9 +20,6 @@
 
 
 #include "libDCM_internal.h"
-#include "../libUDB/FIR_Filter.h"
-#include "../libUDB/filter_aspg.h"
-
 
 //		These are the routines for maintaining a direction cosine matrix
 //		that can be used to transform vectors between the earth and plane
@@ -502,50 +499,6 @@ void dcm_run_imu_step(void)
 //	adjust for roll and pitch drift,
 //	and send it to the servos.
 {
-	int	iNumSamples;
-
-	iNumSamples = iAnalog_Head&0x3f;	// should actually be iAnalog_Head
-	udb_setDSPLibInUse(true) ;
-	
-	if ( iNumSamples > 10 )
-	{
-		MDSFIR( iNumSamples, &AD1_Filt[1][1][0], &AD1_Filt[0][1][0], &filter_aspgFilterX);
-		MDSFIR( iNumSamples, &AD1_Filt[1][2][0], &AD1_Filt[0][2][0], &filter_aspgFilterY);
-		MDSFIR( iNumSamples, &AD1_Filt[1][3][0], &AD1_Filt[0][3][0], &filter_aspgFilterZ);
-		iNumSamples--;
-		lastGyroSamples = iNumSamples;
-	
-		iAnalog_Head = 0;	// FIX: this is terrible
-		// FIX: this is also terrible - need to average the filter output not use last value
-		FLT_Value[1] = AD1_Filt[1][1][lastGyroSamples];
-		FLT_Value[2] = AD1_Filt[1][2][lastGyroSamples];
-		FLT_Value[3] = AD1_Filt[1][3][lastGyroSamples];
-	};
-
-	iNumSamples = iI2C_Head&0x3f;	// should actually be iI2C_Head
-	if ( iNumSamples > 10 )
-	{
-		MDSFIR( iNumSamples, &AD1_Filt[1][4][0], &AD1_Filt[0][4][0], &filter_aspg_I2CX_Filter);
-		MDSFIR( iNumSamples, &AD1_Filt[1][5][0], &AD1_Filt[0][5][0], &filter_aspg_I2CY_Filter);
-		MDSFIR( iNumSamples, &AD1_Filt[1][6][0], &AD1_Filt[0][6][0], &filter_aspg_I2CZ_Filter);
-		iNumSamples--;
-		lastAccelSamples = iNumSamples;
-
-		iI2C_Head = 0;	// FIX: this is terrible
-		FLT_Value[4] = AD1_Filt[1][4][lastAccelSamples];
-		FLT_Value[5] = AD1_Filt[1][5][lastAccelSamples];
-		FLT_Value[6] = AD1_Filt[1][6][lastAccelSamples];
-	};
-
-	udb_setDSPLibInUse(false) ;
-
-	udb_xrate.value = FLT_Value[2];
-	udb_yrate.value = FLT_Value[1];
-	udb_zrate.value = FLT_Value[3];
-
-	udb_xaccel.value = FLT_Value[4];
-	udb_yaccel.value = FLT_Value[5];
-	udb_zaccel.value = FLT_Value[6];
 
 	read_gyros() ;
 	read_accel() ;

@@ -28,7 +28,7 @@
 
 // I2C pseudo code drivers - see I2C_aspg.c for docs
 
-unsigned char magreg[6] ;  // magnetometer read-write buffer
+unsigned char magreg[7] ;  // magnetometer read-write buffer
 
 const I2C_Action magRead[8] = {  
 	{.uChar[0] = 0},							// empty to make Index step
@@ -36,7 +36,7 @@ const I2C_Action magRead[8] = {
 	{.F.uCmd = TX, .F.uCount = 1 - 1},			// send 1 bytes,
 		{.uChar[0] = 3, .uChar[1] = 0}, 		// first byte address
 	{.F.uCmd = RESTART, .F.uCount = 0x3d}, 		// start command with address
-	{.F.uCmd = RX_ACK, .F.uCount = 6 - 1}, 		// receive 6 bytes,
+	{.F.uCmd = RX_ACK, .F.uCount = 7 - 1}, 		// receive 6 bytes + status,
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished, copy + inc + call
 			.F.uCount = sizeof(magreg), 
@@ -193,6 +193,8 @@ void rxMagnetometer(void)  // service the magnetometer
 			}
 		break ;
 		case  MAG_DELAY1:	// delay one call cycle
+		case  MAG_DELAY2:	// delay one call cycle
+		case  MAG_DELAY3:	// delay one call cycle
 			CD[magCDindex].iResult++ ;
 		break ;
 		case  MAG_CAL:		// send calibration command
@@ -204,7 +206,7 @@ void rxMagnetometer(void)  // service the magnetometer
 //			MI2CIF = 1 ;
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
-				if ( magConfigAttempts < 10 )	// only going to try 10 times
+				if ( magConfigAttempts < 100 )	// only going to try 10 times
 				{
 					if ( magConfigAttempts & 1 )	// alternate plus and minus strap
 					{	SETUP_I2C_MSG( magCalM );
@@ -298,6 +300,9 @@ void doneReadMagData(void)
 		udb_magFieldBody[0] = MAG_X_SIGN((__builtin_mulsu((magFieldRaw[MAG_X_AXIS]), magGain[MAG_X_AXIS] ))>>14)-(udb_magOffset[0]>>1) ;
 		udb_magFieldBody[1] = MAG_Y_SIGN((__builtin_mulsu((magFieldRaw[MAG_Y_AXIS]), magGain[MAG_Y_AXIS] ))>>14)-(udb_magOffset[1]>>1) ;
 		udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((magFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
+//		udb_magFieldBody[0] = 0;
+//		udb_magFieldBody[1] = 0;
+//		udb_magFieldBody[2] = 0;
 
 		AD1_Raw[xmag] = FLT_Value[mag_x] = udb_magFieldBody[0];
 		AD1_Raw[ymag] = FLT_Value[mag_y] = udb_magFieldBody[1];
@@ -305,7 +310,8 @@ void doneReadMagData(void)
 //		I2C_state = &I2C_idle ;
 		if ( ( abs(previousMagFieldRaw[0]) < MAGNETICMAXIMUM ) &&
 			 ( abs(previousMagFieldRaw[1]) < MAGNETICMAXIMUM ) &&
-			 ( abs(previousMagFieldRaw[2]) < MAGNETICMAXIMUM ) )
+			 ( abs(previousMagFieldRaw[2]) < MAGNETICMAXIMUM ) ) // &&
+//			 ( abs(previousMagFieldRaw[3]) > 500 ) ) // force re-cals
 		{
 			//dcm_flags._.mag_drift_req = 1 ;
 			udb_magnetometer_callback_data_available();
@@ -410,7 +416,7 @@ const I2C_Action accReset[] = {	// force reset by changing mode
 		{.uChar[0] = 0x7f, .uChar[1] = 0x00},			// INT_MAP = 0b01111111 = INT1 = DATA_READY
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 1 bytes,
-		{.uChar[0] = 0x31, .uChar[1] = 0x0e}, 		// first byte address then DATA_FORMAT
+		{.uChar[0] = 0x31, .uChar[1] = 0x0c}, 		// first byte address then DATA_FORMAT
 														// = 0b00001110 = 0x0e
 														// 7   0 = self test off, 
 														// 6    0 = SPI 3 or 4 bit - N/A, 
@@ -455,8 +461,8 @@ const I2C_Action accCfg[] = {
 		{.uChar[0] = 0xfd, .uChar[1] = 0x00},			// INT_MAP = 0b11111101 = INT1 = Watermark
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 2 bytes,
-		{.uChar[0] = 0x31, .uChar[1] = 0x0e}, 		// first byte address then DATA_FORMAT
-														// = 0b00001110 = 0x0e
+		{.uChar[0] = 0x31, .uChar[1] = 0x0f}, 		// first byte address then DATA_FORMAT
+														// = 0b00001010 = 0x0a
 														// 7   0 = self test off, 
 														// 6    0 = SPI 3 or 4 bit - N/A, 
 														// 5     0 = int_invert off means active high
@@ -508,10 +514,11 @@ void __attribute__((__no_auto_psv__)) accSetupRead( void )	// setup a device rea
 void rxAccel(void)  // service the ACC
 {
 	int accregIndex ;
-	if (oLED1 == LED_OFF)
-		oLED1 = LED_ON;
-	else oLED1 = LED_OFF;
-
+/*
+ *	if (oLED1 == LED_OFF)
+ *		oLED1 = LED_ON;
+ *	else oLED1 = LED_OFF;
+ */
 	if ( CD[accCDindex].Ident != accCDindex )			// do one time init of structure
 	{
 		CD[accCDindex].Ident = accCDindex;
@@ -521,7 +528,7 @@ void rxAccel(void)  // service the ACC
 		I2C_call_back[accCDindex] = &doneReadAccData;	// set call back
 		CD[accCDindex].I2C_Subcode = FINISHED;
 		I2_ADone = ((sizeof accRead)>>1) - 1;			// pre-copy most used
-		for ( accregIndex = 0 ; accregIndex <= I2_Done; accregIndex++ )
+		for ( accregIndex = 0 ; accregIndex <= I2_ADone; accregIndex++ )
 			uI2C_Commands[accregIndex+accReadStart] = accRead[accregIndex];
 	}
 
@@ -625,9 +632,9 @@ void doneReadAccData(void)
 		AD1_Raw[xaccel] = AccFieldRaw[0];
 		AD1_Raw[yaccel] = AccFieldRaw[1];
 		AD1_Raw[zaccel] = AccFieldRaw[2];
-		AD1_Filt[0][accel_x][iI2C_Head] = AD1_Raw[xaccel];	// buffer the results
-		AD1_Filt[0][accel_y][iI2C_Head] = AD1_Raw[yaccel];
-		AD1_Filt[0][accel_z][iI2C_Head] = AD1_Raw[zaccel];
+		AD1_Filt[0][4][iI2C_Head] = AD1_Raw[xaccel];	// buffer the results
+		AD1_Filt[0][5][iI2C_Head] = AD1_Raw[yaccel];
+		AD1_Filt[0][6][iI2C_Head] = AD1_Raw[zaccel];
 		if ( ++iI2C_Head > 64 )
 			iI2C_Head = 0;
 		else ;

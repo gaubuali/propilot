@@ -20,13 +20,17 @@
 
 
 #include "libDCM_internal.h"
+#include "../libUDB/FIR_Filter.h"
+#include "../libUDB/filter_aspg.h"
+
+extern int averageSample( int *, int );
 
 union dcm_fbts_byte dcm_flags ;
 boolean dcm_has_calibrated = false ;
 
-#if (MAG_YAW_DRIFT == 1)
+//#if (MAG_YAW_DRIFT == 1)
 char dcm_fourHertzCounter = 0 ;
-#endif
+//#endif
 
 
 #if ( HILSIM == 1 )
@@ -62,7 +66,7 @@ void dcm_init( void )
 // Called at 40Hz
 void udb_servo_callback_prepare_outputs(void)
 {
-#if (MAG_YAW_DRIFT == 1)
+//#if (MAG_YAW_DRIFT == 1)
 	// This is a simple counter to do stuff at 4hz
 		// Approximate time passing between each telemetry line, even though
 		// we may not have new GPS time data each time through.
@@ -70,12 +74,86 @@ void udb_servo_callback_prepare_outputs(void)
 	dcm_fourHertzCounter++ ;
 	if ( dcm_fourHertzCounter >= 10 )
 	{
-		rxMagnetometer() ;
-		rxAccel() ;
+		rxMagnetometer() ;	// now actually all interrupt driven but this will kickstart
+		rxAccel() ;			// now actually all interrupt driven but this will kickstart
 		dcm_fourHertzCounter = 0 ;
 	}
-#endif
-		
+//#endif
+
+	int	iNumSamples;
+	int iIndex;
+
+	iAnalog_Tail = iAnalog_Head&0x3f;	// should actually be iAnalog_Head
+	udb_setDSPLibInUse(true) ;
+
+	if ( iAnalog_Tail > 10 )
+	{
+		MDSFIR( iAnalog_Tail, &AD1_Filt[1][1][0], &AD1_Filt[0][1][0], &filter_aspgFilterX);
+		MDSFIR( iAnalog_Tail, &AD1_Filt[1][2][0], &AD1_Filt[0][2][0], &filter_aspgFilterY);
+		MDSFIR( iAnalog_Tail, &AD1_Filt[1][3][0], &AD1_Filt[0][3][0], &filter_aspgFilterZ);
+		_DI();										// have to run this int disabled - should be fast
+		iNumSamples = iAnalog_Head - iAnalog_Tail;	// get any during FIR ?
+		if ( iNumSamples )							// copy those samples to begin of buffer
+		{
+			for ( iIndex = 0; iIndex < iNumSamples; iIndex++ )
+			{
+				AD1_Filt[0][1][iIndex] = AD1_Filt[0][1][iAnalog_Tail + iIndex];
+				AD1_Filt[0][2][iIndex] = AD1_Filt[0][2][iAnalog_Tail + iIndex];
+				AD1_Filt[0][3][iIndex] = AD1_Filt[0][3][iAnalog_Tail + iIndex];
+			};
+			iAnalog_Head = iIndex;
+		} else iAnalog_Head = 0;
+		_EI();
+		FLT_Value[1] = averageSample( &AD1_Filt[1][1][0], iAnalog_Tail );
+		FLT_Value[2] = averageSample( &AD1_Filt[1][2][0], iAnalog_Tail );
+		FLT_Value[3] = averageSample( &AD1_Filt[1][3][0], iAnalog_Tail );
+//		FLT_Value[1] = 0;
+//		FLT_Value[2] = 0;
+//		FLT_Value[3] = 0;
+		lastGyroSamples = iAnalog_Tail;
+	};
+
+	iI2C_Tail = iI2C_Head&0x3f;	// should actually be iI2C_Head
+	if ( iI2C_Tail > 10 )
+	{
+		MDSFIR( iI2C_Tail, &AD1_Filt[1][4][0], &AD1_Filt[0][4][0], &filter_aspg_I2CX_Filter);
+		MDSFIR( iI2C_Tail, &AD1_Filt[1][5][0], &AD1_Filt[0][5][0], &filter_aspg_I2CY_Filter);
+		MDSFIR( iI2C_Tail, &AD1_Filt[1][6][0], &AD1_Filt[0][6][0], &filter_aspg_I2CZ_Filter);
+		_DI();										// have to run this int disabled - should be fast
+		iNumSamples = iI2C_Head - iI2C_Tail;		// get any during FIR ?
+		if ( iNumSamples )							// copy those samples to begin of buffer
+		{
+			for ( iIndex = 0; iIndex < iNumSamples; iIndex++ )
+			{
+				AD1_Filt[0][4][iIndex] = AD1_Filt[0][4][iI2C_Tail + iIndex];
+				AD1_Filt[0][5][iIndex] = AD1_Filt[0][5][iI2C_Tail + iIndex];
+				AD1_Filt[0][6][iIndex] = AD1_Filt[0][6][iI2C_Tail + iIndex];
+			};
+			iI2C_Head = iIndex;
+		} else iI2C_Head = 0;
+		_EI();
+		FLT_Value[4] = averageSample( &AD1_Filt[1][4][0], iI2C_Tail );
+		FLT_Value[5] = averageSample( &AD1_Filt[1][5][0], iI2C_Tail );
+		FLT_Value[6] = averageSample( &AD1_Filt[1][6][0], iI2C_Tail );
+		lastAccelSamples = iI2C_Tail;
+
+	};
+
+	udb_setDSPLibInUse(false) ;
+//		udb_xaccel.value = udb_xaccel.value + (( (udb_xaccel.input>>1) - (udb_xaccel.value>>1) )>> FILTERSHIFT ) ;
+//		udb_xrate.value = udb_xrate.value + (( (udb_xrate.input>>1) - (udb_xrate.value>>1) )>> FILTERSHIFT ) ;
+//		udb_yaccel.value = udb_yaccel.value + (( ( udb_yaccel.input>>1) - (udb_yaccel.value>>1) )>> FILTERSHIFT ) ;
+//		udb_yrate.value = udb_yrate.value + (( (udb_yrate.input>>1) - (udb_yrate.value>>1) )>> FILTERSHIFT ) ;
+//		udb_zaccel.value = udb_zaccel.value + (( (udb_zaccel.input>>1) - (udb_zaccel.value>>1) )>> FILTERSHIFT ) ;
+
+	udb_xrate.value = FLT_Value[gyro_x];
+	udb_yrate.value = FLT_Value[gyro_y];
+	udb_zrate.value = FLT_Value[gyro_z];
+
+	udb_xaccel.value = FLT_Value[accel_x]*2;
+	udb_yaccel.value = FLT_Value[accel_y]*2;
+	udb_zaccel.value = FLT_Value[accel_z]*2;
+
 	if (dcm_has_calibrated) {
 		dcm_run_imu_step() ;
 	}

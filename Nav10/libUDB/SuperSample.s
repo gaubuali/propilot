@@ -6,7 +6,7 @@
 ;   A/D DMA buffer and store the result in ASM30 assembler language.          *
 ;                                                                             *
 ;   The function SuperSample must be called with two arguments, first is the  *
-;   address of the DMA buffer and sencond is the destination buffer. The      *
+;   address of the DMA buffer and second is the destination buffer. The       *
 ;   function is hard coded to expect 16 samples x 10 channels.                *
 ;                                                                             *
 ;   Declare the function in c as follows:                                     *
@@ -56,9 +56,9 @@
 _superSample:
 		push	W8			; save c runtime regs
 		push	W9			; save c runtime regs
-		push	W10			; save c runtime regs
-		push	W11			; save c runtime regs
-		push	W12			; save c runtime regs
+;;		push	W10			; save c runtime regs
+;;		push	W11			; save c runtime regs
+;;		push	W12			; save c runtime regs
 		push	W13			; save c runtime regs
 		mov		W0, W13		; move source address
 		push	W1			; save destination
@@ -73,10 +73,11 @@ _superSample:
 		mov		#0, W7		; clear all accumulators
 		mov		#0, W8		; clear all accumulators
 		mov		#0, W9		; clear all accumulators
-		mov		#0, W11		; clear all accumulators
-		mov		#0, W12		; clear all accumulators
+;;		mov		#0, W11		; clear all accumulators
+;;		mov		#0, W10		; clear all accumulators
+;;		mov		#0, W12		; clear all accumulators
 
-ACC_S:	DO		#16, ACC_E	; add em all up
+ACC_S:	DO		#15, ACC_E	; add em all up
 		ADD		W0, [W13++], W0
 		ADD		W1, [W13++], W1
 		ADD		W2, [W13++], W2
@@ -91,8 +92,8 @@ ACC_E:	ADD		W9, [W13++], W9		;; accululate each value steping pointer
 ;;		ADD		W11, [W13++], W11
 ;;		ADD		W13, [W13++], W12
 
-		pop		W13			; restore destination
-		MOV		W0, [W13++]
+		POP		W13					;; restore destination
+		MOV		W0, [W13++]			;; store each value steping pointer
 		MOV		W1, [W13++]
 		MOV		W2, [W13++]
 		MOV		W3, [W13++]
@@ -101,16 +102,25 @@ ACC_E:	ADD		W9, [W13++], W9		;; accululate each value steping pointer
 		MOV		W6, [W13++]
 		MOV		W7, [W13++]
 		MOV		W8, [W13++]
-		MOV		W9, [W13++]			;; store each value steping pointer
-;;		MOV		W10, [W13++]
-;;		MOV		W11, [W13++]
-;;		MOV		W13, [W13++]
-
+		MOV		W9, [W13++]
+;;		LSR		W0, [W13++]
+;;		LSR		W1, [W13++]
+;;		LSR		W2, [W13++]
+;;		LSR		W3, [W13++]
+;;		LSR		W4, [W13++]
+;;		LSR		W5, [W13++]
+;;		LSR		W6, [W13++]
+;;		LSR		W7, [W13++]
+;;		LSR		W8, [W13++]
+;;		LSR		W9, [W13++]			;; store each value steping pointer
+;;		LSR		W10, [W13++]
+;;		LSR		W11, [W13++]
+;;		LSR		W13, [W13++]
 
 		pop		W13			; save c runtime regs
-		pop		W12			; save c runtime regs
-		pop		W11			; save c runtime regs
-		pop		W10			; save c runtime regs
+;;		pop		W12			; save c runtime regs
+;;		pop		W11			; save c runtime regs
+;;		pop		W10			; save c runtime regs
 		pop		W9			; save c runtime regs
 		pop		W8			; save c runtime regs
 
