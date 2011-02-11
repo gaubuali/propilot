@@ -12,7 +12,8 @@
 /-------------------------------------------------------------------------*/
 
 
-#include <p24FJ64GA002.h>
+#include <p33Fxxxx.h>
+#include "pic33f.h"
 #include "diskio.h"
 
 
@@ -42,11 +43,15 @@
 #define CS_HIGH() _LATB15 = 1	/* MMC CS = H */
 
 #define SOCKPORT	PORTB		/* Socket contact port */
-#define SOCKWP	(1<<10)		/* Write protect switch (RB10) */
-#define SOCKINS	(1<<11)		/* Card detect switch (RB11) */
+//#define SOCKWP	(1<<10)		/* Write protect switch (RB10) */
+#define SOCKWP	(0)				/* NO Write protect switch */
+//#define SOCKINS	(1<<11)		/* Card detect switch (RB11) */
+#define SOCKINS	(0)				/* NO Card detect switch */
 
-#define	FCLK_SLOW()			/* Set slow clock (100k-400k) */
-#define	FCLK_FAST()			/* Set fast clock (depends on the CSD) */
+/* Set slow clock (100k-400k) - @40Mips this gives 104.166 kHz*/
+#define	FCLK_SLOW() SPI1CON1bits.SPRE = 2; SPI1CON1bits.PPRE = 0;
+/* Set fast clock (depends on the CSD)  - @40Mips this gives 20 MHz*/
+#define	FCLK_FAST() SPI1CON1bits.SPRE = 2; SPI1CON1bits.PPRE = 4;
 
 
 
@@ -144,7 +149,14 @@ int select (void)	/* 1:Successful, 0:Timeout */
 static
 void power_on (void)
 {
-						/* Enable SPI1 */
+	TRISBbits.TRISB14 = 0;		// SDO out, rest inputs
+//	LATBbits.LATB14 = 0; 
+	TRISBbits.TRISB13 = 0;		// SCK out, rest inputs
+//	LATBbits.LATB13 = 0; 
+	TRISBbits.TRISB15 = 0;		// CS out, rest inputs
+//	LATBbits.LATB15 = 0; 
+
+	/* Enable SPI1 */
 	SPI1CON1 = 0x013B;
 	SPI1CON2 = 0x0000;
 	_SPIEN = 1;
@@ -157,6 +169,13 @@ void power_off (void)
 	deselect();
 
 	_SPIEN = 0;			/* Disable SPI1 */
+	TRISBbits.TRISB14 = 1;		// SDO out, rest inputs
+//	LATBbits.LATB14 = 0; 
+	TRISBbits.TRISB13 = 1;		// SCK out, rest inputs
+//	LATBbits.LATB13 = 0; 
+	TRISBbits.TRISB15 = 1;		// CS out, rest inputs
+//	LATBbits.LATB15 = 0; 
+
 
 	Stat |= STA_NOINIT;	/* Set STA_NOINIT */
 }

@@ -52,31 +52,31 @@ extern fractional accelEarth[] ;
 int dead_reckon_clock = DR_PERIOD ;
 
 //      velocity, as estimated by the IMU
-union longww IMUvelocityx =  { 0 }  ;
-union longww IMUvelocityy =  { 0 }  ;
-union longww IMUvelocityz =  { 0 }  ;
+union longww IMPORTANT IMUvelocityx =  { 0 }  ;
+union longww IMPORTANT IMUvelocityy =  { 0 }  ;
+union longww IMPORTANT IMUvelocityz =  { 0 }  ;
 
 //      location, as estimated by the IMU
-union longww IMUlocationx =  { 0 }  ;
-union longww IMUlocationy =  { 0 }  ;
-union longww IMUlocationz =  { 0 }  ;
+union longww IMPORTANT IMUlocationx =  { 0 }  ;
+union longww IMPORTANT IMUlocationy =  { 0 }  ;
+union longww IMPORTANT IMUlocationz =  { 0 }  ;
 
 //      filtered IMU velocity
 //		This mimics the dynamics of the GPS
-union longww filteredIMUvelocityx =  { 0 }  ;
-union longww filteredIMUvelocityy =  { 0 }  ;
-union longww filteredIMUvelocityz =  { 0 }  ;
+union longww IMPORTANT filteredIMUvelocityx =  { 0 }  ;
+union longww IMPORTANT filteredIMUvelocityy =  { 0 }  ;
+union longww IMPORTANT filteredIMUvelocityz =  { 0 }  ;
 
 //      filtered IMU location
 //		This mimics the dynamics of the GPS
-union longww filteredIMUlocationx =  { 0 }  ;
-union longww filteredIMUlocationy =  { 0 }  ;
-union longww filteredIMUlocationz =  { 0 }  ;
+union longww IMPORTANT filteredIMUlocationx =  { 0 }  ;
+union longww IMPORTANT filteredIMUlocationy =  { 0 }  ;
+union longww IMPORTANT filteredIMUlocationz =  { 0 }  ;
 
 //	GPSlocation - IMUlocation
-fractional locationErrorEarth[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT locationErrorEarth[] = { 0 , 0 , 0 } ;
 //	GPSvelocity - IMUvelocity
-fractional velocityErrorEarth[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT velocityErrorEarth[] = { 0 , 0 , 0 } ;
 
 void dead_reckon(void)
 {

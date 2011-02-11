@@ -151,6 +151,8 @@
 #endif
 
 #define USE_INTERNAL_FLASH
+//#define USE_SD_INTERFACE_WITH_SPI
+
 // Function definitions
 // Associate the physical layer functions with the correct physical layer
 #ifdef USE_SD_INTERFACE_WITH_SPI       // SD-SPI.c and .h
@@ -264,8 +266,6 @@
     //files, especially if the files are using long filenames.  
     #define MDD_INTERNAL_FLASH_MAX_NUM_FILES_IN_ROOT 16
  
-
-
     //name and extern definition for the master boot record
     extern ROM BYTE MasterBootRecord[512];
     #define MASTER_BOOT_RECORD_ADDRESS &MasterBootRecord[0]

@@ -164,6 +164,7 @@ void rxMagnetometer(void)  // service the magnetometer
 //			MI2CIF = 1 ;
 //			for ( magregIndex = 0 ; magregIndex <= I2_Done; magregIndex++ )
 //				uI2C_Commands[magregIndex] = magRead[magregIndex];
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				magSetupRead();			// do a read of device
@@ -177,6 +178,7 @@ void rxMagnetometer(void)  // service the magnetometer
 //			}
 //			I2C_state = &I2C_writeMagCommand ;
 //			_MI2CIF = 1 ;
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				SETUP_I2C_MSG( magReset );
@@ -186,6 +188,7 @@ void rxMagnetometer(void)  // service the magnetometer
 		case  MAG_DREAD2:	// clear out any data that is still there
 //			I2C_state = &I2C_readMagData ;
 //			MI2CIF = 1 ;
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				magSetupRead();			// do a read of device
@@ -204,6 +207,7 @@ void rxMagnetometer(void)  // service the magnetometer
 //			}
 //			I2C_state = &I2C_writeMagCommand ;
 //			MI2CIF = 1 ;
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				if ( magConfigAttempts < 100 )	// only going to try 10 times
@@ -222,6 +226,7 @@ void rxMagnetometer(void)  // service the magnetometer
 		case  MAG_CAL_DOREAD:  // read the calibration data
 //			I2C_state = &I2C_readMagData ;
 //			MI2CIF = 1 ;
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				magSetupRead();			// do a read of device
@@ -237,6 +242,7 @@ void rxMagnetometer(void)  // service the magnetometer
 //			}
 //			I2C_state = &I2C_writeMagCommand ;
 //			MI2CIF = 1 ;
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				SETUP_I2C_MSG( magCfg );
@@ -248,6 +254,7 @@ void rxMagnetometer(void)  // service the magnetometer
 		case MAG_NORMAL+1:	// read the magnetometer data
 //			I2C_state = &I2C_readMagData ;
 //			MI2CIF = 1 ;
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				magSetupRead();			// do a read of device
@@ -542,6 +549,7 @@ void rxAccel(void)  // service the ACC
 		case ACC_WAIT:
 		break;
 		case ACC_DREAD1:	// read the accel in case it is still sending data, so as to NACK it
+			_DI10();
 			if ( (I2C_flags.bInUse == 0) )	// not running right now
 			{
 				accSetupRead();
@@ -549,6 +557,7 @@ void rxAccel(void)  // service the ACC
 			}
 			break ;
 		case  ACC_RESET:	// put accel into the power up defaults on a reset
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				SETUP_I2C_AMSG( accReset );
@@ -556,6 +565,7 @@ void rxAccel(void)  // service the ACC
 			}
 			break ;
 		case  ACC_DREAD2:  // clear out any data that is still there
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				accSetupRead();
@@ -563,6 +573,7 @@ void rxAccel(void)  // service the ACC
 			}
 		break ;
 		case  ACC_CAL:  // enable the self test process
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				SETUP_I2C_AMSG( accCal );
@@ -570,6 +581,7 @@ void rxAccel(void)  // service the ACC
 			}
 		break ;
 		case  ACC_CAL_DOREAD :  // read the calibration data
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				accSetupRead();
@@ -579,6 +591,7 @@ void rxAccel(void)  // service the ACC
 		case  ACC_CAL_PROCESS:	// enable normal continuous readings
 		break ;
 		case  ACC_SEND_CFG:		// enable normal continuous readings
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				SETUP_I2C_AMSG( accCfg );
@@ -589,6 +602,7 @@ void rxAccel(void)  // service the ACC
 		case ACC_NORMAL:		// read the accel data
 		case ACC_NORMAL+1:		// read the accel data
 		case ACC_NORMAL+2:		// read the accel data
+			_DI10();
 			if (I2C_flags.bInUse == 0)	// not running right now
 			{
 				accSetupRead();
@@ -614,7 +628,7 @@ void doneReadAccData(void)
 	AccFieldRaw[1] = (accreg[3]<<8)+accreg[2] ;
 	AccFieldRaw[2] = (accreg[5]<<8)+accreg[4] ;
 
-	// check to see if Magnetometer is stuck in the single reading mode:
+	// check to see if ACC is stuck in the single reading mode:
 	if ( (CD[accCDindex].iResult >= 7) && ( AccFieldRaw[0] == previousAccFieldRaw[0] )
 		&& ( AccFieldRaw[1] == previousAccFieldRaw[1] )
 		&& ( AccFieldRaw[2] == previousAccFieldRaw[2] ) )
@@ -641,24 +655,6 @@ void doneReadAccData(void)
 
 		I2C_flags.bReadAcc = 0;					// mark as done
 
-//		udb_magFieldBodyInput[0] = MAG_X_SIGN((__builtin_mulsu((AccFieldRaw[MAG_X_AXIS]), magGain[MAG_X_AXIS] ))>>14)-(udb_magOffset[0]>>1) ;
-//		udb_magFieldBodyInput[1] = MAG_Y_SIGN((__builtin_mulsu((AccFieldRaw[MAG_Y_AXIS]), magGain[MAG_Y_AXIS] ))>>14)-(udb_magOffset[1]>>1) ;
-//		udb_magFieldBodyInput[2] = MAG_Z_SIGN((__builtin_mulsu((AccFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
-//		udb_magFieldBody[0] = (udb_magFieldBody[0] / 2) + (udb_magFieldBodyInput[0] / 2);	// super simple filter
-//		udb_magFieldBody[1] = (udb_magFieldBody[1] / 2) + (udb_magFieldBodyInput[1] / 2);	// super simple filter
-//		udb_magFieldBody[2] = (udb_magFieldBody[2] / 2) + (udb_magFieldBodyInput[2] / 2);	// super simple filter
-//		I2C_state = &I2C_idle ;
-//		if ( ( abs(udb_magFieldBody[0]) < MAGNETICMAXIMUM ) &&
-//			 ( abs(udb_magFieldBody[1]) < MAGNETICMAXIMUM ) &&
-//			 ( abs(udb_magFieldBody[2]) < MAGNETICMAXIMUM ) )
-//		{
-//			//dcm_flags._.mag_drift_req = 1 ;
-//			udb_magnetometer_callback_data_available();
-//		}
-//		else
-//		{
-//			CD[accCDindex].iResult = 1 ; // invalid reading, reset the magnetometer
-//		}
 	}
 	else if ( CD[accCDindex].iResult == ACC_CAL_PROCESS ) // TODO: do self test and check results
 	{
@@ -688,6 +684,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _INT2Interrupt(void)
     indicate_loading_inter ;
 	_INT2IF = 0;
 	I2C_flags.bAccReady = 1;
+	_DI10();
 	if ( !I2C_flags.bInUse )
 		rxAccel();
 }

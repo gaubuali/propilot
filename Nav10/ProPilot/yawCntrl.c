@@ -24,15 +24,15 @@
 #define HOVERYOFFSET ((long)(HOVER_YAW_OFFSET*(RMAX/57.3)))
 
 #if(GAINS_VARIABLE == 0)
-	const int yawkdrud 	= YAWKD_RUDDER*SCALEGYRO*RMAX ;
-	const int rollkprud 	= ROLLKP_RUDDER*RMAX ;
-	const int hoveryawkp 	= HOVER_YAWKP*RMAX ;
-	const int hoveryawkd 	= HOVER_YAWKD*SCALEGYRO*RMAX ;
+const int PARAMETER yawkdrud 	= YAWKD_RUDDER*SCALEGYRO*RMAX ;
+const int PARAMETER rollkprud 	= ROLLKP_RUDDER*RMAX ;
+const int PARAMETER hoveryawkp 	= HOVER_YAWKP*RMAX ;
+const int PARAMETER hoveryawkd 	= HOVER_YAWKD*SCALEGYRO*RMAX ;
 #else
-	int yawkdrud 	= YAWKD_RUDDER*SCALEGYRO*RMAX ;
-	int rollkprud 	= ROLLKP_RUDDER*RMAX ;
-	int hoveryawkp 	= HOVER_YAWKP*RMAX ;
-	int hoveryawkd 	= HOVER_YAWKD*SCALEGYRO*RMAX ;
+	int PARAMETER yawkdrud		= YAWKD_RUDDER*SCALEGYRO*RMAX ;
+	int PARAMETER rollkprud 	= ROLLKP_RUDDER*RMAX ;
+	int PARAMETER hoveryawkp 	= HOVER_YAWKP*RMAX ;
+	int PARAMETER hoveryawkd 	= HOVER_YAWKD*SCALEGYRO*RMAX ;
 #endif
 
 

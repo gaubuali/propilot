@@ -22,27 +22,40 @@
 #include "libDCM_internal.h"
 
 
-struct relative3D GPSlocation 		  = { 0 , 0 , 0 } ;
-struct relative3D GPSvelocity 		  = { 0 , 0 , 0 } ;
-struct relative2D velocity_thru_air   = { 0 , 0 } ;
+struct relative3D IMPORTANT GPSlocation 		= { 0 , 0 , 0 } ;
+struct relative3D IMPORTANT GPSvelocity 		= { 0 , 0 , 0 } ;
+struct relative2D IMPORTANT velocity_thru_air   = { 0 , 0 } ;
 
-union longbbbb lat_gps , long_gps , alt_sl_gps, tow ;  	// latitude, longitude, altitude
-union intbb    sog_gps , cog_gps , climb_gps, week_no ;	// speed over ground, course over ground, climb
-unsigned char  hdop ;									// horizontal dilution of precision
+union longbbbb IMPORTANT lat_gps = {0};
+union longbbbb IMPORTANT long_gps = {0};
+union longbbbb IMPORTANT alt_sl_gps = {0};
+union longbbbb IMPORTANT tow = {0};			// latitude, longitude, altitude
+union intbb    IMPORTANT sog_gps = {0};
+union intbb    IMPORTANT cog_gps = {0};
+union intbb    IMPORTANT climb_gps = {0};
+union intbb    IMPORTANT week_no = {0};		// speed over ground, course over ground, climb
+unsigned char  IMPORTANT hdop = {0};		// horizontal dilution of precision
 
-union longbbbb lat_origin , long_origin , alt_origin ;
+union longbbbb IMPORTANT lat_origin = {0};
+union longbbbb IMPORTANT long_origin = {0};
+union longbbbb IMPORTANT alt_origin = {0};
 
-union longbbbb xpg , ypg , zpg ;						// gps x, y, z position
-union intbb    xvg , yvg , zvg ;						// gps x, y, z velocity 
-unsigned char  mode1 , mode2 , svs ;					// gps mode1, mode2, and number of satellites
+union longbbbb IMPORTANT xpg = {0};
+union longbbbb IMPORTANT ypg = {0};
+union longbbbb IMPORTANT zpg = {0};			// gps x, y, z position
+union intbb    IMPORTANT xvg = {0};
+union intbb    IMPORTANT yvg = {0};
+union intbb    IMPORTANT zvg = {0};			// gps x, y, z velocity
+unsigned char  IMPORTANT mode1 = 0;
+unsigned char  IMPORTANT mode2 = 0;
+unsigned char  IMPORTANT svs = 0;			// gps mode1, mode2, and number of satellites
 
-unsigned char  	lat_cir ;
-int				cos_lat = 0 ;
+unsigned char  IMPORTANT lat_cir = 0;
+int			   IMPORTANT cos_lat = 0 ;
 
-int gps_data_age ;
+int IMPORTANT gps_data_age = 0;
 
 extern void (* msg_parse ) ( unsigned char inchar ) ;
-
 
 void gpsoutline(char message[]) // output one NMEA line to the GPS
 {

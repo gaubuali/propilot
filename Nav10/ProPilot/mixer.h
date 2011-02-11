@@ -39,7 +39,11 @@
 #define NEGATIVE_DIFFERENTIAL 14
 #define FIXED_OUTPUT_OVERRIDE 15
 
-MIXER pMixers[MIX_NUM_OUTPUTS+1][MIX_PER_CHANNEL]  __attribute__ ((section(".myDataSection"),address(0x2100))) = {
+#if MIX_NUM_OUTPUTS < 15
+MIXER pMixers[16][MIX_PER_CHANNEL] PARAMETER = {
+#else	
+MIXER pMixers[MIX_NUM_OUTPUTS+1][MIX_PER_CHANNEL] PARAMETER = {
+#endif
 {
 	{	/* Channel1 (Throttle) */
 		.pType = { BALANCED_HALF_FACTOR, RC_THROTTLE, DCM_THROTTLE, RC_MODE_FAILSAFE, toQ10( 1.000 ) }, }, {

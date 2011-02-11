@@ -42,14 +42,18 @@
           
 ********************************************************************/
 
+
 #include "Compiler.h"
 #include "GenericTypeDefs.h"
-#include "MDD File System/FSIO.h"
-#include "MDD File System/FSDefs.h"
-#include "MDD File System/SD-SPI.h"
-#include "string.h"
-#include "FSConfig.h"
 #include "HardwareProfile.h"
+#include "MDD File System/FSIO.h"
+
+#if defined(USE_SD_INTERFACE_WITH_SPI)
+
+#include "MDD File System/FSDefs.h"
+#include "string.h"
+#include "MDD File System/SD-SPI.h"
+//#include "FSConfig.h"
 
 /******************************************************************************
  * Global Variables
@@ -201,7 +205,7 @@ BYTE MDD_SDSPI_MediaDetect (void)
 	if (SPIENABLE == 0)
 	{
 		/* If the SPI module is not enabled, send manually the SEND_STATUS command */
-		#if (GetSystemClock() >= 25600000)
+		#if (GetSystemClock() > 25600000UL)
 			/* should only be here when GetSystemClock() >= 25600000 */
 	    	response = SendMMCCmdManual(SEND_STATUS,0x0);
 		#endif
@@ -314,10 +318,24 @@ DWORD MDD_SDSPI_ReadCapacity(void)
 void MDD_SDSPI_InitIO (void)
 {
     // Turn off the card
-    SD_CD_TRIS = INPUT;            //Card Detect - input
     SD_CS = 1;                     //Initialize Chip Select line
     SD_CS_TRIS = OUTPUT;            //Card Select - output
+#if !defined(MEDIA_SOFT_DETECT)
+    SD_CD_TRIS = INPUT;            //Card Detect - input
     SD_WE_TRIS = INPUT;            //Write Protect - input
+#endif
+//    Delayms(1);
+//    WriteSPIManual(0xff);                //Send Command
+//    WriteSPIManual(0xff);                //Send Command
+//    WriteSPIManual(0xff);                //Send Command
+//    WriteSPIManual(0xff);                //Send Command
+//    WriteSPIManual(0xff);                //Send Command
+//    WriteSPIManual(0xff);                //Send Command
+//    WriteSPIManual(0xff);                //Send Command
+//    WriteSPIManual(0xff);                //Send Command
+//    WriteSPIManual(0xff);                //Send Command
+//    WriteSPIManual(0xff);                //Send Command
+//
 }
 
 
@@ -831,7 +849,11 @@ BYTE MDD_SDSPI_SectorWrite(DWORD sector_addr, BYTE* buffer, BYTE allowWriteToZer
 
 BYTE MDD_SDSPI_WriteProtectState(void)
 {
+#if defined(MEDIA_SOFT_DETECT)
+	return FALSE;	// uSD does not have WP switch so ignore
+#else
     return(SD_WE);
+#endif
 }
 
 
@@ -1125,7 +1147,7 @@ unsigned char WriteSPIManual(unsigned char data_out)
   ***************************************************************************************/
 BYTE ReadMediaManual (void)
 {
-    unsigned char i;
+    unsigned char i, t;
     unsigned char clock;
     unsigned char result = 0x00;
 
@@ -1147,6 +1169,8 @@ BYTE ReadMediaManual (void)
 		result = result << 1;	//Bit shift the previous result.  We receive the byte MSb first. This operation makes LSb = 0.  
     	if(SPIINPORT)
     		result++;			//Set the LSb if we detected a '1' on the SPIINPORT pin, otherwise leave as 0.
+		else 
+			t = 1;
 	}	
     SPICLOCKLAT = 0;
 
@@ -1539,3 +1563,4 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
     return &mediaInformation;
 }//end MediaInitialize
 
+#endif

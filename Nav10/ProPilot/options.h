@@ -304,19 +304,7 @@
 #define SERIAL_OUTPUT_BAUD					230400
 //#define SERIAL_OUTPUT_BAUD					500000
 #define SERIAL_OUTPUT_INVERT				1
-// Serial Output Format
-#define SERIAL_NONE			0	// No serial data is sent
-#define SERIAL_DEBUG		1	// UAV Dev Board debug info
-#define SERIAL_ARDUSTATION	2	// Compatible with ArduStation
-#define SERIAL_UDB			3	// Pete's efficient UAV Dev Board format
-#define SERIAL_OSD_REMZIBI	4	// Output data formatted to use as input to a Remzibi OSD (only works with GPS_UBX)
-#define SERIAL_OSD_IF		5	// Output data formatted to use as input to a IF OSD (only works with GPS_UBX)
-#define SERIAL_MAGNETOMETER	6	// Debugging the magnetometer
-#define SERIAL_UDB_EXTRA	7	// Extra Telemetry beyond that provided by SERIAL_UDB for higher bandwidth connections
-#define SERIAL_STATUS		8	// some low level a/d + process status
-#define SERIAL_RAW			9	// extreme high speed (1megabit) serial of raw a/d
-
-
+#define SERIAL_BUFFER_SIZE 512
 
 ////////////////////////////////////////////////////////////////////////////////
 // On Screen Display

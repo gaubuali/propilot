@@ -33,8 +33,9 @@
 #include "Compiler.h"
 #include "GenericTypeDefs.h"
 #include "FSConfig.h"
-#include "MDD File System/Internal Flash.h"
 
+#if defined(USE_INTERNAL_FLASH)
+#include "MDD File System/Internal Flash.h"
 #if defined(__18CXX)
     #pragma romdata Files=FILES_ADDRESS
 #endif
@@ -44,7 +45,6 @@
 #else
     #define BLOCK_ALIGNMENT WRITE_BLOCK_SIZE
 #endif
-
 
 #if defined(__PIC32MX__)
     #define MBR_ATTRIBUTES __attribute__ ((aligned (ERASE_BLOCK_SIZE),section(".MDD_FILES")))
@@ -433,5 +433,8 @@ ROM BYTE PARTITION_ATTRIBUTES slack0[MEDIA_SECTOR_SIZE] =
      ROM BYTE PARTITION_ATTRIBUTES slack59[MEDIA_SECTOR_SIZE] = {0};
 #endif
 
+#elif defined(USE_SD_INTERFACE_WITH_SPI)
+#include "MDD File System/SD-SPI.h"
+#endif
 
 

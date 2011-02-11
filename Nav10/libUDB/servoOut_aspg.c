@@ -67,19 +67,13 @@
 
 #if (BOARD_TYPE == ASPG_BOARD)
 
-int udb_pwOut[65]; // pulse widths for servo outputs
+int IMPORTANT udb_pwOut[65] = {0}; // pulse widths for servo outputs
 
 int twentyHertzCounter = 0;
 int iFrameCounter = 0;
 union longlongww tagUSec; // top 10 bits come from else were ie gps or gcs
 union longlongww tagUSec_x40; // this + t3 = cpu cyles
 DWORD dwMilliSec; // milliseconds counter, roll over ~= 49.7 days
-
-typedef struct tagOCM { // "structure" of the 3 registers that control an
-	WORD OCRS; // output compare module.
-	WORD OCR;
-	WORD OCCON; // we only need the low 3 bits, the others are all default (0)
-} OCM, *LPOCM;
 
 #define DO_INT_PRI 5
 

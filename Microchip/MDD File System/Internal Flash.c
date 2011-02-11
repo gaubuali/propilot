@@ -43,12 +43,15 @@
 //DOM-IGNORE-END
 
 #include "Compiler.h"
+#include "GenericTypeDefs.h"
+#include "HardwareProfile.h"
 #include "MDD File System/FSIO.h"
+
+#if defined(USE_INTERNAL_FLASH)
+
 #include "MDD File System/FSDefs.h"
 #include "string.h"
 #include "MDD File System/Internal Flash.h"
-#include "HardwareProfile.h"
-#include "FSConfig.h"
 
 /*************************************************************************/
 /*  Note:  This file is included as a template of a C file for           */
@@ -697,3 +700,8 @@ BYTE MDD_IntFlash_WriteProtectState(void)
     #endif
 }
 
+#else
+
+#endif
+
+int t;

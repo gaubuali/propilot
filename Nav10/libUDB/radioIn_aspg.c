@@ -32,8 +32,8 @@
 //	The pulse width inputs can be directly converted to units of pulse width outputs to control
 //	the servos by simply dividing by 2. ** CHANGED ** now Q15
 
-int udb_pwIn[65] ;		// pulse widths of radio inputs ** CHANGED ** now Q15
-int udb_pwTrim[65] ;	// initial pulse widths for trimming ** CHANGED ** now Q15
+int IMPORTANT udb_pwIn[65] = {0};		// pulse widths of radio inputs ** CHANGED ** now Q15
+int IMPORTANT udb_pwTrim[65] = {0};		// initial pulse widths for trimming ** CHANGED ** now Q15
 
 int failSafePulses = 0 ;
 WORD	T2_OF;						// count of T2 wraps
@@ -46,8 +46,7 @@ extern LEDCTRL	GreenLED;			// radio state - set in states.c
 // what these should do is described in the first page of Mixer.xls - work in progress
 #define RC_PIN( T, P, B, G, L)      { 0, 0, 0, 6, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, 0, T, P, B, G, L }
 #define RC_SERVO( T, P, B, G, L, S) { 0, 0, 0, 0, 0,                                                    0, 0, T, P, B, G, L, S }
-
-PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x2700))) = {
+PIN NEAR_BUF DIO[32] = {
 		RC_PIN(0,0,0,0,0),				// unused
 		RC_PIN(12,3,8,RC_START+0,0),	//  1 - RC1
 		RC_PIN(12,3,9,RC_START+1,0),	//  2 - RC2

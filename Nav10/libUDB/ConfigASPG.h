@@ -47,6 +47,11 @@
 #define HW_SWITCH_2			0
 #define HW_SWITCH_3			0
 
+#define FAR_BUF __attribute__ ((far, section("FarBuffers")))
+#define NEAR_BUF __attribute__ ((near, section("NearBuffers")))
+#define IMPORTANT __attribute__ ((near, section("Important")))
+#define PARAMETER __attribute__ ((near, section("Parameters")))
+
 /* Pin structure notes:
 	Failsafe is a health check on the system. For inputs (see note on types below) it is cleared
 	by the interrupt routine when a valid pulse in received and incremented by the main DCM
@@ -238,6 +243,7 @@ typedef union tagMixer {
 
 // other analogs
 #define AD2_LIST LOW_ANALOGS
+#define NUM_AD2_LIST 6
 
 // General purpose digital
 #define iDIGITAL1 PORTGbits.RG12
@@ -411,7 +417,8 @@ typedef union tagI2C {
 	unsigned char uChar[2];	// two bytes, one at a time
 	unsigned int uInt;		// 16 bits all at once
 		struct tagFields {	// field definitions to make easy to use / read
-	unsigned int uCmd:3;	// 0=nothing, 1=start, 2=restart, 3=stop, 4=TX, 5=RX with ACK, 6=RX 1 with NACK, 7 = finsihed
+	unsigned int uCmd:3;	// 0=nothing, 1=start, 2=restart, 3=stop, 4=TX, 
+							// 5=RX with ACK, 6=RX 1 with NACK, 7 = finished
 	unsigned int uACK:1;	// 0=ACKSTAT must be 0, 1=ACKSTAT don't care
 							// just for FINISHED command,
 							//		0 = nothing,
@@ -530,3 +537,11 @@ enum LED_ctrl {
 	LED_DUTY_8mS = 7,	// count rate = 125hz, tick = 8ms
 	LED_DUTY_16mS = 15,	// count rate = 62.5hz, tick = 16ms
 };
+
+// "structure" of the 3 registers that control an output compare module.
+typedef struct tagOCM {
+	WORD OCRS;
+	WORD OCR;
+	WORD OCCON; // we only need the low 3 bits, the others are all default (0)
+} OCM, *LPOCM;
+

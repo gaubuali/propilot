@@ -85,7 +85,7 @@
 void I2C_default(void);
 
 // buffer for EEProm read / write, ACC and MAG use their own private buffers
-unsigned char __attribute__ ((section(".myDataSection"),address(0x2270))) I2C_buffer[I2C_BUF_LEN];	// peripheral buf
+unsigned char NEAR_BUF I2C_buffer[I2C_BUF_LEN] ={0};	// peripheral buf
 void (* I2C_call_back[8] ) ( void ) = { &I2C_default, &I2C_default,
 										&I2C_default, &I2C_default,
 										&I2C_default, &I2C_default,
@@ -98,9 +98,9 @@ const I2C_Action busReset[] = {
 	{.F.uCmd = FINISHED}				// finished, no callback / post process
 };
 
-I2C_Action uI2C_Commands[I2C_COM_LEN];	// command buffer
-I2CCMD CC;		// peripheral driver command buffer, never mess with this
-I2CCMD CD[8] = {// device driver command buffers - when finished CC gets copied
+I2C_Action NEAR_BUF uI2C_Commands[I2C_COM_LEN] = {0};	// command buffer
+I2CCMD NEAR_BUF CC = {0};		// peripheral driver command buffer, never mess with this
+I2CCMD NEAR_BUF CD[8] = {// device driver command buffers - when finished CC gets copied
 				// back here - do not use 0 as its used by the peripheral driver.
 				// use one of these for each device.
 	{.Ident = 0, .piResult = &CD[0].iResult, .pcResult = &I2C_buffer[0] },	// safe default of pointers
@@ -255,22 +255,23 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 					MI2CIF = 1 ;								// re-trigger the interrupt
 				break;
 				case START:
-					I2CCONbits.SEN = 1;							// start up bus
 					CC.I2C_Subcode = START;
+					I2CCONbits.SEN = 1;							// start up bus
 				break;
 				case RESTART:
-					I2CCONbits.RSEN = 1;						// restart
 					CC.I2C_Subcode = RESTART;
+					I2CCONbits.RSEN = 1;						// restart
 				break;
 				case STOP:
-					I2CCONbits.PEN = 1;							// stop bus
 					CC.I2C_Subcode = STOP;
+					I2CCONbits.PEN = 1;							// stop bus
 				break;
 				case TX:
 					I2CCONbits.ACKDT = 0;
 					CC.I2C_Subcode = TX_LOW;
 					CC.I2C_Sublen = CC.I2C_Code.F.uCount;
-					CC.I2C_Index++;
+					if ( !CC.I2C_Code.F.uBuf )					// end of tx will do this
+						CC.I2C_Index++;
 					MI2CIF = 1 ;								// re-trigger the interrupt
 				break;
 				case RX_ACK:
@@ -326,22 +327,22 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 						(* I2C_call_back[CC.Ident&0x7]) () ;		// execute the callback routine
 					I2Cmessages++;									// global messages
 					// TODO: check I2C_Flags and process
-//					if ( I2C_flags.bMagReady || (iMAG_DR1 & MAG_INTe) )	// high priority as it has no buffer
 					if ( I2C_flags.bMagReady )	// high priority as it has no buffer
 					{
 						magSetupRead();	// do a read of device
-//						I2C_Start( 0 );								// re-trigger the interrupt
 						MI2CIF = 1;									// re-trigger the interrupt
 					} else
 					if ( I2C_flags.bAccReady || iACC_DR1)	// lower priority as it has buffer
-//					if ( I2C_flags.bAccReady || ACC_INTe)	// lower priority as it has buffer
-					{	uByte = iACC_DR1;
+					{	// uByte = iACC_DR1;
 						if ( (I2C_buffer[7] & 0x1f) || I2C_flags.bAccReady )
 						{
 							accSetupRead();	// do a read of device
 //							I2C_Start( 0 );							// re-trigger the interrupt
 							MI2CIF = 1;								// re-trigger the interrupt
 						} else I2C_flags.bInUse = 0;
+					} else
+					if ( EE_Active )
+					{	doneEE();
 					} else I2C_flags.bInUse = 0;
 				break;
 			}
@@ -540,7 +541,7 @@ void I2C_Reset( void )
 
 void I2C_default(void)
 {
-        return ;
+	return ;
 }
 
 #endif

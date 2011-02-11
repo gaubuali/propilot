@@ -47,7 +47,12 @@
 
 #include "./USB/USB.h"
 #include "HardwareProfile.h"
+#include "FSconfig.h"
+#if defined(USE_INTERNAL_FLASH)
 #include "MDD File System/internal flash.h"
+#elif defined(USE_SD_INTERFACE_WITH_SPI)
+#include "MDD File System/SD-SPI.h"
+#endif
 
 #include "./USB/usb_function_msd.h"
 #include "./USB/usb_function_cdc.h"

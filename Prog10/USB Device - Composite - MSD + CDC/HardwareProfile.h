@@ -102,6 +102,7 @@
         #elif defined(__18F13K50) 
             #include "HardwareProfile - Low Pin Count USB Development Kit.h"
         #elif defined(__18F46J50) || defined(__18F26J50)
+//			#warning "yes its doing it"
             #include "HardwareProfile - PIC18F46J50 PIM.h"
         #elif defined(__18F47J53)
             #include "HardwareProfile - PIC18F47J53 PIM.h"

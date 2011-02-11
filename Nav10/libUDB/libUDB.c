@@ -77,6 +77,7 @@ union udb_fbts_byte udb_flags ;
 boolean timer_5_on = 0 ;
 int needSaveExtendedState = 0 ;
 int defaultCorcon = 0 ;
+/*
 WORD wSP_Save;
 typedef struct tagRESETS {
 unsigned int StackError:1;
@@ -95,9 +96,7 @@ NMI	SaveNMI = {0}; // clear
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _DefaultInterrupt(void)
 {
-	WORD wSP_Temp;
-//	__asm__("mov WREG0,WREG15");
-//	__asm__("mov wSP_Temp,WREG0");
+	WORD wSP_Temp = WREG15;
 	if ( _STKERR )
 		SaveNMI.StackError = 1;
 	if ( _OVAERR )
@@ -122,6 +121,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _DefaultInterrupt(void)
 	wSP_Save = wSP_Temp;
 	__asm__("RESET");
 }
+*/
 
 void udb_init(void)
 {
@@ -162,6 +162,12 @@ void udb_init(void)
 #if (MAG_YAW_DRIFT == 1) || (BOARD_TYPE == ASPG_BOARD)
 	udb_init_I2C2() ;
 #endif
+#if (BOARD_TYPE == ASPG_BOARD)
+	rxAccel();
+#endif
+#if (MAG_YAW_DRIFT == 1)
+	rxMagnetometer();
+#endif
 	
 	udb_init_GPS() ;
 	udb_init_USART() ;
@@ -171,6 +177,8 @@ void udb_init(void)
 #endif
 	
 	SRbits.IPL = 0 ;	// turn on all interrupt priorities
+
+	udb_init_EE();
 	
 	return ;
 }

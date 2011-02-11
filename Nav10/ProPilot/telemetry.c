@@ -42,13 +42,9 @@ unsigned char fp_checksum;
 
 void (* sio_parse ) ( unsigned char inchar ) = &sio_newMsg ;
 
-
-#define SERIAL_BUFFER_SIZE 256
-char __attribute__ ((section(".myDataSection"),address(0x2000))) serial_buffer[SERIAL_BUFFER_SIZE] ;
+unsigned char FAR_BUF serial_buffer[SERIAL_BUFFER_SIZE] = {0} ;
 int sb_index = 0 ;
 int end_index = 0 ;
-
-
 
 void init_serial()
 {

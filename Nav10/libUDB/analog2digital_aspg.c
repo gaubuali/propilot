@@ -25,12 +25,16 @@
 
 //	Variables.
 
-struct ADchannel udb_xaccel, udb_yaccel , udb_zaccel ; // x, y, and z accelerometer channels
-struct ADchannel udb_xrate , udb_yrate, udb_zrate ;  // x, y, and z gyro channels
-struct ADchannel udb_vref ; // reference voltage
+struct ADchannel IMPORTANT udb_xaccel = {0};
+struct ADchannel IMPORTANT udb_yaccel = {0};
+struct ADchannel IMPORTANT udb_zaccel = {0}; // x, y, and z accelerometer channels
+struct ADchannel IMPORTANT udb_xrate = {0};
+struct ADchannel IMPORTANT udb_yrate = {0};
+struct ADchannel IMPORTANT udb_zrate = {0};  // x, y, and z gyro channels
+struct ADchannel IMPORTANT udb_vref = {0}; // reference voltage
 
-int	AD1_Raw[24] __attribute__ ((section(".myDataSection"),address(0x2D00)));	// save raw values to look at
-int FLT_Value[24]__attribute__ ((address(0x2D30)));	// space to put in right order
+int	AD1_Raw[24] IMPORTANT = {0};	// save raw values to look at
+int FLT_Value[24] IMPORTANT = {0};	// space to put in right order
 
 int sampcount = 1 ;
 
@@ -47,15 +51,16 @@ int sampcount = 1 ;
 #include "FIR_Filter.h"
 #include "filter_aspg.h"
 
-int AD1_Filt[2][7][64]__attribute__ ((address(0x2E00))); // filter in[0][][] and out[1][][]
+int AD1_Filt[2][7][64] FAR_BUF = {0}; // filter in[0][][] and out[1][][]
 int	iAnalog_Head, iAnalog_Tail;	// index to keep track of buffer and de-buffer (GYRO's)
 int	iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer (Accel's)
 
 #define AD1_SUPER_SAM 16
 int  AD1BufferA[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
 int  AD1BufferB[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
-int  AD2BufferA[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
-// int  AD2BufferB[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
+#define AD2_SUPER_SAM 1
+int  AD2BufferA[AD2_SUPER_SAM][NUM_AD2_LIST] __attribute__((space(dma),aligned(128)));
+int  AD2BufferB[AD2_SUPER_SAM][NUM_AD2_LIST] __attribute__((space(dma),aligned(128)));
 int	AD2_Raw[24];	// save raw values to look at
 
 void udb_init_gyros( void )
