@@ -29,19 +29,19 @@
 #define HOVERPTOWP ((long)(HOVER_PITCH_TOWARDS_WP*(RMAX/57.3)))
 
 #if(GAINS_VARIABLE == 0)
-	const int pitchgain = (int)(PITCHGAIN*RMAX) ;
-	const int pitchkd = (int) (PITCHKD*SCALEGYRO*RMAX) ;
-	const int hoverpitchgain = (int)(HOVER_PITCHGAIN*RMAX) ;
-	const int hoverpitchkd = (int) (HOVER_PITCHKD*SCALEGYRO*RMAX) ;
-	const int rudderElevMixGain = (int)(RMAX*RUDDER_ELEV_MIX) ;
-	const int rollElevMixGain = (int)(RMAX*ROLL_ELEV_MIX) ;
+const int PARAMETER pitchgain		= (int)(PITCHGAIN*RMAX) ;
+const int PARAMETER pitchkd			= (int) (PITCHKD*SCALEGYRO*RMAX) ;
+const int PARAMETER hoverpitchgain	= (int)(HOVER_PITCHGAIN*RMAX) ;
+const int PARAMETER hoverpitchkd	= (int) (HOVER_PITCHKD*SCALEGYRO*RMAX) ;
+const int PARAMETER rudderElevMixGain = (int)(RMAX*RUDDER_ELEV_MIX) ;
+const int PARAMETER rollElevMixGain = (int)(RMAX*ROLL_ELEV_MIX) ;
 #else
-	int pitchgain = (int)(PITCHGAIN*RMAX) ;
-	int pitchkd = (int) (PITCHKD*SCALEGYRO*RMAX) ;
-	int hoverpitchgain = (int)(HOVER_PITCHGAIN*RMAX) ;
-	int hoverpitchkd = (int) (HOVER_PITCHKD*SCALEGYRO*RMAX) ;
-	int rudderElevMixGain = (int)(RMAX*RUDDER_ELEV_MIX) ;
-	int rollElevMixGain = (int)(RMAX*ROLL_ELEV_MIX) ;
+	int PARAMETER pitchgain			= (int)(PITCHGAIN*RMAX) ;
+	int PARAMETER pitchkd			= (int) (PITCHKD*SCALEGYRO*RMAX) ;
+	int PARAMETER hoverpitchgain	= (int)(HOVER_PITCHGAIN*RMAX) ;
+	int PARAMETER hoverpitchkd		= (int) (HOVER_PITCHKD*SCALEGYRO*RMAX) ;
+	int PARAMETER rudderElevMixGain = (int)(RMAX*RUDDER_ELEV_MIX) ;
+	int PARAMETER rollElevMixGain	= (int)(RMAX*ROLL_ELEV_MIX) ;
 #endif
 
 

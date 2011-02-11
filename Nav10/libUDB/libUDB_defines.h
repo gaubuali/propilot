@@ -88,6 +88,12 @@ typedef unsigned long DWORD, * LPDWORD;
 #error "Board type must be defined!"
 #endif
 
+#if !defined(FAR_BUF)
+#define FAR_BUF __attribute__ ((far))
+#define NEAR_BUF __attribute__ ((near))
+#define IMPORTANT __attribute__ ((near))
+#define PARAMETER __attribute__ ((near))
+#endif
 
 #if (HILSIM == 1)
 #include "ConfigHILSIM.h"
@@ -121,16 +127,18 @@ typedef unsigned long DWORD, * LPDWORD;
 #define BOARD_IS_CLASSIC_UDB		1
 #define CLK_PHASES	4
 
-#if ( CLOCK_CONFIG == CRYSTAL_CLOCK )
-#define FREQOSC		16000000
-#elif ( CLOCK_CONFIG == FRC8X_CLOCK )
+#if ( CLOCK_CONFIG == FRC8X_CLOCK )
 #define FREQOSC		58982400
-#endif
-
 #else
-#define BOARD_IS_CLASSIC_UDB		0
-#define FREQOSC 	32000000
-#define CLK_PHASES	2
+#define FREQOSC		16000000
+#endif
+#elif (BOARD_TYPE == ASPG_BOARD)
+	#define FREQOSC 	80000000
+	#define CLK_PHASES	2
+#else
+	#define BOARD_IS_CLASSIC_UDB		0
+	#define FREQOSC 	32000000
+	#define CLK_PHASES	2
 #endif
 
 
@@ -178,16 +186,45 @@ struct udb_flag_bits {
 #define CHANNEL_8		8
 #define CHANNEL_9		9
 
+// Serial Output Format
+#define SERIAL_NONE			0	// No serial data is sent
+#define SERIAL_DEBUG		1	// UAV Dev Board debug info
+#define SERIAL_ARDUSTATION	2	// Compatible with ArduStation
+#define SERIAL_UDB			3	// Pete's efficient UAV Dev Board format
+#define SERIAL_OSD_REMZIBI	4	// Output data formatted to use as input to a Remzibi OSD (only works with GPS_UBX)
+#define SERIAL_OSD_IF		5	// Output data formatted to use as input to a IF OSD (only works with GPS_UBX)
+#define SERIAL_MAGNETOMETER	6	// Debugging the magnetometer
+#define SERIAL_UDB_EXTRA	7	// Extra Telemetry beyond that provided by SERIAL_UDB for higher bandwidth connections
+#define SERIAL_STATUS		8	// some low level a/d + process status
+#define SERIAL_RAW			9	// extreme high speed (1megabit) serial of raw a/d
 
 // Constants
 #define FILTERSHIFT 3
 #define RMAX   0b0100000000000000	//	1.0 in 2.14 fractional format
 #define GRAVITY ((long)(5280.0/SCALEACCEL))  // gravity in AtoD/2 units
 
+#if (BOARD_TYPE == ASPG_BOARD)		// these really should come from mixer.h but thats also a different range
+#define SERVOCENTER 7500
+#define SERVORANGE (int) (SERVOSAT*2500)
+#define SERVOMAX SERVOCENTER + SERVORANGE
+#define SERVOMIN SERVOCENTER - SERVORANGE
+#else
 #define SERVOCENTER 3000
 #define SERVORANGE (int) (SERVOSAT*1000)
 #define SERVOMAX SERVOCENTER + SERVORANGE
 #define SERVOMIN SERVOCENTER - SERVORANGE
+#endif
 
-extern int magMessage ;
+// Serial Output Format (Can be SERIAL_NONE, SERIAL_DEBUG, SERIAL_ARDUSTATION, SERIAL_UDB,
+// SERIAL_UDB_EXTRA, SERIAL_OSD_REMZIBI or SERIAL_MAGNETOMETER, SERIAL_STATUS, SERIAL_RAW )
+//#define SERIAL_NONE			0
+//#define SERIAL_DEBUG		(SERIAL_NONE+1)
+//#define SERIAL_ARDUSTATION	(SERIAL_DEBUG+1)
+//#define SERIAL_UDB			(SERIAL_ARDUSTATION+1)
+//#define SERIAL_UDB_EXTRA	(SERIAL_UDB+1)
+//#define SERIAL_OSD_REMZIBI	(SERIAL_UDB_EXTRA+1)
+//#define SERIAL_MAGNETOMETER	(SERIAL_OSD_REMZIBI+1)
+//#define SERIAL_STATUS		(SERIAL_MAGNETOMETER+1)
+//#define SERIAL_RAW			(SERIAL_STATUS+1)
+
 #endif

@@ -39,10 +39,29 @@ unsigned int cpu_timer = 0 ;
 #elif ( BOARD_TYPE == ASPG_BOARD )
 #define tmr1_period 		15625 // sets time period for timer 1 interrupt to 0.1 seconds
 #define TMR1_CNTS 5
-#define CPU_LOAD_PERCENT	400000	// cpu% = counts / (40MHz/100) = counts / 400000
+#define CPU_LOAD_PERCENT	40000	// cpu% in 1/10% = counts / (40MHz/1000) = counts / 40000
 int timer1_counts = 0;
 unsigned int cpu_timer = 0 ;
-unsigned long	cpu_counter = 0;
+unsigned long cpu_counter = 0, old_cpu_counter = 0;
+unsigned int gps_timeout = 0; 
+int iDCMframe = 0;
+// FRAME_40HZ_CNT number of T4 interrupts at FRAME_40HZ_PR to get 25 mSec (40Hz frame rate)
+// FRAME_50HZ_CNT number of T4 interrupts at FRAME_50HZ_PR to get 20 mSec (50Hz frame rate)
+// FRAME_20HZ_CNT number of T4 interrupts at FRAME_20HZ_PR to get 50 mSec (20Hz count rate)
+// FRAME_CNT is the roll over and clear of iFrameCounter
+// FRAME_PRE is the T4 pre-load value
+// FRAME_ROLL is the roll over for iDCMframe - used to be driven on servo timer
+// This 40000 value also gives a very handy 1mSec timer rate
+
+#define FRAME_40HZ_CNT 25
+#define FRAME_40HZ_PR 40000
+#define FRAME_50HZ_CNT 20
+#define FRAME_50HZ_PR 40000
+#define FRAME_20HZ_CNT 50
+#define FRAME_20HZ_PR 40000
+#define FRAME_ROLL 100
+#define FRAME_CNT FRAME_40HZ_CNT
+#define FRAME_PRE FRAME_40HZ_PR
 #endif
 
 boolean skip_timer_reset = 1;
@@ -52,6 +71,7 @@ boolean skip_timer_reset = 1;
 #define _TTRIGGERIF _T4IF
 #define _TTRIGGERIE _T4IE
 #define _TTRIGGERPR PR4
+#define _TTRIGGERPv FRAME_40HZ_PR
 #elif ( BOARD_TYPE == UDB4_BOARD )
 #define _TTRIGGERIP _T7IP
 #define _TTRIGGERIF _T7IF
@@ -65,7 +85,7 @@ boolean skip_timer_reset = 1;
 
 void udb_init_clock(void)	/* initialize timers */
 {
-	TRISF = 0b1111111111101100 ;
+	TRISF = 0b1111111111101100 ;	// FIX:
 
 	TMR1 = 0 ; 				// initialize timer
 	PR1 = tmr1_period ;		// set period register
@@ -84,11 +104,18 @@ void udb_init_clock(void)	/* initialize timers */
 	PR5 = 0xffff ; 			// initialize timer - 0 not valid for PR in these timers
 	T5CONbits.TCKPS = 0 ;	// prescaler = 1 option, no lost counts this way
 	T5CONbits.TCS = 0 ;	    // use the crystal to drive the clock
-	_T5IE = 0 ;				// disable the interrupt
+	_T5IE = 1 ;				// disable the interrupt
 	// Timer 5 will be turned on in interrupt routines and turned off in main()
 	T5CONbits.TON = 0 ;		// turn off timer 5
 	timer_5_on = 0;
-	_TTRIGGERPR = 0xffff;	// set valid PR for timer
+
+	TMR4 = 0 ; 				// initialize timer
+	_TTRIGGERPR = _TTRIGGERPv;	// set period register
+	T4CONbits.TCKPS = 0 ;	// prescaler = 0 option, counts at Tcy
+	T4CONbits.TCS = 0 ;		// use the internal clock
+	T4CONbits.TON = 1 ;		// turn on timer 3
+
+
 #else
 	// Timer 5 is used to measure time spent per second in interrupt routines
 	// which enables the calculation of the CPU loading.
@@ -101,7 +128,7 @@ void udb_init_clock(void)	/* initialize timers */
 	T5CONbits.TON = 0 ;		// turn off timer 5
 	timer_5_on = 0;
 #endif
-	// The TTRIGGER interrupt (T3 or T7 depending on the board) is used to
+	// The TTRIGGER interrupt (T3, T4 or T7 depending on the board) is used to
 	// trigger background tasks such as navigation processing after binary data
 	// is received from the GPS.
 	_TTRIGGERIP = 2 ;		// priority 2
@@ -135,9 +162,12 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void)
 	else
 	{
 #if ( BOARD_TYPE == ASPG_BOARD )
+		_DI();
 		cpu_counter += TMR5 ;			// add last bit + calc %
 		cpu_timer = (int)((cpu_counter / CPU_LOAD_PERCENT));
+		old_cpu_counter = cpu_counter;
 		cpu_counter = 0;				// clear it after
+		_EI();
 #else
 		cpu_timer = TMR5 ;
 #endif
@@ -178,9 +208,31 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 	
 	indicate_loading_inter ;
 	
-	udb_background_callback_triggered() ;
-	
 	_TTRIGGERIF = 0 ;			// clear the interrupt
+	
+	iDCMframe++; // , gps_timeout++;
+
+	if ( iDCMframe >= FRAME_ROLL )
+		iDCMframe = 0;
+	else ;
+
+	if ( gps_timeout == 10000 )
+			udb_background_callback_triggered(), gps_timeout = 0;
+	else ;
+
+	//	Executes whatever needs to be done every 25 milliseconds, using the PWM clock.
+	//	This is a good place to run the A/D digital filters and compute pulse widths for servos.
+	//	Also, this is used to wait a few pulses before recording input DC offsets.
+
+	if ( !(iDCMframe % FRAME_40HZ_CNT) )	// has to == 0
+	{
+#if ( NORADIO == 0 )
+#if (BOARD_TYPE == ASPG_BOARD)
+// changed to run on T4 lower priority
+		udb_servo_callback_prepare_outputs() ;
+#endif
+#endif
+	}
 	
 	// interrupt_restore_extended_state ;
 	return ;
@@ -189,7 +241,8 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T3Interrupt(void)
 
 void udb_background_trigger(void)
 {
-	_TTRIGGERIF = 1 ;  // trigger the interrupt
+//	udb_background_callback_triggered() ;
+	gps_timeout = 10000;	// will be called within one mS
 	return ;
 }
 
@@ -197,7 +250,7 @@ void udb_background_trigger(void)
 unsigned char udb_cpu_load(void)
 {
 #if ( BOARD_TYPE == ASPG_BOARD )
-	return (unsigned char)cpu_timer;
+	return (unsigned char)cpu_timer/10;
 #else
 return (unsigned char)(__builtin_muluu(cpu_timer, CPU_LOAD_PERCENT) >> 16) ;
 #endif

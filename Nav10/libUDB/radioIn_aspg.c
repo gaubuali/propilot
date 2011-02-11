@@ -32,53 +32,55 @@
 //	The pulse width inputs can be directly converted to units of pulse width outputs to control
 //	the servos by simply dividing by 2. ** CHANGED ** now Q15
 
-int udb_pwIn[65] ;		// pulse widths of radio inputs ** CHANGED ** now Q15
-int udb_pwTrim[65] ;	// initial pulse widths for trimming ** CHANGED ** now Q15
+int IMPORTANT udb_pwIn[65] = {0};		// pulse widths of radio inputs ** CHANGED ** now Q15
+int IMPORTANT udb_pwTrim[65] = {0};		// initial pulse widths for trimming ** CHANGED ** now Q15
 
 int failSafePulses = 0 ;
 WORD	T2_OF;						// count of T2 wraps
-unsigned char ucPWMTest[30];
+// unsigned char ucPWMTest[30];
+
+extern LEDCTRL	GreenLED;			// radio state - set in states.c
+
 
 // in the macro below T=Pin type, P=Port number, B=Bit, G=Global index, L=Length
 // what these should do is described in the first page of Mixer.xls - work in progress
-#define RC_PIN( T, P, B, G, L)      { 0, 0, 0, 0, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, 0, T, P, B, G, L }
+#define RC_PIN( T, P, B, G, L)      { 0, 0, 0, 6, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, 0, T, P, B, G, L }
 #define RC_SERVO( T, P, B, G, L, S) { 0, 0, 0, 0, 0,                                                    0, 0, T, P, B, G, L, S }
-
-PIN DIO[32] __attribute__ ((section(".myDataSection"),address(0x2800))) = {
+PIN NEAR_BUF DIO[32] = {
 		RC_PIN(0,0,0,0,0),				// unused
-		RC_PIN(12,3,8,RC_START+0,0),	// RC1
-		RC_PIN(12,3,9,RC_START+1,0),	// RC2
-		RC_PIN(12,3,10,RC_START+2,0),	// RC3
-		RC_PIN(12,3,11,RC_START+3,0),	// RC4
-		RC_PIN(12,3,12,RC_START+4,0),	// RC5
-		RC_PIN(12,3,13,RC_START+5,0),	// RC6
-		RC_PIN(12,3,14,RC_START+6,0),	// RC7
-		RC_PIN(16,3,15,RC_START+7,1),	// RC8
-		RC_SERVO( 6,3, 0,1,0,1),			// SERVO1
-		RC_SERVO( 6,3, 1,2,0,1),			// SERVO2
-		RC_SERVO( 6,3, 2,3,0,1),			// SERVO3
-		RC_SERVO( 6,3, 3,4,0,1),			// SERVO4
-		RC_SERVO( 6,3, 4,5,0,1),			// SERVO5
-		RC_SERVO( 6,3, 5,6,0,1),			// SERVO6
-		RC_SERVO( 6,3, 6,7,0,1),			// SERVO7
-		RC_SERVO(10,3, 7,8,1,1),			// SERVO8
-		RC_PIN(19,2,4,AUX_START+8,0),	// IT1 - nominally going to put these in the pwmIn array
-		RC_PIN(19,2,3,AUX_START+9,0),	// IT2
-		RC_PIN(19,2,2,AUX_START+10,0),	// IT3
-		RC_PIN(19,2,1,AUX_START+11,0),	// IT4
-		RC_PIN(3,2,5,AUX_START+12,0),	// BUZZER
-		RC_PIN(3,6,15,AUX_START+13,0),	// OUT1
-		RC_PIN(3,0,14,AUX_START+14,0),	// ISCP1_AUX1
-		RC_PIN(3,0,15,AUX_START+15,0),	// ISCP1_AUX2
-		RC_PIN(1,1,6,AUX_START+16,0),	// SAmps
-		RC_PIN(1,1,7,AUX_START+17,0),	// SVolt
-		RC_PIN(1,1,0,AUX_START+18,0),	// AUX_AN1
-		RC_PIN(1,1,1,AUX_START+19,0),	// AUX_AN2
-		RC_PIN(1,1,3,AUX_START+20,0),	// AUX_AN3
-		RC_PIN(1,1,4,AUX_START+21,0),	// AUX_AN4
+		RC_PIN(12,3,8,RC_START+0,0),	//  1 - RC1
+		RC_PIN(12,3,9,RC_START+1,0),	//  2 - RC2
+		RC_PIN(12,3,10,RC_START+2,0),	//  3 - RC3
+		RC_PIN(12,3,11,RC_START+3,0),	//  4 - RC4
+		RC_PIN(12,3,12,RC_START+4,0),	//  5 - RC5
+		RC_PIN(12,3,13,RC_START+5,0),	//  6 - RC6
+		RC_PIN(12,3,14,RC_START+6,0),	//  7 - RC7
+		RC_PIN(16,3,15,RC_START+7,1),	//  8 - RC8
+		RC_SERVO( 6,3, 0,1,0,1),		//  9 - SERVO1
+		RC_SERVO( 6,3, 1,2,0,1),		// 10 - SERVO2
+		RC_SERVO( 6,3, 2,3,0,1),		// 11 - SERVO3
+		RC_SERVO( 6,3, 3,4,0,1),		// 12 - SERVO4
+		RC_SERVO( 6,3, 4,5,0,1),		// 13 - SERVO5
+		RC_SERVO( 6,3, 5,6,0,1),		// 14 - SERVO6
+		RC_SERVO( 6,3, 6,7,0,1),		// 15 - SERVO7
+		RC_SERVO(10,3, 7,8,1,1),		// 16 - SERVO8
+		RC_PIN(19,2,4,AUX_START+8,0),	// 17 - IT1 - nominally going to put these in the pwmIn array
+		RC_PIN(19,2,3,AUX_START+9,0),	// 18 - IT2
+		RC_PIN(19,2,2,AUX_START+10,0),	// 19 - IT3
+		RC_PIN(19,2,1,AUX_START+11,0),	// 20 - IT4
+		RC_PIN(3,2,5,AUX_START+12,0),	// 21 - BUZZER
+		RC_PIN(3,6,15,AUX_START+13,0),	// 22 - OUT1
+		RC_PIN(3,0,14,AUX_START+14,0),	// 23 - ISCP1_AUX1
+		RC_PIN(3,0,15,AUX_START+15,0),	// 24 - ISCP1_AUX2
+		RC_PIN(1,1,6,AUX_START+16,0),	// 25 - SAmps
+		RC_PIN(1,1,7,AUX_START+17,0),	// 26 - SVolt
+		RC_PIN(1,1,0,AUX_START+18,0),	// 27 - AUX_AN1
+		RC_PIN(1,1,1,AUX_START+19,0),	// 28 - AUX_AN2
+		RC_PIN(1,1,3,AUX_START+20,0),	// 29 - AUX_AN3
+		RC_PIN(1,1,4,AUX_START+21,0),	// 30 - AUX_AN4
 };
 
-#define RC_INT_PRI 1
+#define RC_INT_PRI 6
 
 void udb_init_capture(void)
 {
@@ -144,26 +146,56 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 			lpTag->wPrivate[0] = wCounts;					// save value
 			lpTag->wPrivate[1] = T2_OF;						// save value
 		} else {		// pin changed to low -> end of pulse
-			if ( T2_OF == lpTag->iPrivate[1] )				// check overflow
-			{
-				dwTemp = wCounts - lpTag->wPrivate[0];		// simple case
-			} else {										// complex case of T2 has wrapped
-				if ( T2_OF > lpTag->wPrivate[1])			// T2_OF wrap
-				{
-					dwTemp = (((DWORD)T2_OF << 16) + wCounts) - lpTag->lPrivate[0];
-				} else {
-					wTemp = T2_OF - lpTag->wPrivate[1];		// this just works
-					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->wPrivate[0];
-				}
-			}
+			lpTag->wPrivate[2] = wCounts;					// save value
+			lpTag->wPrivate[3] = T2_OF;						// save value
+			dwTemp = lpTag->lPrivate[1] - lpTag->lPrivate[0];
+			if ( dwTemp > 0x10000 )							// presume we have good data
+				dwTemp -= 0x10000;							// because the timer is only 16 bit
+			if ( dwTemp < 0 )								// and the overflow interrupt is
+				dwTemp += 0x10000;							// async to counter and capture
+
 			if (dwTemp > RC_PWM_MAX)						// limit values
 				wTemp = RC_PWM_MAX;
 			else if (dwTemp < RC_PWM_MIN)
 					wTemp = RC_PWM_MIN;
 				else {										// normal range pulse
 					wTemp = dwTemp;							// only actual valid range pulse lengths
-					lpTag->bFS_ON = 0, lpTag->iFS_Count = 0; // can reset it back to ok
+					if (lpTag->bFS_ON)
+					{
+						if ( --lpTag->iFS_Count == 0)
+							lpTag->bFS_ON = 0, lpTag->iFS_Count = 8;
+					}
 				}
+			if ( lpTag->bFS_ON )							// failsafe activated
+			{
+				switch (lpTag->iFS_CMD) {
+				case 0: // ignore / not configured
+				break;
+				case 1: // use min
+					wTemp = RC_PWM_MIN;
+				break;
+				case 2: // use max
+					wTemp = RC_PWM_MAX;
+				break;
+				case 3: // center the control
+					wTemp = RC_PWM_CENTER;
+				break;
+				case 4: // use -70%
+					wTemp = RC_PWM_CENTER - ((RC_PWM_CENTER - RC_PWM_MIN) * 0.7);
+				break;
+				case 5: // use +70%
+					wTemp = RC_PWM_CENTER + ((RC_PWM_MAX - RC_PWM_CENTER) * 0.7);
+				break;
+				case 6: // use recorded trim or center
+					if ( lpTag->iGlobal != 0)
+					{
+						wTemp = (udb_pwIn[lpTag->iGlobal]/RC_PWM_Q15) + RC_PWM_CENTER;
+					} else wTemp = RC_PWM_CENTER;
+				break;
+				case 7: // undefined - use ignore
+				break;
+				}
+			} else lpTag->iFS_Count++;
 			wTemp -= RC_PWM_CENTER;							// turn value into quasi Q15
 #if (RC_PWM_Q15 == 8)
 			wTemp = wTemp << 3;
@@ -182,9 +214,12 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 				if ( (lpTag->qValue > FAILSAFE_INPUT_MIN) && (lpTag->qValue < FAILSAFE_INPUT_MAX ) )
 				{	failSafePulses++ ;
 				} else {
-					failSafePulses = 0 ;
-					udb_flags._.radio_on = 0 ;
-					LED_GREEN = LED_OFF ;
+					if ( udb_flags._.radio_on )
+					{
+						failSafePulses = 0 ;
+						udb_flags._.radio_on = 0 ;
+						LED_GREEN = LED_OFF ;
+					};
 				}
 			else ;
 			if ( lpTag->iGlobal != 0)
@@ -207,18 +242,12 @@ void rc_pin( WORD wCounts, int iState, LPPIN lpTag )
 		} else {		// pin changed to low -> end of pulse
 			lpTag->wPrivate[2] = wCounts;					// save value
 			lpTag->wPrivate[3] = T2_OF;						// save value
-			if ( T2_OF == lpTag->wPrivate[1] )				// check overflow
-			{
-				dwTemp = wCounts - lpTag->wPrivate[0];		// simple case
-			} else {										// complex case of T2 has wrapped
-				if ( T2_OF > lpTag->wPrivate[1])			// T2_OF wrap
-				{
-					dwTemp = lpTag->lPrivate[1] - lpTag->lPrivate[0];
-				} else {
-					wTemp = T2_OF - lpTag->wPrivate[1];		// this just works
-					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->wPrivate[0];
-				}
-			}
+			dwTemp = lpTag->lPrivate[1] - lpTag->lPrivate[0];
+			if ( dwTemp > 0x10000 )							// presume we have good data
+				dwTemp -= 0x10000;							// because the timer is only 16 bit
+			if ( dwTemp < 0 )								// and the overflow interrupt is
+				dwTemp += 0x10000;							// async to counter and capture
+
 			// DONE: add checks for sync pulse, has to get index into range to store
 			if ( (dwTemp > RC_PPM_SYNC) && (dwTemp < RC_PPM_MAX) )	// good sync values
 				lpTag->iIndex = 1;
@@ -444,6 +473,26 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC8Interrupt(void)
 			}
 		#endif
 
+*/
+/*
+			if ( T2_OF == lpTag->iPrivate[1] )				// check overflow
+			{
+				dwTemp = wCounts - lpTag->wPrivate[0];		// simple case
+				if (dwTemp < 0)								// expressly presume we have good data
+					dwTemp += 0x10000;						// because this called before T2_OF
+			} else {										// complex case of T2 has wrapped
+				if ( T2_OF > lpTag->wPrivate[1])			// T2_OF wrap
+				{
+					dwTemp = (((DWORD)T2_OF << 16) + wCounts) - lpTag->lPrivate[0];
+					if (dwTemp < 0)							// expressly presume we have good data
+						dwTemp += 0x10000;					// because this called before T2_OF
+				} else {
+					wTemp = T2_OF - lpTag->wPrivate[1];		// this just works
+					dwTemp = (((DWORD)wTemp << 16)+ wCounts) - lpTag->wPrivate[0];
+					if (dwTemp < 0)							// expressly presume we have good data
+						dwTemp += 0x10000;					// because this called before T2_OF
+				}
+			}
 */
 
 #endif

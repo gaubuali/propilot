@@ -23,21 +23,21 @@
 
 
 #if(GAINS_VARIABLE == 0)
-	const int yawkdail 	= YAWKD_AILERON*SCALEGYRO*RMAX ;
+const int PARAMETER yawkdail 	= YAWKD_AILERON*SCALEGYRO*RMAX ;
 
-	const int rollkp 	= ROLLKP*RMAX ;
-	const int rollkd 	= ROLLKD*SCALEGYRO*RMAX ;
+const int PARAMETER rollkp		= ROLLKP*RMAX ;
+const int PARAMETER rollkd		= ROLLKD*SCALEGYRO*RMAX ;
 	
-	const int hoverrollkp = HOVER_ROLLKP*SCALEGYRO*RMAX ;
-	const int hoverrollkd = HOVER_ROLLKD*SCALEGYRO*RMAX ;
+const int PARAMETER hoverrollkp = HOVER_ROLLKP*SCALEGYRO*RMAX ;
+const int PARAMETER hoverrollkd = HOVER_ROLLKD*SCALEGYRO*RMAX ;
 #else
-	int yawkdail 		= YAWKD_AILERON*SCALEGYRO*RMAX ;
+	int PARAMETER yawkdail 		= YAWKD_AILERON*SCALEGYRO*RMAX ;
 
-	int rollkp 			= ROLLKP*RMAX ;
-	int rollkd 			= ROLLKD*SCALEGYRO*RMAX ;
+	int PARAMETER rollkp 		= ROLLKP*RMAX ;
+	int PARAMETER rollkd 		= ROLLKD*SCALEGYRO*RMAX ;
 	
-	int hoverrollkp 	= HOVER_ROLLKP*SCALEGYRO*RMAX ;
-	int hoverrollkd 	= HOVER_ROLLKD*SCALEGYRO*RMAX ;
+	int PARAMETER hoverrollkp 	= HOVER_ROLLKP*SCALEGYRO*RMAX ;
+	int PARAMETER hoverrollkd 	= HOVER_ROLLKD*SCALEGYRO*RMAX ;
 #endif
 
 void normalRollCntrl(void) ;

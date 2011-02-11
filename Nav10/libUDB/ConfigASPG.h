@@ -21,9 +21,6 @@
 
 // used for the ASPG
 
-#define FREQOSC 	80000000
-#define CLK_PHASES	2
-
 // #define	ADCON2CONFIG 0b0010010000011000 ; //?
 
 #define XRATE_SIGN -
@@ -37,40 +34,41 @@
 //#define VREF
 
 #define SCALEGYRO 4.95
-#define SCALEACCEL 2.64
+//#define SCALEACCEL 2.64
+#define SCALEACCEL 2.49
+//#define SCALEACCEL 3.64
 
 // Max inputs and outputs
 #define MAX_INPUTS	8
 #define MAX_OUTPUTS	8
-
-// LED pins
-#define LED_ORANGE			LATBbits.LATB8
-#define LED_BLUE			LATBbits.LATB9
-#define LED_GREEN			LATBbits.LATB10
-#define LED_RED				LATBbits.LATB11
 
 // There are no hardware toggle switches on the UDB4, so use values of 0
 #define HW_SWITCH_1			0
 #define HW_SWITCH_2			0
 #define HW_SWITCH_3			0
 
+#define FAR_BUF __attribute__ ((far, section("FarBuffers")))
+#define NEAR_BUF __attribute__ ((near, section("NearBuffers")))
+#define IMPORTANT __attribute__ ((near, section("Important")))
+#define PARAMETER __attribute__ ((near, section("Parameters")))
+
 /* Pin structure notes:
 	Failsafe is a health check on the system. For inputs (see note on types below) it is cleared
 	by the interrupt routine when a valid pulse in received and incremented by the main DCM
 	routine. For outputs its incremented by the interrupt routine and cleared by the DCM. When
-	the count hits 33 ie FS_ON changes state, the two routines start using values based on FS_CMD.
-	FS_CMD = 0 use 0 for values ie center controls, = 1 use -1 or min, = 2 use +1 or max,
-	3 = use current or basically ignore the condition, 4 = use -0.7, 5 = use +0.7,
-	6 and 7 still need to defined.
+	the count hits 17 ie FS_ON changes state, the two routines start using values based on FS_CMD.
+	FS_CMD = 0 use current or basically ignore the condition, = 1 use -1 or min, = 2 use +1 or max,
+	3 = use 0 for values ie center controls, 4 = use -70%, 5 = use +70%, 6 = use recorded trim,
+	7 still needs to be defined.
 
-	Type defines usage for this pin � not all types are valid for all pins and setting a non-possible
+	Type defines usage for this pin - not all types are valid for all pins and setting a non-possible
 	type for a pin will produce at best garbage and at worst a lockup. Used during init to set tris
-	registers etc � be careful with this. The Port and Pin values are used to address the correct
+	registers etc - be careful with this. The Port and Pin values are used to address the correct
 	config registers and need to be correct. Initially these would only apply to the servo output
 	and rc input pins but could be used for the extra pins that are going to be available with the
 	new boards.
 	0	unused, don't do anything
-	1	Analog input, makes sure the AdxPCFG are cleared � nominally they should be on powerup
+	1	Analog input, makes sure the AdxPCFG are cleared - nominally they should be on powerup
 	2	Digital output, open drain disabled
 	3	Digital output, open drain enabled (normally use this for CLR on 4017's)
 	4	Digital input, pull up disabled
@@ -98,7 +96,7 @@
 	multiple input or output pins its going to point to the last one input or output.
 
 	Global is the index into global Inputs or Outputs depending on type. Glen 0 = 1, 1 = 8, 2 = 12,
-	3 = 16. Index is checked against these values to not overwrite other data.
+	3 = 16. TODO: Index is checked against these values to not overwrite other data.
 
 	Private + Buffer: These variables are for the interrupt routine to do housekeeping, keep track
 	of were it is in a sequence etc and to have live values available on switch in and out of
@@ -108,11 +106,11 @@
 
 typedef struct tagPin {
 			 int	qValue;			// latest value, careful of non-single use pins
-	unsigned int	iFS_Count:5;	// fail safe counter
+	unsigned int	iFS_Count:4;	// fail safe counter
 	unsigned int	bFS_ON:1;		// 0 = normal run, 1 = fail safe triggered
 	unsigned int	iFS_CMD:3;		// action to take in fail safe.
-	unsigned int	bFS_EN:1;		// fail safe enabled
-	unsigned int	iUpdate:6;		// needs / has update
+	unsigned int	bFS_EN:1;		// old fail safe enabled
+	unsigned int	iUpdate:7;		// needs / has update
 	unsigned int	iIndex:4;		// keeps track of were it is in sequences
 	unsigned int	iType:5;		// pin type, see comments
 	unsigned int	iPort:3;		// cpu port, 0=A, 1=B etc
@@ -127,7 +125,7 @@ typedef struct tagPin {
 		DWORD dwPrivate[2];
 	};
 	union {
-		int	iBuffer[16];	// globally available data, can be 16 history of 1 each or 15 x 1 each, 0 unused
+		int	iBuffer[16];	// globally available data, can be 16 history of 1 each or 16 x 1 each
 		WORD wBuffer[16];
 	};
 } PIN, *LPPIN;
@@ -144,8 +142,8 @@ typedef struct tagPin {
  *
  */
 typedef union tagMixer {
+	int				iScales[2];	// raw word access, used by final scale and limit function
 	unsigned char 	cRaw[4];	// raw byte access to data
-	int				iScales[2];	// raw word access, used by final scale function
 	struct nTypes {
 		int	iType:4;	// mixer type 0-15
 		int	iInpCH:6;	// normal source channel from iInputs[] array
@@ -229,7 +227,7 @@ typedef union tagMixer {
 // you have to know if the analog is in the high set or low set for these to work
 #define LOW_ANALOGS (AUX_AN1 | AUX_AN2 | AUX_AN3 | AUX_AN4 | SAmps | SVolt)
 #define HIGH_ANALOGS (YRateH | YRateL | TempY | VRef_Y | XRateH | XRateL | TempXZ | VRef_XZ | ZRateH | ZRateL )
-
+// DMA buffer order is     0        1       2        3        4        5        6         7        8        9
 // define the analogs in each scan list, AD1 module used for gyros (DO NOT ADD TO THIS LIST) all high
 // this is critical, don't touch without mods in analog2digital_aspg.c
 #define AD1_LIST HIGH_ANALOGS
@@ -245,6 +243,7 @@ typedef union tagMixer {
 
 // other analogs
 #define AD2_LIST LOW_ANALOGS
+#define NUM_AD2_LIST 6
 
 // General purpose digital
 #define iDIGITAL1 PORTGbits.RG12
@@ -370,6 +369,12 @@ typedef union tagMixer {
 #define oLED4 LATBbits.LATB11
 #define tLED4 TRISBbits.TRISB11
 
+// LED pins
+#define LED_ORANGE	oLED1
+#define LED_BLUE	oLED2
+#define LED_GREEN	oLED3
+#define LED_RED		oLED4
+
 // These are data ready inputs from I2C magnetometer and accelerometer
 #define iMAG_DR1 PORTAbits.RA12
 #define oMAG_DR1 LATAbits.LATA12
@@ -394,11 +399,7 @@ typedef union tagMixer {
 struct tagI2C_flags {
 	unsigned int bInUse:1;		// in use right now
 	unsigned int bERROR:1;		// in use right now, restarting
-	unsigned int bMagCfg:1;		// mag config - should be 1
-	unsigned int bMagCal:1;		// mag calibration
 	unsigned int bMagReady:1;	// mag needs to be read
-	unsigned int bAccCfg:1;		// Acc config - should be 1
-	unsigned int bAccCal:1;		// Acc calibration
 	unsigned int bAccReady:1;	// Accelerometer needs to be read
 	unsigned int bReadMag:1;	// reading mag
 	unsigned int bReadAcc:1;	// reading Accelerometer
@@ -411,3 +412,136 @@ struct tagI2C_flags {
 };
 
 // Most all the other I/O is used by a smart peripheral or not connected to anything
+
+typedef union tagI2C {
+	unsigned char uChar[2];	// two bytes, one at a time
+	unsigned int uInt;		// 16 bits all at once
+		struct tagFields {	// field definitions to make easy to use / read
+	unsigned int uCmd:3;	// 0=nothing, 1=start, 2=restart, 3=stop, 4=TX, 
+							// 5=RX with ACK, 6=RX 1 with NACK, 7 = finished
+	unsigned int uACK:1;	// 0=ACKSTAT must be 0, 1=ACKSTAT don't care
+							// just for FINISHED command,
+							//		0 = nothing,
+							//		1 = iResult += 1;
+	unsigned int uBuf:1;	// 0=data sent from uI2C_Commands, 1=I2C_buffer
+							// I2C_Tail used as index on TX, I2C_Head on RX
+							// just for FINISHED command,
+							//		0 = no call back,
+							//		1 = call I2C_call_back[CC.Ident&0x7]
+	unsigned int uResult:3;	// FINISHED command, copies CC into result buffer ie
+							// CD[CC.Ident&0x7] = CC at end, CD[0] reserved
+							//	0 = nothing,
+							//	RSET = 1 = iResult is set to .uCount,
+							//	RADD = 2 = add .uCount to iResult
+							//	PSET = 3 = *piResult is set to .uCount,
+							//	PADD = 4 = add .uCount to *piResult
+							//	CCPY = 5 = copy .uCount bytes from I2C_buffer to *pcResult,
+							//	HCPY = 6 = copy I2C_Head bytes from I2C_buffer to *pcResult,
+							//	7 = not implimented yet, *result could be a function call
+	unsigned int uCount:8;	// 0=1, 1=2, 2=3 etc also depends on command
+							// also used for slave address
+				} F;
+} I2C_Action, *LPI2C_Action;
+
+// some commands have implied length, start is followed by 1 byte bus address (R/W bit must be what you need)
+// wait till I2C_Command = 0 then fill uI2C_Commands with pseudo code then call I2C_Start, poll I2C_Command =
+// expected end value for done or I2CERROR != 0 for error code. Make sure you set I2C_Command back to 0 so next
+// use can happen otherwise its going to sit there forever.
+
+// these enum's are the constants used in the switches
+enum I2C_Cmd {NOTHING, START, RESTART, STOP, TX, RX_ACK, RX_NACK, FINISHED};
+enum I2C_Sub {//NOTHING, START, RESTART, STOP, TX, RX_ACK, RX_NACK, FINISHED,
+				START_ACK=11, START_NA,
+				TX_LOW=41, TX_HIGH,
+				RX_ACK_CLK=51, RX_NACK_CLK
+};
+enum I2C_ERR { // NOTHING,	// error codes in I2CERROR
+				TIMEOUT = 1, NO_ACK, BUS, NO_REC, RUNAWAY };
+enum I2C_FIN { // NOTHING,	// .uResult codes for FINISHED command
+				RSET = 1, RADD, PSET, PADD, CCPY, HCPY };
+
+// read's call doneMagReadData() & inc, others just increment CD[magCDindex].iResult
+enum magSetup { MAG_WAIT,					// 0 value on c runtime startup
+				MAG_DREAD1,					// dummy read 1 from buffer, read auto-inc
+				MAG_RESET, MAG_DREAD2,		// send reset + read (puts in one shot mode)
+				MAG_DELAY1,					// iResult only get inc in rxMag so its a delay
+				MAG_CAL,					// send cal command + read it
+				MAG_DELAY2,					// iResult only get inc in rxMag so its a delay
+				MAG_CAL_DOREAD,
+				MAG_CAL_PROCESS,			// iResult only get inc in rxMag so its a delay
+				MAG_SEND_CFG,				// send config
+				MAG_DELAY3,					// iResult only get inc in rxMag so its a delay
+				MAG_NORMAL					// this value or higher is normal run mode
+};
+
+
+enum accSetup { ACC_WAIT,					// 0 value on c runtime startup
+				ACC_DREAD1,					// dummy read 1 from buffer, read auto-inc
+				ACC_RESET, ACC_DREAD2,		// send reset + read (puts in one shot mode)
+				ACC_DELAY1,					// iResult only get inc in rxAcc so its a delay
+				ACC_CAL, ACC_CAL_DOREAD,	// send cal command + read it
+				ACC_CAL_PROCESS,			// iResult only get inc in rxMag so its a delay
+				ACC_SEND_CFG,				// send config
+				ACC_NORMAL					// this value or higher is normal run mode
+};
+
+
+typedef struct tagI2Ccommand {	// structure used in running I2C devices and saving results
+	int	Ident;					// application layer use, low 3 bits = result buffer
+	int I2C_Index;				// current command index into uI2C_Commands
+	int I2C_Subcode;			// subcode driven by hardware status
+	int I2C_Sublen;				// length is used in TX and RX
+	int I2C_Slave;				// on a start condition saves the slave address
+	unsigned int Messages;		// count of messages to this device
+	int	I2C_Head;				// index into data buffer
+	int I2C_Tail;
+	int iResult;				// data add or set mode
+	int *piResult;				// int pointer mode
+	unsigned char *pcResult;	// pointer to string
+	int I2CERROR, I2CERROR_CON, I2CERROR_STAT;	// record for errors
+	I2C_Action I2C_Code;		// current action, also used to keep flags when data is in buffer
+} I2CCMD, *LPI2CCMD;
+
+// LED control structure - this is to make the LED's a little smarter and just on/off
+// The driver routine LED_Update in servoOut_aspg.c is called at 1kHz from the T3 interrupt service.
+// It uses uMode to determine what to do on each call - use the values from LED_ctrl enum.
+// Basically there are 3 modes so far and all modes use the LED_ON and LED_OFF macros to return the
+// correct pin state for what you want ie LED_OFF is actually 1 and LED_ON is actually 0.
+// First mode is simply called ON_OFF were the low bit of uOnDuty selects the on or off state.
+// Second mode is a duty cycle were you can set both the on to off time ratio and the time base.
+// These are all labeled DUTY_xmS were the xmS is the time base. The time base determines the count
+// rate so 1mS means it counts on each call, 2mS means count every other call etc. On each call that
+// actually counts the wBits field is incremented and compared to the appropriate uOnDuty or uOffDuty
+// value and if its larger the LED state is flipped and the counter reset. By using the different
+// count rates and on and off values a very wide range of flash rate can be created.
+// Third mode is ANALOG were the led state is updated on each call by using the low 4 bits of the
+// system millisec timer as a bit index into wBits - this makes a somewhat analog glow. The routine
+// updates this bit pattern from a table when uOnDuty != uOffDuty by using the low 4 bits of uOnDuty.
+// You may set your own pattern by setting these equal and placing the pattern in wBits.
+// Using an undefined mode just returns the current state.
+typedef struct tagLedDisp {		// structure to control LED
+	unsigned int uOnDuty:6;		// on cycle count
+	unsigned int uOffDuty:6;	// off cycle count
+	unsigned int uMode:4;		// see LED_ctrl enum
+	WORD wBits;
+} LEDCTRL, *LPLEDCTRL;
+
+enum LED_ctrl {
+	LED_DUTY_1mS = 0,	// count at base rate (1kHz), tick = 1mS
+	LED_DUTY_2mS = 1,	// count rate = 500hz, tick = 2ms
+	LED_ON_OFF   = 2,	// use low bit of uOnDuty for state, 1=ON 0=OFF
+	LED_DUTY_4mS = 3,	// count rate = 250hz, tick = 4ms
+	LED_ANALOG   = 4,	// output "glow" based on table and low 4 bits of uOnDuty
+	LED_SPARE_05 = 5,	// not used yet
+	LED_SPARE_06 = 6,	// not used yet
+	LED_DUTY_8mS = 7,	// count rate = 125hz, tick = 8ms
+	LED_DUTY_16mS = 15,	// count rate = 62.5hz, tick = 16ms
+};
+
+// "structure" of the 3 registers that control an output compare module.
+typedef struct tagOCM {
+	WORD OCRS;
+	WORD OCR;
+	WORD OCCON; // we only need the low 3 bits, the others are all default (0)
+} OCM, *LPOCM;
+

@@ -25,6 +25,8 @@
 
 #include "../libUDB/libUDB.h"
 #include "libDCM_defines.h"
+#define _DI()	__asm__ volatile("disi #0xFFF")
+#define _EI()	__asm__ volatile("disi #0")
 
 // libDCM.h defines the API for accessing the location and orientation information
 // from the DCM algorithm and GPS.
@@ -95,4 +97,5 @@ extern int air_speed_magnitude;
 extern union longbbbb lat_gps , long_gps , alt_sl_gps ;
 extern union longbbbb lat_origin , long_origin , alt_origin ;
 
+extern unsigned int lastGyroSamples, lastAccelSamples;
 #endif

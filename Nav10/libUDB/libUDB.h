@@ -22,13 +22,15 @@
 #ifndef LIB_UDB_H
 #define LIB_UDB_H
 
-
-#include "options.h"
+#include "../ProPilot/options.h"
+//#include "defines.h"
 #include "fixDeps.h"
 #include "libUDB_defines.h"
 #include "magnetometerOptions.h"
 #include <dsp.h>
 #define _DI()	__asm__ volatile("disi #0xFFF")
+// DI10 is used to ensure in use flag consistancy
+#define _DI10()	__asm__ volatile("disi #0xA")
 #define _EI()	__asm__ volatile("disi #0")
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,6 +48,9 @@
 // #define NORADIO
 // #define SERVOSAT
 
+////////////////////////////////////////////////////////////////////////////////
+// stolen buffer from telemetry.c
+extern unsigned char FAR_BUF serial_buffer[SERIAL_BUFFER_SIZE];
 
 ////////////////////////////////////////////////////////////////////////////////
 // Initialize the UDB
@@ -84,6 +89,9 @@ void udb_background_callback_triggered(void);			// Callback
 // This function returns the current CPU load as an integer percentage value
 // from 0-100.
 unsigned char udb_cpu_load(void);
+// ASPG board cpu_timer is in 1/10's of a % updated twice a second
+extern unsigned int cpu_timer;
+extern unsigned long old_cpu_counter;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +122,8 @@ extern int udb_pwOut[];		// pulse widths for servo outputs
 // structures plus the timer / general inputs and outputs. see ConfigASPG.h
 #define RC_PIN_START 1
 #define SERVO_PIN_START 9
-extern PIN DIO[] __attribute__ ((section(".myDataSection"),address(0x2800)));		// digital I/O handling
+extern PIN FAR_BUF DIO[32];		// digital I/O handling
+//extern PIN DIO[32] ;		// digital I/O handling
 #endif
 
 // This read-only value holds flags that tell you, among other things,
@@ -144,25 +153,76 @@ void udb_set_action_state(boolean newValue);
 extern struct ADchannel udb_xaccel, udb_yaccel, udb_zaccel;	// x, y, and z accelerometer channels
 extern struct ADchannel udb_xrate, udb_yrate, udb_zrate;	// x, y, and z gyro channels
 extern struct ADchannel udb_vref;							// reference voltage
+extern int AD1_Raw[24] IMPORTANT;	// save raw values to look at
+extern int FLT_Value[24] IMPORTANT;	// space to put in right order
+extern int AD1_Filt[2][7][64] FAR_BUF; // filter in[0][][] and out[1][][]
+extern int iAnalog_Head, iAnalog_Tail;	// index to keep track of buffer and de-buffer (GYRO's)
+extern int iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer (Accel's)
+// AD1_Raw offsets
+#define xgyro_in 1
+#define xgyro_ref 3
+#define ygyro_in 4
+#define ygyro_ref 7
+#define zgyro_in 9
+#define zgyro_ref 7
+#define xaccel (NUM_AD1_LIST + 1)
+#define yaccel (NUM_AD1_LIST + 2)
+#define zaccel (NUM_AD1_LIST + 3)
+#define xmag   (NUM_AD1_LIST + 4)
+#define ymag   (NUM_AD1_LIST + 5)
+#define zmag   (NUM_AD1_LIST + 6)
+// AD1_Filt offsets 1 - 6 and FLT_Value 1-16
+#define gyro_x 1
+#define gyro_y 2
+#define gyro_z 3
+#define accel_x 5
+#define accel_y 4
+#define accel_z 6
+#define mag_x 7
+#define mag_y 8
+#define mag_z 9
 
 // Calibrate the sensors
 // Call this function once, soon after booting up, after a few seconds of
 // holding the UDB very still.
 void udb_a2d_record_offsets(void);
-
+void udb_gyro_autoZero( void );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Magnetometer
-
 // If the magnetometer is connected and enabled, these will be the raw values, and the
 // calibration offsets.
 extern fractional udb_magFieldBody[3];
 extern fractional udb_magOffset[3];
+extern int previousMagFieldRaw[3];
 
-// Implement thiis callback to make use of the magetometer data.  This is called each
+// Implement this callback to make use of the magetometer data.  This is called each
 // time the magnetometer reports new data.
 void udb_magnetometer_callback_data_available(void);	// Callback
+void rxMagnetometer(void);  // service the magnetometer
+void doneReadMagData(void);	// use data
+#define magCDindex 1	// this driver uses CD[1]
 
+////////////////////////////////////////////////////////////////////////////////
+// Accelerometer
+void rxAccel(void);  // service the magnetometer
+void doneReadAccData(void);	// use data
+extern int previousAccFieldRaw[3];
+#define accCDindex 2		// this driver uses CD[2]
+
+////////////////////////////////////////////////////////////////////////////////
+// EE prom
+#define WReeCDindex 3
+#define REeeCDindex 4
+#define EE_PARAMETER_START 128
+extern int EE_Active NEAR_BUF;
+extern int EE_Write_Timer NEAR_BUF;	// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
+int EE_Write( unsigned int uiLen, unsigned int uiAddress, unsigned char *vpData  );
+int EE_Read( unsigned int uiLen, unsigned int uiAddress, unsigned char *vpData );
+void ReadParameters( void );
+void WriteParameters( void );
+void doneEE( void );
+int udb_init_EE( void );
 
 ////////////////////////////////////////////////////////////////////////////////
 // LEDs
@@ -170,6 +230,20 @@ void udb_magnetometer_callback_data_available(void);	// Callback
 // for example udb_led_toggle(LED_RED);
 #define udb_led_toggle(x)		((x) = !(x))
 
+////////////////////////////////////////////////////////////////////////////////
+// I2C2
+void I2C_Start( int );
+void I2C_Reset( void );
+#define I2C_COM_LEN 64				// commands
+extern I2C_Action uI2C_Commands[I2C_COM_LEN] NEAR_BUF;		// command buffer, see I2C_aspg.c
+extern I2CCMD CC NEAR_BUF;			// peripheral driver command buffer, never mess with this
+extern I2CCMD CD[8] NEAR_BUF;		// device driver command buffers - [0] reserved
+extern unsigned int I2Cmessages;	// FINISHED messages
+extern int I2C_Timeout;				// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
+#define I2C_BUF_LEN 128+16			// page write size + enough bytes to send an address
+extern unsigned char I2C_buffer[I2C_BUF_LEN] NEAR_BUF ;	// peripheral buf
+extern void (* I2C_call_back[8] ) ( void );
+extern struct tagI2C_flags I2C_flags;	// defined in ConfigASPG.h
 
 ////////////////////////////////////////////////////////////////////////////////
 // GPS IO

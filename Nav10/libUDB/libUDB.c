@@ -65,14 +65,19 @@ _FWDT(	FWDTEN_OFF &			// wdt's disabled
 _FPOR(	FPWRT_PWR32 ) ;			// fast powerup, will need to change for ext osc
 _FICD(	JTAGEN_OFF &			// jtag off and use 2nd set for ICSP
 		ICS_PGD2 ) ;
+_FUID0( 0xffff )
+_FUID1( 0xffff )
+_FUID2( 0xffff )
+_FUID3( 0xffff )
 #endif
 
 
 union udb_fbts_byte udb_flags ;
 
 boolean timer_5_on = 0 ;
-boolean needSaveExtendedState = 0 ;
+int needSaveExtendedState = 0 ;
 int defaultCorcon = 0 ;
+/*
 WORD wSP_Save;
 typedef struct tagRESETS {
 unsigned int StackError:1;
@@ -91,9 +96,7 @@ NMI	SaveNMI = {0}; // clear
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _DefaultInterrupt(void)
 {
-	WORD wSP_Temp;
-//	__asm__("mov WREG0,WREG15");
-//	__asm__("mov wSP_Temp,WREG0");
+	WORD wSP_Temp = WREG15;
 	if ( _STKERR )
 		SaveNMI.StackError = 1;
 	if ( _OVAERR )
@@ -118,6 +121,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _DefaultInterrupt(void)
 	wSP_Save = wSP_Temp;
 	__asm__("RESET");
 }
+*/
 
 void udb_init(void)
 {
@@ -155,8 +159,14 @@ void udb_init(void)
 	udb_init_clock() ;
 	udb_init_capture() ;
 	
-#if (MAG_YAW_DRIFT == 1)
+#if (MAG_YAW_DRIFT == 1) || (BOARD_TYPE == ASPG_BOARD)
 	udb_init_I2C2() ;
+#endif
+#if (BOARD_TYPE == ASPG_BOARD)
+	rxAccel();
+#endif
+#if (MAG_YAW_DRIFT == 1)
+	rxMagnetometer();
 #endif
 	
 	udb_init_GPS() ;
@@ -167,6 +177,8 @@ void udb_init(void)
 #endif
 	
 	SRbits.IPL = 0 ;	// turn on all interrupt priorities
+
+	udb_init_EE();
 	
 	return ;
 }
@@ -208,7 +220,9 @@ void udb_init_leds( void )
 // reset CORCON if firing in the middle of a math lib call.
 void udb_setDSPLibInUse(boolean inUse)
 {
-	needSaveExtendedState = inUse ;
+	if ( inUse )
+		needSaveExtendedState += 1 ;
+	else needSaveExtendedState -= 1 ;
 	return ;
 }
 
@@ -232,7 +246,7 @@ void udb_a2d_record_offsets(void)
 void udb_servo_record_trims(void)
 {
 	int i;
-	for (i=0; i <= NUM_INPUTS; i++)
+	for (i=0; i < 65; i++)
 		udb_pwTrim[i] = udb_pwIn[i] ;
 	
 	return ;

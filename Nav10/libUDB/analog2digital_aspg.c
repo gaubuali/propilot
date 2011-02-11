@@ -25,35 +25,67 @@
 
 //	Variables.
 
-struct ADchannel udb_xaccel, udb_yaccel , udb_zaccel ; // x, y, and z accelerometer channels
-struct ADchannel udb_xrate , udb_yrate, udb_zrate ;  // x, y, and z gyro channels
-struct ADchannel udb_vref ; // reference voltage
+struct ADchannel IMPORTANT udb_xaccel = {0};
+struct ADchannel IMPORTANT udb_yaccel = {0};
+struct ADchannel IMPORTANT udb_zaccel = {0}; // x, y, and z accelerometer channels
+struct ADchannel IMPORTANT udb_xrate = {0};
+struct ADchannel IMPORTANT udb_yrate = {0};
+struct ADchannel IMPORTANT udb_zrate = {0};  // x, y, and z gyro channels
+struct ADchannel IMPORTANT udb_vref = {0}; // reference voltage
 
-int	AD1_Raw[NUM_AD1_LIST+1] __attribute__ ((section(".myDataSection"),address(0x2220)));	// save raw values to look at
+int	AD1_Raw[24] IMPORTANT = {0};	// save raw values to look at
+int FLT_Value[24] IMPORTANT = {0};	// space to put in right order
 
 int sampcount = 1 ;
 
-// #define USE_AD1_DMA
+#define USE_AD1_DMA
 
 #if defined(USE_AD1_DMA)
-
 //	Analog to digital processing.
-//	Sampling and conversion is done automatically, so that all that needs to be done during 
-//	interrupt processing is to read the data out of the buffer.
-//	Raw samples are taken approximately 500 per second per channel.
-//	A first order digital lowpass filter with a time constant of about 32 milliseconds 
-//  is applied to improve signal to noise.
-//  CHANGED - see below
+//	Sampling and conversion is done automatically filling a DMA buffer, while one buffer is
+//	filling processing is done on the other. There are 10 channels in the sample list and
+//	each is sampled / converted 16 times for each DMA interrupt. DMA buffer if formed in
+//	sequential mode and then the total of each channel is added up and placed in AD1_Raw[]
+//  called a SuperSample. Design sample rate is 10 * 16 * 50 * 50 = 400000 samples per second.
+
+#include "FIR_Filter.h"
+#include "filter_aspg.h"
+
+int AD1_Filt[2][7][64] FAR_BUF = {0}; // filter in[0][][] and out[1][][]
+int	iAnalog_Head, iAnalog_Tail;	// index to keep track of buffer and de-buffer (GYRO's)
+int	iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer (Accel's)
 
 #define AD1_SUPER_SAM 16
-int  AD1BufferA[AD1_SUPER_SAM][NUM_AD1_LIST+1] __attribute__((space(dma),aligned(256)));
-int  AD1BufferB[AD1_SUPER_SAM][NUM_AD1_LIST+1] __attribute__((space(dma),aligned(256)));
+int  AD1BufferA[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
+int  AD1BufferB[AD1_SUPER_SAM][NUM_AD1_LIST] __attribute__((space(dma),aligned(256)));
+#define AD2_SUPER_SAM 1
+int  AD2BufferA[AD2_SUPER_SAM][NUM_AD2_LIST] __attribute__((space(dma),aligned(128)));
+int  AD2BufferB[AD2_SUPER_SAM][NUM_AD2_LIST] __attribute__((space(dma),aligned(128)));
+int	AD2_Raw[24];	// save raw values to look at
 
 void udb_init_gyros( void )
 {
+	int r,c;
 	// turn off auto zeroing 
 	tAZ_Y = tAZ_XZ = 0 ;
 	oAZ_Y = oAZ_XZ = 0 ;
+	MDSFIRFilterInit( &filter_aspgFilterX );
+	MDSFIRFilterInit( &filter_aspgFilterY );
+	MDSFIRFilterInit( &filter_aspgFilterZ );
+
+	for ( r = 0; r < AD1_SUPER_SAM; r++ )
+	{
+		AD2BufferA[r][0] = 0;
+		AD2BufferA[r][1] = 10;
+		AD2BufferA[r][2] = 4085;
+		AD2BufferA[r][3] = 4095;
+		AD2BufferA[r][4] = 4096/10;
+		AD2BufferA[r][5] = 4096/4;
+		AD2BufferA[r][6] = 4096/2;
+		AD2BufferA[r][7] = 4096/4*3;
+		AD2BufferA[r][8] = 4096 - (4096/10);
+		AD2BufferA[r][9] = 0;
+	}	
 	
 	return ;
 }
@@ -70,6 +102,9 @@ void udb_init_accelerometer(void)
 //	_TRISB9 = 1 ;
 //	_TRISB10 = 1 ;
 //	_TRISB11 = 1 ;
+	MDSFIRFilterInit( &filter_aspg_I2CX_Filter );
+	MDSFIRFilterInit( &filter_aspg_I2CY_Filter );
+	MDSFIRFilterInit( &filter_aspg_I2CZ_Filter );
 	
 	return ;
 }
@@ -83,8 +118,10 @@ void udb_init_ADC( void )
 	udb_flags._.firstsamp = 1 ;
 	
 	AD1CSSL = AD1CSSH = AD2CSSL = 0 ; 	// start with no channels selected
-	AD2PCFGL = AD1PCFGL = !LOW_ANALOGS;	// have to set both AD cfg registers
-	AD1PCFGH = !HIGH_ANALOGS;			// ad2 only does first 16
+	AD2PCFGL = AD1PCFGL = ~LOW_ANALOGS;	// have to set both AD cfg registers
+	AD1PCFGH = ~HIGH_ANALOGS;			// ad2 only does first 16
+
+	AD1CSSH = AD1_LIST;				// ad1 scan list
 	
 // configure the high rate AD of the gyro's - first level dsp is to add 16 values together
 	AD1CON1bits.AD12B = 1 ;		// 12 bit A to D
@@ -113,9 +150,10 @@ void udb_init_ADC( void )
 	AD1CON3bits.ADCS = 5 - 1 ;	// TAD = 125 nanoseconds
 	
 	AD1CON1bits.ADDMABM = 1 ;	// DMA buffer written in conversion order
-//	AD1CON2bits.SMPI = 10-1 ;	// 10 samples
-	AD1CON2bits.SMPI = 1 - 1 ;	// xfer each sample
+	AD1CON2bits.SMPI = NUM_AD1_LIST - 1;	// 10 samples
+//	AD1CON2bits.SMPI = 1 - 1 ;	// xfer each sample
 	AD1CON4bits.DMABL = 4 ;		// double buffering
+//	AD1CON4bits.DMABL = 0 ;		// double buffering
 
 // setup DMA
 
@@ -137,7 +175,6 @@ void udb_init_ADC( void )
 
 	DMA0CONbits.CHEN=1;				// Enable DMA
 	
-	AD1CSSH = AD1_LIST;				// ad1 scan list
 	_AD1IF = 0 ;					// clear the AD interrupt
 	_AD1IP = 5 ;					// priority 5
 //	_AD1IE = 1 ;					// enable the interrupt
@@ -155,19 +192,64 @@ void udb_init_ADC( void )
 	 	 need to decide what to do with the vref and temp signals - they don't
 	 	 require fir but should affect the final super sample values.
 =============================================================================*/
-
+extern void superSample( void *, void * );
 unsigned int DmaBuffer = 0;
 
 void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 {
+	indicate_loading_inter ;
+	interrupt_save_extended_state ;
+
+	udb_setDSPLibInUse(true) ;	// this uses DO loops
+
 	if(DmaBuffer == 0)
-	{
+	{	superSample( (void *)&AD1BufferA[0][0], (void *)&AD1_Raw[0] );
 	} 	else 	{
+		superSample( (void *)&AD1BufferB[0][0], (void *)&AD1_Raw[0] );
 	}
+	udb_setDSPLibInUse(false) ;
 
 	DmaBuffer ^= 1;
 
 	IFS0bits.DMA0IF = 0;		// Clear the DMA0 Interrupt Flag
+
+	AD1_Filt[0][2][iAnalog_Head] = AD1_Raw[xgyro_in] - AD1_Raw[xgyro_ref];
+	AD1_Filt[0][1][iAnalog_Head] = AD1_Raw[ygyro_in] - AD1_Raw[ygyro_ref];
+	AD1_Filt[0][3][iAnalog_Head] = AD1_Raw[zgyro_in] - AD1_Raw[zgyro_ref];
+	
+#if ( SERIAL_OUTPUT_FORMAT == SERIAL_RAW )
+//#error print(SERIAL_OUTPUT_FORMAT)
+//	_DI();
+//	U2TXREG = (unsigned char) AD1_Raw[xgyro_in] & 0xff;
+//	U2TXREG = (unsigned char) (AD1_Raw[xgyro_in]>>8) & 0xff;
+//	_EI();
+	AD1_Raw[20] = 1234;	// sync
+//	AD1_Raw[21] = AD1_Raw[1], AD1_Raw[22] = AD1_Raw[4], AD1_Raw[23] = AD1_Raw[9];
+	AD1_Raw[21] = AD1_Raw[xgyro_in] - AD1_Raw[xgyro_ref];
+	AD1_Raw[22] = AD1_Raw[ygyro_in] - AD1_Raw[ygyro_ref];
+	AD1_Raw[23] = AD1_Raw[zgyro_in] - AD1_Raw[zgyro_ref];
+//	AD1_Raw[21] = 10, AD1_Raw[22] = 32000;
+//	if (AD1_Raw[19])
+//		AD1_Raw[23]--;
+//	else AD1_Raw[23]++;
+//	if (AD1_Raw[23] == AD1_Raw[22])
+//		AD1_Raw[19] = 1;
+//
+//	if (AD1_Raw[23] == AD1_Raw[21])
+//		AD1_Raw[19] = 0;
+
+	udb_serial_send_packet( (unsigned char *)&AD1_Raw[20], 8 );
+	superSample( (void *)&AD2BufferA[0][0], (void *)&AD2_Raw[0] );
+//	udb_serial_send_packet( (unsigned char *)&AD2_Raw[0], 8 );
+#endif
+
+	// TODO: apply temp compensation
+
+	if ( ++iAnalog_Head > 64 )
+		iAnalog_Head = 0;
+	else ;
+
+	interrupt_restore_extended_state ;
 }
 
 #define ADC2SAMPLE ((int)(ADC2BUF0))
@@ -269,6 +351,13 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _ADC2Interrupt(void)
 }
 
 #else // USE_AD1_DMA
+
+//	Analog to digital processing.
+//	Sampling and conversion is done automatically, so that all that needs to be done during
+//	interrupt processing is to read the data out of the buffer.
+//	Raw samples are taken approximately 500 per second per channel.
+//	A first order digital lowpass filter with a time constant of about 32 milliseconds
+//  is applied to improve signal to noise.
 
 void udb_init_gyros( void )
 {

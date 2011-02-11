@@ -4,7 +4,7 @@
 #define GAIN_VARIABLES_H
 
 
-#define GAINS_VARIABLE			0
+#define GAINS_VARIABLE			1
 
 // Aileron/Roll Control Gains
 // ROLLKP is the proportional gain, approximately 0.25

@@ -39,7 +39,11 @@
 #define NEGATIVE_DIFFERENTIAL 14
 #define FIXED_OUTPUT_OVERRIDE 15
 
-MIXER pMixers[MIX_NUM_OUTPUTS+1][MIX_PER_CHANNEL]  __attribute__ ((section(".myDataSection"),address(0x2100))) = {
+#if MIX_NUM_OUTPUTS < 15
+MIXER pMixers[16][MIX_PER_CHANNEL] PARAMETER = {
+#else	
+MIXER pMixers[MIX_NUM_OUTPUTS+1][MIX_PER_CHANNEL] PARAMETER = {
+#endif
 {
 	{	/* Channel1 (Throttle) */
 		.pType = { BALANCED_HALF_FACTOR, RC_THROTTLE, DCM_THROTTLE, RC_MODE_FAILSAFE, toQ10( 1.000 ) }, }, {
@@ -48,64 +52,64 @@ MIXER pMixers[MIX_NUM_OUTPUTS+1][MIX_PER_CHANNEL]  __attribute__ ((section(".myD
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.iScales = { 7500, 3500 } }, }, { {         /*Channel2 (Aileron1) */
+		.iScales = { SERVO_CENTER_PULSE, SERVO_PULSE_RANGE }, }, {
+		.iScales = { 5000, 10000 } }, }, { {         /*Channel2 (Aileron1) */
 		.pType = { BALANCED_HALF_FACTOR, RC_ROLL, DCM_ROLL, RC_MODE_FAILSAFE, toQ10( 1.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.200 ) }, }, {
 		.nType = { NEGATIVE_DIFFERENTIAL, DCM_ROLL, UNUSED, toQ15( 0.200 ) }, }, {
-		.iScales = { 7500, 3500 } }, }, { {         /*Channel3 (Elevator) */
+		.iScales = { SERVO_CENTER_PULSE, SERVO_PULSE_RANGE }, }, {
+		.iScales = { 4000, 11000 } }, }, { {         /*Channel3 (Elevator) */
 		.pType = { BALANCED_HALF_FACTOR, RC_PITCH, DCM_PITCH, RC_MODE_FAILSAFE, toQ10( 1.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.iScales = { 7500, 3500 } }, }, { {         /*Channel4 (Rudder) */
+		.iScales = { SERVO_CENTER_PULSE, SERVO_PULSE_RANGE }, }, {
+		.iScales = { 4000, 11000 } }, }, { {         /*Channel4 (Rudder) */
 		.pType = { BALANCED_HALF_FACTOR, RC_YAW, DCM_YAW, RC_MODE_FAILSAFE, toQ10( 1.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.iScales = { 7500, 3500 } }, }, { {         /*Channel5 (FLAPS) */
+		.iScales = { SERVO_CENTER_PULSE, SERVO_PULSE_RANGE }, }, {
+		.iScales = { 4000, 11000 } }, }, { {         /*Channel5 (FLAPS) */
 		.nType = { SIMPLE_FACTOR, RC_AUX1_FLAPS, UNUSED, toQ15( 1.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.iScales = { 7500, 3500 } }, }, { {         /*Channel6 (Aileron2) */
+		.iScales = { SERVO_CENTER_PULSE, SERVO_PULSE_RANGE }, }, {
+		.iScales = { 4000, 11000 } }, }, { {         /*Channel6 (Aileron2) */
 		.pType = { BALANCED_HALF_FACTOR, RC_ROLL, DCM_ROLL, RC_MODE_FAILSAFE, toQ10( 1.000 ) }, }, {
-		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.200 ) }, }, {
 		.nType = { POSITIVE_DIFFERENTIAL, DCM_ROLL, UNUSED, toQ15( 0.200 ) }, }, {
-		.iScales = { 7500, -3500 } }, }, { {         /*Channel7 (CAM_P) */
+		.iScales = { SERVO_CENTER_PULSE, SERVO_PULSE_REV }, }, {
+		.iScales = { 4000, 11000 } }, }, { {         /*Channel7 (CAM_P) */
 		.pType = { BALANCED_FULL_FACTOR, RC_AUX2_CAM_P, DCM_CAM_PITCH, UNUSED, toQ10( 1.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.iScales = { 7500, 3500 } }, }, { {         /*Channel8 (CAM_Y) */
+		.iScales = { SERVO_CENTER_PULSE, SERVO_PULSE_RANGE }, }, {
+		.iScales = { 4000, 11000 } }, }, { {         /*Channel8 (CAM_Y) */
 		.pType = { BALANCED_FULL_FACTOR, RC_AUX3_CAM_Y, DCM_CAM_YAW, UNUSED, toQ10( 1.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
 		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.nType = { UNUSED_MIX, UNUSED, UNUSED, toQ15( 0.000 ) }, }, {
-		.iScales = { 7500, 3500 }, }         /* END */
+		.iScales = { SERVO_CENTER_PULSE, SERVO_PULSE_RANGE }, }, {
+		.iScales = { 4000, 11000 }, }         /* END */
 	}
 };
 

@@ -26,6 +26,8 @@ union fbts_int old_rtl_flags ;
 int waggle = 0 ;
 int calib_timer, standby_timer ;
 
+LEDCTRL	GreenLED;
+
 void startS(void) ;
 void calibrateS(void) ;
 void acquiringS(void) ;
@@ -57,23 +59,29 @@ void udb_background_callback_periodic(void)
 	if ( udb_flags._.radio_on )
 	{
 		//	Select manual, automatic, or come home, based on pulse width of the switch input channel as defined in options.h.
-		if ( udb_pwIn[MODE_SWITCH_INPUT_CHANNEL+8] > MODE_SWITCH_THRESHOLD_HIGH )
+		if ( udb_pwIn[MODE_SWITCH_INPUT_CHANNEL+7] > MODE_SWITCH_THRESHOLD_HIGH )
 		{
 			flags._.man_req = 0 ;
 			flags._.auto_req = 0 ;
 			flags._.home_req = 1 ;
+			GreenLED.uOnDuty = 31, GreenLED.uOffDuty = 31;
+			GreenLED.uMode = LED_DUTY_8mS; // fast 50% duty flash
 		}
-		else if ( udb_pwIn[MODE_SWITCH_INPUT_CHANNEL+8] > MODE_SWITCH_THRESHOLD_LOW )
+		else if ( udb_pwIn[MODE_SWITCH_INPUT_CHANNEL+7] > MODE_SWITCH_THRESHOLD_LOW )
 		{
 			flags._.man_req = 0 ;
 			flags._.auto_req = 1 ;
 			flags._.home_req = 0 ;
+			GreenLED.uOnDuty = 31, GreenLED.uOffDuty = 31;
+			GreenLED.uMode = LED_DUTY_16mS; // slow 50% duty flash
 		}
 		else
 		{
 			flags._.man_req = 1 ;
 			flags._.auto_req = 0 ;
 			flags._.home_req = 0 ;
+			GreenLED.uMode = LED_ANALOG; // analog mode based on mode channel, more assist = brighter LED
+			GreenLED.uOnDuty = (udb_pwIn[MODE_SWITCH_INPUT_CHANNEL+7]/2048)+16;
 		}
 		
 		// With Failsafe Hold enabled: After losing RC signal, and then regaining it, you must manually
@@ -94,12 +102,12 @@ void udb_background_callback_periodic(void)
 				flags._.rtl_hold = 0 ;
 			}
 		}
-	}
-	else
-	{
+	} else 	{ // if ( udb_flags._.radio_on )
 		flags._.man_req = 0 ;
 		flags._.auto_req = 0 ;
 		flags._.home_req = 1 ;
+		GreenLED.uOnDuty = 16, GreenLED.uOffDuty = 16;
+		GreenLED.uMode = LED_DUTY_8mS; // fast 50% duty flash
 	}
 	
 	//	Update the nav capable flag. If the GPS has a lock, gps_data_age will be small.
@@ -266,7 +274,7 @@ void acquiringS(void)
 	return;
 #endif
 	
-	if ( dcm_flags._.nav_capable && ( ( MAG_YAW_DRIFT == 0 ) || ( magMessage == 7 ) ) )
+	if ( dcm_flags._.nav_capable && ( ( MAG_YAW_DRIFT == 0 ) || ( CD[magCDindex].iResult >= 7 ) ) )
 	{
 		if ( udb_flags._.radio_on )
 		{

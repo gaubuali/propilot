@@ -20,8 +20,6 @@
 
 
 #include "defines.h"
-//int junk __attribute__((section("buffers"),address(0x1000)));
-// __attribute__((section("buffers"),address(0x1000)));
 
 //	main program for testing the IMU.
 

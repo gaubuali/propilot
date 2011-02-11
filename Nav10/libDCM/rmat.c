@@ -61,55 +61,55 @@ fractional ggain = GGAIN ;
 //	The columns of rmat are the axis vectors of the plane,
 //	as measured in the earth reference frame.
 //	rmat is initialized to the identity matrix in 2.14 fractional format
-fractional rmat[] = { RMAX , 0 , 0 , 0 , RMAX , 0 , 0 , 0 , RMAX } ;
+fractional IMPORTANT rmat[] = { RMAX , 0 , 0 , 0 , RMAX , 0 , 0 , 0 , RMAX } ;
 
 //	rup is the rotational update matrix.
 //	At each time step, the new rmat is equal to the old one, multiplied by rup.
-fractional rup[] = { RMAX , 0 , 0 , 0 , RMAX , 0 , 0 , 0 , RMAX } ;
+fractional IMPORTANT rup[] = { RMAX , 0 , 0 , 0 , RMAX , 0 , 0 , 0 , RMAX } ;
 
 //	gyro rotation vector:
-fractional omegagyro[] = { 0 , 0 , 0 } ;
-fractional omega[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT omegagyro[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT omega[] = { 0 , 0 , 0 } ;
 
 //	gyro correction vectors:
-fractional omegacorrP[] = { 0 , 0 , 0 } ;
-fractional omegacorrI[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT omegacorrP[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT omegacorrI[] = { 0 , 0 , 0 } ;
 
 //  acceleration, as measured in GPS earth coordinate system
-fractional accelEarth[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT accelEarth[] = { 0 , 0 , 0 } ;
 
-union longww accelEarthFiltered[] = { { 0 } , { 0 } ,  { 0 } } ;
+union longww IMPORTANT accelEarthFiltered[] = { { 0 } , { 0 } ,  { 0 } } ;
 
 //	correction vector integrators ;
-union longww gyroCorrectionIntegral[] =  { { 0 } , { 0 } ,  { 0 } } ;
+union longww IMPORTANT gyroCorrectionIntegral[] =  { { 0 } , { 0 } ,  { 0 } } ;
 
 //	accumulator for computing adjusted omega:
-fractional omegaAccum[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT omegaAccum[] = { 0 , 0 , 0 } ;
 
 //	gravity, as measured in plane coordinate system
-fractional gplane[] = { 0 , 0 , GRAVITY } ;
+fractional IMPORTANT gplane[] = { 0 , 0 , GRAVITY } ;
 
 //	horizontal velocity over ground, as measured by GPS (Vz = 0 )
-fractional dirovergndHGPS[] = { 0 , RMAX/2 , 0 } ;
+fractional IMPORTANT dirovergndHGPS[] = { 0 , RMAX/2 , 0 } ;
 
 //	horizontal direction over ground, as indicated by Rmatrix
-fractional dirovergndHRmat[] = { 0 , RMAX/2 , 0 } ;
+fractional IMPORTANT dirovergndHRmat[] = { 0 , RMAX/2 , 0 } ;
 
 //	rotation angle equal to omega times integration factor:
-fractional theta[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT theta[] = { 0 , 0 , 0 } ;
 
 //	matrix buffer:
-fractional rbuff[] = { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 } ;
+fractional IMPORTANT rbuff[] = { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 } ;
 
 //	vector buffer
-fractional errorRP[] = { 0 , 0 , 0 } ;
-fractional errorYawground[] = { 0 , 0 , 0 } ;
-fractional errorYawplane[]  = { 0 , 0 , 0 } ;
+fractional IMPORTANT errorRP[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT errorYawground[] = { 0 , 0 , 0 } ;
+fractional IMPORTANT errorYawplane[]  = { 0 , 0 , 0 } ;
 
 //	measure of error in orthogonality, used for debugging purposes:
-fractional error = 0 ;
+fractional IMPORTANT error = 0 ;
 
-fractional declinationVector[2] ;
+fractional IMPORTANT declinationVector[2] = {0};
 
 
 void dcm_init_rmat( void )
@@ -491,6 +491,7 @@ void output_IMUvelocity(void)
 */
 
 extern void dead_reckon(void) ;
+unsigned int lastGyroSamples, lastAccelSamples;
 
 void dcm_run_imu_step(void)
 //	Read the gyros and accelerometers, 
@@ -498,6 +499,7 @@ void dcm_run_imu_step(void)
 //	adjust for roll and pitch drift,
 //	and send it to the servos.
 {
+
 	read_gyros() ;
 	read_accel() ;
 	dead_reckon() ;
@@ -508,7 +510,7 @@ void dcm_run_imu_step(void)
 	normalize() ;
 	roll_pitch_drift() ;
 #if (MAG_YAW_DRIFT == 1)
-	if ( magMessage == 7  )
+	if ( CD[magCDindex].iResult >= MAG_NORMAL  )
 	{
 		mag_drift() ;
 	}

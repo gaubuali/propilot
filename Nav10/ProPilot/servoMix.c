@@ -56,13 +56,19 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 
 	for ( OutA = OutB = iMix = 0; iMix < (MIX_PER_CHANNEL); iMix++, pThisMixer++ )
 	{
-		if ( iMix == (MIX_PER_CHANNEL - 1) )	// last mixer is always hardware scale
+		if ( iMix == (MIX_PER_CHANNEL - 2) )	// 2nd to last mixer is always hardware scale
 			uiType = 16;
+		else if ( iMix == (MIX_PER_CHANNEL - 1) ) // last mixer is always per channel hardware limit
+			uiType = 17;
 		else uiType = pThisMixer->nType.iType;
 		if ( uiType != 0 )
 		{
-			iInputCH = udb_pwIn[pThisMixer->nType.iInpCH];		// get these in one spot to save code space
-			iInputSSI = udb_pwIn[pThisMixer->nType.iInpSSI];
+			if ( pThisMixer->nType.iInpCH )
+				iInputCH = udb_pwIn[pThisMixer->nType.iInpCH];		// get these in one spot to save code space
+			else iInputCH = 0;
+			if ( pThisMixer->nType.iInpSSI )
+				iInputSSI = udb_pwIn[pThisMixer->nType.iInpSSI];
+			else iInputSSI = 0;
 			iFactor = pThisMixer->nType.iFactor;
 
 			switch ( uiType )
@@ -183,12 +189,12 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					};
 				break;
 				case 13: // IF iInputCH positive Out -= Out * Factor
-					if ( iInputCH > 0 )
+					if ( (iInputCH > 0) || (iInputSSI > 0) )
 						OutA  -= (((long)iFactor * OutA));
 					else ;
 				break;
 				case 14: // IF iInputCH negative Out -= Out * Factor
-					if ( iInputCH < 0 )
+					if ( (iInputCH < 0) || (iInputSSI < 0)  )
 						OutA  -= (((long)iFactor * OutA));
 					else ;
 				break;
@@ -196,12 +202,18 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					OutA = iFactor;
 				break;
 				case 16: // overide "type" for output scale Ticks = Out * Scale + Offset.
-						if ( OutA > toQ15(1.0) ) OutA = toQ15(1.0);
-						if ( OutA < toQ15(-1.0) ) OutA = toQ15(-1.0);
-						OutB  = ((((long)iFactor * OutA) >> 13)) + pThisMixer->iScales[0];
-						*ticks = (WORD)OutB;
+					if ( OutA > toQ15(1.0) ) OutA = toQ15(1.0);
+					if ( OutA < toQ15(-1.0) ) OutA = toQ15(-1.0);
+					OutB  = ((((long)iFactor * OutA) >> 13)) + pThisMixer->iScales[0];
 				break;
 				case 17: // overide "type" for per channel limit later
+					temp = (WORD)OutB;
+					if ( temp > iFactor )
+						temp = iFactor;
+					else
+					if ( temp < pThisMixer->iScales[0] )
+						temp = pThisMixer->iScales[0];
+					*ticks = (WORD)temp;
 				break;
 			}; // end of switch ( uiType )
 		}; // end of if ( uiType != 0 )
@@ -240,7 +252,7 @@ void servoMix( void )
 // TODO: this will need major mods to work for multi-channel outputs
 	for ( iCH = 1; iCH < NUM_OUTPUTS; iCH++ )
 	{
-		iOut = bankMix( &pMixers[iCH][0], &iPulse );
+		iOut = bankMix( &pMixers[iCH-1][0], &iPulse );
 		udb_pwOut[iCH] = iPulse;
 		uiTemp = iCH + SERVO_PIN_START - 1;						// both one based
 		DIO[uiTemp].qValue = iOut;								// save

@@ -22,7 +22,7 @@
 // Define magneticDeclination to be the magnectic declination, in degrees, measured
 // clockwise from the north, east is plus, west is minus.
 
-#define MAGNETICDECLINATION 0
+#define MAGNETICDECLINATION 17
 #define DECLINATIONANGLE ((signed char)(MAGNETICDECLINATION*128/180))
 
 // #define LED_RED_MAG_CHECK 1 if you want the RED LED to indicate the magnetometer is not working.
@@ -44,18 +44,26 @@
 // If you are using a different HMC5843 magnetometer breakout board, just make sure the magnetometer
 // is aligned with the CPU chip on the UDB, with the pin 1 markers in the same orientation.
 
+//#define MAG_X_AXIS 1
+//#define MAG_Y_AXIS 0
+//#define MAG_Z_AXIS 2
+
+//#define MAG_X_SIGN -
+//#define MAG_Y_SIGN -
+//#define MAG_Z_SIGN -
+
 #define MAG_X_AXIS 1
 #define MAG_Y_AXIS 0
 #define MAG_Z_AXIS 2
 
-#define MAG_X_SIGN -
-#define MAG_Y_SIGN -
+#define MAG_X_SIGN +
+#define MAG_Y_SIGN +
 #define MAG_Z_SIGN -
 
 // Minimum and maximum values expected for the absolute value of the magnetic field.
 // These are used to help detect when the magnetometer has stopped working properly due to
 // RF interference that may put it into an unknown state.
 
-#define MAGNETICMINIMUM 500
+#define MAGNETICMINIMUM 100
 #define MAGNETICMAXIMUM 1000
 

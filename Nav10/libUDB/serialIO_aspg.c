@@ -25,8 +25,8 @@
 #if (BOARD_TYPE == ASPG_BOARD)
 
 #define TX_BUF_LEN 512
-char __attribute__ ((section(".myDataSection"),address(0x2300))) U1TX_buffer[TX_BUF_LEN];
-char __attribute__ ((address(0x2500))) U2TX_buffer[TX_BUF_LEN];
+unsigned char FAR_BUF U1TX_buffer[TX_BUF_LEN] = {0};
+unsigned char FAR_BUF U2TX_buffer[TX_BUF_LEN] = {0};
 int iU1Head, iU1Tail = 0;
 int iU2Head, iU2Tail = 0;
 
@@ -69,7 +69,7 @@ void udb_init_GPS(void)
 	U1STAbits.OERR = 0;		//Bit1 *Read Only Bit*
 	//U1STAbits.URXDA = 0;	//Bit0 *Read Only Bit*
 
-	_U1RXIP = 4;	// Mid Range Interrupt Priority level, no urgent reason
+	_U1RXIP = 3;	// Mid Range Interrupt Priority level, no urgent reason
 
 	_U1TXIF = 0;	// Clear the Transmit Interrupt Flag
 	_U1TXIE = 0;	// Disable Transmit Interrupts
@@ -230,7 +230,7 @@ void udb_init_USART(void)
 	U2STAbits.OERR = 0;		//Bit1 *Read Only Bit*
 	//U2STAbits.URXDA = 0;	//Bit0 *Read Only Bit*
 
-	_U2TXIP = 4;	// Mid Range Interrupt Priority level, no urgent reason
+	_U2TXIP = 3;	// Mid Range Interrupt Priority level, no urgent reason
 	_U2RXIP = 3;	// Mid Range Interrupt Priority level, no urgent reason
 
 	_U2TXIF = 0;	// Clear the Transmit Interrupt Flag
