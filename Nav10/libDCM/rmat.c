@@ -111,6 +111,7 @@ fractional IMPORTANT error = 0 ;
 
 fractional IMPORTANT declinationVector[2] = {0};
 
+signed char DECLINATIONANGLE PARAMETER = ((signed char)(MAGNETICDECLINATION*128/180));
 
 void dcm_init_rmat( void )
 {
@@ -140,7 +141,7 @@ void VectorCross( fractional * dest , fractional * src1 , fractional * src2 )
 	return ;
 }
 
-int vref_adj ;
+int vref_adj IMPORTANT = 0;
 
 void read_gyros()
 //	fetch the gyro signals and subtract the baseline offset, 
@@ -329,7 +330,6 @@ void yaw_drift()
 	return ;
 }
 
-
 #if (MAG_YAW_DRIFT == 1)
 
 fractional magFieldEarth[3] ;
@@ -352,7 +352,13 @@ void align_rmat_to_mag(void)
 	int sintheta ;
 	initialBodyField.x = udb_magFieldBody[0] ;
 	initialBodyField.y = udb_magFieldBody[1] ;
+#if (BOARD_TYPE == ASPG_BOARD)
+//	theta = rect_to_polar( &initialBodyField ) -128 - DECLINATIONANGLE ; // faces south
+	theta = rect_to_polar( &initialBodyField ) - DECLINATIONANGLE ; // faces west
+//	theta = rect_to_polar( &initialBodyField ) +64 - DECLINATIONANGLE ; // faces east
+#else
 	theta = rect_to_polar( &initialBodyField ) -64 - DECLINATIONANGLE ;
+#endif
 	costheta = cosine(theta) ;
 	sintheta = sine(theta) ;
 	rmat[0] = rmat[4] = costheta ;

@@ -645,7 +645,7 @@ extern ROM BYTE configDescriptor1[];
 /** Public Prototypes *************************************************/
 void USBCheckCDCRequest(void);
 void CDCInitEP(void);
-BYTE getsUSBUSART(char *buffer, BYTE len);
+BYTE getsUSBUSART(unsigned char *buffer, BYTE len);
 void putrsUSBUSART(const ROM char *data);
 void putUSBUSART(char *data, BYTE Length);
 void putsUSBUSART(char *data);

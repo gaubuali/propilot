@@ -1,5 +1,5 @@
 MPLINK 4.34, Linker
-Linker Map File - Created Tue Feb 01 23:28:57 2011
+Linker Map File - Created Mon Feb 14 02:53:32 2011
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -8,55 +8,68 @@ Linker Map File - Created Tue Feb 01 23:28:57 2011
     HIGH_INTERRUPT_VECTOR       code   0x000008    program   0x000006
      LOW_INTERRUPT_VECTOR       code   0x000018    program   0x000006
     REMAPPED_RESET_VECTOR       code   0x001000    program   0x000006
-           .code___init.o       code   0x001006    program   0x000002
+       .code__user_putc.o       code   0x001006    program   0x000002
 REMAPPED_HIGH_INTERRUPT_VECTOR       code   0x001008    program   0x000006
-.idata_usb_descriptors.o_i    romdata   0x00100e    program   0x000000
-       .idata_pow2x16.o_i    romdata   0x00100e    program   0x000000
-    .idata_usb_device.o_i    romdata   0x00100e    program   0x000000
-.idata_usb_function_cdc.o_i    romdata   0x00100e    program   0x000000
-          .idata_main.o_i    romdata   0x00100e    program   0x00000a
+           .code___init.o       code   0x00100e    program   0x000002
+      .idata_fxd3232u.o_i    romdata   0x001010    program   0x000000
+        .idata_SD-SPI.o_i    romdata   0x001010    program   0x000000
+.idata_usb_function_cdc.o_i    romdata   0x001010    program   0x000000
+    .idata_usb_device.o_i    romdata   0x001010    program   0x000000
+   .code_Internal Flash.o       code   0x001010    program   0x000000
+.idata_Internal Flash.o_i    romdata   0x001010    program   0x000000
+.idata_usb_descriptors.o_i    romdata   0x001010    program   0x000000
+            .code_Files.o       code   0x001010    program   0x000000
+  .code_usb_descriptors.o       code   0x001010    program   0x000000
+         .idata_Files.o_i    romdata   0x001010    program   0x000000
+       .idata_fxm3232.o_i    romdata   0x001010    program   0x000000
+        .idata___init.o_i    romdata   0x001010    program   0x000000
+       .idata_pow2x16.o_i    romdata   0x001010    program   0x000000
+       .idata_sprintf.o_i    romdata   0x001010    program   0x000000
+          .idata_putc.o_i    romdata   0x001010    program   0x000000
+    .idata__user_putc.o_i    romdata   0x001010    program   0x000000
+            .code_c018i.o       code   0x001010    program   0x000000
+         .idata_c018i.o_i    romdata   0x001010    program   0x000000
 REMAPPED_LOW_INTERRUPT_VECTOR       code   0x001018    program   0x000006
-                   .cinit    romdata   0x00101e    program   0x000026
-       .code_usb_device.o       code   0x001044    program   0x0012ec
- .code_usb_function_msd.o       code   0x002330    program   0x000ab8
-             .code_main.o       code   0x002de8    program   0x000850
- .code_usb_function_cdc.o       code   0x003638    program   0x000472
-   .code_Internal Flash.o       code   0x003aaa    program   0x00045a
-.romdata_usb_descriptors.o    romdata   0x003f04    program   0x0000e9
-    .romdata_usb_device.o    romdata   0x003fed    program   0x000000
-.romdata_usb_function_cdc.o    romdata   0x003fed    program   0x000000
-        .romdata_SD-SPI.o    romdata   0x003fed    program   0x000000
-.romdata_usb_function_msd.o    romdata   0x003fed    program   0x000000
-.idata_usb_function_msd.o_i    romdata   0x003fed    program   0x000001
-.romdata_Internal Flash.o    romdata   0x003fed    program   0x000000
-      .romdata_fxd3232u.o    romdata   0x003fed    program   0x000000
-         .romdata_Files.o    romdata   0x003fed    program   0x000000
-         .romdata_c018i.o    romdata   0x003fed    program   0x000000
-       .romdata_pow2x16.o    romdata   0x003fed    program   0x000000
-        .romdata___init.o    romdata   0x003fed    program   0x000000
-       .romdata_fxm3232.o    romdata   0x003fed    program   0x000000
-                   STRING       code   0x003fee    program   0x0000d0
-               _cinit_scn       code   0x0040be    program   0x00009e
-                     PROG       code   0x00415c    program   0x000092
-          .code_fxm3232.o       code   0x0041ee    program   0x000070
-         .code_fxd3232u.o       code   0x00425e    program   0x000048
-          .romdata_main.o    romdata   0x0042a6    program   0x000024
-                    .code       code   0x0042ca    program   0x000020
-             _startup_scn       code   0x0042ea    program   0x00001c
-          .code_pow2x16.o       code   0x004306    program   0x000016
-             .stringtable    romdata   0x00431c    program   0x000015
-        .idata___init.o_i    romdata   0x004331    program   0x000000
-      .idata_fxd3232u.o_i    romdata   0x004331    program   0x000000
-       .idata_fxm3232.o_i    romdata   0x004331    program   0x000000
-         .idata_c018i.o_i    romdata   0x004331    program   0x000000
-        .idata_SD-SPI.o_i    romdata   0x004331    program   0x000000
-.idata_Internal Flash.o_i    romdata   0x004331    program   0x000003
-            .code_c018i.o       code   0x004334    program   0x000000
-  .code_usb_descriptors.o       code   0x004334    program   0x000000
-         .idata_Files.o_i    romdata   0x004334    program   0x000000
-            .code_Files.o       code   0x004334    program   0x000000
-           .code_SD-SPI.o       code   0x004334    program   0x000000
-                    Files    romdata   0x007800    program   0x008000
+                   .cinit    romdata   0x00101e    program   0x00001a
+           .code_SD-SPI.o       code   0x001038    program   0x0018b6
+       .code_usb_device.o       code   0x0028ee    program   0x0012ec
+         .code_vfprintf.o       code   0x003bda    program   0x000c22
+ .code_usb_function_msd.o       code   0x0047fc    program   0x000ab8
+             .code_main.o       code   0x0052b4    program   0x000a3c
+ .code_usb_function_cdc.o       code   0x005cf0    program   0x000472
+                     PROG       code   0x006162    program   0x0000ec
+.romdata_usb_descriptors.o    romdata   0x00624e    program   0x0000e9
+      .romdata_fxd3232u.o    romdata   0x006337    program   0x000000
+       .romdata_fxm3232.o    romdata   0x006337    program   0x000000
+        .romdata___init.o    romdata   0x006337    program   0x000000
+       .romdata_pow2x16.o    romdata   0x006337    program   0x000000
+       .romdata_sprintf.o    romdata   0x006337    program   0x000000
+      .idata_vfprintf.o_i    romdata   0x006337    program   0x000000
+          .romdata_putc.o    romdata   0x006337    program   0x000000
+    .romdata__user_putc.o    romdata   0x006337    program   0x000000
+         .romdata_c018i.o    romdata   0x006337    program   0x000000
+         .romdata_Files.o    romdata   0x006337    program   0x000000
+.romdata_Internal Flash.o    romdata   0x006337    program   0x000000
+.romdata_usb_function_cdc.o    romdata   0x006337    program   0x000000
+.idata_usb_function_msd.o_i    romdata   0x006337    program   0x000001
+    .romdata_usb_device.o    romdata   0x006337    program   0x000000
+.romdata_usb_function_msd.o    romdata   0x006337    program   0x000000
+                   STRING       code   0x006338    program   0x0000e0
+          .code_sprintf.o       code   0x006418    program   0x0000ac
+               _cinit_scn       code   0x0064c4    program   0x00009e
+             .code_putc.o       code   0x006562    program   0x000084
+          .code_fxm3232.o       code   0x0065e6    program   0x000070
+             .stringtable    romdata   0x006656    program   0x000050
+        .romdata_SD-SPI.o    romdata   0x0066a6    program   0x000048
+         .code_fxd3232u.o       code   0x0066ee    program   0x000048
+                    CTYPE       code   0x006736    program   0x000024
+          .romdata_main.o    romdata   0x00675a    program   0x000024
+                    .code       code   0x00677e    program   0x000020
+             _startup_scn       code   0x00679e    program   0x00001c
+                    STDIO       code   0x0067ba    program   0x00001c
+          .code_pow2x16.o       code   0x0067d6    program   0x000016
+      .romdata_vfprintf.o    romdata   0x0067ec    program   0x000011
+          .idata_main.o_i    romdata   0x0067fd    program   0x00000a
       .config_fff8_main.o    romdata   0x00fff8    program   0x000001
       .config_fff9_main.o    romdata   0x00fff9    program   0x000001
       .config_fffa_main.o    romdata   0x00fffa    program   0x000001
@@ -66,37 +79,44 @@ REMAPPED_LOW_INTERRUPT_VECTOR       code   0x001018    program   0x000006
       .config_fffe_main.o    romdata   0x00fffe    program   0x000001
       .config_ffff_main.o    romdata   0x00ffff    program   0x000001
                 MATH_DATA      udata   0x000000       data   0x000014
-                 .tmpdata      udata   0x000014       data   0x000008
+                 .tmpdata      udata   0x000014       data   0x000012
       .udata_usb_device.o      udata   0x000060       data   0x00003c
             .udata_main.o      udata   0x000100       data   0x0000cf
-           .udata_c018i.o      udata   0x0001cf       data   0x00000a
-            .idata_main.o      idata   0x0001d9       data   0x00000a
-  .udata_Internal Flash.o      udata   0x0001e3       data   0x000007
+          .udata_SD-SPI.o      udata   0x0001cf       data   0x00000c
+           .udata_c018i.o      udata   0x0001db       data   0x00000a
+            .idata_main.o      idata   0x0001e5       data   0x00000a
                   USB_BDT      udata   0x000400       data   0x00007c
 .udata_usb_function_msd.o      udata   0x00047c       data   0x00004f
                     myCDC      udata   0x000500       data   0x000051
 .udata_usb_function_cdc.o      udata   0x000551       data   0x0000aa
-  .idata_Internal Flash.o      idata   0x0005fb       data   0x000003
-.idata_usb_function_msd.o      idata   0x0005fe       data   0x000001
-         .udata_pow2x16.o      udata   0x0005ff       data   0x000000
-          .idata___init.o      idata   0x0005ff       data   0x000000
-          .udata___init.o      udata   0x0005ff       data   0x000000
-         .idata_fxm3232.o      idata   0x0005ff       data   0x000000
-         .udata_fxm3232.o      udata   0x0005ff       data   0x000000
-         .idata_pow2x16.o      idata   0x0005ff       data   0x000000
-        .idata_fxd3232u.o      idata   0x0005ff       data   0x000000
-        .udata_fxd3232u.o      udata   0x0005ff       data   0x000000
-          .idata_SD-SPI.o      idata   0x0005ff       data   0x000000
-          .udata_SD-SPI.o      udata   0x0005ff       data   0x000000
-.idata_usb_function_cdc.o      idata   0x0005ff       data   0x000000
-           .idata_c018i.o      idata   0x0005ff       data   0x000000
- .udata_usb_descriptors.o      udata   0x0005ff       data   0x000000
- .idata_usb_descriptors.o      idata   0x0005ff       data   0x000000
-           .udata_Files.o      udata   0x0005ff       data   0x000000
-           .idata_Files.o      idata   0x0005ff       data   0x000000
-      .idata_usb_device.o      idata   0x0005ff       data   0x000000
+  .udata_Internal Flash.o      udata   0x0005fb       data   0x000002
+.idata_usb_function_msd.o      idata   0x0005fd       data   0x000001
+            .udata_putc.o      udata   0x0005fe       data   0x000000
+        .idata_vfprintf.o      idata   0x0005fe       data   0x000000
+        .udata_vfprintf.o      udata   0x0005fe       data   0x000000
+         .idata_sprintf.o      idata   0x0005fe       data   0x000000
+          .udata___init.o      udata   0x0005fe       data   0x000000
+         .udata_sprintf.o      udata   0x0005fe       data   0x000000
+         .idata_pow2x16.o      idata   0x0005fe       data   0x000000
+         .udata_pow2x16.o      udata   0x0005fe       data   0x000000
+         .idata_fxm3232.o      idata   0x0005fe       data   0x000000
+         .udata_fxm3232.o      udata   0x0005fe       data   0x000000
+          .idata___init.o      idata   0x0005fe       data   0x000000
+        .udata_fxd3232u.o      udata   0x0005fe       data   0x000000
+        .idata_fxd3232u.o      idata   0x0005fe       data   0x000000
+            .idata_putc.o      idata   0x0005fe       data   0x000000
+      .udata__user_putc.o      udata   0x0005fe       data   0x000000
+      .idata__user_putc.o      idata   0x0005fe       data   0x000000
+          .idata_SD-SPI.o      idata   0x0005fe       data   0x000000
+.idata_usb_function_cdc.o      idata   0x0005fe       data   0x000000
+      .idata_usb_device.o      idata   0x0005fe       data   0x000000
+  .idata_Internal Flash.o      idata   0x0005fe       data   0x000000
+           .idata_Files.o      idata   0x0005fe       data   0x000000
+           .udata_Files.o      udata   0x0005fe       data   0x000000
+ .idata_usb_descriptors.o      idata   0x0005fe       data   0x000000
+ .udata_usb_descriptors.o      udata   0x0005fe       data   0x000000
+           .idata_c018i.o      idata   0x0005fe       data   0x000000
                     myMSD      udata   0x000600       data   0x000200
-             myFileBuffer      udata   0x000800       data   0x000400
                    .stack      udata   0x000d00       data   0x000100
               SFR_BANKED0      udata   0x000ec6       data   0x00000e
               SFR_BANKED1      udata   0x000ed7       data   0x000002
@@ -119,124 +139,120 @@ REMAPPED_LOW_INTERRUPT_VECTOR       code   0x001018    program   0x000006
                             0x000000    0x000005      
                             0x000008    0x00000d      
                             0x000018    0x00001d      
-                            0x001000    0x004333      
-                            0x007800    0x00f7ff      
+                            0x001000    0x00100f      
+                            0x001018    0x006806      
                             0x00fff8    0x00ffff      
-            45902 out of 65530 program addresses used, program memory utilization is 70%
+            22553 out of 65530 program addresses used, program memory utilization is 34%
 
 
 
                               Symbols - Sorted by Name
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-           BlinkUSBStatus   0x0034ba    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-               BootSector   0x007a00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                CDCInitEP   0x0036dc    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-             CDCTxService   0x003956    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-               EraseBlock   0x003e9e    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-                     FAT0   0x007c00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                 FXD3232U   0x00425e    program     extern C:\MCC18\src\traditional\math\fxd3232u.c
-                 FXM2424U   0x00415c    program     extern C:\MCC18\src\traditional\math\fxm2424u.asm
-                  FXM3232   0x0041ee    program     extern C:\MCC18\src\traditional\math\fxm3232.c
+           BlinkUSBStatus   0x005b72    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                CDCInitEP   0x005d94    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+             CDCTxService   0x00600e    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+                CloseSPIM   0x00204e    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                  Delayms   0x001fce    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                 FXD3232U   0x0066ee    program     extern C:\MCC18\src\traditional\math\fxd3232u.c
+                 FXM1616S   0x0061f4    program     extern C:\MCC18\src\traditional\math\fxm1616s.asm
+                 FXM2424U   0x006162    program     extern C:\MCC18\src\traditional\math\fxm2424u.asm
+                  FXM3232   0x0065e6    program     extern C:\MCC18\src\traditional\math\fxm3232.c
                  High_ISR   0x000008    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-         InitializeSystem   0x002efc    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-          InitializeUSART   0x002f98    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+         InitializeSystem   0x0053c8    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+          InitializeUSART   0x005466    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                   Low_ISR   0x000018    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-      MDD_IntFlash_InitIO   0x003ac0    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
- MDD_IntFlash_MediaDetect   0x003aaa    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-MDD_IntFlash_MediaInitialize   0x003ac2    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-MDD_IntFlash_ReadCapacity   0x003ab4    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-MDD_IntFlash_ReadSectorSize   0x003aac    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-  MDD_IntFlash_SectorRead   0x003ad4    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
- MDD_IntFlash_SectorWrite   0x003b74    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-MDD_IntFlash_WriteProtectState   0x003f02    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-        MSDProcessCommand   0x0029a8    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-MSDProcessCommandMediaAbsent   0x002874    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-MSDProcessCommandMediaPresent   0x002636    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-           MSDReadHandler   0x002a42    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-                 MSDTasks   0x002414    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-          MSDWriteHandler   0x002bc0    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-         MasterBootRecord   0x007800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                ProcessIO   0x0032f6    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+         MDD_SDSPI_InitIO   0x0010f4    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+    MDD_SDSPI_MediaDetect   0x001038    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+MDD_SDSPI_MediaInitialize   0x0021d8    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+   MDD_SDSPI_ReadCapacity   0x0010e2    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+      MDD_SDSPI_ReadMedia   0x002080    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+ MDD_SDSPI_ReadSectorSize   0x0010d8    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+     MDD_SDSPI_SectorRead   0x001b08    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+    MDD_SDSPI_SectorWrite   0x001d86    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+  MDD_SDSPI_ShutdownMedia   0x0010fa    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+MDD_SDSPI_WriteProtectState   0x001fcc    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+        MSDProcessCommand   0x004e74    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+MSDProcessCommandMediaAbsent   0x004d40    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+MSDProcessCommandMediaPresent   0x004b02    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+           MSDReadHandler   0x004f0e    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+                 MSDTasks   0x0048e0    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+          MSDWriteHandler   0x00508c    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+                 OpenSPIM   0x0020a2    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                ProcessIO   0x0059ae    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+          ReadMediaManual   0x002146    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
         Remapped_High_ISR   0x001008    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
          Remapped_Low_ISR   0x001018    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-           ResetSenseData   0x002da4    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-           RootDirectory0   0x007e00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-       USBCBCheckOtherReq   0x00353a    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-        USBCBErrorHandler   0x003538    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-              USBCBInitEP   0x003544    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-          USBCBSendResume   0x00355c    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-    USBCBStdSetDscHandler   0x003542    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-             USBCBSuspend   0x003516    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-     USBCBWakeFromSuspend   0x003518    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-        USBCB_SOF_Handler   0x00351a    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-              USBCancelIO   0x002244    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-       USBCheckCDCRequest   0x003638    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-       USBCheckMSDRequest   0x0023cc    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-       USBCheckStdRequest   0x001596    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-     USBConfigureEndpoint   0x001f5c    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-  USBCtrlEPAllowDataStage   0x00194a    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-USBCtrlEPAllowStatusStage   0x0018a8    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-         USBCtrlEPService   0x001364    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
- USBCtrlEPServiceComplete   0x001bc2    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-      USBCtrlTrfInHandler   0x0014dc    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-     USBCtrlTrfOutHandler   0x001492    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-      USBCtrlTrfRxService   0x001d48    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-   USBCtrlTrfSetupHandler   0x001434    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-      USBCtrlTrfTxService   0x001c84    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-          USBDeviceAttach   0x002300    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-          USBDeviceDetach   0x0022f4    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-            USBDeviceInit   0x001044    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-           USBDeviceTasks   0x001164    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-        USBEnableEndpoint   0x002008    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-               USBMSDInit   0x002330    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-         USBStallEndpoint   0x002076    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-          USBStallHandler   0x0012d4    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-  USBStdFeatureReqHandler   0x001654    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-      USBStdGetDscHandler   0x0019c6    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-   USBStdGetStatusHandler   0x001b0e    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-      USBStdSetCfgHandler   0x001e8c    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-               USBSuspend   0x001308    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-     USBTransferOnePacket   0x002152    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-       USBWakeFromSuspend   0x001334    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-               USB_CD_Ptr   0x003fe1    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-               USB_SD_Ptr   0x003fe4    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-USER_USB_CALLBACK_EVENT_HANDLER   0x0035a4    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-        UnlockAndActivate   0x003ecc    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-                 UserInit   0x002f4e    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-  YourHighPriorityISRCode   0x002de8    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-   YourLowPriorityISRCode   0x002e8e    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-              _2jContinue   0x0040aa    program     static C:\MCC18\src\traditional\stdclib\memset.asm
-              _3jContinue   0x004076    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
-                   _3jEnd   0x0040b4    program     static C:\MCC18\src\traditional\stdclib\memset.asm
-              _4jContinue   0x004022    program     static C:\MCC18\src\traditional\stdclib\memcpy.asm
-                   _4jEnd   0x004080    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
-                   _5jEnd   0x00402c    program     static C:\MCC18\src\traditional\stdclib\memcpy.asm
-          ___for_lbl00011   0x003cc4    program     static                          
-          ___for_lbl00012   0x003cd0    program     static                          
-          ___for_lbl00014   0x003c22    program     static                          
-          ___for_lbl00017   0x003e56    program     static                          
-          ___for_lbl00018   0x003e62    program     static                          
-          ___for_lbl00019   0x003e1e    program     static                          
-           ___if_lbl00008   0x003ba2    program     static                          
-           ___if_lbl00013   0x003cba    program     static                          
-           ___if_lbl00020   0x003e80    program     static                          
-       ___return_lbl00000   0x00425c    program     static                          
-       ___return_lbl00000   0x00431a    program     static                          
+           ResetSenseData   0x005270    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+               SendMMCCmd   0x001102    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+         SendMMCCmdManual   0x00160a    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+               TSIGN1616A   0x006240    program     static C:\MCC18\src\traditional\math\fxm1616s.asm
+       USBCBCheckOtherReq   0x005bf2    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+        USBCBErrorHandler   0x005bf0    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+              USBCBInitEP   0x005bfc    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+          USBCBSendResume   0x005c14    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+    USBCBStdSetDscHandler   0x005bfa    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+             USBCBSuspend   0x005bce    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+     USBCBWakeFromSuspend   0x005bd0    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+        USBCB_SOF_Handler   0x005bd2    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+              USBCancelIO   0x003aee    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+       USBCheckCDCRequest   0x005cf0    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+       USBCheckMSDRequest   0x004898    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+       USBCheckStdRequest   0x002e40    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+     USBConfigureEndpoint   0x003806    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+  USBCtrlEPAllowDataStage   0x0031f4    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+USBCtrlEPAllowStatusStage   0x003152    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+         USBCtrlEPService   0x002c0e    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+ USBCtrlEPServiceComplete   0x00346c    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+      USBCtrlTrfInHandler   0x002d86    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+     USBCtrlTrfOutHandler   0x002d3c    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+      USBCtrlTrfRxService   0x0035f2    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+   USBCtrlTrfSetupHandler   0x002cde    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+      USBCtrlTrfTxService   0x00352e    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+          USBDeviceAttach   0x003baa    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+          USBDeviceDetach   0x003b9e    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+            USBDeviceInit   0x0028ee    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+           USBDeviceTasks   0x002a0e    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+        USBEnableEndpoint   0x0038b2    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+               USBMSDInit   0x0047fc    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+         USBStallEndpoint   0x003920    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+          USBStallHandler   0x002b7e    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+  USBStdFeatureReqHandler   0x002efe    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+      USBStdGetDscHandler   0x003270    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+   USBStdGetStatusHandler   0x0033b8    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+      USBStdSetCfgHandler   0x003736    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+               USBSuspend   0x002bb2    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+     USBTransferOnePacket   0x0039fc    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+       USBWakeFromSuspend   0x002bde    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+               USB_CD_Ptr   0x00632b    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+               USB_SD_Ptr   0x00632e    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+USER_USB_CALLBACK_EVENT_HANDLER   0x005c5c    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                 UserInit   0x00541c    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                WriteSPIM   0x002052    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+           WriteSPIManual   0x0020c8    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+  YourHighPriorityISRCode   0x0052b4    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+   YourLowPriorityISRCode   0x00535a    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+              _2jContinue   0x00639e    program     static C:\MCC18\src\traditional\stdclib\memset.asm
+                   _2jEnd   0x006402    program     static C:\MCC18\src\traditional\stdclib\slenpgm.asm
+              _3jContinue   0x00636a    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
+                   _3jEnd   0x0063a8    program     static C:\MCC18\src\traditional\stdclib\memset.asm
+                   _4jEnd   0x006374    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
+       ___return_lbl00000   0x0067ea    program     static                          
+       ___return_lbl00000   0x006734    program     static                          
+       ___return_lbl00000   0x006654    program     static                          
        ___return_lbl00000   0x000004    program     static                          
        ___return_lbl00000   0x001004    program     static                          
-       ___return_lbl00000   0x0042a4    program     static                          
-       ___return_lbl00001   0x004304    program     static                          
        ___return_lbl00001   0x00100c    program     static                          
+       ___return_lbl00001   0x0067b8    program     static                          
        ___return_lbl00002   0x00101c    program     static                          
-       ___return_lbl00002   0x00415a    program     static                          
+       ___return_lbl00002   0x006560    program     static                          
        ___return_lbl00003   0x00000c    program     static                          
        ___return_lbl00004   0x00001c    program     static                          
-       ___return_lbl00007   0x003e86    program     static                          
-        ___while_lbl00009   0x003bfe    program     static                          
-        ___while_lbl00010   0x003e82    program     static                          
-        ___while_lbl00015   0x003e08    program     static                          
-        ___while_lbl00016   0x003e80    program     static                          
+       ___return_lbl00099   0x00203a    program     static                          
+        ___while_lbl00100   0x001fe0    program     static                          
+        ___while_lbl00101   0x002036    program     static                          
+        ___while_lbl00102   0x002004    program     static                          
+        ___while_lbl00103   0x002034    program     static                          
                __config_0   0x00fff8    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                __config_1   0x00fff9    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                __config_2   0x00fffa    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
@@ -245,110 +261,117 @@ USER_USB_CALLBACK_EVENT_HANDLER   0x0035a4    program     extern E:\Projects\Dev
                __config_5   0x00fffd    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                __config_6   0x00fffe    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                __config_7   0x00ffff    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                   __init   0x001006    program     extern C:\MCC18\src\traditional\stdclib\__init.c
-               __string_0   0x00431c    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-               __tmplbl_1   0x003b9c    program     static                          
-            __zero_memory   0x0042ca    program     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                _do_cinit   0x0040be    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                   __init   0x00100e    program     extern C:\MCC18\src\traditional\stdclib\__init.c
+                   __pa_0   0x00451a    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_1   0x004522    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_10   0x0045d6    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_11   0x0045e4    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_12   0x0045fa    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_13   0x004614    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_14   0x00462c    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_15   0x00463c    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_16   0x004652    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_17   0x004664    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_18   0x004676    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_19   0x004680    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_2   0x00452c    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_20   0x004690    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_21   0x0046a0    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_22   0x0046b0    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_23   0x0046bc    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_24   0x0046ca    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_25   0x0046d2    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_26   0x0046dc    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_27   0x0046e6    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_28   0x0046ee    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_29   0x0046fc    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_3   0x004536    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_30   0x004718    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_31   0x004732    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_32   0x00474c    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_33   0x004764    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_34   0x00476e    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_35   0x00477c    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_36   0x004784    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_37   0x00478e    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_38   0x00479e    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_39   0x0047ac    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_4   0x00454e    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_40   0x0047b8    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_41   0x0047c4    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_42   0x0047cc    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_43   0x0047d6    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_44   0x0047dc    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_45   0x0047e6    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_46   0x0047f2    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_5   0x004562    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_6   0x00457e    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_7   0x004588    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_8   0x004594    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_9   0x0045b6    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+               __string_0   0x0066a0    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+               __string_1   0x00666b    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+               __string_2   0x006656    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+              __tmplbl_42   0x0046b0    program     static                          
+              __tmplbl_43   0x0044f8    program     static                          
+              __tmplbl_44   0x0044de    program     static                          
+              __tmplbl_85   0x003c30    program     static                          
+            __zero_memory   0x00677e    program     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                _do_cinit   0x0064c4    program     extern C:\MCC18\src\traditional\startup\c018i.c
                    _entry   0x000000    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                   _false   0x0042a0    program     static                          
+                   _false   0x006730    program     static                          
                    _reset   0x001000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                 _startup   0x0042ea    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                compare_l   0x0042e0    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
-        configDescriptor1   0x003f16    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-                copy_loop   0x004130    program     static                          
-            copy_one_byte   0x004136    program     static                          
-               device_dsc   0x003f04    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-                     done   0x00415a    program     static                          
-             done_copying   0x004144    program     static                          
-                getcUSART   0x0032ce    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-             getsUSBUSART   0x003742    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-                 inq_resp   0x0042a6    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                     jEnd   0x0040bc    program     static C:\MCC18\src\traditional\stdclib\memset.asm
-                     jEnd   0x004032    program     static C:\MCC18\src\traditional\stdclib\memcpy.asm
-                     jEnd   0x004088    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
-                    jLoop   0x004016    program     static C:\MCC18\src\traditional\stdclib\memcpy.asm
-                    jLoop   0x00409e    program     static C:\MCC18\src\traditional\stdclib\memset.asm
-                    jLoop   0x00406a    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
-                     loop   0x0042fa    program     static                          
-                     loop   0x00426c    program     static                          
-                   loop_h   0x0042d8    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   loop_l   0x0042e2    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     main   0x002ef2    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                   memcpy   0x003fee    program     extern C:\MCC18\src\traditional\stdclib\memcpy.asm
-            memcpypgm2ram   0x004044    program     extern C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
-                   memset   0x00408a    program     extern C:\MCC18\src\traditional\stdclib\memset.asm
-   mySetLineCodingHandler   0x002fe4    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                  pow2x16   0x004306    program     extern C:\MCC18\src\traditional\math\pow2x16.c
-              putUSBUSART   0x003802    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-                putcUSART   0x002fce    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-            putrsUSBUSART   0x0038b8    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-             putsUSBUSART   0x003834    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-                    sd000   0x003f6f    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-                    sd001   0x003f73    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-                    sd002   0x003fa7    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-                   slack0   0x008000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack1   0x008200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack10   0x009400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack11   0x009600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack12   0x009800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack13   0x009a00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack14   0x009c00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack15   0x009e00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack16   0x00a000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack17   0x00a200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack18   0x00a400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack19   0x00a600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack2   0x008400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack20   0x00a800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack21   0x00aa00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack22   0x00ac00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack23   0x00ae00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack24   0x00b000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack25   0x00b200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack26   0x00b400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack27   0x00b600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack28   0x00b800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack29   0x00ba00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack3   0x008600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack30   0x00bc00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack31   0x00be00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack32   0x00c000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack33   0x00c200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack34   0x00c400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack35   0x00c600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack36   0x00c800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack37   0x00ca00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack38   0x00cc00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack39   0x00ce00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack4   0x008800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack40   0x00d000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack41   0x00d200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack42   0x00d400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack43   0x00d600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack44   0x00d800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack45   0x00da00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack46   0x00dc00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack47   0x00de00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack48   0x00e000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack49   0x00e200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack5   0x008a00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack50   0x00e400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack51   0x00e600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack52   0x00e800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack53   0x00ea00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack54   0x00ec00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack55   0x00ee00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack56   0x00f000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack57   0x00f200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack58   0x00f400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack59   0x00f600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack6   0x008c00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack7   0x008e00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack8   0x009000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack9   0x009200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                     test   0x0040d8    program     static                          
-               zero_block   0x0042d8    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
+                 _startup   0x00679e    program     extern C:\MCC18\src\traditional\startup\c018i.c
+              _usart_putc   0x0067ba    program     extern C:\MCC18\src\pmc_common\USART\_usartpc.asm
+               _user_putc   0x001006    program     extern C:\MCC18\src\traditional\stdclib\_user_putc.c
+                compare_l   0x006794    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
+        configDescriptor1   0x006260    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+                copy_loop   0x006536    program     static                          
+            copy_one_byte   0x00653c    program     static                          
+               device_dsc   0x00624e    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+                     done   0x006560    program     static                          
+             done_copying   0x00654a    program     static                          
+                getcUSART   0x005986    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+             getsUSBUSART   0x005dfa    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+                 inq_resp   0x00675a    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                  isdigit   0x006736    program     extern C:\MCC18\src\traditional\stdclib\isdigit.asm
+                     jEnd   0x0063cc    program     static C:\MCC18\src\traditional\stdclib\strlen.asm
+                     jEnd   0x006404    program     static C:\MCC18\src\traditional\stdclib\slenpgm.asm
+                     jEnd   0x0063b0    program     static C:\MCC18\src\traditional\stdclib\memset.asm
+                     jEnd   0x00637c    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
+                    jLoop   0x006392    program     static C:\MCC18\src\traditional\stdclib\memset.asm
+                    jLoop   0x00635e    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
+                    jLoop   0x0063ec    program     static C:\MCC18\src\traditional\stdclib\slenpgm.asm
+                    jLoop   0x0063c2    program     static C:\MCC18\src\traditional\stdclib\strlen.asm
+                   jMatch   0x006756    program     static C:\MCC18\src\traditional\stdclib\isdigit.asm
+                 jNoMatch   0x006758    program     static C:\MCC18\src\traditional\stdclib\isdigit.asm
+                     loop   0x0067ae    program     static                          
+                     loop   0x0066fc    program     static                          
+                     loop   0x0067ca    program     static C:\MCC18\src\pmc_common\USART\_usartpc.asm
+                   loop_h   0x00678c    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   loop_l   0x006796    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     main   0x0053be    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+            memcpypgm2ram   0x006338    program     extern C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
+                   memset   0x00637e    program     extern C:\MCC18\src\traditional\stdclib\memset.asm
+   mySetLineCodingHandler   0x0054b2    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                  pow2x16   0x0067d6    program     extern C:\MCC18\src\traditional\math\pow2x16.c
+              putUSBUSART   0x005eba    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+                     putc   0x006562    program     extern C:\MCC18\src\traditional\stdclib\putc.c
+                putcUSART   0x00549c    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+            putrsUSBUSART   0x005f70    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+             putsUSBUSART   0x005eec    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+                 s_digits   0x0067ec    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+            s_put_n_chars   0x003bda    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                    sd000   0x0062b9    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+                    sd001   0x0062bd    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+                    sd002   0x0062f1    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+           sdmmc_cmdtable   0x0066a6    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                  sprintf   0x006418    program     extern C:\MCC18\src\traditional\stdclib\sprintf.c
+                   strlen   0x0063b2    program     extern C:\MCC18\src\traditional\stdclib\strlen.asm
+                strlenpgm   0x0063ce    program     extern C:\MCC18\src\traditional\stdclib\slenpgm.asm
+                     test   0x0064de    program     static                          
+                 vfprintf   0x003c06    program     extern C:\MCC18\src\traditional\stdclib\vfprintf.c
+               zero_block   0x00678c    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
                    ADCON0   0x000fc2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                ADCON0bits   0x000fc2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    ADCON1   0x000fc1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -452,7 +475,6 @@ USER_USB_CALLBACK_EVENT_HANDLER   0x0035a4    program     extern E:\Projects\Dev
                      FSR2   0x000fd9       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     FSR2H   0x000fda       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     FSR2L   0x000fd9       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              FileAddress   0x0005fb       data     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
                   HLVDCON   0x000f85       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               HLVDCONbits   0x000f85       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     INDF0   0x000fef       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -478,8 +500,9 @@ USER_USB_CALLBACK_EVENT_HANDLER   0x0035a4    program     extern E:\Projects\Dev
                  LATCbits   0x000f8b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                       LBA   0x0004bf       data     static E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
              LastRS232Out   0x000144       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+       MDD_SDSPI_finalLBA   0x0001cf       data     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
            MSBBufferIndex   0x0004b8       data     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-          MSDCommandState   0x0005fe       data     static E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+          MSDCommandState   0x0005fd       data     static E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
              MSDReadState   0x00047d       data     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
           MSDRetryAttempt   0x00047f       data     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
             MSDWriteState   0x00047e       data     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
@@ -591,10 +614,10 @@ USER_USB_CALLBACK_EVENT_HANDLER   0x0035a4    program     extern E:\Projects\Dev
                     RPOR8   0x000ece       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     RPOR9   0x000ecf       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
           RS232_In_Buffer   0x000500       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-            RS232_In_Head   0x0001d9       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-            RS232_In_Tail   0x0001da       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+            RS232_In_Head   0x0001e5       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+            RS232_In_Tail   0x0001e6       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
            RS232_Out_Data   0x000100       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-       RS232_Out_Data_Rdy   0x0001db       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+       RS232_Out_Data_Rdy   0x0001e7       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                   RS232cp   0x000145       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                    RTCCAL   0x000f3e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                RTCCALbits   0x000f3e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -756,10 +779,10 @@ USBDeferINDataStagePackets   0x00009a       data     extern E:\Projects\DevPFG\M
 USBDeferOUTDataStagePackets   0x00009b       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
 USBDeferStatusStagePacket   0x000097       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
            USBDeviceState   0x000060       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-              USBInHandle   0x0001de       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+              USBInHandle   0x0001ea       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
            USBMSDInHandle   0x0004b6       data     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
           USBMSDOutHandle   0x0004b4       data     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-             USBOutHandle   0x0001dc       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+             USBOutHandle   0x0001e8       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
 USBStatusStageEnabledFlag1   0x000098       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
 USBStatusStageEnabledFlag2   0x000099       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
 USBStatusStageTimeoutCounter   0x000096       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
@@ -796,12 +819,15 @@ USBStatusStageTimeoutCounter   0x000096       data     extern E:\Projects\DevPFG
                  __TEMPB1   0x000012       data     extern C:\MCC18\src\traditional\math\temparg.asm
                  __TEMPB2   0x000011       data     extern C:\MCC18\src\traditional\math\temparg.asm
                  __TEMPB3   0x000010       data     extern C:\MCC18\src\traditional\math\temparg.asm
+                  __tmp_0   0x000014       data     static C:\MCC18\src\traditional\stdclib\sprintf.c
+                  __tmp_0   0x000014       data     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __tmp_0   0x000014       data     static C:\MCC18\src\traditional\stdclib\putc.c
+                  __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                  __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
                   __tmp_0   0x000014       data     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                  __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
                   __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
                   __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-                  __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-         blinkStatusValid   0x0001e0       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+         blinkStatusValid   0x0001ec       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
               buttonCount   0x0001cc       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
             buttonPressed   0x0001cb       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                 cPrintBuf   0x000511       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
@@ -814,15 +840,16 @@ USBStatusStageTimeoutCounter   0x000096       data     extern E:\Projects\DevPFG
                cdc_tx_len   0x0005e8       data     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
      controlTransferState   0x000078       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
     control_signal_bitmap   0x0005ee       data     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-                curr_byte   0x0001d2       data     static C:\MCC18\src\traditional\startup\c018i.c
-               curr_entry   0x0001d4       data     static C:\MCC18\src\traditional\startup\c018i.c
-                 data_ptr   0x0001d6       data     static C:\MCC18\src\traditional\startup\c018i.c
+                curr_byte   0x0001de       data     static C:\MCC18\src\traditional\startup\c018i.c
+               curr_entry   0x0001e0       data     static C:\MCC18\src\traditional\startup\c018i.c
+                 data_ptr   0x0001e2       data     static C:\MCC18\src\traditional\startup\c018i.c
               delay_count   0x0001cd       data     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
 dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
           endpoint_number   0x00008c       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
                ep_data_in   0x00008e       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
               ep_data_out   0x000092       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-              file_buffer   0x000800       data     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
+         gMediaSectorSize   0x0001d3       data     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                  gSDMode   0x0001d5       data     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
                 gblBLKLen   0x0004c7       data     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
                    gblCBW   0x000480       data     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
              gblCBWLength   0x00049f       data     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
@@ -832,9 +859,9 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
             iPrintBufFull   0x000141       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                   inPipes   0x000079       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
          lastTransmission   0x000146       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                led_count   0x0001e1       data     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                led_count   0x0001ed       data     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
               line_coding   0x0005d9       data     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-         mediaInformation   0x0001e3       data     static E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
+         mediaInformation   0x0001d6       data     static E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
                msd_buffer   0x000600       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
                   msd_cbw   0x000450       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
                   msd_csw   0x00046f       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
@@ -846,11 +873,11 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
                   pCDCDst   0x0005e5       data     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
                   pCDCSrc   0x0005e2       data     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
                      pDst   0x000087       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-                     prom   0x0001cf       data     static C:\MCC18\src\traditional\startup\c018i.c
+                     prom   0x0001db       data     static C:\MCC18\src\traditional\startup\c018i.c
               ptrNextData   0x0004b2       data     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
         shortPacketStatus   0x000077       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
             stringPrinted   0x0001ca       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                        t   0x0001e8       data     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
+                        t   0x0005fb       data     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
                     ucInt   0x000510       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
 
 
@@ -866,210 +893,213 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
        ___return_lbl00004   0x00001c    program     static                          
                    _reset   0x001000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
        ___return_lbl00000   0x001004    program     static                          
-                   __init   0x001006    program     extern C:\MCC18\src\traditional\stdclib\__init.c
+               _user_putc   0x001006    program     extern C:\MCC18\src\traditional\stdclib\_user_putc.c
         Remapped_High_ISR   0x001008    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
        ___return_lbl00001   0x00100c    program     static                          
+                   __init   0x00100e    program     extern C:\MCC18\src\traditional\stdclib\__init.c
          Remapped_Low_ISR   0x001018    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
        ___return_lbl00002   0x00101c    program     static                          
-            USBDeviceInit   0x001044    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-           USBDeviceTasks   0x001164    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-          USBStallHandler   0x0012d4    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-               USBSuspend   0x001308    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-       USBWakeFromSuspend   0x001334    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-         USBCtrlEPService   0x001364    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-   USBCtrlTrfSetupHandler   0x001434    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-     USBCtrlTrfOutHandler   0x001492    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-      USBCtrlTrfInHandler   0x0014dc    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-       USBCheckStdRequest   0x001596    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-  USBStdFeatureReqHandler   0x001654    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-USBCtrlEPAllowStatusStage   0x0018a8    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-  USBCtrlEPAllowDataStage   0x00194a    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-      USBStdGetDscHandler   0x0019c6    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-   USBStdGetStatusHandler   0x001b0e    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
- USBCtrlEPServiceComplete   0x001bc2    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-      USBCtrlTrfTxService   0x001c84    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-      USBCtrlTrfRxService   0x001d48    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-      USBStdSetCfgHandler   0x001e8c    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-     USBConfigureEndpoint   0x001f5c    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
-        USBEnableEndpoint   0x002008    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-         USBStallEndpoint   0x002076    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-     USBTransferOnePacket   0x002152    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-              USBCancelIO   0x002244    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-          USBDeviceDetach   0x0022f4    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-          USBDeviceAttach   0x002300    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-               USBMSDInit   0x002330    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-       USBCheckMSDRequest   0x0023cc    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-                 MSDTasks   0x002414    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-MSDProcessCommandMediaPresent   0x002636    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-MSDProcessCommandMediaAbsent   0x002874    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-        MSDProcessCommand   0x0029a8    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-           MSDReadHandler   0x002a42    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-          MSDWriteHandler   0x002bc0    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-           ResetSenseData   0x002da4    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-  YourHighPriorityISRCode   0x002de8    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-   YourLowPriorityISRCode   0x002e8e    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                     main   0x002ef2    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-         InitializeSystem   0x002efc    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                 UserInit   0x002f4e    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-          InitializeUSART   0x002f98    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                putcUSART   0x002fce    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-   mySetLineCodingHandler   0x002fe4    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                getcUSART   0x0032ce    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                ProcessIO   0x0032f6    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-           BlinkUSBStatus   0x0034ba    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-             USBCBSuspend   0x003516    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-     USBCBWakeFromSuspend   0x003518    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-        USBCB_SOF_Handler   0x00351a    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-        USBCBErrorHandler   0x003538    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-       USBCBCheckOtherReq   0x00353a    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-    USBCBStdSetDscHandler   0x003542    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-              USBCBInitEP   0x003544    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-          USBCBSendResume   0x00355c    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-USER_USB_CALLBACK_EVENT_HANDLER   0x0035a4    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-       USBCheckCDCRequest   0x003638    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-                CDCInitEP   0x0036dc    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-             getsUSBUSART   0x003742    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-              putUSBUSART   0x003802    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-             putsUSBUSART   0x003834    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-            putrsUSBUSART   0x0038b8    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-             CDCTxService   0x003956    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
- MDD_IntFlash_MediaDetect   0x003aaa    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-MDD_IntFlash_ReadSectorSize   0x003aac    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-MDD_IntFlash_ReadCapacity   0x003ab4    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-      MDD_IntFlash_InitIO   0x003ac0    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-MDD_IntFlash_MediaInitialize   0x003ac2    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-  MDD_IntFlash_SectorRead   0x003ad4    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
- MDD_IntFlash_SectorWrite   0x003b74    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-               __tmplbl_1   0x003b9c    program     static                          
-           ___if_lbl00008   0x003ba2    program     static                          
-        ___while_lbl00009   0x003bfe    program     static                          
-          ___for_lbl00014   0x003c22    program     static                          
-           ___if_lbl00013   0x003cba    program     static                          
-          ___for_lbl00011   0x003cc4    program     static                          
-          ___for_lbl00012   0x003cd0    program     static                          
-        ___while_lbl00015   0x003e08    program     static                          
-          ___for_lbl00019   0x003e1e    program     static                          
-          ___for_lbl00017   0x003e56    program     static                          
-          ___for_lbl00018   0x003e62    program     static                          
-           ___if_lbl00020   0x003e80    program     static                          
-        ___while_lbl00016   0x003e80    program     static                          
-        ___while_lbl00010   0x003e82    program     static                          
-       ___return_lbl00007   0x003e86    program     static                          
-               EraseBlock   0x003e9e    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-        UnlockAndActivate   0x003ecc    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-MDD_IntFlash_WriteProtectState   0x003f02    program     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-               device_dsc   0x003f04    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-        configDescriptor1   0x003f16    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-                    sd000   0x003f6f    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-                    sd001   0x003f73    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-                    sd002   0x003fa7    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-               USB_CD_Ptr   0x003fe1    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-               USB_SD_Ptr   0x003fe4    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
-                   memcpy   0x003fee    program     extern C:\MCC18\src\traditional\stdclib\memcpy.asm
-                    jLoop   0x004016    program     static C:\MCC18\src\traditional\stdclib\memcpy.asm
-              _4jContinue   0x004022    program     static C:\MCC18\src\traditional\stdclib\memcpy.asm
-                   _5jEnd   0x00402c    program     static C:\MCC18\src\traditional\stdclib\memcpy.asm
-                     jEnd   0x004032    program     static C:\MCC18\src\traditional\stdclib\memcpy.asm
-            memcpypgm2ram   0x004044    program     extern C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
-                    jLoop   0x00406a    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
-              _3jContinue   0x004076    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
-                   _4jEnd   0x004080    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
-                     jEnd   0x004088    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
-                   memset   0x00408a    program     extern C:\MCC18\src\traditional\stdclib\memset.asm
-                    jLoop   0x00409e    program     static C:\MCC18\src\traditional\stdclib\memset.asm
-              _2jContinue   0x0040aa    program     static C:\MCC18\src\traditional\stdclib\memset.asm
-                   _3jEnd   0x0040b4    program     static C:\MCC18\src\traditional\stdclib\memset.asm
-                     jEnd   0x0040bc    program     static C:\MCC18\src\traditional\stdclib\memset.asm
-                _do_cinit   0x0040be    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                     test   0x0040d8    program     static                          
-                copy_loop   0x004130    program     static                          
-            copy_one_byte   0x004136    program     static                          
-             done_copying   0x004144    program     static                          
-                     done   0x00415a    program     static                          
-       ___return_lbl00002   0x00415a    program     static                          
-                 FXM2424U   0x00415c    program     extern C:\MCC18\src\traditional\math\fxm2424u.asm
-                  FXM3232   0x0041ee    program     extern C:\MCC18\src\traditional\math\fxm3232.c
-       ___return_lbl00000   0x00425c    program     static                          
-                 FXD3232U   0x00425e    program     extern C:\MCC18\src\traditional\math\fxd3232u.c
-                     loop   0x00426c    program     static                          
-                   _false   0x0042a0    program     static                          
-       ___return_lbl00000   0x0042a4    program     static                          
-                 inq_resp   0x0042a6    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-            __zero_memory   0x0042ca    program     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-               zero_block   0x0042d8    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   loop_h   0x0042d8    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
-                compare_l   0x0042e0    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   loop_l   0x0042e2    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
-                 _startup   0x0042ea    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                     loop   0x0042fa    program     static                          
-       ___return_lbl00001   0x004304    program     static                          
-                  pow2x16   0x004306    program     extern C:\MCC18\src\traditional\math\pow2x16.c
-       ___return_lbl00000   0x00431a    program     static                          
-               __string_0   0x00431c    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-         MasterBootRecord   0x007800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-               BootSector   0x007a00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                     FAT0   0x007c00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-           RootDirectory0   0x007e00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack0   0x008000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack1   0x008200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack2   0x008400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack3   0x008600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack4   0x008800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack5   0x008a00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack6   0x008c00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack7   0x008e00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack8   0x009000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                   slack9   0x009200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack10   0x009400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack11   0x009600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack12   0x009800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack13   0x009a00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack14   0x009c00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack15   0x009e00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack16   0x00a000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack17   0x00a200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack18   0x00a400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack19   0x00a600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack20   0x00a800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack21   0x00aa00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack22   0x00ac00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack23   0x00ae00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack24   0x00b000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack25   0x00b200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack26   0x00b400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack27   0x00b600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack28   0x00b800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack29   0x00ba00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack30   0x00bc00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack31   0x00be00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack32   0x00c000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack33   0x00c200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack34   0x00c400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack35   0x00c600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack36   0x00c800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack37   0x00ca00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack38   0x00cc00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack39   0x00ce00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack40   0x00d000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack41   0x00d200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack42   0x00d400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack43   0x00d600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack44   0x00d800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack45   0x00da00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack46   0x00dc00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack47   0x00de00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack48   0x00e000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack49   0x00e200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack50   0x00e400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack51   0x00e600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack52   0x00e800    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack53   0x00ea00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack54   0x00ec00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack55   0x00ee00    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack56   0x00f000    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack57   0x00f200    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack58   0x00f400    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
-                  slack59   0x00f600    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Files.c
+    MDD_SDSPI_MediaDetect   0x001038    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+ MDD_SDSPI_ReadSectorSize   0x0010d8    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+   MDD_SDSPI_ReadCapacity   0x0010e2    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+         MDD_SDSPI_InitIO   0x0010f4    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+  MDD_SDSPI_ShutdownMedia   0x0010fa    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+               SendMMCCmd   0x001102    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+         SendMMCCmdManual   0x00160a    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+     MDD_SDSPI_SectorRead   0x001b08    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+    MDD_SDSPI_SectorWrite   0x001d86    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+MDD_SDSPI_WriteProtectState   0x001fcc    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                  Delayms   0x001fce    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+        ___while_lbl00100   0x001fe0    program     static                          
+        ___while_lbl00102   0x002004    program     static                          
+        ___while_lbl00103   0x002034    program     static                          
+        ___while_lbl00101   0x002036    program     static                          
+       ___return_lbl00099   0x00203a    program     static                          
+                CloseSPIM   0x00204e    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                WriteSPIM   0x002052    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+      MDD_SDSPI_ReadMedia   0x002080    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                 OpenSPIM   0x0020a2    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+           WriteSPIManual   0x0020c8    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+          ReadMediaManual   0x002146    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+MDD_SDSPI_MediaInitialize   0x0021d8    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+            USBDeviceInit   0x0028ee    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+           USBDeviceTasks   0x002a0e    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+          USBStallHandler   0x002b7e    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+               USBSuspend   0x002bb2    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+       USBWakeFromSuspend   0x002bde    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+         USBCtrlEPService   0x002c0e    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+   USBCtrlTrfSetupHandler   0x002cde    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+     USBCtrlTrfOutHandler   0x002d3c    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+      USBCtrlTrfInHandler   0x002d86    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+       USBCheckStdRequest   0x002e40    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+  USBStdFeatureReqHandler   0x002efe    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+USBCtrlEPAllowStatusStage   0x003152    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+  USBCtrlEPAllowDataStage   0x0031f4    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+      USBStdGetDscHandler   0x003270    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+   USBStdGetStatusHandler   0x0033b8    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+ USBCtrlEPServiceComplete   0x00346c    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+      USBCtrlTrfTxService   0x00352e    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+      USBCtrlTrfRxService   0x0035f2    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+      USBStdSetCfgHandler   0x003736    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+     USBConfigureEndpoint   0x003806    program     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+        USBEnableEndpoint   0x0038b2    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+         USBStallEndpoint   0x003920    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+     USBTransferOnePacket   0x0039fc    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+              USBCancelIO   0x003aee    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+          USBDeviceDetach   0x003b9e    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+          USBDeviceAttach   0x003baa    program     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
+            s_put_n_chars   0x003bda    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                 vfprintf   0x003c06    program     extern C:\MCC18\src\traditional\stdclib\vfprintf.c
+              __tmplbl_85   0x003c30    program     static                          
+              __tmplbl_44   0x0044de    program     static                          
+              __tmplbl_43   0x0044f8    program     static                          
+                   __pa_0   0x00451a    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_1   0x004522    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_2   0x00452c    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_3   0x004536    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_4   0x00454e    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_5   0x004562    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_6   0x00457e    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_7   0x004588    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_8   0x004594    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                   __pa_9   0x0045b6    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_10   0x0045d6    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_11   0x0045e4    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_12   0x0045fa    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_13   0x004614    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_14   0x00462c    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_15   0x00463c    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_16   0x004652    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_17   0x004664    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_18   0x004676    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_19   0x004680    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_20   0x004690    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_21   0x0046a0    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+              __tmplbl_42   0x0046b0    program     static                          
+                  __pa_22   0x0046b0    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_23   0x0046bc    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_24   0x0046ca    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_25   0x0046d2    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_26   0x0046dc    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_27   0x0046e6    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_28   0x0046ee    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_29   0x0046fc    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_30   0x004718    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_31   0x004732    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_32   0x00474c    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_33   0x004764    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_34   0x00476e    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_35   0x00477c    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_36   0x004784    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_37   0x00478e    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_38   0x00479e    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_39   0x0047ac    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_40   0x0047b8    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_41   0x0047c4    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_42   0x0047cc    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_43   0x0047d6    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_44   0x0047dc    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_45   0x0047e6    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __pa_46   0x0047f2    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+               USBMSDInit   0x0047fc    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+       USBCheckMSDRequest   0x004898    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+                 MSDTasks   0x0048e0    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+MSDProcessCommandMediaPresent   0x004b02    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+MSDProcessCommandMediaAbsent   0x004d40    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+        MSDProcessCommand   0x004e74    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+           MSDReadHandler   0x004f0e    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+          MSDWriteHandler   0x00508c    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+           ResetSenseData   0x005270    program     extern E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+  YourHighPriorityISRCode   0x0052b4    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+   YourLowPriorityISRCode   0x00535a    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                     main   0x0053be    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+         InitializeSystem   0x0053c8    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                 UserInit   0x00541c    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+          InitializeUSART   0x005466    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                putcUSART   0x00549c    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+   mySetLineCodingHandler   0x0054b2    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                getcUSART   0x005986    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                ProcessIO   0x0059ae    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+           BlinkUSBStatus   0x005b72    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+             USBCBSuspend   0x005bce    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+     USBCBWakeFromSuspend   0x005bd0    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+        USBCB_SOF_Handler   0x005bd2    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+        USBCBErrorHandler   0x005bf0    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+       USBCBCheckOtherReq   0x005bf2    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+    USBCBStdSetDscHandler   0x005bfa    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+              USBCBInitEP   0x005bfc    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+          USBCBSendResume   0x005c14    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+USER_USB_CALLBACK_EVENT_HANDLER   0x005c5c    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+       USBCheckCDCRequest   0x005cf0    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+                CDCInitEP   0x005d94    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+             getsUSBUSART   0x005dfa    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+              putUSBUSART   0x005eba    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+             putsUSBUSART   0x005eec    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+            putrsUSBUSART   0x005f70    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+             CDCTxService   0x00600e    program     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+                 FXM2424U   0x006162    program     extern C:\MCC18\src\traditional\math\fxm2424u.asm
+                 FXM1616S   0x0061f4    program     extern C:\MCC18\src\traditional\math\fxm1616s.asm
+               TSIGN1616A   0x006240    program     static C:\MCC18\src\traditional\math\fxm1616s.asm
+               device_dsc   0x00624e    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+        configDescriptor1   0x006260    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+                    sd000   0x0062b9    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+                    sd001   0x0062bd    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+                    sd002   0x0062f1    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+               USB_CD_Ptr   0x00632b    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+               USB_SD_Ptr   0x00632e    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\usb_descriptors.c
+            memcpypgm2ram   0x006338    program     extern C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
+                    jLoop   0x00635e    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
+              _3jContinue   0x00636a    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
+                   _4jEnd   0x006374    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
+                     jEnd   0x00637c    program     static C:\MCC18\src\traditional\stdclib\mcpyp2r.asm
+                   memset   0x00637e    program     extern C:\MCC18\src\traditional\stdclib\memset.asm
+                    jLoop   0x006392    program     static C:\MCC18\src\traditional\stdclib\memset.asm
+              _2jContinue   0x00639e    program     static C:\MCC18\src\traditional\stdclib\memset.asm
+                   _3jEnd   0x0063a8    program     static C:\MCC18\src\traditional\stdclib\memset.asm
+                     jEnd   0x0063b0    program     static C:\MCC18\src\traditional\stdclib\memset.asm
+                   strlen   0x0063b2    program     extern C:\MCC18\src\traditional\stdclib\strlen.asm
+                    jLoop   0x0063c2    program     static C:\MCC18\src\traditional\stdclib\strlen.asm
+                     jEnd   0x0063cc    program     static C:\MCC18\src\traditional\stdclib\strlen.asm
+                strlenpgm   0x0063ce    program     extern C:\MCC18\src\traditional\stdclib\slenpgm.asm
+                    jLoop   0x0063ec    program     static C:\MCC18\src\traditional\stdclib\slenpgm.asm
+                   _2jEnd   0x006402    program     static C:\MCC18\src\traditional\stdclib\slenpgm.asm
+                     jEnd   0x006404    program     static C:\MCC18\src\traditional\stdclib\slenpgm.asm
+                  sprintf   0x006418    program     extern C:\MCC18\src\traditional\stdclib\sprintf.c
+                _do_cinit   0x0064c4    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                     test   0x0064de    program     static                          
+                copy_loop   0x006536    program     static                          
+            copy_one_byte   0x00653c    program     static                          
+             done_copying   0x00654a    program     static                          
+       ___return_lbl00002   0x006560    program     static                          
+                     done   0x006560    program     static                          
+                     putc   0x006562    program     extern C:\MCC18\src\traditional\stdclib\putc.c
+                  FXM3232   0x0065e6    program     extern C:\MCC18\src\traditional\math\fxm3232.c
+       ___return_lbl00000   0x006654    program     static                          
+               __string_2   0x006656    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+               __string_1   0x00666b    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+               __string_0   0x0066a0    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+           sdmmc_cmdtable   0x0066a6    program     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                 FXD3232U   0x0066ee    program     extern C:\MCC18\src\traditional\math\fxd3232u.c
+                     loop   0x0066fc    program     static                          
+                   _false   0x006730    program     static                          
+       ___return_lbl00000   0x006734    program     static                          
+                  isdigit   0x006736    program     extern C:\MCC18\src\traditional\stdclib\isdigit.asm
+                   jMatch   0x006756    program     static C:\MCC18\src\traditional\stdclib\isdigit.asm
+                 jNoMatch   0x006758    program     static C:\MCC18\src\traditional\stdclib\isdigit.asm
+                 inq_resp   0x00675a    program     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+            __zero_memory   0x00677e    program     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+               zero_block   0x00678c    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   loop_h   0x00678c    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
+                compare_l   0x006794    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   loop_l   0x006796    program     static C:\MCC18\src\traditional\proc\p18F26J50.asm
+                 _startup   0x00679e    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                     loop   0x0067ae    program     static                          
+       ___return_lbl00001   0x0067b8    program     static                          
+              _usart_putc   0x0067ba    program     extern C:\MCC18\src\pmc_common\USART\_usartpc.asm
+                     loop   0x0067ca    program     static C:\MCC18\src\pmc_common\USART\_usartpc.asm
+                  pow2x16   0x0067d6    program     extern C:\MCC18\src\traditional\math\pow2x16.c
+       ___return_lbl00000   0x0067ea    program     static                          
+                 s_digits   0x0067ec    program     static C:\MCC18\src\traditional\stdclib\vfprintf.c
                __config_0   0x00fff8    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                __config_1   0x00fff9    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                __config_2   0x00fffa    program     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
@@ -1085,8 +1115,8 @@ MDD_IntFlash_WriteProtectState   0x003f02    program     extern E:\Projects\DevP
                  __AARGB7   0x000002       data     extern C:\MCC18\src\traditional\math\aarg.asm
                   __REMB2   0x000003       data     extern C:\MCC18\src\traditional\math\aarg.asm
                  __AARGB6   0x000003       data     extern C:\MCC18\src\traditional\math\aarg.asm
-                  __REMB1   0x000004       data     extern C:\MCC18\src\traditional\math\aarg.asm
                  __AARGB5   0x000004       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                  __REMB1   0x000004       data     extern C:\MCC18\src\traditional\math\aarg.asm
                  __AARGB4   0x000005       data     extern C:\MCC18\src\traditional\math\aarg.asm
                   __REMB0   0x000005       data     extern C:\MCC18\src\traditional\math\aarg.asm
                  __AARGB3   0x000006       data     extern C:\MCC18\src\traditional\math\aarg.asm
@@ -1105,10 +1135,13 @@ MDD_IntFlash_WriteProtectState   0x003f02    program     extern E:\Projects\DevP
                  __TEMPB0   0x000013       data     extern C:\MCC18\src\traditional\math\temparg.asm
                    __TEMP   0x000013       data     extern C:\MCC18\src\traditional\math\temparg.asm
                   __tmp_0   0x000014       data     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                  __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-                  __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
-                  __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
                   __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
+                  __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\USB\usb_device.c
+                  __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                  __tmp_0   0x000014       data     static C:\MCC18\src\traditional\stdclib\putc.c
+                  __tmp_0   0x000014       data     static C:\MCC18\src\traditional\stdclib\vfprintf.c
+                  __tmp_0   0x000014       data     static E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+                  __tmp_0   0x000014       data     static C:\MCC18\src\traditional\stdclib\sprintf.c
            USBDeviceState   0x000060       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
    USBActiveConfiguration   0x000061       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
     USBAlternateInterface   0x000062       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
@@ -1146,19 +1179,21 @@ USBDeferOUTDataStagePackets   0x00009b       data     extern E:\Projects\DevPFG\
             buttonPressed   0x0001cb       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
               buttonCount   0x0001cc       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
               delay_count   0x0001cd       data     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                     prom   0x0001cf       data     static C:\MCC18\src\traditional\startup\c018i.c
-                curr_byte   0x0001d2       data     static C:\MCC18\src\traditional\startup\c018i.c
-               curr_entry   0x0001d4       data     static C:\MCC18\src\traditional\startup\c018i.c
-                 data_ptr   0x0001d6       data     static C:\MCC18\src\traditional\startup\c018i.c
-            RS232_In_Head   0x0001d9       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-            RS232_In_Tail   0x0001da       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-       RS232_Out_Data_Rdy   0x0001db       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-             USBOutHandle   0x0001dc       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-              USBInHandle   0x0001de       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-         blinkStatusValid   0x0001e0       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-                led_count   0x0001e1       data     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
-         mediaInformation   0x0001e3       data     static E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-                        t   0x0001e8       data     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
+       MDD_SDSPI_finalLBA   0x0001cf       data     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+         gMediaSectorSize   0x0001d3       data     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                  gSDMode   0x0001d5       data     extern E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+         mediaInformation   0x0001d6       data     static E:\Projects\DevPFG\Microchip\MDD File System\SD-SPI.c
+                     prom   0x0001db       data     static C:\MCC18\src\traditional\startup\c018i.c
+                curr_byte   0x0001de       data     static C:\MCC18\src\traditional\startup\c018i.c
+               curr_entry   0x0001e0       data     static C:\MCC18\src\traditional\startup\c018i.c
+                 data_ptr   0x0001e2       data     static C:\MCC18\src\traditional\startup\c018i.c
+            RS232_In_Head   0x0001e5       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+            RS232_In_Tail   0x0001e6       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+       RS232_Out_Data_Rdy   0x0001e7       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+             USBOutHandle   0x0001e8       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+              USBInHandle   0x0001ea       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+         blinkStatusValid   0x0001ec       data     extern E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
+                led_count   0x0001ed       data     static E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c
                       BDT   0x000400       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
                  SetupPkt   0x000440       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
               CtrlTrfData   0x000448       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
@@ -1199,10 +1234,9 @@ USBDeferOUTDataStagePackets   0x00009b       data     extern E:\Projects\DevPFG\
     control_signal_bitmap   0x0005ee       data     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
               BaudRateGen   0x0005ef       data     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
 dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\DevPFG\Microchip\USB\CDC Device Driver\usb_function_cdc.c
-              FileAddress   0x0005fb       data     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
-          MSDCommandState   0x0005fe       data     static E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
+                        t   0x0005fb       data     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
+          MSDCommandState   0x0005fd       data     static E:\Projects\DevPFG\Microchip\USB\MSD Device Driver\usb_function_msd.c
                msd_buffer   0x000600       data     extern E:\Projects\DevPFG\Microchip\USB\usb_device.c
-              file_buffer   0x000800       data     extern E:\Projects\DevPFG\Microchip\MDD File System\Internal Flash.c
                     RPOR0   0x000ec6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     RPOR1   0x000ec7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     RPOR2   0x000ec8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -1236,60 +1270,60 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
                   RPINR24   0x000efe       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                PPSCONbits   0x000eff       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    PPSCON   0x000eff       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                 UEP0bits   0x000f26       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      UEP0   0x000f26       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                 UEP0bits   0x000f26       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      UEP1   0x000f27       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UEP1bits   0x000f27       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     UEP2   0x000f28       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UEP2bits   0x000f28       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     UEP3   0x000f29       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     UEP2   0x000f28       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UEP3bits   0x000f29       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     UEP4   0x000f2a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     UEP3   0x000f29       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UEP4bits   0x000f2a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     UEP4   0x000f2a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      UEP5   0x000f2b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UEP5bits   0x000f2b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                 UEP6bits   0x000f2c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      UEP6   0x000f2c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                 UEP6bits   0x000f2c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UEP7bits   0x000f2d       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      UEP7   0x000f2d       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     UEP8   0x000f2e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UEP8bits   0x000f2e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     UEP9   0x000f2f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     UEP8   0x000f2e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UEP9bits   0x000f2f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                UEP10bits   0x000f30       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     UEP9   0x000f2f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     UEP10   0x000f30       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                UEP11bits   0x000f31       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                UEP10bits   0x000f30       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     UEP11   0x000f31       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                UEP12bits   0x000f32       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                UEP11bits   0x000f31       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     UEP12   0x000f32       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                UEP12bits   0x000f32       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     UEP13   0x000f33       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 UEP13bits   0x000f33       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     UEP14   0x000f34       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 UEP14bits   0x000f34       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                UEP15bits   0x000f35       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     UEP15   0x000f35       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                      UIE   0x000f36       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                UEP15bits   0x000f35       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   UIEbits   0x000f36       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     UEIE   0x000f37       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                      UIE   0x000f36       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UEIEbits   0x000f37       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                    UADDR   0x000f38       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     UEIE   0x000f37       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 UADDRbits   0x000f38       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                    UADDR   0x000f38       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      UCFG   0x000f39       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UCFGbits   0x000f39       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  PADCFG1   0x000f3c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               PADCFG1bits   0x000f3c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  PADCFG1   0x000f3c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   REFOCON   0x000f3d       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               REFOCONbits   0x000f3d       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   RTCCAL   0x000f3e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                RTCCALbits   0x000f3e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   RTCCFG   0x000f3f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   RTCCAL   0x000f3e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                RTCCFGbits   0x000f3f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-               ODCON3bits   0x000f40       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   RTCCFG   0x000f3f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    ODCON3   0x000f40       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+               ODCON3bits   0x000f40       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                ODCON2bits   0x000f41       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    ODCON2   0x000f41       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   ODCON1   0x000f42       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                ODCON1bits   0x000f42       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   ODCON1   0x000f42       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                ANCON0bits   0x000f48       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    ANCON0   0x000f48       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    ANCON1   0x000f49       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -1298,14 +1332,14 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
                   DSWAKEL   0x000f4a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               DSWAKEHbits   0x000f4b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   DSWAKEH   0x000f4b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   DSCONL   0x000f4c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                DSCONLbits   0x000f4c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   DSCONL   0x000f4c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                DSCONHbits   0x000f4d       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    DSCONH   0x000f4d       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    DSGPR0   0x000f4e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    DSGPR1   0x000f4f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              TCLKCONbits   0x000f52       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   TCLKCON   0x000f52       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+              TCLKCONbits   0x000f52       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                CVRCONbits   0x000f53       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    CVRCON   0x000f53       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      UFRM   0x000f60       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -1315,12 +1349,12 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
                 UFRMHbits   0x000f61       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                       UIR   0x000f62       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   UIRbits   0x000f62       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     UEIR   0x000f63       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UEIRbits   0x000f63       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                USTATbits   0x000f64       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     UEIR   0x000f63       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     USTAT   0x000f64       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     UCON   0x000f65       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                USTATbits   0x000f64       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  UCONbits   0x000f65       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     UCON   0x000f65       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                DMABCHbits   0x000f66       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    DMABCH   0x000f66       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    DMABCL   0x000f67       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -1330,18 +1364,18 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
               TXADDRHbits   0x000f6a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   TXADDRH   0x000f6a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   TXADDRL   0x000f6b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-               CMSTATbits   0x000f70       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
              CMSTATUSbits   0x000f70       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  CMSTATUS   0x000f70       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    CMSTAT   0x000f70       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-             SSP2CON2bits   0x000f71       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+               CMSTATbits   0x000f70       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  SSP2CON2   0x000f71       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+             SSP2CON2bits   0x000f71       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
              SSP2CON1bits   0x000f72       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  SSP2CON1   0x000f72       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
              SSP2STATbits   0x000f73       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  SSP2STAT   0x000f73       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              SSP2ADDbits   0x000f74       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   SSP2ADD   0x000f74       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+              SSP2ADDbits   0x000f74       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   SSP2BUF   0x000f75       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     T4CON   0x000f76       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 T4CONbits   0x000f76       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -1354,154 +1388,154 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
              BAUDCON2bits   0x000f7c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  BAUDCON2   0x000f7c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   SPBRGH2   0x000f7d       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              BAUDCONbits   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  BAUDCON   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  BAUDCON1   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
              BAUDCON1bits   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  BAUDCON   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+              BAUDCONbits   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   BAUDCTL   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               BAUDCTLbits   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   SPBRGH   0x000f7f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   SPBRGH1   0x000f7f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                    PORTA   0x000f80       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   SPBRGH   0x000f7f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 PORTAbits   0x000f80       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                    PORTB   0x000f81       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                    PORTA   0x000f80       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 PORTBbits   0x000f81       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                    PORTC   0x000f82       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                    PORTB   0x000f81       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 PORTCbits   0x000f82       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                    PORTC   0x000f82       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   HLVDCON   0x000f85       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               HLVDCONbits   0x000f85       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  DMACON2   0x000f86       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               DMACON2bits   0x000f86       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  DMACON1   0x000f88       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  DMACON2   0x000f86       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               DMACON1bits   0x000f88       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  DMACON1   0x000f88       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  LATAbits   0x000f89       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      LATA   0x000f89       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     LATB   0x000f8a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  LATBbits   0x000f8a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     LATC   0x000f8b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     LATB   0x000f8a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  LATCbits   0x000f8b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     LATC   0x000f8b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  ALRMVALL   0x000f8e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  ALRMVALH   0x000f8f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  ALRMRPT   0x000f90       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               ALRMRPTbits   0x000f90       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  ALRMRPT   0x000f90       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   ALRMCFG   0x000f91       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               ALRMCFGbits   0x000f91       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 TRISAbits   0x000f92       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     TRISA   0x000f92       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                    TRISB   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 TRISBbits   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                    TRISB   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     TRISC   0x000f94       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 TRISCbits   0x000f94       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   T3GCON   0x000f97       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                T3GCONbits   0x000f97       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   T3GCON   0x000f97       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   RTCVALL   0x000f98       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   RTCVALH   0x000f99       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    T1GCON   0x000f9a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                T1GCONbits   0x000f9a       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  OSCTUNE   0x000f9b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               OSCTUNEbits   0x000f9b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  OSCTUNE   0x000f9b       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                RCSTA2bits   0x000f9c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    RCSTA2   0x000f9c       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      PIE1   0x000f9d       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  PIE1bits   0x000f9d       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                 PIR1bits   0x000f9e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      PIR1   0x000f9e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                 IPR1bits   0x000f9f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                 PIR1bits   0x000f9e       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      IPR1   0x000f9f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     PIE2   0x000fa0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                 IPR1bits   0x000f9f       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  PIE2bits   0x000fa0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     PIE2   0x000fa0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      PIR2   0x000fa1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  PIR2bits   0x000fa1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      IPR2   0x000fa2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  IPR2bits   0x000fa2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     PIE3   0x000fa3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  PIE3bits   0x000fa3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     PIE3   0x000fa3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      PIR3   0x000fa4       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  PIR3bits   0x000fa4       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      IPR3   0x000fa5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  IPR3bits   0x000fa5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-               EECON1bits   0x000fa6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    EECON1   0x000fa6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+               EECON1bits   0x000fa6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    EECON2   0x000fa7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   TXSTA2   0x000fa8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                TXSTA2bits   0x000fa8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   TXSTA2   0x000fa8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    TXREG2   0x000fa9       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    RCREG2   0x000faa       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    SPBRG2   0x000fab       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                    RCSTA   0x000fac       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    RCSTA1   0x000fac       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                RCSTA1bits   0x000fac       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 RCSTAbits   0x000fac       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                    RCSTA   0x000fac       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     TXSTA   0x000fad       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    TXSTA1   0x000fad       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                TXSTAbits   0x000fad       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                TXSTA1bits   0x000fad       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                TXSTAbits   0x000fad       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    TXREG1   0x000fae       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     TXREG   0x000fae       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    RCREG1   0x000faf       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     RCREG   0x000faf       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    SPBRG1   0x000fb0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     SPBRG   0x000fb0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-             CTMUICONbits   0x000fb1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  CTMUICON   0x000fb1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-             CTMUCONLbits   0x000fb2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+             CTMUICONbits   0x000fb1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  CTMUCONL   0x000fb2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-             CTMUCONHbits   0x000fb3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+             CTMUCONLbits   0x000fb2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  CTMUCONH   0x000fb3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+             CTMUCONHbits   0x000fb3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  CCP2CON   0x000fb4       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+              CCP2CONbits   0x000fb4       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
              ECCP2CONbits   0x000fb4       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  ECCP2CON   0x000fb4       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              CCP2CONbits   0x000fb4       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  CCP2CON   0x000fb4       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     CCPR2   0x000fb5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    CCPR2L   0x000fb5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    CCPR2H   0x000fb6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   PWM2CON   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              PWM2CONbits   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  ECCP2DEL   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
              ECCP2DELbits   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  ECCP2AS   0x000fb8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+              PWM2CONbits   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               ECCP2ASbits   0x000fb8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-             PSTR2CONbits   0x000fb9       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  ECCP2AS   0x000fb8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  PSTR2CON   0x000fb9       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+             PSTR2CONbits   0x000fb9       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+              CCP1CONbits   0x000fba       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
              ECCP1CONbits   0x000fba       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  ECCP1CON   0x000fba       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              CCP1CONbits   0x000fba       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   CCP1CON   0x000fba       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                    CCPR1   0x000fbb       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    CCPR1L   0x000fbb       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                    CCPR1   0x000fbb       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    CCPR1H   0x000fbc       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+             ECCP1DELbits   0x000fbd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   PWM1CON   0x000fbd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               PWM1CONbits   0x000fbd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  ECCP1DEL   0x000fbd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-             ECCP1DELbits   0x000fbd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   ECCP1AS   0x000fbe       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               ECCP1ASbits   0x000fbe       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                 PSTR1CON   0x000fbf       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
              PSTR1CONbits   0x000fbf       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                 PSTR1CON   0x000fbf       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                WDTCONbits   0x000fc0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    WDTCON   0x000fc0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                ADCON1bits   0x000fc1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    ADCON1   0x000fc1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                ADCON0bits   0x000fc2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    ADCON0   0x000fc2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   ADRESL   0x000fc3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     ADRES   0x000fc3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   ADRESL   0x000fc3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    ADRESH   0x000fc4       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                 SSP1CON2   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-             SSP1CON2bits   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              SSPCON2bits   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   SSPCON2   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+              SSPCON2bits   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+             SSP1CON2bits   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                 SSP1CON2   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+              SSPCON1bits   0x000fc6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  SSPCON1   0x000fc6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  SSP1CON1   0x000fc6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
              SSP1CON1bits   0x000fc6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  SSPCON1   0x000fc6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              SSPCON1bits   0x000fc6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  SSPSTAT   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              SSPSTATbits   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                 SSP1STAT   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
              SSP1STATbits   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                 SSP1STAT   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+              SSPSTATbits   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  SSPSTAT   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                SSPADDbits   0x000fc8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-              SSP1ADDbits   0x000fc8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    SSPADD   0x000fc8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+              SSP1ADDbits   0x000fc8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   SSP1ADD   0x000fc8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   SSP1BUF   0x000fc9       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    SSPBUF   0x000fc9       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -1509,8 +1543,8 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
                 T2CONbits   0x000fca       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                       PR2   0x000fcb       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      TMR2   0x000fcc       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                    T1CON   0x000fcd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 T1CONbits   0x000fcd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                    T1CON   0x000fcd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     TMR1L   0x000fce       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     TMR1H   0x000fcf       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  RCONbits   0x000fd0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -1523,10 +1557,10 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
               CM1CON1bits   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   CM1CON1   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    CM1CON   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   OSCCON   0x000fd3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                OSCCONbits   0x000fd3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                    T0CON   0x000fd5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   OSCCON   0x000fd3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                 T0CONbits   0x000fd5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                    T0CON   0x000fd5       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     TMR0L   0x000fd6       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     TMR0H   0x000fd7       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                STATUSbits   0x000fd8       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -1540,8 +1574,8 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
                  POSTINC2   0x000fde       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     INDF2   0x000fdf       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                       BSR   0x000fe0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                     FSR1   0x000fe1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     FSR1L   0x000fe1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                     FSR1   0x000fe1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     FSR1H   0x000fe2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    PLUSW1   0x000fe3       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   PREINC1   0x000fe4       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -1557,8 +1591,8 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
                  POSTDEC0   0x000fed       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                  POSTINC0   0x000fee       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                     INDF0   0x000fef       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                  INTCON3   0x000ff0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               INTCON3bits   0x000ff0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                  INTCON3   0x000ff0       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                   INTCON2   0x000ff1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
               INTCON2bits   0x000ff1       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    INTCON   0x000ff2       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
@@ -1575,10 +1609,10 @@ dummy_encapsulated_cmd_response   0x0005f3       data     extern E:\Projects\Dev
                        PC   0x000ff9       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    PCLATH   0x000ffa       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                    PCLATU   0x000ffb       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                   STKPTR   0x000ffc       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                STKPTRbits   0x000ffc       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
-                      TOS   0x000ffd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                   STKPTR   0x000ffc       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      TOSL   0x000ffd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
+                      TOS   0x000ffd       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      TOSH   0x000ffe       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
                      TOSU   0x000fff       data     extern C:\MCC18\src\traditional\proc\p18F26J50.asm
 

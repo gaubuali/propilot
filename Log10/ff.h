@@ -245,7 +245,7 @@ extern const PARTITION Drives[];	/* Logical drive# to physical location conversi
 
 /* Type of path name strings on FatFs API */
 
-#if _LFN_UNICODE			/* Unicode string */
+#if _LFN_UNICODE > 0			/* Unicode string */
 #if !_USE_LFN
 #error _LFN_UNICODE must be 0 in non-LFN cfg.
 #endif

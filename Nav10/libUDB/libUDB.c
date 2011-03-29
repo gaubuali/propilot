@@ -20,6 +20,7 @@
 
 
 #include "libUDB_internal.h"
+#include "defines.h"
 
 #if (BOARD_IS_CLASSIC_UDB)
 #if ( CLOCK_CONFIG == CRYSTAL_CLOCK )
@@ -75,8 +76,11 @@ _FUID3( 0xffff )
 union udb_fbts_byte udb_flags ;
 
 boolean timer_5_on = 0 ;
-int needSaveExtendedState = 0 ;
-int defaultCorcon = 0 ;
+int needSaveExtendedState IMPORTANT = 0 ;
+int defaultCorcon IMPORTANT = 0 ;
+volatile int trap_flags __attribute__ ((persistent));
+volatile long trap_source __attribute__ ((persistent));
+
 /*
 WORD wSP_Save;
 typedef struct tagRESETS {
@@ -170,7 +174,7 @@ void udb_init(void)
 #endif
 	
 	udb_init_GPS() ;
-	udb_init_USART() ;
+	udb_init_USART() ; udb_serial_set_rate( SERIAL_OUTPUT_BAUD );
 	udb_init_pwm() ;
 #if (USE_OSD == 1)
 	udb_init_osd() ;
@@ -178,7 +182,13 @@ void udb_init(void)
 	
 	SRbits.IPL = 0 ;	// turn on all interrupt priorities
 
-	udb_init_EE();
+	if ( udb_init_EE() )
+	{
+#if (FLIGHT_PLAN_TYPE == FP_WAYPOINTS)
+		ReadWaypoint( 0, 0, 4 );	// fill array
+		while (EE_Active != 0);		// this forces a wait in this function
+#endif
+	}
 	
 	return ;
 }
@@ -191,6 +201,12 @@ void udb_run(void)
 	{
 		// pause cpu counting timer while not in an ISR
 		indicate_loading_main ;
+		// neither of these "return" till done but do keep the flag off while waiting
+		if ( flags._.read_EE )
+			ReadParameters(), flags._.read_EE = 0;
+		else 
+		if (flags._.write_EE )
+			WriteParameters(), flags._.write_EE = 0;
 	}
 	// Never returns
 }

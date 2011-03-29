@@ -56,6 +56,7 @@ struct dcm_flag_bits {
 #define GPS_STD				1
 #define GPS_UBX_2HZ			2
 #define GPS_UBX_4HZ			4
+#define GPS_DEBUG			3
 
 #define GPS_RATE			GPS_TYPE //Hah hah, this works for now
 

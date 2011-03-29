@@ -150,8 +150,8 @@
 	#endif
 #endif
 
-#define USE_INTERNAL_FLASH
-//#define USE_SD_INTERFACE_WITH_SPI
+//#define USE_INTERNAL_FLASH
+#define USE_SD_INTERFACE_WITH_SPI
 
 // Function definitions
 // Associate the physical layer functions with the correct physical layer

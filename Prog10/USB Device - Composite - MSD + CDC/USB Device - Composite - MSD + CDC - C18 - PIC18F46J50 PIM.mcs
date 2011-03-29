@@ -13,7 +13,7 @@ SOLK=<src>|main.c|usb_descriptors.c|Files.c|..\..\Microchip\MDD File System\Inte
 SuiteArgsString=
 ToolArgsString=-mL
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File001]
 Location=E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Objects\usb_descriptors.o
 Folder=Intermediary
@@ -26,7 +26,7 @@ SOLK=<src>|main.c|usb_descriptors.c|Files.c|..\..\Microchip\MDD File System\Inte
 SuiteArgsString=
 ToolArgsString=-mL
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File002]
 Location=E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Objects\Files.o
 Folder=Intermediary
@@ -39,7 +39,7 @@ SOLK=<src>|main.c|usb_descriptors.c|Files.c|..\..\Microchip\MDD File System\Inte
 SuiteArgsString=
 ToolArgsString=-mL
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File003]
 Location=E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Objects\Internal Flash.o
 Folder=Intermediary
@@ -52,7 +52,7 @@ SOLK=<src>|main.c|usb_descriptors.c|Files.c|..\..\Microchip\MDD File System\Inte
 SuiteArgsString=
 ToolArgsString=-mL
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File004]
 Location=E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Objects\usb_function_msd.o
 Folder=Intermediary
@@ -65,7 +65,7 @@ SOLK=<src>|main.c|usb_descriptors.c|Files.c|..\..\Microchip\MDD File System\Inte
 SuiteArgsString=
 ToolArgsString=-mL
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File005]
 Location=E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Objects\usb_device.o
 Folder=Intermediary
@@ -78,7 +78,7 @@ SOLK=<src>|main.c|usb_descriptors.c|Files.c|..\..\Microchip\MDD File System\Inte
 SuiteArgsString=
 ToolArgsString=-mL
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File006]
 Location=E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Objects\usb_function_cdc.o
 Folder=Intermediary
@@ -91,7 +91,7 @@ SOLK=<src>|main.c|usb_descriptors.c|Files.c|..\..\Microchip\MDD File System\Inte
 SuiteArgsString=
 ToolArgsString=-mL
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File007]
 Location=E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\Objects\SD-SPI.o
 Folder=Intermediary
@@ -104,7 +104,7 @@ SOLK=<src>|main.c|usb_descriptors.c|Files.c|..\..\Microchip\MDD File System\Inte
 SuiteArgsString=
 ToolArgsString=-mL
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File008]
 Location=E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\USB Device - Composite - MSD + CDC - C18 - PIC18F46J50 PIM.cof
 Folder=Output
@@ -117,7 +117,7 @@ SOLK=<src>|main.c|usb_descriptors.c|Files.c|..\..\Microchip\MDD File System\Inte
 SuiteArgsString=
 ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
 TraceCmdString=
-DebugOptions=
+DebugOptions=/z__MPLAB_DEBUG=1 /z__MPLAB_DEBUGGER_PK3=1 /z__ICD2RAM=1
 [File009]
 Location=E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\USB Device - Composite - MSD + CDC - C18 - PIC18F46J50 PIM.hex
 Folder=Output
@@ -130,7 +130,7 @@ SOLK=<src>|main.c|usb_descriptors.c|Files.c|..\..\Microchip\MDD File System\Inte
 SuiteArgsString=
 ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
 TraceCmdString=
-DebugOptions=
+DebugOptions=/z__MPLAB_DEBUG=1 /z__MPLAB_DEBUGGER_PK3=1 /z__ICD2RAM=1
 [TOOL_LOC_STAMPS]
 tool_loc{96C98149-AA1B-4CF9-B967-FAE79CAB663C}=C:\MCC18\bin\mplink.exe
 tool_loc{E56A1C86-9D32-4DF6-8C34-FE0388B1B644}=C:\MCC18\bin\mcc18.exe

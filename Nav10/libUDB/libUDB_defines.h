@@ -34,8 +34,9 @@ union longbbbb { long WW ; struct ww _ ; struct bbbb __ ; } ;
 union longww { long  WW ; struct ww _ ; struct uu __ ;} ;
 union longlongww { long long  WW ; struct ww _ ; struct uuuu __ ;} ;
 
-typedef unsigned int WORD, * LPWORD;
-typedef unsigned long DWORD, * LPDWORD;
+typedef unsigned char BYTE, *LPBYTE;
+typedef unsigned int WORD, *LPWORD;
+typedef unsigned long DWORD, *LPDWORD;
 
 // Build for the specific board type
 #define RED_BOARD		1
@@ -154,10 +155,13 @@ struct ADchannel {
 };  // variables for processing an AD channel
 
 
-struct udb_flag_bits {
-			unsigned int unused					: 6 ;
+struct udb_flag_bits {	// this is not actually a byte - c bitfields are mod 16 bits allocated from low bit
+			unsigned int a2d_read				: 1 ;
+			unsigned int mavlink_send_specific_variable : 1 ;
+			unsigned int mavlink_send_variables 		: 1 ;
 			unsigned int firstsamp				: 1 ;
 			unsigned int radio_on				: 1 ;
+			unsigned int unused					: 3 ;
 			} ;
 
 
@@ -197,6 +201,7 @@ struct udb_flag_bits {
 #define SERIAL_UDB_EXTRA	7	// Extra Telemetry beyond that provided by SERIAL_UDB for higher bandwidth connections
 #define SERIAL_STATUS		8	// some low level a/d + process status
 #define SERIAL_RAW			9	// extreme high speed (1megabit) serial of raw a/d
+#define SERIAL_MAVLINK		10	// mavlink protocol
 
 // Constants
 #define FILTERSHIFT 3

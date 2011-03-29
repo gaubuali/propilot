@@ -24,11 +24,11 @@
 // #define	ADCON2CONFIG 0b0010010000011000 ; //?
 
 #define XRATE_SIGN -
-#define YRATE_SIGN -
+#define YRATE_SIGN +
 #define ZRATE_SIGN -
 
 #define XACCEL_SIGN +
-#define YACCEL_SIGN +
+#define YACCEL_SIGN -
 #define ZACCEL_SIGN +
 
 //#define VREF

@@ -23,23 +23,22 @@
 
 #if (FLIGHT_PLAN_TYPE == FP_WAYPOINTS)
 
-
-struct relWaypointDef { struct relative3D loc ; int flags ; struct relative3D viewpoint ; } ;
-struct waypointDef { struct waypoint3D loc ; int flags ; struct waypoint3D viewpoint ; } ;
-
+#include <string.h>
 #include "waypoints.h"
-
 
 #define NUMBER_POINTS (( sizeof waypoints ) / sizeof ( struct waypointDef ))
 #define NUMBER_RTL_POINTS (( sizeof rtlWaypoints ) / sizeof ( struct waypointDef ))
+#define EE_WAYPOINTS_NUM ((EE_WAYPOINTS_END - EE_WAYPOINTS_START)/sizeof(struct waypointDef))
 
-int waypointIndex = 0 ;
 
-struct waypointDef *currentWaypointSet = (struct waypointDef*)waypoints ;
-int numPointsInCurrentSet = NUMBER_POINTS ;
+int waypointIndex IMPORTANT = 0 ;
 
-struct waypointDef wp_inject ;
-unsigned char wp_inject_pos = 0 ;
+struct waypointDef *currentWaypointSet IMPORTANT = (struct waypointDef*)waypoints ;
+int numPointsInCurrentSet IMPORTANT = NUMBER_POINTS ;
+
+unsigned char EE_wp_pos IMPORTANT = 0 ;
+struct waypointDef wp_inject[4] IMPORTANT = {{{0}}};
+unsigned char wp_inject_pos IMPORTANT = 0 ;
 #define WP_INJECT_READY 255
 const unsigned char wp_inject_byte_order[] = {3, 2, 1, 0, 7, 6, 5, 4, 9, 8, 11, 10, 15, 14, 13, 12, 19, 18, 17, 16, 21, 20 } ;
 
@@ -77,18 +76,35 @@ struct relWaypointDef wp_to_relative(struct waypointDef wp)
 
 // In the future, we could include more than 2 waypoint sets...
 // flightplanNum is 0 for main waypoints, and 1 for RTL waypoints
+// pfg: changed for 0 = RTL (always have), 1 = rom list, 2 = ee list
 void init_flightplan ( int flightplanNum )
 {
-	if ( flightplanNum == 1 ) // RTL waypoint set
+	numPointsInCurrentSet = 0;
+	if ( (flightplanNum >= 1) && iEEpresent ) // EE waypoint set
 	{
-		currentWaypointSet = (struct waypointDef*)rtlWaypoints ;
-		numPointsInCurrentSet = NUMBER_RTL_POINTS ;
-	}
-	else if ( flightplanNum == 0 ) // Main waypoint set
+		currentWaypointSet = (struct waypointDef*)&wp_inject[0] ;
+		if ( wp_inject[0].loc.z >= (int)HEIGHT_TARGET_MIN )	// negative z value is illegal
+		{
+			numPointsInCurrentSet = 1;	// figure out as we go
+			EE_wp_pos = 1;
+			if ( wp_inject[1].loc.z >= (int)HEIGHT_TARGET_MIN ) 
+				numPointsInCurrentSet = 2;
+			if ( wp_inject[2].loc.z >= (int)HEIGHT_TARGET_MIN )
+				numPointsInCurrentSet = 3;
+			if ( wp_inject[3].loc.z >= (int)HEIGHT_TARGET_MIN )
+				numPointsInCurrentSet = 4;
+		} else numPointsInCurrentSet = 0;
+    }
+	if ( (flightplanNum == 1) && numPointsInCurrentSet == 0 ) // Main waypoint set
 	{
 		currentWaypointSet = (struct waypointDef*)waypoints ;
     	numPointsInCurrentSet = NUMBER_POINTS ;
     }
+	else // use this if others failed - if ( flightplanNum == 0 ) // RTL waypoint set
+	{
+		currentWaypointSet = (struct waypointDef*)rtlWaypoints ;
+		numPointsInCurrentSet = NUMBER_RTL_POINTS ;
+	}
 	
 	waypointIndex = 0 ;
 	struct relWaypointDef current_waypoint = wp_to_relative(currentWaypointSet[0]) ;
@@ -127,9 +143,28 @@ struct absolute3D get_fixed_origin( void )
 
 void next_waypoint ( void ) 
 {
-	waypointIndex++ ;
+	if ( EE_wp_pos )
+	{
+		if ( waypointIndex < 2 )
+			waypointIndex++, EE_wp_pos++ ;
+		else {	// we need to read from EE
+			currentWaypointSet[1] = currentWaypointSet[2];
+			currentWaypointSet[2] = currentWaypointSet[3];
+			if ( (wp_inject[2].loc.z >= (int)HEIGHT_TARGET_MIN) && (EE_wp_pos < EE_WAYPOINTS_NUM) )
+			{
+				EE_wp_pos++;
+				ReadWaypoint( 3, EE_wp_pos, 1 );	// relying on being read before its used
+			} else {
+				EE_wp_pos = 1;
+				ReadWaypoint( 0, 0, 4 );			// relying on being read before its used
+				waypointIndex = 0 ;
+			}
+		}
+	} else {
+		waypointIndex++ ;
 	
-	if ( waypointIndex >= numPointsInCurrentSet ) waypointIndex = 0 ;
+		if ( waypointIndex >= numPointsInCurrentSet ) waypointIndex = 0 ;
+	}
 	
 	if ( waypointIndex == 0 )
 	{
@@ -170,7 +205,7 @@ void run_flightplan( void )
 	// first run any injected wp from the serial port
 	if (wp_inject_pos == WP_INJECT_READY)
 	{
-		struct relWaypointDef current_waypoint = wp_to_relative( wp_inject ) ;
+		struct relWaypointDef current_waypoint = wp_to_relative( wp_inject[0] ) ;
 		set_goal( GPSlocation, current_waypoint.loc ) ;
 		set_camera_view( current_waypoint.viewpoint ) ;
 		setBehavior( current_waypoint.flags ) ;
@@ -232,7 +267,7 @@ void flightplan_live_received_byte( unsigned char inbyte )
 {
 	if (wp_inject_pos < sizeof(wp_inject_byte_order))
 	{
-		((unsigned char*)(&wp_inject))[wp_inject_byte_order[wp_inject_pos++]] = inbyte ;
+		((unsigned char*)(&wp_inject[0]))[wp_inject_byte_order[wp_inject_pos++]] = inbyte ;
 	}
 	else if (wp_inject_pos == sizeof(wp_inject_byte_order))
 	{
@@ -254,6 +289,46 @@ void flightplan_live_commit( void )
 		wp_inject_pos = 0 ;
 	}
 	return ;
+}
+
+void ReadWaypoint( int dest, int src, int num )
+{
+	unsigned char *ramAdr = (unsigned char *)&wp_inject[0];
+	WORD eeAdr = EE_WAYPOINTS_START;
+
+	if ( iEEpresent == 0 )	// no ee present so indicate end in wp_inject array
+	{
+		memset( &wp_inject[0], 0xffff, sizeof(wp_inject) );
+	} else {
+		if ( (num <= 4) && (num >= 1) && (dest <= 3) && (dest >= 0 )&& (src < EE_WAYPOINTS_NUM) )
+		{	// check valid inputs, ~185 in 4k bytes of ee
+			num &= 0x3, dest &= 0x3;		// bound inputs
+			if ( (num + dest) > 4 ) num = (num + dest) & 0x3;
+			ramAdr = (unsigned char *)&wp_inject[dest];
+			eeAdr += sizeof(struct waypointDef) * src;
+			EE_Read( sizeof(struct waypointDef) * num, eeAdr, ramAdr );
+		};
+	}
+}
+
+void WriteWaypoint( int dest, int src, int num )
+{
+	unsigned char *ramAdr = (unsigned char *)&wp_inject[0];
+	WORD eeAdr = EE_WAYPOINTS_START;
+
+	if ( iEEpresent == 0 )	// no ee present so indicate end in wp_inject array
+	{
+		return;
+	} else {
+		if ( (num <= 4) && (num >= 1) && (src <= 3) && (src >= 0 )&& (dest < EE_WAYPOINTS_NUM) )
+		{	// check valid inputs, ~185 in 4k bytes of ee
+			num &= 0x7, src &= 0x3;		// bound inputs
+			if ( (num + src) > 4 ) num = (num + src) & 0x3;
+			ramAdr = (unsigned char *)&wp_inject[src];
+			eeAdr += sizeof(struct waypointDef) * dest;
+			EE_Write( sizeof(struct waypointDef) * num, eeAdr, ramAdr );
+		};
+	}
 }
 
 

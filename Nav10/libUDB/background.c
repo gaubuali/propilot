@@ -85,7 +85,7 @@ boolean skip_timer_reset = 1;
 
 void udb_init_clock(void)	/* initialize timers */
 {
-	TRISF = 0b1111111111101100 ;	// FIX:
+//	TRISF = 0b1111111111101100 ;	// FIX:
 
 	TMR1 = 0 ; 				// initialize timer
 	PR1 = tmr1_period ;		// set period register
@@ -104,7 +104,7 @@ void udb_init_clock(void)	/* initialize timers */
 	PR5 = 0xffff ; 			// initialize timer - 0 not valid for PR in these timers
 	T5CONbits.TCKPS = 0 ;	// prescaler = 1 option, no lost counts this way
 	T5CONbits.TCS = 0 ;	    // use the crystal to drive the clock
-	_T5IE = 1 ;				// disable the interrupt
+	_T5IE = 1 ;				// enable the interrupt
 	// Timer 5 will be turned on in interrupt routines and turned off in main()
 	T5CONbits.TON = 0 ;		// turn off timer 5
 	timer_5_on = 0;

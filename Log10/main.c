@@ -5,64 +5,257 @@
 #include <string.h>
 // #include <p24FJ64GA002.h>
 #include <p33Fxxxx.h>
-#include "pic33f.h"
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 #include "uart.h"
 #include "monitor.h"
 #include "diskio.h"
 #include "ff.h"
+#include "miniINI\minIni.h"
+#include "pic33f.h"
+#include "deviceConfig.h"
 
-#if defined(USE_EC_CLOCK)
-_FOSCSEL( FNOSC_PRI &		// external clock + PLL enabled in code
-		IESO_ON );				// include file is WRONG
-_FOSC(	FCKSM_CSECME &			// clocks and monitor disabled
-		OSCIOFNC_ON &			// no Fcy output on OSC2
-		POSCMD_EC &
-		IOL1WAY_OFF );			// reconfig allowed
-#else
-//_FOSCSEL( FNOSC_FRC &			// external clock + PLL enabled in code
-//		IESO_OFF );				// include file is WRONG
-_FOSCSEL( FNOSC_FRCPLL &			// external clock + PLL enabled in code
-		IESO_OFF );				// include file is WRONG
-_FOSC(	FCKSM_CSECMD &			// clocks and monitor disabled
-		OSCIOFNC_ON &			// no Fcy output on OSC2
-		POSCMD_EC &
-		IOL1WAY_OFF );			// reconfig allowed
-#endif
-
-_FBS( BWRP_WRPROTECT_OFF );		// no boot segments or write protect
-_FSS ( SWRP_WRPROTECT_OFF );	// no secure sections
-_FGS( GSS_OFF &					// no code protect
-		GCP_OFF &
-		GWRP_OFF );
-_FWDT(	FWDTEN_OFF &			// wdt's disabled
-		WINDIS_OFF ) ;
-_FPOR(	FPWRT_PWR32 & ALTI2C_ON  );// fast powerup, will need to change for ext osc
-_FICD(	JTAGEN_OFF &			// jtag off and use 2nd set for ICSP
-		ICS_PGD1 ) ;
-_FUID0( 0xffff )
-_FUID1( 0xffff )
-_FUID2( 0xffff )
-_FUID3( 0xffff )
-
-DWORD acc_size;			/* Work register for fs command */
+DWORD acc_size;				/* Work register for fs command */
 WORD acc_files, acc_dirs;
 FILINFO Finfo;
 #if _USE_LFN
-char Lfname[512];
+char __attribute__ ((near,section("Important"))) Lfname[(_MAX_LFN+1)*2];
 #endif
 
-char __attribute__ ((near,section("Important"))) Line[128];			/* Console input buffer */
+FATFS __attribute__ ((near,section("Important"))) Fatfs;		/* File system object for each logical drive */
+BYTE __attribute__ ((far,section("Buffers"))) Buff[BuffSIZE];	/* Working buffer */
 
-FATFS Fatfs;			/* File system object for each logical drive */
-BYTE __attribute__ ((far,section("Buffers"))) Buff[4096];		/* Working buffer */
+volatile ULONG Timer;	/* 1kHz increment timer */
 
+volatile BYTE rtcYear = (2011-1900), rtcMon = 2, rtcMday = 25, rtcHour, rtcMin, rtcSec;
 
-volatile UINT Timer;	/* 1kHz increment timer */
+volatile BYTE SDcardDelay;
+volatile BYTE SDcard;
+volatile BYTE canTXdelay;
+volatile BYTE canRXdelay;
 
-volatile BYTE rtcYear = 109, rtcMon = 6, rtcMday = 21, rtcHour, rtcMin, rtcSec;
+static void IoInit( void );
+FRESULT scan_files(	char* );		/* Pointer to the path name working buffer */
+void put_rc (FRESULT);
+extern void logger1( void );
+extern void logger2( void );
 
+/*--------------------------------------------------------------------------*/
+/* Monitor                                                                  */
 
+FIL __attribute__ ((near,section("Important"))) file1;		/* File objects */
+FIL __attribute__ ((near,section("Important"))) file2;
+DIR __attribute__ ((near,section("Important"))) dir;		/* Directory object */
 
+void makeFilename( void )
+{
+	long num;
+	int	dot, len, idx, digit;
+
+	strncpy( (TCHAR *)&Buff[256], (TCHAR *)Buff, 250 );
+	num = ini_getl("Settings", "LogNumber", (long) 1, ini_file);
+	if ( (num > 500) || (num < 1) ) num = 1;
+	ini_putl("Settings", "LogNumber", (long) num+1, ini_file);
+	len = strlen( (TCHAR *)Buff ), dot = 0;
+	for ( idx = len - 1; (idx > 1) && (dot == 0); idx-- )
+	{
+		switch ( Buff[idx] )
+		{	case '.':	// normal trigger char
+				dot = idx;
+			break;
+			case '\\':	// no . in name before directory sep
+			case '/':	// no . in name before directory sep
+				dot = len;
+			break;
+		}
+	}
+	idx = dot;
+	if ( idx <= 2 ) idx = len;
+	if ( num >= 100 ) 
+		digit = num / 100, num = num - (digit * 100);
+	else digit = 0;
+	Buff[idx+256] = (BYTE)(digit + '0'), idx++;
+	if ( num >= 10 ) 
+		digit = num / 10, num = num - (digit * 10);
+	else digit = 0;
+	Buff[idx+256] = (BYTE)(digit + '0'), idx++;
+	digit = num;
+	Buff[idx+256] = (BYTE)(digit + '0'), idx++;
+	for ( ; dot < len ; idx++, dot++ )
+		Buff[idx+256] = Buff[dot];
+	Buff[idx+256] = 0;
+	strncpy( (TCHAR *)Buff, (TCHAR *)&Buff[256], 250 );
+}
+
+/*-----------------------------------------------------------------------*/
+/* Main                                                                  */
+
+const char ini_file[] = { "log.ini" };
+
+int main (void)
+{
+	FRESULT fr = 1;
+	BYTE	mode = 'b';			// bypass - just pass through
+
+	IoInit();					// also calls uart_init and uart2_init
+	xfunc_in = uart2_get;		/* Default join UART2 and console */
+	xfunc_out = uart2_put;
+	logCtrl.logBuff1xfer = 2;	// just pass through
+	logCtrl.logBuff2xfer = 2;	// just pass through
+#if _USE_LFN
+	Finfo.lfname = Lfname;
+	Finfo.lfsize = sizeof(Lfname);
+#endif
+
+	Timer = 0; while ( Timer < 2 );	// let the 18f get the card first in case of usb powered
+	getSDcard(), getSDcard(), getSDcard();
+
+	do {
+	if ( !getSDcard() )		// try re-power card then issue error
+	{
+		power_off();
+		while ( giveSDcard() ) ;
+		Timer = 0; while ( Timer < 2 );
+		while ( Timer < 10 ) getSDcard();
+		if ( !getSDcard() )
+		{
+			xputs("\nUnable to access card.\n");
+			while ( giveSDcard() ) ;
+			Timer = 0; while ( Timer < 2 );
+			while ( giveSDcard() ) ;
+		};
+	} else {
+		power_on();
+		disk_initialize(0);
+		if ( CardType == 0 )
+			xputs("\nNo card or not recognized.\n");
+		else 
+		{
+			if ( (fr = f_mount(0, &Fatfs)) )
+				put_rc(fr), mode = 'b';
+			else 
+			{
+				Nop();
+				while ( Timer < 100 );	// delay a bit for signals to stabilize
+
+				if ( ini_getl("Settings", "Version", (long) 0, ini_file ) < 1 )
+				{	// empty / wrong file
+					ini_putl("Settings", "Version", (long) 1, ini_file );
+					ini_putl("Settings", "CmdPort", (long) 2, ini_file);
+					ini_putl("Settings", "LogPort", (long) 1, ini_file);
+					ini_puts("Settings", "LogFile", "log.txt", ini_file);
+					ini_putl("Settings", "LogNumber", (long) 1, ini_file);
+					ini_puts("Settings", "LogType", "overwrite", ini_file);
+					ini_puts("Settings", "Mode", "log", ini_file);
+					ini_putl("Comm", "UART1", (long) BPS, ini_file );
+					ini_putl("Comm", "UART2", (long) BPS, ini_file );
+					ini_putl("Comm", "CAN", (long) 1e6, ini_file );
+				};
+				uart_baud( ini_getl("Comm", "UART1", (long) BPS, ini_file ));
+				uart2_baud( ini_getl("Comm", "UART2", (long) BPS, ini_file ));
+				// can_baud( ini_getl("Comm", "CAN", (long) CAN_BPS, ini_file ));
+				if ( ini_getl("Settings", "CmdPort", (long) 2, ini_file) == 2 )
+				{
+					xfunc_in = uart2_get;	/* Join UART2 and console */
+					xfunc_out = uart2_put;
+				} else {
+					xfunc_in = uart_get;	/* Join UART1 and console */
+					xfunc_out = uart_put;
+				}
+				if ( mode == 'b' )
+				{
+					ini_gets("Settings", "Mode", "log", (TCHAR *)Buff, 256, ini_file);
+					mode = Buff[0];
+				}
+				if ( (mode == 'l') && (canRXdelay < 100) )
+				{
+					ini_gets("Settings", "LogFile", "log.txt", (TCHAR *)Buff, 250, ini_file);
+					if ( Buff[0] == 0 ) strncpy( (TCHAR *)Buff, "log.txt", 10 );
+					ini_gets("Settings", "LogType", "overwrite", (TCHAR *)&Buff[512], 250, ini_file);
+					if ( Buff[512] == 's' )	// sequential overwrite
+						makeFilename(), Buff[512] = 'o';
+					else ;
+					fr = 0;
+					if ( ini_getl("Settings", "LogPort", (long) 1, ini_file) == 2 )
+						fr = f_open(&file2, (TCHAR *)Buff, (BYTE)(FA_READ | FA_WRITE | FA_CREATE_ALWAYS | FA_OPEN_ALWAYS)); 
+					else fr = f_open(&file1, (TCHAR *)Buff, (BYTE)(FA_READ | FA_WRITE | FA_CREATE_ALWAYS | FA_OPEN_ALWAYS)); 
+					if ( fr )
+						mode = 'c' ;
+					else {
+						if ( Buff[512] == 'o' )	// overwrite
+							f_lseek(&file1, 0L), f_truncate( &file1 );
+						else
+						if ( Buff[512] == 'a' )	// append
+							f_lseek(&file1, file1.fsize);	// append
+						else ;
+						
+						f_sync( &file1 );
+					}
+				} else // if ( mode == 'l' )
+				if ( (canRXdelay > 100) || (canTXdelay > 100) )
+				{
+					logCtrl.logBuff1xfer = 2;	// just pass through
+					logCtrl.logBuff2xfer = 2;	// just pass through
+				} else
+				if ( (canRXdelay > 100) && (canTXdelay > 100) )
+				{
+					logCtrl.logBuff1xfer = 0;	// nothing, cmd mode
+					logCtrl.logBuff2xfer = 0;	// nothing, cmd mode
+				};
+			}
+		}
+	}
+
+	if ( (mode == 'l') && (canRXdelay < 100) && (fr == 0) )	// if these ever return try to flip to other mode
+	{
+		if ( ini_getl("Settings", "LogPort", (long) 1, ini_file) == 2 )
+			logger2(), f_close( &file2 );
+		else logger1(), f_close( &file1 );
+		power_off();
+		while ( giveSDcard() );				// stay here till done
+		Timer = 0; while ( Timer < 1000 );	// then wait one full second
+		CardType = 0, fr = 1, Stat |= (STA_NODISK | STA_NOINIT);
+		// mode = 'c';
+	};
+	do {
+		if ( (mode == 'c') || ((canRXdelay > 100) && (canTXdelay > 100)) )	// if these ever return try to flip to other mode
+		{
+			logCtrl.logBuff1xfer = 0;	// nothing, cmd mode
+			logCtrl.logBuff2xfer = 0;	// nothing, cmd mode
+			monitor();
+			mode = 'l', canRXdelay = 0, canTXdelay = 0;
+		};
+		if ( Stat & STA_RELEASE )
+		{
+			power_off();
+			while ( giveSDcard() );				// stay here till done
+			Timer = 0; while ( Timer < 1000 );	// then wait one full second
+			CardType = 0, fr = 1, Stat |= (STA_NODISK | STA_NOINIT);
+		}
+	} while ( (canRXdelay > 100) || (canTXdelay > 100) || (!iSDPOWER && oSDPOWER) );
+	Timer = 0;
+	} while ( 1 );
+
+}
+//	for (;;) {
+//		if (  !Tx2Run && U2STAbits.TRMT && !(div1k&0xf) )
+//		{
+//			cnt = (int)((float)U2BRG * 0.001);
+//			if ( cnt < 1 )
+//				cnt = 1;
+//			cnt *= s1;
+//			if ( U2BRG > 10 )
+//				U2BRG = U2BRG - cnt;
+//			else U2BRG = 0x2000;
+//			xputs("\0xff\0x55\n0123456789\n");
+//			xputs("\n0123456789\n");
+//			cnt = rtcSec;
+//		}
+//		if ( uart2_test() )
+//			uart2_put( uart2_get() );
+//	}
+//
 
 /*---------------------------------------------------------*/
 /* 1000Hz timer interrupt generated by Timer1              */
@@ -79,6 +272,12 @@ void __attribute__((interrupt, auto_psv)) _T1Interrupt (void)
 	_T1IF = 0;			/* Clear irq flag */
 	Timer++;			/* Performance counter for this module */
 	disk_timerproc();	/* Drive timer procedure of low level disk I/O module */
+	if ( !iCanTX )
+		if ( canTXdelay < 250 ) canTXdelay++; else ;
+	else canTXdelay = 0;
+	if ( !iCanRX )
+		if ( canRXdelay < 250 ) canRXdelay++; else ;
+	else canRXdelay = 0;
 
 	/* Real Time Clock */
 	if (++div1k >= 1000) {
@@ -103,8 +302,6 @@ void __attribute__((interrupt, auto_psv)) _T1Interrupt (void)
 		}
 	}
 }
-
-
 
 /*---------------------------------------------------------*/
 /* User Provided RTC Function for FatFs module             */
@@ -132,32 +329,28 @@ DWORD get_fattime (void)
 	return tmr;
 }
 
+void __attribute__((interrupt, no_auto_psv)) _DefaultInterrupt (void)
+{
+	while(1);
+}
 
-
-
-/*--------------------------------------------------------------------------*/
-/* Monitor                                                                  */
-
-
-static
 void put_rc (FRESULT rc)
 {
 	const char *str =
 		"OK\0" "DISK_ERR\0" "INT_ERR\0" "NOT_READY\0" "NO_FILE\0" "NO_PATH\0"
 		"INVALID_NAME\0" "DENIED\0" "EXIST\0" "INVALID_OBJECT\0" "WRITE_PROTECTED\0"
 		"INVALID_DRIVE\0" "NOT_ENABLED\0" "NO_FILE_SYSTEM\0" "MKFS_ABORTED\0" "TIMEOUT\0"
-		"LOCKED\0" "NOT_ENOUGH_CORE\0" "TOO_MANY_OPEN_FILES\0";
+		"LOCKED\0" "NOT_ENOUGH_CORE\0" "TOO_MANY_OPEN_FILES\0" "UNKNOWN_ERROR\0";
 	FRESULT i;
 
+	if ( rc > FR_TOO_MANY_OPEN_FILES )
+		rc = FR_TOO_MANY_OPEN_FILES + 1;
 	for (i = 0; i != rc && *str; i++) {
 		while (*str++) ;
 	}
 	xprintf("rc=%u FR_%s\n", (UINT)rc, str);
 }
 
-
-
-static
 FRESULT scan_files (
 	char* path		/* Pointer to the path name working buffer */
 )
@@ -194,6 +387,131 @@ FRESULT scan_files (
 	return res;
 }
 
+/********************************************************************
+ * Function:        static BYTE getSDcard(void)
+ *
+ * PreCondition:    None
+ *
+ * Input:           None
+ *
+ * Output:          return 0 until this cpu has access to SD card
+ *					and then returns 1
+ *
+ * Side Effects:    make all card power io outputs
+ *
+ * Overview:        Prepare and turn on SD card power so the 33F can
+ *                  use the SD card.
+ *
+ * Note:            None
+ *******************************************************************/
+BYTE getSDcard(void)
+{
+	switch ( SDcard ) {
+	case 0:
+		if ( iSDPOWER && iSDSELECT )// check 18F is not using card
+		{
+			tSDSELECT = OUTPUT;		// request SD card
+			oSDSELECT = 0;			// by grounding SDSELECT
+			SDcard++;
+		} else Stat |= STA_NODISK;
+	break;
+	case 1:
+		if ( iSDPOWER )				// wait till 18F has released card
+		{	// do a double check all the IO = 1 pull-down and 3 pull up state
+			if ( !SPICLOCKPORT && SPIINPORT && SPIOUTPORT && SD_CS)	// should be like this
+			{
+				tSDPOWER = OUTPUT;		// re-power card
+				oSDPOWER = 0;			// turn the P mosfet on
+				SDcard = 2;
+				tSDSELECT = INPUT;		// release request line
+				oSDSELECT = 1;
+				Stat = Stat & (!STA_NODISK);
+//			    MDD_SDSPI_InitIO();
+//				if ( !iPrintBufFull )
+//				{	
+//					iPrintBufFull = sprintf( &cPrintBuf[0], "\r\nAquire SD card %d, B %02x = %02x, C %02x = %02x.\r\n", 
+//						SDcardDelay, TRISB, PORTB, TRISC, PORTC );
+//				};
+			};
+		};
+	break;
+	case 2: // 33F has sd card
+	break;
+	}
+	if ( SDcard == 2 )
+		return 1;					// card available
+	else return 0;					// card not available
+}
+
+/********************************************************************
+ * Function:        static BYTE giveSDcard(void)
+ *
+ * PreCondition:    None
+ *
+ * Input:           None
+ *
+ * Output:          return 1 if this cpu has access to SD card
+ *					otherwise returns 0
+ *
+ * Side Effects:    after a delay releases the SD card to the 18f
+ *					and makes all its SPI & card power io inputs
+ *
+ * Overview:        Turn off SD card power so the 18F can
+ *                  use the SD card.
+ *
+ * Note:            None
+ *******************************************************************/
+BYTE giveSDcard(void)
+{
+	switch ( SDcard ) {
+	case 0:
+		Stat |= (STA_NODISK || STA_NOINIT);
+	break;
+	case 1:
+		if ( SDcardDelay == 0 )		// 18F has released card
+		{
+CARD_FREE:	SDcard = 0;				// technically should not happen so
+			SDcardDelay = 0;		// set a 0 delay and
+			tSDPOWER = INPUT;		// reset all the IO - un-power card
+			oSDPOWER = 1;			// turn the N mosfet on
+			tSDSELECT = INPUT;		// release request line
+			oSDSELECT = 1;
+			SD_CS_TRIS = INPUT;		//Card Select - input
+		    SD_CS = 1;				//Initialize Chip Select line
+			SPIOUTLAT = 1;
+			SPICLOCKLAT = 1;
+			SPICLOCK = INPUT;
+			SPIOUT = INPUT;			// all inputs
+//#if defined(__DEBUG)
+//			if ( !iPrintBufFull )
+//			{	
+//				iPrintBufFull = sprintf( &cPrintBuf[0], "\r\nReleased SD card %d, B %02x = %02x, C %02x = %02x.\r\n", 
+//					SDcardDelay, TRISB, PORTB, TRISC, PORTC );
+//			};
+//#endif
+		};
+	break;
+	case 2: // 33F has sd card
+		if ( !oSDPOWER )			// 33F has card
+		{
+			SDcardDelay = 250;		// set a 250ms delay before actually doing it - for write
+			SDcard = 1;
+//#if defined(__DEBUG)
+//			if ( !iPrintBufFull )
+//			{	
+//				iPrintBufFull = sprintf( &cPrintBuf[0], "\r\nRelease SD card %d, B %02x = %02x, C %02x = %02x.\r\n", 
+//					SDcardDelay, TRISB, PORTB, TRISC, PORTC );
+//			};
+//#endif
+		} else {					// no delay as 33F not powering card
+			goto CARD_FREE;			// technically should not happen
+		};
+	break;
+	}
+	if ( SDcard != 0 )
+		return 1;					// card used
+	else return 0;					// card not used
+}
 
 
 static
@@ -216,22 +534,19 @@ void IoInit ()
 	while (OSCCONbits.COSC != 0x03);			// Wait for Clock switch to occur
 #else
 	OSCTUNbits.TUN = 23;		// boost speed up to 8.00566MHz, FRC = 7.37MHz * 23*0.375%
-//	CLKDIVbits.PLLPRE = 0 ;		// pre devide = 2 (8MHz / 2 = 4MHz)
-//	PLLFBDbits.PLLDIV = 40-2 ; 	// Fvco = 160 MHz (4MHz x 40 = 160Mhz)
-//	CLKDIVbits.PLLPOST = 0;		// FOSC = Fvco / 2 = 80MHz
 
 // Clock switch to incorporate PLL
-//	__builtin_write_OSCCONH(0x01);				// Initiate Clock Switch to
-												// EC with PLL (NOSC=0b011)
-//	__builtin_write_OSCCONL(0x01);				// Start clock switching
-//	while(OSCCONbits.LOCK!=1) {};				// Wait for PLL to lock
-//	while (OSCCONbits.COSC != 0x01);			// Wait for Clock switch to occur
+	__builtin_write_OSCCONH(0x01);				// Initiate Clock Switch to
+												// FRC with PLL (NOSC=0b001)
+	__builtin_write_OSCCONL(0x01);				// Start clock switching
+	while(OSCCONbits.LOCK!=1) {};				// Wait for PLL to lock
+	while (OSCCONbits.COSC != 0x01);			// Wait for Clock switch to occur
 #endif
 	// now running 40mips, 80MHz clock
 
 	/* Initialize GPIO ports */
 //	AD1PCFG = 0x1FFF;
-	AD1PCFGL = 0x1FFF;	// all digital
+	AD1PCFGL = 0xFFFF;	// all digital
 //	LATB =  0xD00C;
 //	TRISB = 0x1C08;
 	LATB =  0xFFFF;
@@ -243,9 +558,8 @@ void IoInit ()
 //	_CN15PUE = 1;
 //	_CN16PUE = 1;
 
-	/* Attach UART1 module to I/O pads */
+	/* Attach UART1 module to I/O pads done in uart.c */
 	__builtin_write_OSCCONL(0x00);			// do the port remaps
-//	OSCCONbits.IOLOCK = 0;					// clear to write
 
 	/* Attach SPI1 module to I/O pads */
 //	RPINR20 = 0x1F0C;	/* SDI1 -- RP12 */
@@ -255,6 +569,9 @@ void IoInit ()
 	_RP14R = 7;			/* SDO1  -- RB14 -- RP14 -- CN12 */
 	_RP13R = 8;			/* SCK1  -- RB13 -- RP13 -- CN13 */
 
+	tCanTX = 1, pCanTX = 1;	/* make input and enable pullup */
+	tCanRX = 1, pCanRX = 1;	/* make input and enable pullup */
+
 	/* Start Timer1 in interval time of 1ms */
 	PR1 = FCY / 8 / 1000;
 	_TCKPS0 = 1;	/* Select prescaler Fcy/8 */
@@ -262,398 +579,17 @@ void IoInit ()
 	_T1IE = 1;		/* Enable Timer1 interrupt */
 
 	_EI();
+	T5CON = 0xc010; T4CON = 0xc000;
+	T3CON = 0, T2CON = 0x30, TMR3 = 0, TMR2 = 0;
+	PR2 = 0xffff, PR3 = 0xffff;
+	T2CONbits.T32 = 1;	// Start in 32-bit Timer2/3 operation
+	T2CONbits.TON = 1;	// free running at Tcy - no interrupts
+	RCON = 0;
 
 	uart_init();	/* Initialize UART driver */
+	uart2_init();	/* Initialize UART driver */
 
 //	_LATA0 = 0;		/* LED ON */
 }
 
 
-
-/*-----------------------------------------------------------------------*/
-/* Main                                                                  */
-
-extern int TxRun, Tx2Run;
-int main (void)
-{
-	char *ptr, *ptr2;
-	long p1, p2, p3;
-	BYTE res, b;
-	const BYTE ft[] = {0,12,16,32};
-	WORD w1;
-	UINT s1 = 1;
-	UINT s2 = 0;
-	UINT cnt = 0;
-	DWORD ofs = 0, sect = 0;
-	FATFS *fs;				/* Pointer to file system object */
-	DIR dir;				/* Directory object */
-	FIL file1, file2;		/* File objects */
-
-
-	IoInit();
-
-	xfunc_in = uart_get;	/* Join UART and console */
-	xfunc_out = uart_put;
-	xputs("\nFatFs module test monitor for PIC33FJ\n");
-	xputs(_USE_LFN ? "LFN Enabled" : "LFN Disabled");
-	xprintf(", Code page: %u\n", _CODE_PAGE);
-
-#if _USE_LFN
-	Finfo.lfname = Lfname;
-	Finfo.lfsize = sizeof(Lfname);
-#endif
-
-	for (;;) {
-		xputc('>');
-		get_line(Line, sizeof(Line));
-
-		ptr = Line;
-		switch (*ptr++) {
-		case 'd' :
-			switch (*ptr++) {
-			case 'd' :	/* dd [<sector>] - Dump sector */
-				if (!xatoi(&ptr, &p2)) p2 = sect;
-				res = disk_read(0, Buff, p2, 1);
-				if (res) { xprintf("rc=%d\n", res); break; }
-				sect = p2 + 1;
-				xprintf("Sector:%lu\n", p2);
-				for (ptr=(char*)Buff, ofs = 0; ofs < 0x200; ptr+=16, ofs+=16)
-					put_dump((BYTE*)ptr, ofs, 16);
-				break;
-
-			case 'i' :	/* di - Initialize physical drive */
-				xprintf("rc=%d\n", disk_initialize(0));
-				break;
-
-			case 's' :	/* ds - Show disk status */
-				if (disk_ioctl(0, GET_SECTOR_COUNT, &p2) == RES_OK)
-					{ xprintf("Drive size: %lu sectors\n", p2); }
-				if (disk_ioctl(0, GET_SECTOR_SIZE, &w1) == RES_OK)
-					{ xprintf("Sector size: %u\n", w1); }
-				if (disk_ioctl(0, GET_BLOCK_SIZE, &p2) == RES_OK)
-					{ xprintf("Erase block size: %lu sectors\n", p2); }
-				if (disk_ioctl(0, MMC_GET_TYPE, &b) == RES_OK)
-					{ xprintf("MMC/SDC type: %u\n", b); }
-				if (disk_ioctl(0, MMC_GET_CSD, Buff) == RES_OK)
-					{ xputs("CSD:\n"); put_dump(Buff, 0, 16); }
-				if (disk_ioctl(0, MMC_GET_CID, Buff) == RES_OK)
-					{ xputs("CID:\n"); put_dump(Buff, 0, 16); }
-				if (disk_ioctl(0, MMC_GET_OCR, Buff) == RES_OK)
-					{ xputs("OCR:\n"); put_dump(Buff, 0, 4); }
-				if (disk_ioctl(0, MMC_GET_SDSTAT, Buff) == RES_OK) {
-					xputs("SD Status:\n");
-					for (s1 = 0; s1 < 64; s1 += 16) put_dump(Buff+s1, s1, 16);
-				}
-				break;
-			}
-			break;
-
-		case 'b' :
-			switch (*ptr++) {
-			case 'd' :	/* bd <addr> - Dump R/W buffer */
-				if (!xatoi(&ptr, &p1)) break;
-				for (ptr=(char*)&Buff[p1], ofs = p1, cnt = 32; cnt; cnt--, ptr+=16, ofs+=16)
-					put_dump((BYTE*)ptr, ofs, 16);
-				break;
-
-			case 'e' :	/* be <addr> [<data>] ... - Edit R/W buffer */
-				if (!xatoi(&ptr, &p1)) break;
-				if (xatoi(&ptr, &p2)) {
-					do {
-						Buff[p1++] = (BYTE)p2;
-					} while (xatoi(&ptr, &p2));
-					break;
-				}
-				for (;;) {
-					xprintf("%04X %02X-", (WORD)p1, Buff[p1]);
-					get_line(Line, sizeof(Line));
-					ptr = Line;
-					if (*ptr == '.') break;
-					if (*ptr < ' ') { p1++; continue; }
-					if (xatoi(&ptr, &p2))
-						Buff[p1++] = (BYTE)p2;
-					else
-						xputs("???\n");
-				}
-				break;
-
-			case 'r' :	/* br <sector> [<n>] - Read disk into R/W buffer */
-				if (!xatoi(&ptr, &p2)) break;
-				if (!xatoi(&ptr, &p3)) p3 = 1;
-				xprintf("rc=%u\n", disk_read(0, Buff, p2, p3));
-				break;
-
-			case 'w' :	/* bw <sector> [<n>] - Write R/W buffer into disk */
-				if (!xatoi(&ptr, &p2)) break;
-				if (!xatoi(&ptr, &p3)) p3 = 1;
-				xprintf("rc=%u\n", disk_write(0, Buff, p2, p3));
-				break;
-
-			case 'f' :	/* bf <n> - Fill working buffer */
-				if (!xatoi(&ptr, &p1)) break;
-				memset(Buff, (int)p1, sizeof(Buff));
-				break;
-
-			}
-			break;
-
-		case 'f' :
-			switch (*ptr++) {
-
-			case 'i' :	/* fi - Force initialized the logical drive */
-				put_rc(f_mount(0, &Fatfs));
-				break;
-
-			case 's' :	/* fs [<path>] - Show logical drive status */
-				while (*ptr == ' ') ptr++;
-				res = f_getfree(ptr, (DWORD*)&p2, &fs);
-				if (res) { put_rc(res); break; }
-				xprintf("FAT type = FAT%u\nBytes/Cluster = %lu\nNumber of FATs = %u\n"
-						"Root DIR entries = %u\nSectors/FAT = %lu\nNumber of clusters = %lu\n"
-						"FAT start (lba) = %lu\nDIR start (lba,clustor) = %lu\nData start (lba) = %lu\n\n...",
-						ft[fs->fs_type & 3], fs->csize * 512UL, fs->n_fats,
-						fs->n_rootdir, fs->fsize, fs->n_fatent - 2,
-						fs->fatbase, fs->dirbase, fs->database
-				);
-				acc_size = acc_files = acc_dirs = 0;
-				res = scan_files(ptr);
-				if (res) { put_rc(res); break; }
-				xprintf("\r%u files, %lu bytes.\n%u folders.\n"
-						"%lu KB total disk space.\n%lu KB available.\n",
-						acc_files, acc_size, acc_dirs,
-						(fs->n_fatent - 2) * (fs->csize / 2), p2 * (fs->csize / 2)
-				);
-				break;
-
-			case 'l' :	/* fl [<path>] - Directory listing */
-				while (*ptr == ' ') ptr++;
-				res = f_opendir(&dir, ptr);
-				if (res) { put_rc(res); break; }
-				p1 = s1 = s2 = 0;
-				for(;;) {
-					res = f_readdir(&dir, &Finfo);
-					if ((res != FR_OK) || !Finfo.fname[0]) break;
-					if (Finfo.fattrib & AM_DIR) {
-						s2++;
-					} else {
-						s1++; p1 += Finfo.fsize;
-					}
-					xprintf("%c%c%c%c%c %u/%02u/%02u %02u:%02u %9lu  %s",
-							(Finfo.fattrib & AM_DIR) ? 'D' : '-',
-							(Finfo.fattrib & AM_RDO) ? 'R' : '-',
-							(Finfo.fattrib & AM_HID) ? 'H' : '-',
-							(Finfo.fattrib & AM_SYS) ? 'S' : '-',
-							(Finfo.fattrib & AM_ARC) ? 'A' : '-',
-							(Finfo.fdate >> 9) + 1980, (Finfo.fdate >> 5) & 15, Finfo.fdate & 31,
-							(Finfo.ftime >> 11), (Finfo.ftime >> 5) & 63, Finfo.fsize, Finfo.fname);
-#if _USE_LFN
-					for (p2 = strlen(Finfo.fname); p2 < 14; p2++)
-						xputc(' ');
-					xprintf("%s\n", Lfname);
-#else
-					xputc('\n');
-#endif
-				}
-				xprintf("%4u File(s),%10lu bytes total\n%4u Dir(s)", s1, p1, s2);
-				if (f_getfree(ptr, (DWORD*)&p1, &fs) == FR_OK)
-					xprintf(", %10lu bytes free\n", p1 * fs->csize * 512);
-				break;
-
-			case 'o' :	/* fo <mode> <file> - Open a file */
-				if (!xatoi(&ptr, &p1)) break;
-				while (*ptr == ' ') ptr++;
-				put_rc(f_open(&file1, ptr, (BYTE)p1));
-				break;
-
-			case 'c' :	/* fc - Close a file */
-				put_rc(f_close(&file1));
-				break;
-
-			case 'e' :	/* fe - Seek file pointer */
-				if (!xatoi(&ptr, &p1)) break;
-				res = f_lseek(&file1, p1);
-				put_rc(res);
-				if (res == FR_OK)
-					xprintf("fptr = %lu(0x%lX)\n", file1.fptr, file1.fptr);
-				break;
-
-			case 'r' :	/* fr <len> - read file */
-				if (!xatoi(&ptr, &p1)) break;
-				p2 = 0;
-				Timer = 0;
-				while (p1) {
-					if ((DWORD)p1 >= sizeof(Buff)) {
-						cnt = sizeof(Buff); p1 -= sizeof(Buff);
-					} else {
-						cnt = p1; p1 = 0;
-					}
-					res = f_read(&file1, Buff, cnt, &s2);
-					if (res != FR_OK) { put_rc(res); break; }
-					p2 += s2;
-					if (cnt != s2) break;
-				}
-				xprintf("%lu bytes read with %lu kB/sec.\n", p2, Timer ? (p2 / Timer) : 0);
-				break;
-
-			case 'd' :	/* fd <len> - read and dump file from current fp */
-				if (!xatoi(&ptr, &p1)) break;
-				ofs = file1.fptr;
-				while (p1) {
-					if ((UINT)p1 >= 16) { cnt = 16; p1 -= 16; }
-					else 				{ cnt = p1; p1 = 0; }
-					res = f_read(&file1, Buff, cnt, &cnt);
-					if (res != FR_OK) { put_rc(res); break; }
-					if (!cnt) break;
-					put_dump(Buff, ofs, cnt);
-					ofs += 16;
-				}
-				break;
-
-			case 'w' :	/* fw <len> <val> - write file */
-				if (!xatoi(&ptr, &p1) || !xatoi(&ptr, &p2)) break;
-				memset(Buff, (int)p2, sizeof(Buff));
-				p2 = 0;
-				Timer = 0;
-				while (p1) {
-					if ((DWORD)p1 >= sizeof(Buff)) {
-						cnt = sizeof(Buff); p1 -= sizeof(Buff);
-					} else {
-						cnt = p1; p1 = 0;
-					}
-					res = f_write(&file1, Buff, cnt, &s2);
-					if (res != FR_OK) { put_rc(res); break; }
-					p2 += s2;
-					if (cnt != s2) break;
-				}
-				xprintf("%lu bytes written with %lu kB/sec.\n", p2, Timer ? (p2 / Timer) : 0);
-				break;
-
-			case 'n' :	/* fn <old_name> <new_name> - Change file/dir name */
-				while (*ptr == ' ') ptr++;
-				ptr2 = strchr(ptr, ' ');
-				if (!ptr2) break;
-				*ptr2++ = 0;
-				while (*ptr2 == ' ') ptr2++;
-				put_rc(f_rename(ptr, ptr2));
-				break;
-
-			case 'u' :	/* fu <name> - Unlink a file or dir */
-				while (*ptr == ' ') ptr++;
-				put_rc(f_unlink(ptr));
-				break;
-
-			case 'v' :	/* fv - Truncate file */
-				put_rc(f_truncate(&file1));
-				break;
-
-			case 'k' :	/* fk <name> - Create a directory */
-				while (*ptr == ' ') ptr++;
-				put_rc(f_mkdir(ptr));
-				break;
-
-			case 'a' :	/* fa <atrr> <mask> <name> - Change file/dir attribute */
-				if (!xatoi(&ptr, &p1) || !xatoi(&ptr, &p2)) break;
-				while (*ptr == ' ') ptr++;
-				put_rc(f_chmod(ptr, p1, p2));
-				break;
-
-			case 't' :	/* ft <year> <month> <day> <hour> <min> <sec> <name> - Change timestamp */
-				if (!xatoi(&ptr, &p1) || !xatoi(&ptr, &p2) || !xatoi(&ptr, &p3)) break;
-				Finfo.fdate = (WORD)(((p1 - 1980) << 9) | ((p2 & 15) << 5) | (p3 & 31));
-				if (!xatoi(&ptr, &p1) || !xatoi(&ptr, &p2) || !xatoi(&ptr, &p3)) break;
-				Finfo.ftime = (WORD)(((p1 & 31) << 11) | ((p1 & 63) << 5) | ((p1 >> 1) & 31));
-				put_rc(f_utime(ptr, &Finfo));
-				break;
-
-			case 'x' : /* fx <src_name> <dst_name> - Copy file */
-				while (*ptr == ' ') ptr++;
-				ptr2 = strchr(ptr, ' ');
-				if (!ptr2) break;
-				*ptr2++ = 0;
-				while (*ptr2 == ' ') ptr2++;
-				xprintf("Opening \"%s\"", ptr);
-				res = f_open(&file1, ptr, FA_OPEN_EXISTING | FA_READ);
-				xputc('\n');
-				if (res) {
-					put_rc(res);
-					break;
-				}
-				xprintf("Creating \"%s\"", ptr2);
-				res = f_open(&file2, ptr2, FA_CREATE_ALWAYS | FA_WRITE);
-				xputc('\n');
-				if (res) {
-					put_rc(res);
-					f_close(&file1);
-					break;
-				}
-				xprintf("Copying...");
-				p1 = 0;
-				for (;;) {
-					res = f_read(&file1, Buff, sizeof(Buff), &s1);
-					if (res || s1 == 0) break;   /* error or eof */
-					res = f_write(&file2, Buff, s1, &s2);
-					p1 += s2;
-					if (res || s2 < s1) break;   /* error or disk full */
-				}
-				xprintf("\n%lu bytes copied.\n", p1);
-				f_close(&file1);
-				f_close(&file2);
-				break;
-#if _FS_RPATH
-			case 'g' :	/* fg <path> - Change current directory */
-				while (*ptr == ' ') ptr++;
-				put_rc(f_chdir(ptr));
-				break;
-
-			case 'j' :	/* fj <drive#> - Change current drive */
-				if (xatoi(&ptr, &p1)) {
-					put_rc(f_chdrive((BYTE)p1));
-				}
-				break;
-#endif
-#if _USE_MKFS
-			case 'm' :	/* fm <partition rule> <sect/clust> - Create file system */
-				if (!xatoi(&ptr, &p2) || !xatoi(&ptr, &p3)) break;
-				xprintf("The memory card will be formatted. Are you sure? (Y/n)=", p1);
-				get_line(ptr, sizeof(Line));
-				if (*ptr == 'Y')
-					put_rc(f_mkfs(0, (BYTE)p2, (WORD)p3));
-				break;
-#endif
-			}
-			break;
-
-		case 't' :		/* t [<year> <mon> <mday> <hour> <min> <sec>] */
-			if (xatoi(&ptr, &p1)) {
-				rtcYear = p1-1900;
-				xatoi(&ptr, &p1); rtcMon = p1-1;
-				xatoi(&ptr, &p1); rtcMday = p1;
-				xatoi(&ptr, &p1); rtcHour = p1;
-				xatoi(&ptr, &p1); rtcMin = p1;
-				if(!xatoi(&ptr, &p1)) break;
-				rtcSec = p1;
-			}
-			xprintf("%u/%u/%u %02u:%02u:%02u\n", rtcYear+1900, rtcMon+1, rtcMday, rtcHour, rtcMin, rtcSec);
-			break;
-		}
-	}
-
-}
-//	for (;;) {
-//		if (  !Tx2Run && U2STAbits.TRMT && !(div1k&0xf) )
-//		{
-//			cnt = (int)((float)U2BRG * 0.001);
-//			if ( cnt < 1 )
-//				cnt = 1;
-//			cnt *= s1;
-//			if ( U2BRG > 10 )
-//				U2BRG = U2BRG - cnt;
-//			else U2BRG = 0x2000;
-//			xputs("\0xff\0x55\n0123456789\n");
-//			xputs("\n0123456789\n");
-//			cnt = rtcSec;
-//		}
-//		if ( uart2_test() )
-//			uart2_put( uart2_get() );
-//	}
-//

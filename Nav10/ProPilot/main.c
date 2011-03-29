@@ -25,7 +25,9 @@
 
 int main (void)
 {
-	RCON = 0;
+	if ( RCONbits.POR )
+		RCON = 0;
+	else ; // this would be the place to log it
 	udb_init() ;
 	dcm_init() ;
 	init_servoPrepare() ;

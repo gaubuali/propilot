@@ -72,8 +72,9 @@ int IMPORTANT udb_pwOut[65] = {0}; // pulse widths for servo outputs
 int twentyHertzCounter = 0;
 int iFrameCounter = 0;
 union longlongww tagUSec; // top 10 bits come from else were ie gps or gcs
-union longlongww tagUSec_x40; // this + t3 = cpu cyles
+//union longlongww tagUSec_x40; // this + t3 = cpu cyles
 DWORD dwMilliSec; // milliseconds counter, roll over ~= 49.7 days
+boolean rc_ok;
 
 #define DO_INT_PRI 5
 
@@ -381,7 +382,8 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _T3Interrupt(void) {
 
 	indicate_loading_inter;
 	_T3IF = 0; // clear the interrupt
-	tagUSec_x40.WW += TMR3_PERIOD;
+//	tagUSec_x40.WW += TMR3_PERIOD;
+	tagUSec.WW += (TMR3_PERIOD/40);
 
 	dwMilliSec++, iFrameCounter++;
 
@@ -406,9 +408,9 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _T3Interrupt(void) {
 		GreenLED.uOnDuty = (udb_pwIn[MODE_SWITCH_INPUT_CHANNEL + 7] / 2048) + 9;
 	LED_GREEN = LED_Update(&GreenLED, LED_GREEN);
 
-	if (dwMilliSec < 1000) // give radio a chance to insert values
+	if (!rc_ok && (dwMilliSec < 1000)) // give radio a chance to insert values
 		return;
-	else;
+	else rc_ok = 1;
 
 	if ((iFrameCounter & 1)) // only start them on odd millisec counts 
 	{

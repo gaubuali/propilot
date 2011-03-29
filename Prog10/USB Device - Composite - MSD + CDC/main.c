@@ -562,7 +562,7 @@ static void InitializeSystem(void)
 	//use the ANCONx registers to control this, which is different from other devices which
 	//use the ADCON1 register for this purpose.
     ANCON0 = 0xFC;                  // Default all pins to digital, low 2 are analog on power board
-    ANCON1 = 0xFF;                  // Default all pins to digital
+    ANCON1 = 0x7F;                  // Default all pins to digital
     #endif
     
    #if defined(PIC24FJ64GB004_PIM) || defined(PIC24FJ256DA210_DEV_BOARD)

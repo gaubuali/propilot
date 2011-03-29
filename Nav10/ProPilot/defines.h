@@ -40,7 +40,9 @@ extern int waggle ;
 #define WAGGLE_SIZE 300
 
 struct flag_bits {
-			unsigned int unused					: 6 ;
+			unsigned int unused					: 4 ;
+			unsigned int read_EE				: 1 ;
+			unsigned int write_EE				: 1 ;
 			unsigned int save_origin   			: 1 ;
 			unsigned int GPS_steering			: 1 ;
 			unsigned int pitch_feedback			: 1 ;
@@ -70,6 +72,7 @@ void rollCntrl( void ) ;
 void pitchCntrl( void ) ;
 void yawCntrl( void ) ;
 void altitudeCntrl( void ) ;
+void setTargetAltitude(int targetAlt) ;
 
 extern int pitch_control, roll_control, yaw_control, throttle_control ;
 extern union longww throttleFiltered ;
@@ -111,6 +114,9 @@ void compute_bearing_to_goal ( void ) ;
 void process_flightplan( void ) ;
 int determine_navigation_deflection( char navType ) ;
 
+struct relWaypointDef { struct relative3D loc ; int flags ; struct relative3D viewpoint ; } ;
+struct waypointDef { struct waypoint3D loc ; int flags ; struct waypoint3D viewpoint ; } ;
+
 struct waypointparameters { int x ; int y ; int cosphi ; int sinphi ; signed char phi ; int height ; int fromHeight; int legDist; } ;
 extern struct waypointparameters goal ;
 
@@ -132,6 +138,12 @@ void run_flightplan( void ) ;
 void flightplan_live_begin( void ) ;
 void flightplan_live_received_byte( unsigned char inbyte ) ;
 void flightplan_live_commit( void ) ;
+
+#if (FLIGHT_PLAN_TYPE == FP_WAYPOINTS)
+#define EE_WAYPOINTS_NUM ((EE_WAYPOINTS_END - EE_WAYPOINTS_START)/sizeof(struct waypointDef))
+void ReadWaypoint( int dest, int src, int num );
+void WriteWaypoint( int dest, int src, int num );
+#endif
 
 // Failsafe Type
 #define FAILSAFE_RTL					1
@@ -200,6 +212,7 @@ extern union bfbts_word desired_behavior ;
 void init_serial( void ) ;
 void serial_output( char* format, ... ) ;
 void serial_output_8hz( void ) ;
+void mavlink_output_40hz( void );
 
 
 ////////////////////////////////////////////////////////////////////////////////

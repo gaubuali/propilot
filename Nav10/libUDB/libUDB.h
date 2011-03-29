@@ -23,7 +23,6 @@
 #define LIB_UDB_H
 
 #include "../ProPilot/options.h"
-//#include "defines.h"
 #include "fixDeps.h"
 #include "libUDB_defines.h"
 #include "magnetometerOptions.h"
@@ -116,6 +115,8 @@ extern int udb_pwTrim[];	// initial pulse widths for trimming
 // callback.
 // Each channel should be set to a value between 2000 and 4000.
 extern int udb_pwOut[];		// pulse widths for servo outputs
+//extern union longlongww tagUSec_x40; // this + t3 = cpu cyles
+extern union longlongww tagUSec; // this + (t3/40) = uSec
 
 #if (BOARD_TYPE == ASPG_BOARD)
 // These are the low level digital objects, includes all the RC in and servo out
@@ -168,9 +169,9 @@ extern int iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer 
 #define xaccel (NUM_AD1_LIST + 1)
 #define yaccel (NUM_AD1_LIST + 2)
 #define zaccel (NUM_AD1_LIST + 3)
-#define xmag   (NUM_AD1_LIST + 4)
-#define ymag   (NUM_AD1_LIST + 5)
-#define zmag   (NUM_AD1_LIST + 6)
+#define x_mag   (NUM_AD1_LIST + 4)
+#define y_mag   (NUM_AD1_LIST + 5)
+#define z_mag   (NUM_AD1_LIST + 6)
 // AD1_Filt offsets 1 - 6 and FLT_Value 1-16
 #define gyro_x 1
 #define gyro_y 2
@@ -214,15 +215,22 @@ extern int previousAccFieldRaw[3];
 // EE prom
 #define WReeCDindex 3
 #define REeeCDindex 4
-#define EE_PARAMETER_START 128
+#define EE_PARAMETER_START 128			// start address of parameters in EEPROM
+#define EE_WAYPOINTS_START 0x2000		// start address of waypoints in EEPROM
+#define EE_WAYPOINTS_END   0x2fff		// end address of waypoints in EEPROM
 extern int EE_Active NEAR_BUF;
 extern int EE_Write_Timer NEAR_BUF;	// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
+extern int iEEpresent;				// 0 has no EE on board, 1 = 32k, 2 = 64k
 int EE_Write( unsigned int uiLen, unsigned int uiAddress, unsigned char *vpData  );
 int EE_Read( unsigned int uiLen, unsigned int uiAddress, unsigned char *vpData );
 void ReadParameters( void );
 void WriteParameters( void );
 void doneEE( void );
 int udb_init_EE( void );
+#if (FLIGHT_PLAN_TYPE == FP_WAYPOINTS)
+void ReadWaypoint( int dest, int src, int num );
+void WriteWaypoint( int dest, int src, int num );
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // LEDs
@@ -249,8 +257,8 @@ extern struct tagI2C_flags I2C_flags;	// defined in ConfigASPG.h
 // GPS IO
 
 // Set the GPS serial data rate.
-void udb_gps_set_rate(int rate);
-boolean udb_gps_check_rate(int rate);  //returns true if the rate arg is the current rate
+void udb_gps_set_rate(long rate);
+boolean udb_gps_check_rate(long rate);  //returns true if the rate arg is the current rate
 
 // Output one character to the GPS
 void udb_gps_send_char(char txchar);
@@ -281,7 +289,9 @@ void udb_serial_send_char( char outchar );
 
 // Implement this callback to tell the UDB what character is next to send on the serial port.
 // Return 0 to stop sending this string of characters.
-char udb_serial_callback_get_char_to_send(void);		// Call back
+#if (BOARD_TYPE != ASPG_BOARD)
+static inline int udb_serial_callback_get_char_to_send(void);		// Call back
+#endif
 
 // Implement this call back to handle receiving a character from the serial port
 void udb_serial_callback_received_char(char rxchar);	// Call back
@@ -301,6 +311,7 @@ void osd_spi_write(char address, char byte) ;
 void osd_spi_write_byte(char byte) ; // Used for writing chars while in auto-increment mode
 void osd_spi_write_location(char row, char column) ; // Set where on screen to write the next char
 void osd_spi_write_string(const unsigned char *str) ; // OSD chars, not ASCII
+void osd_spi_write_vertical_string_at_location(char row, char column, const unsigned char *str) ;
 
 #define NUM_FLAG_ZERO_PADDED	1	// When num_digits > 0, left-pad with zeros instead of spaces
 #define NUM_FLAG_SIGNED			2	// Reserve space for a - sign to the left of the number

@@ -89,14 +89,14 @@ const I2C_Action magCfg[] = {
 			.F.uACK = 1}						// inc
 };
 
-
-int udb_magFieldBody[3] ;  // magnetic field in the body frame of reference 
-int udb_magFieldBodyInput[3] ;  // magnetic field in the body frame of reference 
-int udb_magOffset[3] = { 0 , 0 , 0 } ;  // magnetic offset in the body frame of reference
-int magGain[3] = { RMAX , RMAX , RMAX } ; // magnetometer calibration gains
-int rawMagCalib[3] = { 0 , 0 , 0 } ;
-
-// int CD[magCDindex].iResult = 0 ; // message sequence
+int udb_magFieldBody[3] IMPORTANT = { 0 , 0 , 0 } ;  // magnetic field in the body frame of reference 
+int udb_magFieldBodyInput[3] IMPORTANT = { 0 , 0 , 0 } ;  // magnetic field in the body frame of reference 
+int udb_magOffset[3] IMPORTANT = { 0 , 0 , 0 } ;  // magnetic offset in the body frame of reference
+int magGain[3] IMPORTANT = { RMAX , RMAX , RMAX } ; // magnetometer calibration gains
+int rawMagCalib[3] IMPORTANT = { 0 , 0 , 0 } ;
+int previousMagFieldRaw[3] IMPORTANT = { 0 , 0 , 0 } ;
+int MagFieldFilter[3] IMPORTANT = { 0 , 0 , 0 } ;
+unsigned char magSameReadings = 0;	// counter to make sure its actually stuck rather than 2 of same readings
 
 int I2_Done = 0;
 int magConfigAttempts = 0;		// going to limit this in case there is a problem
@@ -112,22 +112,14 @@ int magConfigAttempts = 0;		// going to limit this in case there is a problem
 
 void __attribute__((__no_auto_psv__)) magSetupRead( void )	// setup a device read
 {
-//	int magregIndex ;
-//	interrupt_save_extended_state ;
-
 	I2C_flags.bInUse = 1;
 	I2C_flags.bReadMag = 1;					// mark as in progress
 	I2C_flags.bMagReady = 0;				// mark as started
-//	SETUP_I2C_MSG( magRead );
 	CC = CD[magCDindex];
 	I2C_Timeout = 3;
 	CC.I2C_Subcode = NOTHING, CC.I2C_Tail = 0, CC.I2C_Head = 0;		// reset everything
 	CC.I2CERROR = CC.I2CERROR_CON = CC.I2CERROR_STAT = NOTHING;		// store
 	CC.I2C_Index = magReadStart;
-//	CC.I2C_Index -= ((sizeof magRead)>>1) - 1;;
-//	CC.I2C_Index -= 3;
-
-//	interrupt_restore_extended_state ;
 }
 
 void rxMagnetometer(void)  // service the magnetometer
@@ -270,9 +262,14 @@ void rxMagnetometer(void)  // service the magnetometer
 	return ;
 }
 
-int previousMagFieldRaw[3] = { 0 , 0 , 0 } ;
-int MagFieldFilter[3] = { 0 , 0 , 0 } ;
-int magSameReadings = 0;
+#define USE_VARIABLE_MAG
+
+#if defined(USE_VARIABLE_MAG)
+char mag_xy = MAG_X_AXIS;
+int mag_x_sign = MAG_X_SIGN 1;
+int mag_y_sign = MAG_Y_SIGN 1;
+#endif
+
 void doneReadMagData(void)
 {
 	int vectorIndex ;
@@ -304,16 +301,28 @@ void doneReadMagData(void)
 		previousMagFieldRaw[1] = magFieldRaw[1] ;
 		previousMagFieldRaw[2] = magFieldRaw[2] ;
 
+#if defined(USE_VARIABLE_MAG)
+		if ( mag_xy ) {
+			udb_magFieldBody[0] = mag_x_sign * ((__builtin_mulsu((magFieldRaw[1]), magGain[1] ))>>14)-(udb_magOffset[0]>>1) ;
+			udb_magFieldBody[1] = mag_x_sign * ((__builtin_mulsu((magFieldRaw[0]), magGain[0] ))>>14)-(udb_magOffset[1]>>1) ;
+			udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((magFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
+		} else {
+			udb_magFieldBody[0] = mag_x_sign * ((__builtin_mulsu((magFieldRaw[0]), magGain[0] ))>>14)-(udb_magOffset[0]>>1) ;
+			udb_magFieldBody[1] = mag_x_sign * ((__builtin_mulsu((magFieldRaw[1]), magGain[1] ))>>14)-(udb_magOffset[1]>>1) ;
+			udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((magFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
+		}
+#else
 		udb_magFieldBody[0] = MAG_X_SIGN((__builtin_mulsu((magFieldRaw[MAG_X_AXIS]), magGain[MAG_X_AXIS] ))>>14)-(udb_magOffset[0]>>1) ;
 		udb_magFieldBody[1] = MAG_Y_SIGN((__builtin_mulsu((magFieldRaw[MAG_Y_AXIS]), magGain[MAG_Y_AXIS] ))>>14)-(udb_magOffset[1]>>1) ;
 		udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((magFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
+#endif
 //		udb_magFieldBody[0] = 0;
 //		udb_magFieldBody[1] = 0;
 //		udb_magFieldBody[2] = 0;
 
-		AD1_Raw[xmag] = FLT_Value[mag_x] = udb_magFieldBody[0];
-		AD1_Raw[ymag] = FLT_Value[mag_y] = udb_magFieldBody[1];
-		AD1_Raw[zmag] = FLT_Value[mag_z] = udb_magFieldBody[2];
+		AD1_Raw[x_mag] = FLT_Value[mag_x] = udb_magFieldBody[0];
+		AD1_Raw[y_mag] = FLT_Value[mag_y] = udb_magFieldBody[1];
+		AD1_Raw[z_mag] = FLT_Value[mag_z] = udb_magFieldBody[2];
 //		I2C_state = &I2C_idle ;
 		if ( ( abs(previousMagFieldRaw[0]) < MAGNETICMAXIMUM ) &&
 			 ( abs(previousMagFieldRaw[1]) < MAGNETICMAXIMUM ) &&
@@ -321,7 +330,9 @@ void doneReadMagData(void)
 //			 ( abs(previousMagFieldRaw[3]) > 500 ) ) // force re-cals
 		{
 			//dcm_flags._.mag_drift_req = 1 ;
+#if (MAG_YAW_DRIFT == 1)
 			udb_magnetometer_callback_data_available();
+#endif
 		}
 		else
 		{
@@ -643,8 +654,8 @@ void doneReadAccData(void)
 	if ( CD[accCDindex].iResult >= ACC_NORMAL )	// was 7, read auto increments this
 	{
 		CD[accCDindex].iResult = ACC_NORMAL;
-		AD1_Raw[xaccel] = AccFieldRaw[0];
-		AD1_Raw[yaccel] = AccFieldRaw[1];
+		AD1_Raw[yaccel] = AccFieldRaw[0];
+		AD1_Raw[xaccel] = AccFieldRaw[1];
 		AD1_Raw[zaccel] = AccFieldRaw[2];
 		AD1_Filt[0][4][iI2C_Head] = AD1_Raw[xaccel];	// buffer the results
 		AD1_Filt[0][5][iI2C_Head] = AD1_Raw[yaccel];

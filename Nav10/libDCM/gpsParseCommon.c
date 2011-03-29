@@ -80,7 +80,13 @@ void gpsoutbin(int length , const unsigned char msg[] )  // output a binary mess
 	return ;
 }
 
-
+#if ( GPS_TYPE == GPS_DEBUG )
+void udb_gps_callback_received_char(char rxchar)
+{
+	udb_serial_send_char( rxchar );
+	return ;
+}
+#else
 // Got a character from the GPS
 void udb_gps_callback_received_char(char rxchar)
 {
@@ -88,7 +94,7 @@ void udb_gps_callback_received_char(char rxchar)
 	(* msg_parse) ( rxchar ) ; // parse the input byte
 	return ;
 }
-
+#endif
 
 // Received a full set of GPS messages
 void udb_background_callback_triggered(void) 

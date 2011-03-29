@@ -1799,8 +1799,8 @@ USB_WAKEUP_FROM_SUSPEND_HANDLER::(event,pointer,size)USER_USB_C	E:\Projects\DevP
 USB_ZERO_PKT::0x10	E:\Projects\DevPFG\Microchip\Include\USB\usb_common.h	217;"	d	line:217
 USER_USB_CALLBACK_EVENT_HANDLER	E:\Projects\DevPFG\Microchip\USB\usb_device.c	366;"	p	line:366	file:	signature:(USB_EVENT event, void *pdata, WORD size)
 USER_USB_CALLBACK_EVENT_HANDLER	E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\main.c	1667;"	f	line:1667	signature:(USB_EVENT event, void *pdata, WORD size)
-USE_INTERNAL_FLASH	E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\FSconfig.h	153;"	d	line:153
 USE_PIC18	E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\HardwareProfile - PIC18F46J50 PIM.h	71;"	d	line:71
+USE_SD_INTERFACE_WITH_SPI	E:\Projects\DevPFG\Prog10\USB Device - Composite - MSD + CDC\FSconfig.h	154;"	d	line:154
 USTAT_EP0_IN::0x04	E:\Projects\DevPFG\Microchip\Include\USB\usb_hal_pic18.h	223;"	d	line:223
 USTAT_EP0_IN_EVEN::0x04	E:\Projects\DevPFG\Microchip\Include\USB\usb_hal_pic18.h	224;"	d	line:224
 USTAT_EP0_IN_ODD::0x06	E:\Projects\DevPFG\Microchip\Include\USB\usb_hal_pic18.h	225;"	d	line:225

@@ -367,7 +367,7 @@ void CDCInitEP(void)
     len -     The number of BYTEs expected.
                                                                                    
   **********************************************************************************/
-BYTE getsUSBUSART(char *buffer, BYTE len)
+BYTE getsUSBUSART(unsigned char *buffer, BYTE len)
 {
     cdc_rx_len = 0;
     

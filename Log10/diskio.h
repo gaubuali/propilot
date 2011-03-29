@@ -3,7 +3,7 @@
 /-----------------------------------------------------------------------*/
 
 #ifndef _DISKIO
-
+/* #warning doing it */
 #define _READONLY	0	/* 1: Read-only mode */
 #define _USE_IOCTL	1
 
@@ -34,15 +34,24 @@ DRESULT disk_write (BYTE, const BYTE*, DWORD, BYTE);
 #endif
 DRESULT disk_ioctl (BYTE, BYTE, void*);
 void	disk_timerproc (void);
+//static 
+void	power_off (void);
+//static 
+void	power_on (void);
 
+extern BYTE getSDcard( void );
+extern BYTE giveSDcard( void );
 
-
+extern volatile DSTATUS Stat;	/* Disk status */
+extern volatile UINT Timer1, Timer2;		/* 1000Hz decrement timer */
+extern UINT CardType;
 
 /* Disk Status Bits (DSTATUS) */
 
 #define STA_NOINIT		0x01	/* Drive not initialized */
 #define STA_NODISK		0x02	/* No medium in the drive */
 #define STA_PROTECT		0x04	/* Write protected */
+#define STA_RELEASE		0x08	/* release card */
 
 
 /* Command code for disk_ioctrl() */
@@ -75,6 +84,43 @@ void	disk_timerproc (void);
 #define CT_SDC				(CT_SD1|CT_SD2)
 #define CT_BLOCK			0x08
 
+//#define TRACK_spi
+#define TRACK_diskOP
+#if defined(TRACK_spi) && defined(TRACK_diskOP)
+#error define EITHER TRACK_spi OR TRACK_diskOP, not both
+#endif
+
+//#if defined(__DEBUG)
+#if defined(TRACK_spi)
+#define spiTime() spiStats[spiStat++] = TMR5, spiStat &= 0x3f
+#define dopTimeS(o)
+#define dopTimeE(o)
+#elif defined(TRACK_diskOP)
+#define spiTime()
+typedef struct {
+	DWORD lba;			// LBA for request
+	WORD  started;		// TMR2 time
+unsigned int dur:11;	// duration (TMR2 end - started)>>5
+unsigned int op:1;		// opperation, 1 = read, 0 = write
+unsigned int count:4;	// count of LBA's
+} diskOP, *pdiskOP;
+extern volatile diskOP diskOPtrack[16];
+extern volatile UINT __attribute__ ((near)) dopStat;
+#define dopTimeS(o) diskOPtrack[dopStat].count = ((count-1)&0xf);	\
+					diskOPtrack[dopStat].lba = TMR2 + ((DWORD)TMR3HLD<<16);\
+					diskOPtrack[dopStat].started = (diskOPtrack[dopStat].lba)>>5;\
+					diskOPtrack[dopStat].op = o
+#define dopTimeE(o) diskOPtrack[dopStat].lba = TMR2 + ((DWORD)TMR3HLD<<16);\
+					diskOPtrack[dopStat].lba = diskOPtrack[dopStat].lba>>5;\
+					diskOPtrack[dopStat].dur = (diskOPtrack[dopStat].lba - diskOPtrack[dopStat].started); \
+					diskOPtrack[dopStat].lba = sector;				\
+					dopStat++; dopStat &= 0xf
+#endif
+//#else
+//#define spiTime()
+//#define dopTimeS(o)
+//#define dopTimeE(o)
+//#endif
 
 #define _DISKIO
 #endif

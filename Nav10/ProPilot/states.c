@@ -102,7 +102,12 @@ void udb_background_callback_periodic(void)
 				flags._.rtl_hold = 0 ;
 			}
 		}
-	} else 	{ // if ( udb_flags._.radio_on )
+		else {
+			old_rtl_flags.WW = flags.WW ;
+		}
+	}
+	else  // if ( udb_flags._.radio_on )
+	{
 		flags._.man_req = 0 ;
 		flags._.auto_req = 0 ;
 		flags._.home_req = 1 ;
@@ -182,6 +187,12 @@ void ent_manualS()
 //	Auto state provides augmented control. 
 void ent_stabilizedS()
 {
+#if (ALTITUDEHOLD_STABILIZED == AH_PITCH_ONLY)
+	// When using pitch_only in stabilized mode, maintain the altitude
+	// that the plane was at when entering stabilized mode.
+	setTargetAltitude(IMUlocationz._.W1) ;
+#endif
+	
 	flags._.GPS_steering = 0 ;
 	flags._.pitch_feedback = 1 ;
 	flags._.altitude_hold_throttle = (ALTITUDEHOLD_STABILIZED == AH_FULL) ;
@@ -206,7 +217,7 @@ void ent_waypointS()
 	
 	if ( !(FAILSAFE_TYPE == FAILSAFE_MAIN_FLIGHTPLAN && stateS == &returnS) )
 	{
-		init_flightplan( 0 ) ; // Only reset non-rtl waypoints if not already following waypoints
+		init_flightplan( 1 ) ; // Only reset non-rtl waypoints if not already following waypoints
 	}
 	
 #if ( LED_RED_MAG_CHECK == 0 )
@@ -225,11 +236,11 @@ void ent_returnS()
 	flags._.altitude_hold_pitch = (ALTITUDEHOLD_WAYPOINT == AH_FULL || ALTITUDEHOLD_WAYPOINT == AH_PITCH_ONLY) ;
 	
 #if ( FAILSAFE_TYPE == FAILSAFE_RTL )
-	init_flightplan( 1 ) ;
+	init_flightplan( 0 ) ;
 #elif ( FAILSAFE_TYPE == FAILSAFE_MAIN_FLIGHTPLAN )
 	if ( stateS != &waypointS )
 	{
-		init_flightplan( 0 ) ; // Only reset non-rtl waypoints if not already following waypoints
+		init_flightplan( 1 ) ; // Only reset non-rtl waypoints if not already following waypoints
 	}
 #endif
 	

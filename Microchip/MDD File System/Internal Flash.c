@@ -704,4 +704,3 @@ BYTE MDD_IntFlash_WriteProtectState(void)
 
 #endif
 
-int t;

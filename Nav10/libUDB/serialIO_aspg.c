@@ -23,6 +23,9 @@
 #include <string.h>
 
 #if (BOARD_TYPE == ASPG_BOARD)
+#if !defined(SERIAL_OUTPUT_INVERT)
+#define SERIAL_OUTPUT_INVERT 0
+#endif
 
 #define TX_BUF_LEN 512
 unsigned char FAR_BUF U1TX_buffer[TX_BUF_LEN] = {0};
@@ -72,7 +75,7 @@ void udb_init_GPS(void)
 	_U1RXIP = 3;	// Mid Range Interrupt Priority level, no urgent reason
 
 	_U1TXIF = 0;	// Clear the Transmit Interrupt Flag
-	_U1TXIE = 0;	// Disable Transmit Interrupts
+	_U1TXIE = 1;	// Disable Transmit Interrupts
 	_U1RXIF = 0;	// Clear the Recieve Interrupt Flag
 	_U1RXIE = 1;	// Enable Recieve Interrupts
 
@@ -84,20 +87,20 @@ void udb_init_GPS(void)
 }
 
 // int only good up to 32767
-void udb_gps_set_rate(int rate)
+void udb_gps_set_rate(long rate)
 {
 	U1BRG = UDB_BAUD(rate) ;
 	return ;
 }
 
 
-boolean udb_gps_check_rate(int rate)
+boolean udb_gps_check_rate(long rate)
 {
 	return ( U1BRG == UDB_BAUD(rate) ) ;
 }
 
 
-void __attribute__((__interrupt__, __no_auto_psv__)) _U1RXInterrupt(void)
+void __attribute__((__interrupt__, __auto_psv__)) _U1RXInterrupt(void)
 {
 	interrupt_save_extended_state ;
 	
@@ -147,7 +150,7 @@ void udb_gps_send_packet( unsigned char *ucpData, int len )
 	do {	// when memcpy no longer fails this will be removed
 		U1TX_buffer[iU1Head] = *ucpData;
 		iU1Head++, ucpData++, len--;
-		if ( iU1Head > TX_BUF_LEN )
+		if ( iU1Head >= TX_BUF_LEN )
 			iU1Head = 0;
 		else ;
 	} while (len > 0);
@@ -171,16 +174,16 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _U1TXInterrupt(void)
 	unsigned char ucSend;
 	indicate_loading_inter ;
 
-	if (iU1Head != iU1Tail)	// have some to send
-	{
-		do {
+//	if (!U1STAbits.UTXBF && (iU1Head != iU1Tail))	// have some to send
+//	{
+		while ( !U1STAbits.UTXBF && (iU1Head != iU1Tail)) {
 			ucSend = U1TX_buffer[iU1Tail++];	// get next one to send
-			if ( iU1Tail > TX_BUF_LEN )			// wrap at end of buffer
+			U1TXREG = ucSend;					// send it
+			if ( iU1Tail >= TX_BUF_LEN )		// wrap at end of buffer
 				iU1Tail = 0;
 			else ;
-			U1TXREG = ucSend;					// send it
-		} while ( !U1STAbits.UTXBF && (iU1Head != iU1Tail));
-	}
+		};
+//	}
 	_U1TXIF = 0 ; // clear the interrupt
 }
 
@@ -310,7 +313,7 @@ void udb_serial_send_packet( unsigned char *ucpData, int len )
 	do {	// when memcpy no longer fails this will be removed
 		U2TX_buffer[iU2Head] = *ucpData;
 		iU2Head++, ucpData++, len--;
-		if ( iU2Head > TX_BUF_LEN )
+		if ( iU2Head >= TX_BUF_LEN )
 			iU2Head = 0;
 		else ;
 	} while (len > 0);
@@ -349,7 +352,7 @@ void udb_serial_send_string( unsigned char *ucpData )
 	{	// when memcpy no longer fails this will be removed
 		U2TX_buffer[iU2Head] = *ucpData;
 		iU2Head++, ucpData++, len++;
-		if ( iU2Head > TX_BUF_LEN )
+		if ( iU2Head >= TX_BUF_LEN )
 			iU2Head = 0;
 		else ;
 	};
@@ -372,17 +375,17 @@ void __attribute__((__interrupt__, __no_auto_psv__)) _U2TXInterrupt(void)
 {
 	unsigned char ucSend;
 
-	if (iU2Head != iU2Tail)	// have some to send
-	{
+//	if (iU2Head != iU2Tail)	// have some to send
+//	{
 		while ( !U2STAbits.UTXBF && (iU2Head != iU2Tail))
 		{
 			ucSend = U2TX_buffer[iU2Tail++];	// get next one to send
-			if ( iU2Tail > TX_BUF_LEN )			// wrap at end of buffer
+			U2TXREG = ucSend;					// send it
+			if ( iU2Tail >= TX_BUF_LEN )		// wrap at end of buffer
 				iU2Tail = 0;
 			else ;
-			U2TXREG = ucSend;					// send it
 		};
-	}
+//	}
 	_U2TXIF = 0 ; // clear the interrupt
 }
 

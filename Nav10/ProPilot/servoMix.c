@@ -75,7 +75,7 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 			{
 				case 0: // unused, skip
 				break;
-				case 1: // Out += Inputs[InputCH] * Factor * (1.0-Balance) + Inputs[InputSSI] * Factor * Balance
+				case BALANCED_FULL_FACTOR: // Out += Inputs[InputCH] * Factor * (1.0-Balance) + Inputs[InputSSI] * Factor * Balance
 					temp = udb_pwIn[pThisMixer->pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
@@ -89,13 +89,13 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					temp = temp << 2;
 					temp1 = toQ15(1.0) - temp; // get the other side
 					iFactor &= 0xffc0; // kill third input channel bits
-					tempA.WW = __builtin_mulss( temp1 , iFactor );
+					tempA.WW = __builtin_mulss( temp , iFactor );
 					tempA.WW = __builtin_mulss( tempA._.W1, iInputCH );
-					tempB.WW = __builtin_mulss( temp , iFactor );
+					tempB.WW = __builtin_mulss( temp1 , iFactor );
 					tempB.WW = __builtin_mulss( tempB._.W1, iInputSSI );
 					OutA += tempA._.W1 + tempB._.W1;
 				break;
-				case 2: // Out += Inputs[InputCH] * (1.0-Balance) + Inputs[InputSSI] * Balance
+				case BALANCED_NO_FACTOR: // Out += Inputs[InputCH] * (1.0-Balance) + Inputs[InputSSI] * Balance
 					temp = udb_pwIn[pThisMixer->pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
@@ -113,7 +113,7 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					tempB.WW = __builtin_mulss( temp , iInputSSI );
 					OutA += tempA._.W1 + tempB._.W1;
 				break;
-				case 3: // Out += Inputs[InputCH] * (1.0-Balance) + Inputs[InputSSI] * Factor * Balance
+				case BALANCED_HALF_FACTOR: // Out += Inputs[InputCH] * (1.0-Balance) + Inputs[InputSSI] * Factor * Balance
 					temp = udb_pwIn[pThisMixer->pType.iInpTSI]; // calc balance = fx(-1.0,1.0) -> (0,1.0)
 					if ( temp < 0 )
 					{	temp &= 0x7fff; // kill sign bit;
@@ -125,32 +125,32 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					}
 					if ( temp >= 0x2000 ) temp = 0x1fff; // fix range
 					temp = temp << 2;
-					temp1 = toQ15(1.0) - temp; // get the other side
+					temp1 = toQ15(1.0); // decided to always give RC full control - temp; // get the other side
 					iFactor &= 0xffc0; // kill third input channel bits
 					tempA.WW = __builtin_mulss( temp1 , iInputCH );
 					tempB.WW = __builtin_mulss( temp , iFactor );
 					tempB.WW = __builtin_mulss( tempB._.W1, iInputSSI );
 					OutA += tempA._.W1 + tempB._.W1;
 				break;
-				case 4: // not used yet
+				case SPARE: // not used yet
 				break;
-				case 5: // Out = Out + (Inputs[InputCH] * Factor)
+				case SIMPLE_FACTOR: // Out = Out + (Inputs[InputCH] * Factor)
 					tempA.WW = __builtin_mulss( iFactor, iInputCH );
 					OutA += tempA._.W1;
 				break;
-				case 6: // Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
+				case SIMPLE_FACTOR_2_INPUT: // Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
 					tempA.WW = __builtin_mulss( iFactor, iInputCH );
 					tempA.WW = __builtin_mulss( tempA._.W1, iInputSSI );
 					OutA += tempA._.W1;
 				break;
-				case 7: // IF MANUAL Out = Out + (Inputs[InputCH] * Factor)
+				case MANUAL_SIMPLE: // IF MANUAL Out = Out + (Inputs[InputCH] * Factor)
 					if ( udb_pwIn[0] == 0 )
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
 						OutA += tempA._.W1;
 					};
 				break;
-				case 8: //IF MANUAL Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
+				case MANUAL_SIMPLE_2_INPUT: //IF MANUAL Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
 					if ( udb_pwIn[0] == 0 )
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
@@ -158,14 +158,14 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 						OutA += tempA._.W1;
 					};
 				break;
-				case 9: // IF ASSIST (manual + autopilot) Out = Out + IF (Inputs[InputCH] * Factor)
+				case ASSIST_SIMPLE: // IF ASSIST (manual + autopilot) Out = Out + IF (Inputs[InputCH] * Factor)
 					if ( (udb_pwIn[0] > 0) && (udb_pwIn[0] < 255))
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
 						OutA += tempA._.W1;
 					};
 				break;
-				case 10: // IF ASSIST (manual + autopilot) Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
+				case ASSIST_SIMPLE_2_INPUT: // IF ASSIST (manual + autopilot) Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
 					if ( (udb_pwIn[0] > 0) && (udb_pwIn[0] < 255))
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
@@ -173,14 +173,14 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 						OutA += tempA._.W1;
 					};
 				break;
-				case 11: // IF AUTO (rtl or waypoint) Out = Out + IF (Inputs[InputCH] * Factor)
+				case AUTOPILOT_SIMPLE: // IF AUTO (rtl or waypoint) Out = Out + IF (Inputs[InputCH] * Factor)
 					if ( udb_pwIn[0] == 255 )
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
 						OutA += tempA._.W1;
 					};
 				break;
-				case 12: // IF AUTO (rtl or waypoint) Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
+				case AUTOPILOT_SIMPLE_2_INPUT: // IF AUTO (rtl or waypoint) Out = Out + (Inputs[InputCH] * Factor * Inputs[InputSSI])
 					if ( udb_pwIn[0] == 255 )
 					{
 						tempA.WW = __builtin_mulss( iFactor, iInputCH );
@@ -188,17 +188,17 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 						OutA += tempA._.W1;
 					};
 				break;
-				case 13: // IF iInputCH positive Out -= Out * Factor
+				case POSITIVE_DIFFERENTIAL: // IF iInputCH positive Out -= Out * Factor
 					if ( (iInputCH > 0) || (iInputSSI > 0) )
 						OutA  -= (((long)iFactor * OutA));
 					else ;
 				break;
-				case 14: // IF iInputCH negative Out -= Out * Factor
+				case NEGATIVE_DIFFERENTIAL: // IF iInputCH negative Out -= Out * Factor
 					if ( (iInputCH < 0) || (iInputSSI < 0)  )
 						OutA  -= (((long)iFactor * OutA));
 					else ;
 				break;
-				case 15: // Out = Factor
+				case FIXED_OUTPUT_OVERRIDE: // Out = Factor
 					OutA = iFactor;
 				break;
 				case 16: // overide "type" for output scale Ticks = Out * Scale + Offset.
@@ -206,7 +206,7 @@ int bankMix( LPMIXER pThisMixer, LPWORD ticks )
 					if ( OutA < toQ15(-1.0) ) OutA = toQ15(-1.0);
 					OutB  = ((((long)iFactor * OutA) >> 13)) + pThisMixer->iScales[0];
 				break;
-				case 17: // overide "type" for per channel limit later
+				case 17: // overide "type" for per channel limit later, input comes from type "16" scaling
 					temp = (WORD)OutB;
 					if ( temp > iFactor )
 						temp = iFactor;

@@ -98,7 +98,7 @@ const I2C_Action busReset[] = {
 	{.F.uCmd = FINISHED}				// finished, no callback / post process
 };
 
-I2C_Action NEAR_BUF uI2C_Commands[I2C_COM_LEN] = {0};	// command buffer
+I2C_Action NEAR_BUF uI2C_Commands[I2C_COM_LEN] = {{{0}}};	// command buffer
 I2CCMD NEAR_BUF CC = {0};		// peripheral driver command buffer, never mess with this
 I2CCMD NEAR_BUF CD[8] = {// device driver command buffers - when finished CC gets copied
 				// back here - do not use 0 as its used by the peripheral driver.
@@ -334,16 +334,18 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _MI2C2Interrupt(void)
 					} else
 					if ( I2C_flags.bAccReady || iACC_DR1)	// lower priority as it has buffer
 					{	// uByte = iACC_DR1;
-						if ( (I2C_buffer[7] & 0x1f) || I2C_flags.bAccReady )
-						{
+//						if ( (I2C_buffer[7] & 0x1f) || I2C_flags.bAccReady )
+//						{
 							accSetupRead();	// do a read of device
-//							I2C_Start( 0 );							// re-trigger the interrupt
 							MI2CIF = 1;								// re-trigger the interrupt
-						} else I2C_flags.bInUse = 0;
+//						}; // else I2C_flags.bInUse = 0;
 					} else
-					if ( EE_Active )
+					if ( (EE_Active != 0) && !MI2CIF )
 					{	doneEE();
-					} else I2C_flags.bInUse = 0;
+					} else 
+					if ( !MI2CIF )
+						I2C_flags.bInUse = 0;
+					else ;
 				break;
 			}
 		break;	// starting

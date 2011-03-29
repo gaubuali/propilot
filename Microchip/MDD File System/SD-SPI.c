@@ -15,8 +15,8 @@
  * Software License Agreement
  *
  * The software supplied herewith by Microchip Technology Incorporated
- * (the “Company”) for its PICmicro® Microcontroller is intended and
- * supplied to you, the Company’s customer, for use solely and
+ * (the ï¿½Companyï¿½) for its PICmicroï¿½ Microcontroller is intended and
+ * supplied to you, the Companyï¿½s customer, for use solely and
  * exclusively on Microchip PICmicro Microcontroller products. The
  * software is owned by the Company and/or its supplier, and is
  * protected under applicable copyright laws. All rights are reserved.
@@ -25,7 +25,7 @@
  * civil liability for the breach of the terms and conditions of this
  * license.
  *
- * THIS SOFTWARE IS PROVIDED IN AN “AS IS” CONDITION. NO WARRANTIES,
+ * THIS SOFTWARE IS PROVIDED IN AN ï¿½AS ISï¿½ CONDITION. NO WARRANTIES,
  * WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED
  * TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE APPLY TO THIS SOFTWARE. THE COMPANY SHALL NOT,
@@ -53,7 +53,6 @@
 #include "MDD File System/FSDefs.h"
 #include "string.h"
 #include "MDD File System/SD-SPI.h"
-//#include "FSConfig.h"
 
 /******************************************************************************
  * Global Variables
@@ -202,6 +201,12 @@ BYTE MDD_SDSPI_MediaDetect (void)
 #else
 	MMC_RESPONSE    response;
 
+#if defined(CUSTOM_PIM)
+	if ( getSDcard() == 0 )
+		return 0;
+	else ;
+#endif
+
 	if (SPIENABLE == 0)
 	{
 		/* If the SPI module is not enabled, send manually the SEND_STATUS command */
@@ -324,20 +329,7 @@ void MDD_SDSPI_InitIO (void)
     SD_CD_TRIS = INPUT;            //Card Detect - input
     SD_WE_TRIS = INPUT;            //Write Protect - input
 #endif
-//    Delayms(1);
-//    WriteSPIManual(0xff);                //Send Command
-//    WriteSPIManual(0xff);                //Send Command
-//    WriteSPIManual(0xff);                //Send Command
-//    WriteSPIManual(0xff);                //Send Command
-//    WriteSPIManual(0xff);                //Send Command
-//    WriteSPIManual(0xff);                //Send Command
-//    WriteSPIManual(0xff);                //Send Command
-//    WriteSPIManual(0xff);                //Send Command
-//    WriteSPIManual(0xff);                //Send Command
-//    WriteSPIManual(0xff);                //Send Command
-//
 }
-
 
 
 /*********************************************************
@@ -368,6 +360,7 @@ BYTE MDD_SDSPI_ShutdownMedia(void)
     
     // deselect the device
     SD_CS = 1;
+    SD_CS_TRIS = INPUT;            //Card Select - output
 
     return 0;
 }
@@ -662,6 +655,25 @@ BYTE MDD_SDSPI_SectorRead(DWORD sector_addr, BYTE* buffer)
     }
     else
     {
+		#if defined(__18CXX) && defined(CUSTOM_PIM)
+		TMR3H = 0, TMR3L = 0;
+		DMACON1 = 0b00011100;	// no SSDMA, TXINC off, RXINC on, full duplex
+		DMACON2 = 0;			// min delay and int when complete (not enabled)
+
+	// DMABCH/DMABCL do not support transferring 0 bytes.
+	// Therefore, writing 0 means "transfer 1 byte", writing 1 = 2 bytes, 2 = 3 bytes, etc...
+		DMABCH = 1;
+		DMABCL = 0xFF;		// 512 bytes
+		data_token = 0xff;
+		TXADDRH = ((unsigned int)&data_token) >> 8;
+		TXADDRL = ((unsigned int)&data_token) & 0xFF;	// have to send card FF's
+		RXADDRH = ((unsigned int)buffer) >> 8;
+		RXADDRL = ((unsigned int)buffer) & 0xFF;		// receive into buffer
+
+		SPI_INTERRUPT_FLAG = 0;							// clear it
+		DMACON1bits.DMAEN = 1;							// start xfer
+        while(!SPI_INTERRUPT_FLAG);						// wait for it to finish
+		#else
         for(index = 0; index < gMediaSectorSize; index++)      //Reads in a sector of data (512 bytes)
         {
             if(buffer != NULL)
@@ -685,6 +697,42 @@ BYTE MDD_SDSPI_SectorRead(DWORD sector_addr, BYTE* buffer)
                 MDD_SDSPI_ReadMedia();
             }
         }
+		#endif
+//        if(buffer != NULL)
+//        {
+//			#ifdef __18CXX
+//            data_token = SPIBUF;
+//            SPI_INTERRUPT_FLAG = 0;
+//            SPIBUF = 0xFF;
+//	        for(index = gMediaSectorSize; index != 0 ; index--)      //Reads in a sector of data (512 bytes)
+//			#else
+//	        for(index = 0; index < gMediaSectorSize; index++)      //Reads in a sector of data (512 bytes)
+//			#endif
+//	        {
+//				#ifdef __18CXX
+////	                data_token = SPIBUF;
+//	                while(!SPI_INTERRUPT_FLAG);
+//	                data_token = SPIBUF;
+//	                SPI_INTERRUPT_FLAG = 0;
+//	                SPIBUF = 0xFF;
+//	                *buffer++ = data_token;
+//				#elif defined (__PIC32MX__)
+//                	buffer[index] = MDD_SDSPI_ReadMedia();
+//				#else
+//	                SPIBUF = 0xFF;
+//	                while (!SPISTAT_RBF);
+//	                buffer[index] = SPIBUF;
+//				#endif
+//	        }
+//			#ifdef __18CXX
+//            while(!SPI_INTERRUPT_FLAG);
+//            data_token = SPIBUF;
+//			#endif
+//        } else {
+//	       for(index = 0; index < gMediaSectorSize; index++)      //Reads in a sector of data (512 bytes)
+//               MDD_SDSPI_ReadMedia();
+//
+//	    }
         // Now ensure CRC
         mReadCRC();               //Read 2 bytes of CRC
         //status = mmcCardCRCError;
@@ -731,6 +779,7 @@ BYTE MDD_SDSPI_SectorWrite(DWORD sector_addr, BYTE* buffer, BYTE allowWriteToZer
     WORD            index;
     DWORD           counter;
     BYTE            data_response;
+    BYTE            data_token;
     MMC_RESPONSE    response; 
     BYTE            status = TRUE;
 
@@ -752,6 +801,25 @@ BYTE MDD_SDSPI_SectorWrite(DWORD sector_addr, BYTE* buffer, BYTE allowWriteToZer
         {
             WriteSPIM(DATA_START_TOKEN);                 //Send data start token
 
+			#if defined(__18CXX) && defined(CUSTOM_PIM)
+			TMR3H = 0, TMR3L = 0;
+			DMACON1 = 0b00101100;	// no SSDMA, TXINC on, RXINC off, full duplex
+			DMACON2 = 0;			// min delay and int when complete (not enabled)
+	
+		// DMABCH/DMABCL do not support transferring 0 bytes.
+		// Therefore, writing 0 means "transfer 1 byte", writing 1 = 2 bytes, 2 = 3 bytes, etc...
+			DMABCH = 1;
+			DMABCL = 0xFF;		// 512 bytes
+			data_token = 0xff;
+			TXADDRH = ((unsigned int)buffer) >> 8;
+			TXADDRL = ((unsigned int)buffer) & 0xFF;		// send from buffer
+			RXADDRH = ((unsigned int)&data_token) >> 8;
+			RXADDRL = ((unsigned int)&data_token) & 0xFF;	// receive into dummy
+	
+			SPI_INTERRUPT_FLAG = 0;							// clear it
+			DMACON1bits.DMAEN = 1;							// start xfer
+	        while(!SPI_INTERRUPT_FLAG);						// wait for it to finish
+			#else
             for(index = 0; index < gMediaSectorSize; index++)      //Send 512 bytes
             {
 				#ifdef __18CXX
@@ -768,6 +836,7 @@ BYTE MDD_SDSPI_SectorWrite(DWORD sector_addr, BYTE* buffer, BYTE allowWriteToZer
 	                data_response = SPIBUF;
 				#endif
             }
+			#endif
 
             // calc crc
             mSendCRC();                                 //Send 2 bytes of CRC

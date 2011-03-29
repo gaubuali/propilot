@@ -51,7 +51,7 @@ int sampcount = 1 ;
 #include "FIR_Filter.h"
 #include "filter_aspg.h"
 
-int AD1_Filt[2][7][64] FAR_BUF = {0}; // filter in[0][][] and out[1][][]
+int AD1_Filt[2][7][64] FAR_BUF = {{{0}}}; // filter in[0][][] and out[1][][]
 int	iAnalog_Head, iAnalog_Tail;	// index to keep track of buffer and de-buffer (GYRO's)
 int	iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer (Accel's)
 
@@ -65,7 +65,7 @@ int	AD2_Raw[24];	// save raw values to look at
 
 void udb_init_gyros( void )
 {
-	int r,c;
+	int r; // ,c;
 	// turn off auto zeroing 
 	tAZ_Y = tAZ_XZ = 0 ;
 	oAZ_Y = oAZ_XZ = 0 ;
@@ -213,8 +213,8 @@ void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 
 	IFS0bits.DMA0IF = 0;		// Clear the DMA0 Interrupt Flag
 
-	AD1_Filt[0][2][iAnalog_Head] = AD1_Raw[xgyro_in] - AD1_Raw[xgyro_ref];
-	AD1_Filt[0][1][iAnalog_Head] = AD1_Raw[ygyro_in] - AD1_Raw[ygyro_ref];
+	AD1_Filt[0][1][iAnalog_Head] = AD1_Raw[xgyro_in] - AD1_Raw[xgyro_ref];
+	AD1_Filt[0][2][iAnalog_Head] = AD1_Raw[ygyro_in] - AD1_Raw[ygyro_ref];
 	AD1_Filt[0][3][iAnalog_Head] = AD1_Raw[zgyro_in] - AD1_Raw[zgyro_ref];
 	
 #if ( SERIAL_OUTPUT_FORMAT == SERIAL_RAW )

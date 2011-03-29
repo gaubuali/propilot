@@ -31,6 +31,17 @@
 
 // note this is a write address, add 1 for read
 #define EEDEV 0xAE
+#define EESIZE 256
+#if !defined(EESIZE) || ((EESIZE != 256) && (EESIZE != 512))
+#waring EESIZE not defined or not supported.
+#elif EESIZE == 256
+#define EEPAGE 64
+#elif EESIZE == 512
+#define EEPAGE 128
+#else
+#waring EESIZE not defined or not supported.
+#endif
+#define EEMASK (EEPAGE-1)
 // I2C pseudo code drivers - see I2C_aspg.c for docs
 
 //// nothing, start, slave, tx(12), address x 2(0) + "ASPG V0.0\0", stop, finished
@@ -109,8 +120,8 @@ void doneEE( void )
 			for ( iIdx = 0 ; iIdx <= iCnt; iIdx++ )
 				uI2C_Commands[iIdx] = readEE[iIdx];
 			iCnt = EE_End - EE_Address;
-			if (iCnt > 128)
-				iCnt = 128;							// this sets the max it will read each time
+			if (iCnt > EEPAGE)
+				iCnt = EEPAGE;							// this sets the max it will read each time
 			uI2C_Commands[5].F.uCount = (unsigned int)(iCnt-1) & 0xff; // technically = 0 for a 256 byte read
 			CD[REeeCDindex].pcResult = pData;		// driver will copy the bytes here
 			I2C_buffer[1] = EE_Address & 0xff;
@@ -130,8 +141,9 @@ void doneEE( void )
 			for ( iIdx = 0 ; iIdx <= iCnt; iIdx++ )
 				uI2C_Commands[iIdx] = writeEE[iIdx];
 			iCnt = EE_End - EE_Address;
-			if (iCnt > 128)
-				iCnt = 128;							// this sets the max it will write each time
+			if ( iCnt > EEPAGE) iCnt = EEPAGE;		// this sets the max it will write each time
+			if ( ((iCnt-1) + (EE_Address&EEMASK)) > EEMASK ) // check if it writes over a page boundry
+				iCnt = EEPAGE - (EE_Address & EEMASK); // reduce to page boundry
 			uI2C_Commands[2].F.uCount = (unsigned int)(iCnt+1) & 0xff; // 2 for address - 1 for 0 base sends 1
 			for ( iIdx = 0 ; iIdx < iCnt; iIdx++ )
 				I2C_buffer[iIdx+2] = pData[iIdx];
@@ -209,6 +221,7 @@ WORD ParameterStart[4] __attribute__ ((near, section("ParametersStart"))) = {
 	(WORD)&ParameterEnd,		// calculate size
 	0x0			// simple add checksum calculated and stored in EE, checks ee data ok
 };
+int iEEpresent = 0;
 
 void ReadParameters( void )
 {
@@ -233,6 +246,8 @@ void ReadParameters( void )
 			iCnt = wParamSize[0] - wParamSize[1];
 			if ( iCnt > sizeof(serial_buffer))
 				iCnt = sizeof(serial_buffer);
+			if ( iCnt > 128)
+				iCnt = 128;
 			while (EE_Read( iCnt, EE_PARAMETER_START+wParamSize[1], (unsigned char *)&serial_buffer[0] ) < 1)
 				indicate_loading_main;
 			wParamSize[1] += iCnt;
@@ -253,6 +268,8 @@ void ReadParameters( void )
 				iCnt = wParamSize[0] - wParamSize[1];
 				if ( iCnt > sizeof(serial_buffer))
 					iCnt = sizeof(serial_buffer);
+				if ( iCnt > 128)
+					iCnt = 128;
 				while (EE_Read( iCnt, EE_PARAMETER_START+wParamSize[1], (unsigned char *)&serial_buffer[0] ) < 1)
 					indicate_loading_main;
 				wParamSize[1] += iCnt;
@@ -302,7 +319,7 @@ int udb_init_EE()
 	{	iReturnCode = 1;
 		ReadParameters();
 	} else {
-		iReturnCode = sprintf( serial_buffer, "ASPG V%d.%d", 1, 0 );
+		iReturnCode = sprintf( (char *)&serial_buffer[0], "ASPG V%d.%d", 1, 0 );
 		while (EE_Write( iReturnCode+1, 0, (unsigned char *)&serial_buffer[0] ) > -1)
 			indicate_loading_main;
 		while (EE_Active != 0)		// this forces a wait in this function
@@ -318,6 +335,7 @@ int udb_init_EE()
 			WriteParameters();
 		} else iReturnCode = 0;
 	}
+	iEEpresent = iReturnCode;
 	return iReturnCode;
 }
 #endif

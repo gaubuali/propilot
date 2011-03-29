@@ -25,7 +25,7 @@
 
 extern int averageSample( int *, int );
 
-union dcm_fbts_byte dcm_flags IMPORTANT = {0};
+union dcm_fbts_byte dcm_flags IMPORTANT = {{0}};
 boolean dcm_has_calibrated IMPORTANT = false ;
 
 //#if (MAG_YAW_DRIFT == 1)
