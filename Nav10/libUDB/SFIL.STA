@@ -1,0 +1,81 @@
+Program starts at 17:11:59, Jan 14 2011
+ open E:\Projects\DevPFG\Nav10\libUDB\system.qed
+ entering SetFilterDesignType
+ filter pointer 009BB990, type = 0
+ entering GetFilterParameters
+ entering GetFilterParameters
+
+ design counter = 1
+ entering filter_dsgn_dsgn 
+ S Domain Normalized, wp = 0.861952
+ S Domain Normalized, parallel form
+ S Domain Unnormalized: cascaded
+ S Domain Unnormalized: parallel
+ S Domain Unnormalized: pole/zero
+ S Domain Unnormalized: ratio
+ Z Domain Unnormalized: cascaded - bilinear
+ Z Domain Unnormalized: cascaded - reorder sections
+ Z Domain Unnormalized: cascaded - compute cas_gain
+ Z Domain Unnormalized: parallel form
+ Z Domain Unnormalized: pole/zero form
+ Z Domain Unnormalized: ratio form
+ entering filter_dsgn_quan 
+
+ IIR quantization
+
+ Handle Cascade Z
+ Scaling by  0.0491928 in section 1
+ Scaling by  0.458909 in section 2
+
+ For cascade gain scaler:  4.429677586761e+001
+
+ After quantization
+ Cascaded form
+ entering filter_dsgn_plot 
+ entering iir plot array
+ detail output
+ entering SetFilterDesignType
+ filter pointer 009BB990, type = 0
+ entering GetFilterParameters
+
+ design counter = 2
+ entering filter_dsgn_dsgn 
+
+ Fir Filter Design
+ entering filter_dsgn_quan 
+ FIR Before quantization
+ FIR After quantization
+ entering filter_dsgn_plot 
+ entering fir plot array
+ after init_plot_array
+ after computing frequency responses
+ after computing time responses
+ leaving fir plot array
+ detail output
+ entering SetFilterDesignType
+ filter pointer 009BCB50, type = 1
+ entering GetFilterParameters
+ entering SetFilterDesignType
+ filter pointer 009BB990, type = 0
+ entering GetFilterParameters
+
+ design counter = 3
+ entering filter_dsgn_dsgn 
+
+ Fir Filter Design
+ entering filter_dsgn_quan 
+ FIR Before quantization
+ FIR After quantization
+ entering filter_dsgn_plot 
+ entering fir plot array
+ after init_plot_array
+ after computing frequency responses
+ after computing time responses
+ leaving fir plot array
+ detail output
+ FILENAME:E:/Projects/DevPFG/Nav10/ProPilot/filter_aspg_I2C.h 
+ FILENAME:E:/Projects/DevPFG/Nav10/ProPilot/filter_aspg_I2C.s 
+ DEPFILE:FIR_Filter.h 
+ DEPFILE:FIR_Filter.s 
+ About to quit 
+ sending QUIT to MPLAB 
