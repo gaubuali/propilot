@@ -56,7 +56,7 @@
 #define MAG_Y_AXIS 0
 #define MAG_Z_AXIS 2
 
-#define MAG_X_SIGN -
+#define MAG_X_SIGN +
 #define MAG_Y_SIGN +
 #define MAG_Z_SIGN -
 
@@ -65,5 +65,38 @@
 // RF interference that may put it into an unknown state.
 
 #define MAGNETICMINIMUM 100
-#define MAGNETICMAXIMUM 1000
+#define MAGNETICMAXIMUM 2000
 
+#define MAG_RANGE_IDX 3		// default +- 1Gs range
+
+#if (MAG_RANGE_IDX == 0) // +- 0.7Gs range
+#define MAG_GA_COUNTS 1620.0
+#elif (MAG_RANGE_IDX == 1) // default +- 1.0Gs range
+#define MAG_GA_COUNTS 1300.0
+#elif (MAG_RANGE_IDX == 2) // +- 1.5Gs range
+#define MAG_GA_COUNTS 970.0
+#elif (MAG_RANGE_IDX == 3) // +- 2.0Gs range
+#define MAG_GA_COUNTS 780.0
+#elif (MAG_RANGE_IDX == 4) // +- 3.2Gs range
+#define MAG_GA_COUNTS 530.0
+#elif (MAG_RANGE_IDX == 5) // +- 3.8Gs range
+#define MAG_GA_COUNTS 460.0
+#elif (MAG_RANGE_IDX == 6) // +- 4.5Gs range
+#define MAG_GA_COUNTS 390.0
+#else
+#warning Invalid MAG_RANGE_IDX - resetting to default +- 1Gs
+#undef MAG_RANGE_IDX
+#define MAG_RANGE_IDX 1		// default +- 1Gs range
+#define MAG_GA_COUNTS 1620.0
+#endif
+
+#if defined(MAG_RANGE_IDX)
+#define MAG_GAIN_FACTOR (0.55*MAG_GA_COUNTS)
+#define MAG_RANGE_BYTE (MAG_RANGE_IDX<<5)
+#else
+#warning MAG_RANGE_IDX should be defined, using default +- 1GS range.
+#define MAG_RANGE_IDX 1		// default +- 1Gs range
+#define MAG_RANGE_BYTE (MAG_RANGE_IDX<<5)
+#define MAG_GA_COUNTS 1300.0
+#define MAG_GAIN_FACTOR (0.55*MAG_GA_COUNTS)
+#endif

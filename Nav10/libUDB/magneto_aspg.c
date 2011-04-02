@@ -49,7 +49,7 @@ const I2C_Action magCalP[] = { // Plus bias calibration
 	{.F.uCmd = START, .F.uCount = 0x3c},		// start command with address
 	{.F.uCmd = TX, .F.uCount = 4 - 1},			// send 4 bytes,
 		{.uChar[0] = 0, .uChar[1] = 0x11}, 		// first byte address then 10Hz & +bias 
-		{.uChar[0] = 0x20, .uChar[1] = 0x01},	// then +- 1Ga range then 1 convert mode
+		{.uChar[0] = MAG_RANGE_BYTE, .uChar[1] = 0x01},	// then range then 1 convert mode
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished, inc
 			.F.uACK = 1}
@@ -59,7 +59,7 @@ const I2C_Action magCalM[] = { // Minus bias calibration
 	{.F.uCmd = START, .F.uCount = 0x3c}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 4 - 1},			// send 4 bytes,
 		{.uChar[0] = 0, .uChar[1] = 0x12},		// first byte address then 10Hz & -bias
-		{.uChar[0] = 0x20, .uChar[1] = 0x01},	// then +- 1Ga range then 1 convert mode
+		{.uChar[0] = MAG_RANGE_BYTE, .uChar[1] = 0x01},	// then range then 1 convert mode
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished, inc
 			.F.uACK = 1}
@@ -71,7 +71,7 @@ const I2C_Action magReset[] = {
 	{.F.uCmd = START, .F.uCount = 0x3c}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 4 - 1},			// send 4 bytes,
 		{.uChar[0] = 0, .uChar[1] = 0x10},		// first byte address then 10Hz & no bias 
-		{.uChar[0] = 0x20, .uChar[1] = 0x02},	// then +- 1Ga range then idle mode
+		{.uChar[0] = MAG_RANGE_BYTE, .uChar[1] = 0x02},	// then range then idle mode
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished
 			.F.uACK = 1}						// inc
@@ -83,7 +83,7 @@ const I2C_Action magCfg[] = {
 	{.F.uCmd = START, .F.uCount = 0x3c}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 4 - 1},			// send 4 bytes,
 		{.uChar[0] = 0, .uChar[1] = 0x18},			// first byte address then 50Hz & no bias
-		{.uChar[0] = 0x20, .uChar[1] = 0x00},		// then +- 1Ga range then continious
+		{.uChar[0] = MAG_RANGE_BYTE, .uChar[1] = 0x00},		// then range then continious
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished
 			.F.uACK = 1}						// inc
@@ -293,28 +293,28 @@ void doneReadMagData(void)
 				CD[magCDindex].iResult = MAG_DREAD1 ;
 		} else magSameReadings = 0;
 		I2C_flags.bReadMag = 0;					// mark as done
-		MagFieldFilter[0] = (MagFieldFilter[0] - (MagFieldFilter[0] / 8)) + (magFieldRaw[0] / 8);	// super simple filter
-		MagFieldFilter[1] = (MagFieldFilter[1] - (MagFieldFilter[1] / 8)) + (magFieldRaw[1] / 8);	// super simple filter
-		MagFieldFilter[2] = (MagFieldFilter[2] - (MagFieldFilter[2] / 8)) + (magFieldRaw[2] / 8);	// super simple filter
-
 		previousMagFieldRaw[0] = magFieldRaw[0] ;
 		previousMagFieldRaw[1] = magFieldRaw[1] ;
 		previousMagFieldRaw[2] = magFieldRaw[2] ;
 
+		MagFieldFilter[0] = (MagFieldFilter[0] - (MagFieldFilter[0] / 8)) + (magFieldRaw[0] / 8);	// super simple filter
+		MagFieldFilter[1] = (MagFieldFilter[1] - (MagFieldFilter[1] / 8)) + (magFieldRaw[1] / 8);	// super simple filter
+		MagFieldFilter[2] = (MagFieldFilter[2] - (MagFieldFilter[2] / 8)) + (magFieldRaw[2] / 8);	// super simple filter
+
 #if defined(USE_VARIABLE_MAG)
 		if ( mag_xy ) {
-			udb_magFieldBody[0] = mag_x_sign * ((__builtin_mulsu((magFieldRaw[1]), magGain[1] ))>>14)-(udb_magOffset[0]>>1) ;
-			udb_magFieldBody[1] = mag_x_sign * ((__builtin_mulsu((magFieldRaw[0]), magGain[0] ))>>14)-(udb_magOffset[1]>>1) ;
-			udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((magFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
+			udb_magFieldBody[0] = mag_x_sign * ((__builtin_mulsu((MagFieldFilter[1]), magGain[1] ))>>10)-(udb_magOffset[0]>>1) ;
+			udb_magFieldBody[1] = mag_y_sign * ((__builtin_mulsu((MagFieldFilter[0]), magGain[0] ))>>10)-(udb_magOffset[1]>>1) ;
+			udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((MagFieldFilter[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>10)-(udb_magOffset[2]>>1) ;
 		} else {
-			udb_magFieldBody[0] = mag_x_sign * ((__builtin_mulsu((magFieldRaw[0]), magGain[0] ))>>14)-(udb_magOffset[0]>>1) ;
-			udb_magFieldBody[1] = mag_x_sign * ((__builtin_mulsu((magFieldRaw[1]), magGain[1] ))>>14)-(udb_magOffset[1]>>1) ;
-			udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((magFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
+			udb_magFieldBody[0] = mag_x_sign * ((__builtin_mulsu((MagFieldFilter[0]), magGain[0] ))>>10)-(udb_magOffset[0]>>1) ;
+			udb_magFieldBody[1] = mag_y_sign * ((__builtin_mulsu((MagFieldFilter[1]), magGain[1] ))>>10)-(udb_magOffset[1]>>1) ;
+			udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((MagFieldFilter[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>10)-(udb_magOffset[2]>>1) ;
 		}
 #else
-		udb_magFieldBody[0] = MAG_X_SIGN((__builtin_mulsu((magFieldRaw[MAG_X_AXIS]), magGain[MAG_X_AXIS] ))>>14)-(udb_magOffset[0]>>1) ;
-		udb_magFieldBody[1] = MAG_Y_SIGN((__builtin_mulsu((magFieldRaw[MAG_Y_AXIS]), magGain[MAG_Y_AXIS] ))>>14)-(udb_magOffset[1]>>1) ;
-		udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((magFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
+		udb_magFieldBody[0] = MAG_X_SIGN((__builtin_mulsu((MagFieldFilter[MAG_X_AXIS]), magGain[MAG_X_AXIS] ))>>14)-(udb_magOffset[0]>>1) ;
+		udb_magFieldBody[1] = MAG_Y_SIGN((__builtin_mulsu((MagFieldFilter[MAG_Y_AXIS]), magGain[MAG_Y_AXIS] ))>>14)-(udb_magOffset[1]>>1) ;
+		udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((MagFieldFilter[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
 #endif
 //		udb_magFieldBody[0] = 0;
 //		udb_magFieldBody[1] = 0;
@@ -346,7 +346,7 @@ void doneReadMagData(void)
 			rawMagCalib[vectorIndex] = magFieldRaw[vectorIndex] ;
 			if (  ( magFieldRaw[vectorIndex] > MAGNETICMINIMUM ) && ( magFieldRaw[vectorIndex] < MAGNETICMAXIMUM ) )
 			{
-				magGain[vectorIndex] = __builtin_divud( ((long) ( 700.0*RMAX)), magFieldRaw[vectorIndex] ) ;
+				magGain[vectorIndex] = __builtin_divud( ((long) ( MAG_GAIN_FACTOR*1024/8*100)), magFieldRaw[vectorIndex] ) ;
 			}
 			else
 			{

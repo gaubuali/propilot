@@ -92,7 +92,7 @@ BYTE SDcardDelay = 0;	// delay for 18f losing ownership of card interface
 // char USB_Out_Buffer[CDC_DATA_OUT_EP_SIZE+1];	// bad Microchip code
 unsigned char RS232_Out_Data[CDC_DATA_IN_EP_SIZE+1];		// bad Microchip code
 
-#define RS232_IntRec_Buf (64+16)
+#define RS232_IntRec_Buf (250)
 #if defined(__18CXX)
 	#pragma udata myCDC=CDC_BUFFER_ADDRESS
 #endif
@@ -101,11 +101,12 @@ unsigned char volatile RS232_In_Head = 0;
 unsigned char volatile RS232_In_Tail = 0;	// interrupt driven circular buffer
 unsigned char ucInt;
 
-char cPrintBuf[CDC_DATA_OUT_EP_SIZE+1];
-
 #if defined(__18CXX)
 #pragma udata
 #endif
+
+char cPrintBuf[CDC_DATA_OUT_EP_SIZE+1];
+
 int iPrintBufFull;
 
 unsigned char  NextUSBOut;
@@ -981,8 +982,8 @@ void InitializeUSART(void)
 							IPR1bits.TX1IP = 0;	// TX enable low priority
 		INTCONbits.PEIE = 1;	// enable interrupt
 // ABDOVF RCIDL RXDTP TXCKP BRG16 � WUE ABDEN
-//        BAUDCON = 0x08;     	// BRG16 = 1
-        BAUDCON = 0x38;     	// BRG16 = 1, TX and RX idle low
+        BAUDCON = 0x08;     	// BRG16 = 1
+//        BAUDCON = 0x38;     	// BRG16 = 1, TX and RX idle low
         c = RCREG;				// read 
     #endif
 

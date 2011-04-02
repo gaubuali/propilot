@@ -39,556 +39,7 @@ MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 1
   36              	;                        All PIC24F,PIC24H,dsPIC30F,dsPIC33F devices          *
   37              	;                                                                             *
   38              	;******************************************************************************
-  39              	
-  40              	.ifdef __dsPIC30F
-  41              	        .include "p30fxxxx.inc"
-  42              	.endif
-  43              	.ifdef __dsPIC33F
-  44              	        .include "p33Fxxxx.inc"
-   1              	;;
-   2              	;; generic include file for dsPIC33F
-   3              	;;
-   4              	
-   5              	.ifdef __33FJ06GS101
-   6              	.include "p33FJ06GS101.inc"
-   7              	.equ VALID_ID,1
-   8              	.endif
-   9              	
-  10              	.ifdef __33FJ06GS102
-  11              	.include "p33FJ06GS102.inc"
-  12              	.equ VALID_ID,1
-  13              	.endif
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 2
-
-
-  14              	
-  15              	.ifdef __33FJ06GS202
-  16              	.include "p33FJ06GS202.inc"
-  17              	.equ VALID_ID,1
-  18              	.endif
-  19              	
-  20              	.ifdef __33FJ128GP202
-  21              	.include "p33FJ128GP202.inc"
-  22              	.equ VALID_ID,1
-  23              	.endif
-  24              	
-  25              	.ifdef __33FJ128GP204
-  26              	.include "p33FJ128GP204.inc"
-  27              	.equ VALID_ID,1
-  28              	.endif
-  29              	
-  30              	.ifdef __33FJ128GP206
-  31              	.include "p33FJ128GP206.inc"
-  32              	.equ VALID_ID,1
-  33              	.endif
-  34              	
-  35              	.ifdef __33FJ128GP206A
-  36              	.include "p33FJ128GP206A.inc"
-  37              	.equ VALID_ID,1
-  38              	.endif
-  39              	
-  40              	.ifdef __33FJ128GP306
-  41              	.include "p33FJ128GP306.inc"
-  42              	.equ VALID_ID,1
-  43              	.endif
-  44              	
-  45              	.ifdef __33FJ128GP306A
-  46              	.include "p33FJ128GP306A.inc"
-  47              	.equ VALID_ID,1
-  48              	.endif
-  49              	
-  50              	.ifdef __33FJ128GP310
-  51              	.include "p33FJ128GP310.inc"
-  52              	.equ VALID_ID,1
-  53              	.endif
-  54              	
-  55              	.ifdef __33FJ128GP310A
-  56              	.include "p33FJ128GP310A.inc"
-  57              	.equ VALID_ID,1
-  58              	.endif
-  59              	
-  60              	.ifdef __33FJ128GP706
-  61              	.include "p33FJ128GP706.inc"
-  62              	.equ VALID_ID,1
-  63              	.endif
-  64              	
-  65              	.ifdef __33FJ128GP706A
-  66              	.include "p33FJ128GP706A.inc"
-  67              	.equ VALID_ID,1
-  68              	.endif
-  69              	
-  70              	.ifdef __33FJ128GP708
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 3
-
-
-  71              	.include "p33FJ128GP708.inc"
-  72              	.equ VALID_ID,1
-  73              	.endif
-  74              	
-  75              	.ifdef __33FJ128GP708A
-  76              	.include "p33FJ128GP708A.inc"
-  77              	.equ VALID_ID,1
-  78              	.endif
-  79              	
-  80              	.ifdef __33FJ128GP710
-  81              	.include "p33FJ128GP710.inc"
-  82              	.equ VALID_ID,1
-  83              	.endif
-  84              	
-  85              	.ifdef __33FJ128GP710A
-  86              	.include "p33FJ128GP710A.inc"
-  87              	.equ VALID_ID,1
-  88              	.endif
-  89              	
-  90              	.ifdef __33FJ128GP802
-  91              	.include "p33FJ128GP802.inc"
-  92              	.equ VALID_ID,1
-  93              	.endif
-  94              	
-  95              	.ifdef __33FJ128GP804
-  96              	.include "p33FJ128GP804.inc"
-  97              	.equ VALID_ID,1
-  98              	.endif
-  99              	
- 100              	.ifdef __33FJ128MC202
- 101              	.include "p33FJ128MC202.inc"
- 102              	.equ VALID_ID,1
- 103              	.endif
- 104              	
- 105              	.ifdef __33FJ128MC204
- 106              	.include "p33FJ128MC204.inc"
- 107              	.equ VALID_ID,1
- 108              	.endif
- 109              	
- 110              	.ifdef __33FJ128MC506
- 111              	.include "p33FJ128MC506.inc"
- 112              	.equ VALID_ID,1
- 113              	.endif
- 114              	
- 115              	.ifdef __33FJ128MC506A
- 116              	.include "p33FJ128MC506A.inc"
- 117              	.equ VALID_ID,1
- 118              	.endif
- 119              	
- 120              	.ifdef __33FJ128MC510
- 121              	.include "p33FJ128MC510.inc"
- 122              	.equ VALID_ID,1
- 123              	.endif
- 124              	
- 125              	.ifdef __33FJ128MC510A
- 126              	.include "p33FJ128MC510A.inc"
- 127              	.equ VALID_ID,1
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 4
-
-
- 128              	.endif
- 129              	
- 130              	.ifdef __33FJ128MC706
- 131              	.include "p33FJ128MC706.inc"
- 132              	.equ VALID_ID,1
- 133              	.endif
- 134              	
- 135              	.ifdef __33FJ128MC706A
- 136              	.include "p33FJ128MC706A.inc"
- 137              	.equ VALID_ID,1
- 138              	.endif
- 139              	
- 140              	.ifdef __33FJ128MC708
- 141              	.include "p33FJ128MC708.inc"
- 142              	.equ VALID_ID,1
- 143              	.endif
- 144              	
- 145              	.ifdef __33FJ128MC708A
- 146              	.include "p33FJ128MC708A.inc"
- 147              	.equ VALID_ID,1
- 148              	.endif
- 149              	
- 150              	.ifdef __33FJ128MC710
- 151              	.include "p33FJ128MC710.inc"
- 152              	.equ VALID_ID,1
- 153              	.endif
- 154              	
- 155              	.ifdef __33FJ128MC710A
- 156              	.include "p33FJ128MC710A.inc"
- 157              	.equ VALID_ID,1
- 158              	.endif
- 159              	
- 160              	.ifdef __33FJ128MC802
- 161              	.include "p33FJ128MC802.inc"
- 162              	.equ VALID_ID,1
- 163              	.endif
- 164              	
- 165              	.ifdef __33FJ128MC804
- 166              	.include "p33FJ128MC804.inc"
- 167              	.equ VALID_ID,1
- 168              	.endif
- 169              	
- 170              	.ifdef __33FJ12GP201
- 171              	.include "p33FJ12GP201.inc"
- 172              	.equ VALID_ID,1
- 173              	.endif
- 174              	
- 175              	.ifdef __33FJ12GP202
- 176              	.include "p33FJ12GP202.inc"
- 177              	.equ VALID_ID,1
- 178              	.endif
- 179              	
- 180              	.ifdef __33FJ12MC201
- 181              	.include "p33FJ12MC201.inc"
- 182              	.equ VALID_ID,1
- 183              	.endif
- 184              	
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 5
-
-
- 185              	.ifdef __33FJ12MC202
- 186              	.include "p33FJ12MC202.inc"
- 187              	.equ VALID_ID,1
- 188              	.endif
- 189              	
- 190              	.ifdef __33FJ16GP304
- 191              	.include "p33FJ16GP304.inc"
- 192              	.equ VALID_ID,1
- 193              	.endif
- 194              	
- 195              	.ifdef __33FJ16GS402
- 196              	.include "p33FJ16GS402.inc"
- 197              	.equ VALID_ID,1
- 198              	.endif
- 199              	
- 200              	.ifdef __33FJ16GS404
- 201              	.include "p33FJ16GS404.inc"
- 202              	.equ VALID_ID,1
- 203              	.endif
- 204              	
- 205              	.ifdef __33FJ16GS502
- 206              	.include "p33FJ16GS502.inc"
- 207              	.equ VALID_ID,1
- 208              	.endif
- 209              	
- 210              	.ifdef __33FJ16GS504
- 211              	.include "p33FJ16GS504.inc"
- 212              	.equ VALID_ID,1
- 213              	.endif
- 214              	
- 215              	.ifdef __33FJ16MC304
- 216              	.include "p33FJ16MC304.inc"
- 217              	.equ VALID_ID,1
- 218              	.endif
- 219              	
- 220              	.ifdef __33FJ256GP506
- 221              	.include "p33FJ256GP506.inc"
- 222              	.equ VALID_ID,1
- 223              	.endif
- 224              	
- 225              	.ifdef __33FJ256GP506A
- 226              	.include "p33FJ256GP506A.inc"
- 227              	.equ VALID_ID,1
- 228              	.endif
- 229              	
- 230              	.ifdef __33FJ256GP510
- 231              	.include "p33FJ256GP510.inc"
- 232              	.equ VALID_ID,1
- 233              	.endif
- 234              	
- 235              	.ifdef __33FJ256GP510A
- 236              	.include "p33FJ256GP510A.inc"
- 237              	.equ VALID_ID,1
- 238              	.endif
- 239              	
- 240              	.ifdef __33FJ256GP710
- 241              	.include "p33FJ256GP710.inc"
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 6
-
-
- 242              	.equ VALID_ID,1
- 243              	.endif
- 244              	
- 245              	.ifdef __33FJ256GP710A
- 246              	.include "p33FJ256GP710A.inc"
-   1              	;==========================================================================
-   2              	;  PIC33FJ256GP710A Standard Assembly Include File
-   3              	; 
-   4              	;  (c) Copyright 2010 Microchip Technology, All rights reserved
-   5              	;==========================================================================
-   6              	
- 6715              	.LIST
- 247              	.equ VALID_ID,1
- 248              	.endif
- 249              	
- 250              	.ifdef __33FJ256MC510
- 251              	.include "p33FJ256MC510.inc"
- 252              	.equ VALID_ID,1
- 253              	.endif
- 254              	
- 255              	.ifdef __33FJ256MC510A
- 256              	.include "p33FJ256MC510A.inc"
- 257              	.equ VALID_ID,1
- 258              	.endif
- 259              	
- 260              	.ifdef __33FJ256MC710
- 261              	.include "p33FJ256MC710.inc"
- 262              	.equ VALID_ID,1
- 263              	.endif
- 264              	
- 265              	.ifdef __33FJ256MC710A
- 266              	.include "p33FJ256MC710A.inc"
- 267              	.equ VALID_ID,1
- 268              	.endif
- 269              	
- 270              	.ifdef __33FJ32GP202
- 271              	.include "p33FJ32GP202.inc"
- 272              	.equ VALID_ID,1
- 273              	.endif
- 274              	
- 275              	.ifdef __33FJ32GP204
- 276              	.include "p33FJ32GP204.inc"
- 277              	.equ VALID_ID,1
- 278              	.endif
- 279              	
- 280              	.ifdef __33FJ32GP302
- 281              	.include "p33FJ32GP302.inc"
- 282              	.equ VALID_ID,1
- 283              	.endif
- 284              	
- 285              	.ifdef __33FJ32GP304
- 286              	.include "p33FJ32GP304.inc"
- 287              	.equ VALID_ID,1
- 288              	.endif
- 289              	
- 290              	.ifdef __33FJ32GS406
- 291              	.include "p33FJ32GS406.inc"
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 7
-
-
- 292              	.equ VALID_ID,1
- 293              	.endif
- 294              	
- 295              	.ifdef __33FJ32GS606
- 296              	.include "p33FJ32GS606.inc"
- 297              	.equ VALID_ID,1
- 298              	.endif
- 299              	
- 300              	.ifdef __33FJ32GS608
- 301              	.include "p33FJ32GS608.inc"
- 302              	.equ VALID_ID,1
- 303              	.endif
- 304              	
- 305              	.ifdef __33FJ32GS610
- 306              	.include "p33FJ32GS610.inc"
- 307              	.equ VALID_ID,1
- 308              	.endif
- 309              	
- 310              	.ifdef __33FJ32MC202
- 311              	.include "p33FJ32MC202.inc"
- 312              	.equ VALID_ID,1
- 313              	.endif
- 314              	
- 315              	.ifdef __33FJ32MC204
- 316              	.include "p33FJ32MC204.inc"
- 317              	.equ VALID_ID,1
- 318              	.endif
- 319              	
- 320              	.ifdef __33FJ32MC302
- 321              	.include "p33FJ32MC302.inc"
- 322              	.equ VALID_ID,1
- 323              	.endif
- 324              	
- 325              	.ifdef __33FJ32MC304
- 326              	.include "p33FJ32MC304.inc"
- 327              	.equ VALID_ID,1
- 328              	.endif
- 329              	
- 330              	.ifdef __33FJ64GP202
- 331              	.include "p33FJ64GP202.inc"
- 332              	.equ VALID_ID,1
- 333              	.endif
- 334              	
- 335              	.ifdef __33FJ64GP204
- 336              	.include "p33FJ64GP204.inc"
- 337              	.equ VALID_ID,1
- 338              	.endif
- 339              	
- 340              	.ifdef __33FJ64GP206
- 341              	.include "p33FJ64GP206.inc"
- 342              	.equ VALID_ID,1
- 343              	.endif
- 344              	
- 345              	.ifdef __33FJ64GP206A
- 346              	.include "p33FJ64GP206A.inc"
- 347              	.equ VALID_ID,1
- 348              	.endif
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 8
-
-
- 349              	
- 350              	.ifdef __33FJ64GP306
- 351              	.include "p33FJ64GP306.inc"
- 352              	.equ VALID_ID,1
- 353              	.endif
- 354              	
- 355              	.ifdef __33FJ64GP306A
- 356              	.include "p33FJ64GP306A.inc"
- 357              	.equ VALID_ID,1
- 358              	.endif
- 359              	
- 360              	.ifdef __33FJ64GP310
- 361              	.include "p33FJ64GP310.inc"
- 362              	.equ VALID_ID,1
- 363              	.endif
- 364              	
- 365              	.ifdef __33FJ64GP310A
- 366              	.include "p33FJ64GP310A.inc"
- 367              	.equ VALID_ID,1
- 368              	.endif
- 369              	
- 370              	.ifdef __33FJ64GP706
- 371              	.include "p33FJ64GP706.inc"
- 372              	.equ VALID_ID,1
- 373              	.endif
- 374              	
- 375              	.ifdef __33FJ64GP706A
- 376              	.include "p33FJ64GP706A.inc"
- 377              	.equ VALID_ID,1
- 378              	.endif
- 379              	
- 380              	.ifdef __33FJ64GP708
- 381              	.include "p33FJ64GP708.inc"
- 382              	.equ VALID_ID,1
- 383              	.endif
- 384              	
- 385              	.ifdef __33FJ64GP708A
- 386              	.include "p33FJ64GP708A.inc"
- 387              	.equ VALID_ID,1
- 388              	.endif
- 389              	
- 390              	.ifdef __33FJ64GP710
- 391              	.include "p33FJ64GP710.inc"
- 392              	.equ VALID_ID,1
- 393              	.endif
- 394              	
- 395              	.ifdef __33FJ64GP710A
- 396              	.include "p33FJ64GP710A.inc"
- 397              	.equ VALID_ID,1
- 398              	.endif
- 399              	
- 400              	.ifdef __33FJ64GP802
- 401              	.include "p33FJ64GP802.inc"
- 402              	.equ VALID_ID,1
- 403              	.endif
- 404              	
- 405              	.ifdef __33FJ64GP804
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 9
-
-
- 406              	.include "p33FJ64GP804.inc"
- 407              	.equ VALID_ID,1
- 408              	.endif
- 409              	
- 410              	.ifdef __33FJ64GS406
- 411              	.include "p33FJ64GS406.inc"
- 412              	.equ VALID_ID,1
- 413              	.endif
- 414              	
- 415              	.ifdef __33FJ64GS606
- 416              	.include "p33FJ64GS606.inc"
- 417              	.equ VALID_ID,1
- 418              	.endif
- 419              	
- 420              	.ifdef __33FJ64GS608
- 421              	.include "p33FJ64GS608.inc"
- 422              	.equ VALID_ID,1
- 423              	.endif
- 424              	
- 425              	.ifdef __33FJ64GS610
- 426              	.include "p33FJ64GS610.inc"
- 427              	.equ VALID_ID,1
- 428              	.endif
- 429              	
- 430              	.ifdef __33FJ64MC202
- 431              	.include "p33FJ64MC202.inc"
- 432              	.equ VALID_ID,1
- 433              	.endif
- 434              	
- 435              	.ifdef __33FJ64MC204
- 436              	.include "p33FJ64MC204.inc"
- 437              	.equ VALID_ID,1
- 438              	.endif
- 439              	
- 440              	.ifdef __33FJ64MC506
- 441              	.include "p33FJ64MC506.inc"
- 442              	.equ VALID_ID,1
- 443              	.endif
- 444              	
- 445              	.ifdef __33FJ64MC506A
- 446              	.include "p33FJ64MC506A.inc"
- 447              	.equ VALID_ID,1
- 448              	.endif
- 449              	
- 450              	.ifdef __33FJ64MC508
- 451              	.include "p33FJ64MC508.inc"
- 452              	.equ VALID_ID,1
- 453              	.endif
- 454              	
- 455              	.ifdef __33FJ64MC508A
- 456              	.include "p33FJ64MC508A.inc"
- 457              	.equ VALID_ID,1
- 458              	.endif
- 459              	
- 460              	.ifdef __33FJ64MC510
- 461              	.include "p33FJ64MC510.inc"
- 462              	.equ VALID_ID,1
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 10
-
-
- 463              	.endif
- 464              	
- 465              	.ifdef __33FJ64MC510A
- 466              	.include "p33FJ64MC510A.inc"
- 467              	.equ VALID_ID,1
- 468              	.endif
- 469              	
- 470              	.ifdef __33FJ64MC706
- 471              	.include "p33FJ64MC706.inc"
- 472              	.equ VALID_ID,1
- 473              	.endif
- 474              	
- 475              	.ifdef __33FJ64MC706A
- 476              	.include "p33FJ64MC706A.inc"
- 477              	.equ VALID_ID,1
- 478              	.endif
- 479              	
- 480              	.ifdef __33FJ64MC710
- 481              	.include "p33FJ64MC710.inc"
- 482              	.equ VALID_ID,1
- 483              	.endif
- 484              	
- 485              	.ifdef __33FJ64MC710A
- 486              	.include "p33FJ64MC710A.inc"
- 487              	.equ VALID_ID,1
- 488              	.endif
- 489              	
- 490              	.ifdef __33FJ64MC802
- 491              	.include "p33FJ64MC802.inc"
- 492              	.equ VALID_ID,1
- 493              	.endif
- 494              	
- 495              	.ifdef __33FJ64MC804
- 496              	.include "p33FJ64MC804.inc"
- 497              	.equ VALID_ID,1
- 498              	.endif
- 499              	
- 500              	.ifndef VALID_ID
- 501              	.error "processor ID not specified in generic include file"
- 502              	.endif
-  45              	.endif
-  46              	.ifdef __PIC24F
-  47              	        .include "p24Fxxxx.inc"
-  48              	.endif
-  49              	.ifdef __PIC24H
-  50              	        .include "p24Hxxxx.inc"
-  51              	.endif
-  52              	
+  52              	.list
   53              	        .global  _superSample
   54              	
   55              	         .text
@@ -598,9 +49,6 @@ MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 1
   59              	;;		push	W10			; save c runtime regs
   60              	;;		push	W11			; save c runtime regs
   61              	;;		push	W12			; save c runtime regs
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 11
-
-
   62 000004  8D 1F 78 			push	W13			; save c runtime regs
   63 000006  80 06 78 			mov		W0, W13		; move source address
   64 000008  81 1F 78 			push	W1			; save destination
@@ -610,6 +58,9 @@ MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 1
   68 00000e  02 00 20 			mov		#0, W2		; clear all accumulators
   69 000010  03 00 20 			mov		#0, W3		; clear all accumulators
   70 000012  04 00 20 			mov		#0, W4		; clear all accumulators
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 2
+
+
   71 000014  05 00 20 			mov		#0, W5		; clear all accumulators
   72 000016  06 00 20 			mov		#0, W6		; clear all accumulators
   73 000018  07 00 20 			mov		#0, W7		; clear all accumulators
@@ -658,9 +109,6 @@ MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 1
  115              	;;		LSR		W9, [W13++]			;; store each value steping pointer
  116              	;;		LSR		W10, [W13++]
  117              	;;		LSR		W11, [W13++]
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 12
-
-
  118              	;;		LSR		W13, [W13++]
  119              	
  120 00004c  CF 06 78 			pop		W13			; save c runtime regs
@@ -670,10 +118,13 @@ MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 1
  124 00004e  CF 04 78 			pop		W9			; save c runtime regs
  125 000050  4F 04 78 			pop		W8			; save c runtime regs
  126              	
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 3
+
+
  127 000052  00 00 06 			return
  128              	;--------End of All Code Sections ---------------------------------------------
  129              	        .end                               ;End of program code in this file
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 13
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 4
 
 
 DEFINED SYMBOLS
@@ -733,7 +184,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1874   *ABS*:0000000b BWM3
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1878   *ABS*:0000000f BREN
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1880   *ABS*:00000000 XB0
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 14
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 5
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1881   *ABS*:00000001 XB1
@@ -793,7 +244,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1947   *ABS*:00000000 CN16PUE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1948   *ABS*:00000001 CN17PUE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1949   *ABS*:00000002 CN18PUE
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 15
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 6
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:1950   *ABS*:00000003 CN19PUE
@@ -853,7 +304,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2016   *ABS*:0000000d INT2IF
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2017   *ABS*:0000000e U2RXIF
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2018   *ABS*:0000000f U2TXIF
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 16
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 7
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2020   *ABS*:00000000 SI2CIF
@@ -913,7 +364,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2089   *ABS*:00000006 IC7IE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2090   *ABS*:00000007 IC8IE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2091   *ABS*:00000008 DMA2IE
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 17
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 8
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2092   *ABS*:00000009 OC3IE
@@ -973,7 +424,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2162   *ABS*:00000001 DMA0IP1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2163   *ABS*:00000002 DMA0IP2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2164   *ABS*:00000004 IC2IP0
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 18
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 9
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2165   *ABS*:00000005 IC2IP1
@@ -1033,7 +484,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2234   *ABS*:00000005 OC3IP1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2235   *ABS*:00000006 OC3IP2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2236   *ABS*:00000008 OC4IP0
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 19
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 10
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2237   *ABS*:00000009 OC4IP1
@@ -1093,7 +544,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2306   *ABS*:00000001 OC8IP1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2307   *ABS*:00000002 OC8IP2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2308   *ABS*:00000008 DMA4IP0
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 20
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 11
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2309   *ABS*:00000009 DMA4IP1
@@ -1153,7 +604,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2381   *ABS*:00000009 C1TXIP1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2382   *ABS*:0000000a C1TXIP2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2383   *ABS*:0000000c C2TXIP0
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 21
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 12
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2384   *ABS*:0000000d C2TXIP1
@@ -1213,7 +664,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2703   *ABS*:00000003 S
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2704   *ABS*:00000004 P
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2705   *ABS*:00000005 D_A
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 22
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 13
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2706   *ABS*:00000006 I2COV
@@ -1273,7 +724,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2872   *ABS*:00000000 SPIRBF
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2873   *ABS*:00000001 SPITBF
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2874   *ABS*:00000006 SPIROV
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 23
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 14
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2875   *ABS*:0000000d SPISIDL
@@ -1333,7 +784,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2984   *ABS*:00000006 TSE6
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2985   *ABS*:00000007 TSE7
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2986   *ABS*:00000008 TSE8
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 24
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 15
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:2987   *ABS*:00000009 TSE9
@@ -1393,7 +844,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3053   *ABS*:00000003 LATA3
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3054   *ABS*:00000004 LATA4
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3055   *ABS*:00000005 LATA5
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 25
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 16
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3056   *ABS*:00000006 LATA6
@@ -1453,7 +904,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3119   *ABS*:0000000e LATB14
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3120   *ABS*:0000000f LATB15
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3124   *ABS*:00000001 TRISC1
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 26
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 17
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3125   *ABS*:00000002 TRISC2
@@ -1513,7 +964,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3191   *ABS*:0000000f RD15
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3195   *ABS*:00000000 LATD0
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3196   *ABS*:00000001 LATD1
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 27
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 18
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3197   *ABS*:00000002 LATD2
@@ -1573,7 +1024,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3266   *ABS*:00000005 RF5
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3267   *ABS*:00000006 RF6
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3268   *ABS*:00000007 RF7
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 28
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 19
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3269   *ABS*:00000008 RF8
@@ -1633,7 +1084,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3338   *ABS*:0000000a AD12B
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3339   *ABS*:0000000c ADDMABM
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3340   *ABS*:0000000d ADSIDL
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 29
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 20
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3341   *ABS*:0000000f ADON
@@ -1693,7 +1144,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3415   *ABS*:00000003 PCFG19
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3416   *ABS*:00000004 PCFG20
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3417   *ABS*:00000005 PCFG21
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 30
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 21
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3418   *ABS*:00000006 PCFG22
@@ -1753,7 +1204,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3481   *ABS*:0000000c CSS12
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3482   *ABS*:0000000d CSS13
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3483   *ABS*:0000000e CSS14
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 31
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 22
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3484   *ABS*:0000000f CSS15
@@ -1813,7 +1264,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3856   *ABS*:00000005 OPMODE0
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3857   *ABS*:00000006 OPMODE1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3858   *ABS*:00000007 OPMODE2
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 32
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 23
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3859   *ABS*:00000008 REQOP0
@@ -1873,7 +1324,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3931   *ABS*:00000001 RBIE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3932   *ABS*:00000002 RBOVIE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3933   *ABS*:00000003 FIFOIE
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 33
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 24
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:3934   *ABS*:00000005 ERRIE
@@ -1933,7 +1384,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4001   *ABS*:0000000f FLTEN15
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4005   *ABS*:00000000 F0MSK0
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4006   *ABS*:00000001 F0MSK1
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 34
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 25
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4007   *ABS*:00000002 F1MSK0
@@ -1993,7 +1444,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4070   *ABS*:00000008 RXFUL8
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4071   *ABS*:00000009 RXFUL9
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4072   *ABS*:0000000a RXFUL10
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 35
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 26
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4073   *ABS*:0000000b RXFUL11
@@ -2053,7 +1504,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4139   *ABS*:00000001 F12BP1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4140   *ABS*:00000002 F12BP2
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4141   *ABS*:00000003 F12BP3
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 36
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 27
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4142   *ABS*:00000004 F13BP0
@@ -2113,7 +1564,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4206   *ABS*:0000000c SID7
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4207   *ABS*:0000000d SID8
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4208   *ABS*:0000000e SID9
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 37
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 28
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4209   *ABS*:0000000f SID10
@@ -2173,7 +1624,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4295   *ABS*:00000007 TXEN4
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4296   *ABS*:0000000a RTREN5
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4297   *ABS*:0000000b TXREQ5
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 38
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 29
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:4298   *ABS*:0000000c TXERR5
@@ -2233,7 +1684,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6138   *ABS*:00000000 ODCF0
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6139   *ABS*:00000001 ODCF1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6140   *ABS*:00000002 ODCF2
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 39
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 30
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6141   *ABS*:00000003 ODCF3
@@ -2293,7 +1744,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6209   *ABS*:0000000c DOZE0
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6210   *ABS*:0000000d DOZE1
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6211   *ABS*:0000000e DOZE2
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 40
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 31
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6215   *ABS*:00000000 PLLDIV0
@@ -2353,7 +1804,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6288   *ABS*:0000000b IC4MD
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6289   *ABS*:0000000c IC5MD
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6290   *ABS*:0000000d IC6MD
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 41
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 32
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6291   *ABS*:0000000e IC7MD
@@ -2413,7 +1864,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6482   *ABS*:0000ffff SSS_NO_FLASH
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6483   *ABS*:0000ffff SSS_NO_SEC_CODE
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6485   *ABS*:0000fffe SWRP_WRPROTECT_ON
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 42
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 33
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6486   *ABS*:0000ffff SWRP_WRPROTECT_OFF
@@ -2473,7 +1924,7 @@ c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6665   *ABS*:0000fffb FPWRT_PWR8
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6666   *ABS*:0000fffc FPWRT_PWR16
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6667   *ABS*:0000fffd FPWRT_PWR32
-MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 43
+MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 34
 
 
 c:\program files\microchip\mplab c30\bin\bin\..\..\support\dsPIC33F\inc/p33FJ256GP710A.inc:6668   *ABS*:0000fffe FPWRT_PWR64

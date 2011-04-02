@@ -159,9 +159,10 @@ struct udb_flag_bits {	// this is not actually a byte - c bitfields are mod 16 b
 			unsigned int a2d_read				: 1 ;
 			unsigned int mavlink_send_specific_variable : 1 ;
 			unsigned int mavlink_send_variables 		: 1 ;
+			unsigned int mavlink_send_waypoints 		: 1 ;
 			unsigned int firstsamp				: 1 ;
 			unsigned int radio_on				: 1 ;
-			unsigned int unused					: 3 ;
+			unsigned int unused					: 2 ;
 			} ;
 
 

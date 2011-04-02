@@ -143,6 +143,9 @@ void flightplan_live_commit( void ) ;
 #define EE_WAYPOINTS_NUM ((EE_WAYPOINTS_END - EE_WAYPOINTS_START)/sizeof(struct waypointDef))
 void ReadWaypoint( int dest, int src, int num );
 void WriteWaypoint( int dest, int src, int num );
+extern int numPointsInCurrentSet PARAMETER;
+extern unsigned char EE_wp_pos IMPORTANT;
+int set_waypoint_by_index( int );
 #endif
 
 // Failsafe Type

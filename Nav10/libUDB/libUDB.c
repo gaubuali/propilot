@@ -203,10 +203,10 @@ void udb_run(void)
 		indicate_loading_main ;
 		// neither of these "return" till done but do keep the flag off while waiting
 		if ( flags._.read_EE )
-			ReadParameters(), flags._.read_EE = 0;
+			ReadParameters(), udb_serial_send_string( (unsigned char *)"done." ), flags._.read_EE = 0;
 		else 
 		if (flags._.write_EE )
-			WriteParameters(), flags._.write_EE = 0;
+			WriteParameters(), udb_serial_send_string( (unsigned char *)"done." ), flags._.write_EE = 0;
 	}
 	// Never returns
 }

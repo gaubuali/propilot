@@ -36,7 +36,7 @@
 ;                        All PIC24F,PIC24H,dsPIC30F,dsPIC33F devices          *
 ;                                                                             *
 ;******************************************************************************
-
+.nolist
 .ifdef __dsPIC30F
         .include "p30fxxxx.inc"
 .endif
@@ -49,7 +49,7 @@
 .ifdef __PIC24H
         .include "p24Hxxxx.inc"
 .endif
-
+.list
         .global  _superSample
 
          .text

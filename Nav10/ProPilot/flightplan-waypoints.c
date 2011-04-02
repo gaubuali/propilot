@@ -34,7 +34,7 @@
 int waypointIndex IMPORTANT = 0 ;
 
 struct waypointDef *currentWaypointSet IMPORTANT = (struct waypointDef*)waypoints ;
-int numPointsInCurrentSet IMPORTANT = NUMBER_POINTS ;
+int numPointsInCurrentSet PARAMETER = NUMBER_POINTS ;
 
 unsigned char EE_wp_pos IMPORTANT = 0 ;
 struct waypointDef wp_inject[4] IMPORTANT = {{{0}}};
@@ -140,6 +140,67 @@ struct absolute3D get_fixed_origin( void )
 	return standardizedOrigin ;
 }
 
+int set_waypoint_by_index( int wp_idx )
+{
+	if ( EE_wp_pos )
+	{
+		if ( waypointIndex < 2 )
+			waypointIndex++, EE_wp_pos++ ;
+		else {	// we need to read from EE
+			currentWaypointSet[1] = currentWaypointSet[2];
+			currentWaypointSet[2] = currentWaypointSet[3];
+			if ( (wp_inject[2].loc.z >= (int)HEIGHT_TARGET_MIN) && (EE_wp_pos < EE_WAYPOINTS_NUM) )
+			{
+				EE_wp_pos++;
+				ReadWaypoint( 3, EE_wp_pos, 1 );	// relying on being read before its used
+			} else {
+				EE_wp_pos = 1;
+				ReadWaypoint( 0, 0, 4 );			// relying on being read before its used
+				waypointIndex = 0 ;
+			}
+		}
+	} else {
+		waypointIndex++ ;
+	
+		if ( waypointIndex >= numPointsInCurrentSet ) waypointIndex = 0 ;
+	}
+	
+	if ( waypointIndex == 0 )
+	{
+		if (numPointsInCurrentSet > 1)
+		{
+			struct relWaypointDef previous_waypoint = wp_to_relative( currentWaypointSet[numPointsInCurrentSet-1] ) ;
+			struct relWaypointDef current_waypoint  = wp_to_relative( currentWaypointSet[0] ) ;
+			set_goal( previous_waypoint.loc, current_waypoint.loc ) ;
+			set_camera_view( current_waypoint.viewpoint ) ;
+		}
+		else
+		{
+			struct relWaypointDef current_waypoint = wp_to_relative( currentWaypointSet[0] ) ;
+			set_goal( GPSlocation, current_waypoint.loc ) ;
+			set_camera_view( current_waypoint.viewpoint ) ;
+		}
+		setBehavior( currentWaypointSet[0].flags ) ;
+	}
+	else
+	{
+		struct relWaypointDef previous_waypoint = wp_to_relative( currentWaypointSet[waypointIndex-1] ) ;
+		struct relWaypointDef current_waypoint = wp_to_relative( currentWaypointSet[waypointIndex] ) ;
+		set_goal( previous_waypoint.loc, current_waypoint.loc ) ;
+		set_camera_view( current_waypoint.viewpoint ) ;
+		setBehavior( current_waypoint.flags ) ;
+	}
+	
+#if	( DEADRECKONING == 0 )
+	compute_bearing_to_goal() ;
+#endif
+	
+	if ( EE_wp_pos )
+	{	return EE_wp_pos;
+	} else {
+		return waypointIndex;
+	}
+}
 
 void next_waypoint ( void ) 
 {

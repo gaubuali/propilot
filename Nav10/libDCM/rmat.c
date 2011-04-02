@@ -20,6 +20,7 @@
 
 
 #include "libDCM_internal.h"
+#include "..\libUDB\libUDB_internal.h"
 
 //		These are the routines for maintaining a direction cosine matrix
 //		that can be used to transform vectors between the earth and plane
@@ -178,7 +179,6 @@ void read_accel()
 	gplane[1] =   YACCEL_VALUE ;
 	gplane[2] =   ZACCEL_VALUE ;
 #endif
-	
 	udb_setDSPLibInUse(true) ;
 	
 	accelEarth[0] =  VectorDotProduct( 3 , &rmat[0] , gplane )<<1;
@@ -190,7 +190,6 @@ void read_accel()
 	accelEarthFiltered[2].WW += ((((long)accelEarth[2])<<16) - accelEarthFiltered[2].WW)>>5 ;
 	
 	udb_setDSPLibInUse(false) ;
-	
 	return ;
 }
 
@@ -354,8 +353,8 @@ void align_rmat_to_mag(void)
 	initialBodyField.y = udb_magFieldBody[1] ;
 #if (BOARD_TYPE == ASPG_BOARD)
 //	theta = rect_to_polar( &initialBodyField ) -128 - DECLINATIONANGLE ; // faces south
-	theta = rect_to_polar( &initialBodyField ) - DECLINATIONANGLE ; // faces west
 //	theta = rect_to_polar( &initialBodyField ) +64 - DECLINATIONANGLE ; // faces east
+	theta = rect_to_polar( &initialBodyField ) -64 - DECLINATIONANGLE ;
 #else
 	theta = rect_to_polar( &initialBodyField ) -64 - DECLINATIONANGLE ;
 #endif
@@ -507,6 +506,8 @@ void dcm_run_imu_step(void)
 {
 
 	read_gyros() ;
+
+	interrupt_save_extended_state;
 	read_accel() ;
 	dead_reckon() ;
 #if ( HILSIM != 1 )
@@ -517,18 +518,14 @@ void dcm_run_imu_step(void)
 	roll_pitch_drift() ;
 #if (MAG_YAW_DRIFT == 1)
 	if ( CD[magCDindex].iResult >= MAG_NORMAL  )
-	{
 		mag_drift() ;
-	}
-	else
-	{
-		yaw_drift() ;
-	}
+	else yaw_drift() ;
 #else
 	yaw_drift() ;
 #endif
 	PI_feedback() ;
 	
+	interrupt_restore_extended_state ;
 	return ;
 }
 

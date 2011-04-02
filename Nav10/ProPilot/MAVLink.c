@@ -57,6 +57,8 @@ mavlink_system_t mavlink_system PARAMETER = {
 #include "common/mavlink.h"
 
 #include "../libUDB/libUDB.h"
+#include <stdio.h>
+#include <stdarg.h>
 
 //#define 	SERIAL_BUFFER_SIZE 	MAVLINK_MAX_PACKET_LEN
 #define 	BYTE_CIR_16_TO_RAD  ((2.0 * 3.14159265) / 65536.0 ) // Conveert 16 bit byte circular to radians
@@ -87,15 +89,19 @@ float previous_earth_roll   = 0.0 ;
 float previous_earth_yaw    = 0.0 ;
 
 #define     MAVLINK_ATTITUDE_FREQ	8 // Be careful if you change this. Requested frequency may not be actual freq.
-unsigned char PARAMETER streamRateRawSensors      = 1 ;
-unsigned char PARAMETER streamRateRCChannels      = 1 ;
-unsigned char PARAMETER streamRateExtendedStatus  = 1; 
-unsigned char PARAMETER streamRateRawController   = MAVLINK_ATTITUDE_FREQ; 
-unsigned char PARAMETER streamRatePosition        = MAVLINK_ATTITUDE_FREQ; 
-unsigned char PARAMETER streamRateExtra1 = 0; 
-unsigned char PARAMETER streamRateExtra2 = 0; 
+unsigned char PARAMETER streamRateRawSensors      = 40;
+unsigned char PARAMETER streamRateRCChannels      = 40;
+unsigned char PARAMETER streamRateExtendedStatus  = 40; 
+unsigned char PARAMETER streamRateRawController   = 40; 
+unsigned char PARAMETER streamRatePosition        = 40; 
+unsigned char PARAMETER streamRateExtra1 = 5; 
+unsigned char PARAMETER streamRateExtra2 = 5; 
 unsigned char PARAMETER streamRateExtra3 = 0; 
 //unsigned char streamRateRawSensorFusion = 0; 
+
+unsigned int PARAMETER send_address = 0x800;
+unsigned char PARAMETER send_ver = 1; 
+unsigned char PARAMETER send_type = 0; 
 
 //void init_serial()
 //{
@@ -260,6 +266,9 @@ const MAVLINK_PARAMETER mavlink_parameters_list[] =	{
 	{"ML_RateExtra1"  , 0.0 , 250.0,  .var.p_uchar = &streamRateExtra1      , TYPE_UCHAR, READWRITE },
 	{"ML_RateExtra2"  , 0.0 , 250.0,  .var.p_uchar = &streamRateExtra2      , TYPE_UCHAR, READWRITE },
 	{"ML_RateExtra3"  , 0.0 , 250.0,  .var.p_uchar = &streamRateExtra3      , TYPE_UCHAR, READWRITE },
+	{"ML_ver"         , 0.0 , 255.0,  .var.p_uchar = &send_ver              , TYPE_UCHAR, READWRITE },
+	{"ML_type"        , 0.0 , 255.0,  .var.p_uchar = &send_type             , TYPE_UCHAR, READWRITE },
+	{"ML_address" , 2048.0, 32736.0,  .var.p_uint  = &send_address          , TYPE_UINT,  READWRITE },
 
 	{"CFG_DECLIN"     , -128.0, 127.0,.var.p_char_a = &DECLINATIONANGLE     , TYPE_CHAR_A, READWRITE },
 #if defined(USE_VARIABLE_MAG)
@@ -577,6 +586,22 @@ void handleMessage(mavlink_message_t* msg)
 	
 	    case MAVLINK_MSG_ID_WAYPOINT_REQUEST_LIST:
 	    {
+			if ( udb_flags._.mavlink_send_waypoints )
+			{	
+				send_text((unsigned char*)"\r\nallready sending waypoints.");
+				break;
+			} else send_text((unsigned char*)"\r\nsending waypoints & count");
+	
+	        // decode
+	        mavlink_waypoint_count_t packet;
+	        mavlink_msg_waypoint_count_decode(msg, &packet);
+	        if (mavlink_check_target(packet.target_system,packet.target_component)) break;
+	
+	        mavlink_msg_waypoint_count_send( 0, mavlink_system.sysid, mavlink_system.compid,
+					numPointsInCurrentSet );
+			
+			udb_flags._.mavlink_send_waypoints = 1, send_variables_counter = 0;
+
 			// send_text((unsigned char*) "waypoint request list\r\n");
 	
 	        // decode
@@ -598,9 +623,20 @@ void handleMessage(mavlink_message_t* msg)
 	
 	    case MAVLINK_MSG_ID_WAYPOINT_REQUEST:
 	    {
+			send_text((unsigned char*)"\r\nwaypoint request");
+	
+	        // decode
+	        mavlink_waypoint_request_t packet;
+	        mavlink_msg_waypoint_request_decode(msg, &packet);
+	        if (mavlink_check_target(packet.target_system,packet.target_component)) break;
+
+			unsigned char string[20];
+			sprintf( (char *)string, " %d.", packet.seq );
+			send_text( string );
+
 			// send_text((unsigned char*)"waypoint request\r\n");
 	
-	        // Check if sending waypiont
+	        // Check if sending waypoint
 	        //if (!global_data.waypoint_sending) break;
 	
 	        // decode
@@ -665,7 +701,7 @@ void handleMessage(mavlink_message_t* msg)
 	
 	    case MAVLINK_MSG_ID_WAYPOINT_ACK:
 	    {
-			send_text((unsigned char*)"waypoint ack\r\n");
+			//send_text((unsigned char*)"waypoint ack\r\n");
 	
 	        // decode
 	        //mavlink_waypoint_ack_t packet;
@@ -680,49 +716,36 @@ void handleMessage(mavlink_message_t* msg)
 	    }
 	    break;
 	
-	    case MAVLINK_MSG_ID_PARAM_REQUEST_LIST:
-	    {
-			//send_text((unsigned char*)"param request list\r\n");
-	
-	        // decode
-	        mavlink_param_request_list_t packet;
-	        mavlink_msg_param_request_list_decode(msg, &packet);
-	        if ( mavlink_check_target(packet.target_system,packet.target_component) == true )
-			{
-				// Start sending parameters
-	        	udb_flags._.mavlink_send_variables = 1 ;
-			}
-	    }
-	    break;
-	
 	    case MAVLINK_MSG_ID_WAYPOINT_CLEAR_ALL:
-	    {
-			//send_text((unsigned char*)"waypoint clear all\r\n");
+			send_text((unsigned char*)"\r\nwaypoint clear all");
 	
-	        // decode
-	        //mavlink_waypoint_clear_all_t packet;
-	        //mavlink_msg_waypoint_clear_all_decode(msg, &packet);
-	        //if (mavlink_check_target(packet.target_system,packet.target_component)) break;
+			// decode
+			mavlink_waypoint_clear_all_t packet;
+			mavlink_msg_waypoint_clear_all_decode(msg, &packet);
+	        if (mavlink_check_target(packet.target_system,packet.target_component)) break;
 	
 	        // clear all waypoints
-	        //uint8_t type = 0; // ok (0), error(1)
-	        //set(PARAM_WP_TOTAL,0);
+	        numPointsInCurrentSet = 0;	// note: this also kills the rom list
 	
 	        // send acknowledgement 3 times to makes sure it is received
-	        //for (int i=0;i<3;i++) mavlink_msg_waypoint_ack_send(chan,msg->sysid,msg->compid,type);
+			int i;
+			for ( i = 0; i < 3 ; i++)
+				mavlink_msg_waypoint_ack_send(0, msg->sysid, msg->compid, (uint8_t)0 );
 	
-	        break;
-	    }
+        break;
 	
 	    case MAVLINK_MSG_ID_WAYPOINT_SET_CURRENT:
 	    {
-			//send_text((unsigned char*)"waypoint set current\r\n");
+			send_text((unsigned char*)"\r\nwaypoint set current");
 	
 	        // decode
-	        //mavlink_waypoint_set_current_t packet;
-	        //mavlink_msg_waypoint_set_current_decode(msg, &packet);
-	        //if (mavlink_check_target(packet.target_system,packet.target_component)) break;
+	        mavlink_waypoint_set_current_t packet;
+	        mavlink_msg_waypoint_set_current_decode(msg, &packet);
+	        if (mavlink_check_target(packet.target_system,packet.target_component)) break;
 	
+			if ( packet.seq > numPointsInCurrentSet ) break; // ignore
+
+			packet.seq = set_waypoint_by_index( packet.seq ); // TODO: just goes to next right now
 	        // set current waypoint
 	        //set(PARAM_WP_INDEX,packet.seq);
 			//{
@@ -730,27 +753,7 @@ void handleMessage(mavlink_message_t* msg)
 				//temp = get_wp_with_index(packet.seq);
 				//set_next_WP(&temp);
 			//}
-	        //mavlink_msg_waypoint_current_send(chan,get(PARAM_WP_INDEX));
-	        break;
-	    }
-	
-	    case MAVLINK_MSG_ID_WAYPOINT_COUNT:
-	    {
-			//send_text((unsigned char*)"waypoint count\r\n");
-	
-	        // decode
-	        //mavlink_waypoint_count_t packet;
-	        //mavlink_msg_waypoint_count_decode(msg, &packet);
-	        //if (mavlink_check_target(packet.target_system,packet.target_component)) break;
-	
-	        // start waypoint receiving
-	        //set(PARAM_WP_TOTAL,packet.count);
-	        //if (get(PARAM_WP_TOTAL) > MAX_WAYPOINTS)
-	            //set(PARAM_WP_TOTAL,MAX_WAYPOINTS);
-	        //global_data.waypoint_timelast_receive = millis();
-	        //global_data.waypoint_receiving = true;
-	        //global_data.waypoint_sending = false;
-	        //global_data.waypoint_request_i = 0;
+	        mavlink_msg_waypoint_current_send( 0, packet.seq);
 	        break;
 	    }
 	
@@ -841,6 +844,21 @@ void handleMessage(mavlink_message_t* msg)
 	        break;
 	    }
 	
+	    case MAVLINK_MSG_ID_PARAM_REQUEST_LIST:
+	    {
+			//send_text((unsigned char*)"param request list\r\n");
+	
+	        // decode
+	        mavlink_param_request_list_t packet;
+	        mavlink_msg_param_request_list_decode(msg, &packet);
+	        if ( mavlink_check_target(packet.target_system,packet.target_component) == true )
+			{
+				// Start sending parameters
+	        	udb_flags._.mavlink_send_variables = 1 ;
+			}
+	    }
+	    break;
+	
 	    case MAVLINK_MSG_ID_PARAM_SET:
 	    {
 	        // decode
@@ -885,18 +903,6 @@ void handleMessage(mavlink_message_t* msg)
 	        break;
 	    } // end case
 
-		/* Following case statement now out of date and needs re-writing for new parameter structures  - PDH
-		case MAVLINK_MSG_ID_PARAM_VALUE :
-		{
-			send_text((unsigned char*)"Specific Param Requested\r\n");
-			mavlink_param_value_t packet ;
-			mavlink_msg_param_value_decode(msg, &packet) ;
-			if (mavlink_check_target(packet.target_system,packet.target_component))break;
-			send_by_index = packet.param_index ;
-			udb_flags._.mavlink_send_specific_variable = 1 ;
-			break ;
-		} // end case
-		*/
   	} // end switch
 } // end handle mavlink
 
@@ -1167,22 +1173,35 @@ void mavlink_output_40hz( void )
 	if ( !streamRateExtra2 )
 		;
 	else { spread_transmission_load = 12 / streamRateExtra2;
-	if (mavlink_frequency_send( streamRateExtra2, counter_40hz + spread_transmission_load)) 
-	{ 				
-		extern int MagFieldFilter[] ;
-		mavlink_msg_scaled_imu_send(MAVLINK_COMM_0, usec,
-					 (int16_t)   YACCEL_VALUE,
-					 (int16_t) - XACCEL_VALUE,
-					 (int16_t)   ZACCEL_VALUE, 
-					 (int16_t)   ( YRATE_VALUE ),
-	                 (int16_t) - ( XRATE_VALUE ),
-	                 (int16_t)   ( ZRATE_VALUE ), 
-#if ( MAG_YAW_DRIFT == 1 )
-					  (int16_t) udb_magFieldBody[1], (int16_t) udb_magFieldBody[0], (int16_t) udb_magFieldBody[2]) ;
-#else
-				      (int16_t) 0,(int16_t)  0,(int16_t)  0 ) ; // MagFieldRaw[] zero as mag not connected.
-#endif
+		if (mavlink_frequency_send( streamRateExtra2, counter_40hz + spread_transmission_load)) 
+		{ 				
+			extern int MagFieldFilter[] ;
+			mavlink_msg_scaled_imu_send(MAVLINK_COMM_0, usec,
+						 (int16_t)   YACCEL_VALUE,
+						 (int16_t) - XACCEL_VALUE,
+						 (int16_t)   ZACCEL_VALUE, 
+						 (int16_t)   ( YRATE_VALUE ),
+		                 (int16_t) - ( XRATE_VALUE ),
+		                 (int16_t)   ( ZRATE_VALUE ), 
+		#if ( MAG_YAW_DRIFT == 1 )
+						  (int16_t) udb_magFieldBody[1], (int16_t) udb_magFieldBody[0], (int16_t) udb_magFieldBody[2]) ;
+		#else
+					      (int16_t) 0,(int16_t)  0,(int16_t)  0 ) ; // MagFieldRaw[] zero as mag not connected.
+		#endif
+		}
 	}
+
+	// Memory debug vector, 16 word from anyware in memory
+	// The values sent are sent raw - offsets, scaling, sign correction etc on pc
+	if ( !streamRateExtra3 )
+		;
+	else { spread_transmission_load = 32 / streamRateExtra3;
+		if (mavlink_frequency_send( streamRateExtra3, counter_40hz + spread_transmission_load)) 
+		{ 				
+//mavlink_msg_memory_vect_send(mavlink_channel_t chan, uint16_t address, uint8_t ver, uint8_t type, const int8_t* value)
+			if ( (send_address < 0x800) || (send_address > 0x7FE0) ) send_address = 0x800;
+			mavlink_msg_memory_vect_send(MAVLINK_COMM_0, send_address, send_ver, send_type, send_address );
+		}
 	}
 
 #if ( SERIAL_INPUT_FORMAT == SERIAL_MAVLINK )
@@ -1209,6 +1228,23 @@ void mavlink_output_40hz( void )
 		mavlink_param( send_by_index, 0, 0.0 );
 		udb_flags._.mavlink_send_specific_variable = 0 ;
 	}	
+
+	// SEND VALUES OF PARAMETERS IF THE LIST HAS BEEN REQUESTED
+	if 	( udb_flags._.mavlink_send_waypoints == 1 )
+	{
+		if ( send_variables_counter < numPointsInCurrentSet)
+		{
+//			mavlink_parameters_list[send_variables_counter].send_parm( send_variables_counter) ;
+			mavlink_param( send_variables_counter, 0, 0.0 );
+			send_variables_counter++ ;
+		}
+		else 
+		{
+			send_variables_counter = 0 ;
+			udb_flags._.mavlink_send_waypoints = 0 ;
+		}	
+	}
+
 					
 #endif		
 	return ;
