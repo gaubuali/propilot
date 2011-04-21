@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="libDCM" displayName="libDCM" projectFiles="true">
+        <itemPath>../../libDCM/libDCM.h</itemPath>
+        <itemPath>../../libDCM/libDCM_defines.h</itemPath>
+        <itemPath>../../libDCM/libDCM_internal.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="libUDB" displayName="libUDB" projectFiles="true">
+        <itemPath>../../libUDB/ConfigASPG.h</itemPath>
+        <itemPath>../../libUDB/ConfigGreen.h</itemPath>
+        <itemPath>../../libUDB/ConfigHILSIM.h</itemPath>
+        <itemPath>../../libUDB/ConfigIXZ500.h</itemPath>
+        <itemPath>../../libUDB/ConfigIXZ500RAD2a.h</itemPath>
+        <itemPath>../../libUDB/ConfigRed.h</itemPath>
+        <itemPath>../../libUDB/ConfigUDB4.h</itemPath>
+        <itemPath>../../libUDB/FIR_Filter.h</itemPath>
+        <itemPath>../../libUDB/boardRotation_defines.h</itemPath>
+        <itemPath>../../libUDB/filter_aspg.h</itemPath>
+        <itemPath>../../libUDB/fixDeps.h</itemPath>
+        <itemPath>../../libUDB/libUDB.h</itemPath>
+        <itemPath>../../libUDB/libUDB_defines.h</itemPath>
+        <itemPath>../../libUDB/libUDB_internal.h</itemPath>
+        <itemPath>../../libUDB/magnetometerOptions.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="Mavlink" displayName="Mavlink" projectFiles="true">
+        <itemPath>../../../Mavlink/include/checksum.h</itemPath>
+        <itemPath>../../../Mavlink/include/mavlink_types.h</itemPath>
+        <itemPath>../../../Mavlink/include/protocol.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="MavlinkCommon"
+                     displayName="MavlinkCommon"
+                     projectFiles="true">
+        <itemPath>../../../Mavlink/include/common/common.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_action.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_action_ack.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_attitude.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_attitude_controller_output.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_boot.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_change_operator_control.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_change_operator_control_ack.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_command.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_command_ack.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_control_status.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_debug.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_debug_vect.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_global_position.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_global_position_int.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_gps_local_origin_set.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_gps_raw.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_gps_raw_int.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_gps_set_global_origin.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_gps_status.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_heartbeat.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_local_position.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_local_position_setpoint.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_local_position_setpoint_set.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_manual_control.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_named_value_float.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_named_value_int.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_nav_controller_output.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_param_request_list.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_param_request_read.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_param_set.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_param_value.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_ping.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_position_controller_output.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_position_target.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_raw_imu.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_raw_pressure.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_rc_channels_raw.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_rc_channels_scaled.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_request_data_stream.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_safety_allowed_area.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_safety_set_allowed_area.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_scaled_imu.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_servo_output_raw.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_set_altitude.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_set_mode.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_set_nav_mode.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_state_correction.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_statustext.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_sys_status.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_system_time.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_system_time_utc.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_vfr_hud.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_waypoint.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_waypoint_ack.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_waypoint_clear_all.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_waypoint_count.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_waypoint_current.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_waypoint_reached.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_waypoint_request.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_waypoint_request_list.h</itemPath>
+        <itemPath>../../../Mavlink/include/common/mavlink_msg_waypoint_set_current.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="ProPilot" displayName="ProPilot" projectFiles="true">
+        <itemPath>../defines.h</itemPath>
+        <itemPath>../flightplan-logo.h</itemPath>
+        <itemPath>../gain_variables.h</itemPath>
+        <itemPath>../inttypes.h</itemPath>
+        <itemPath>../matrixpilot_mavlink_bridge_header.h</itemPath>
+        <itemPath>../mixer.h</itemPath>
+        <itemPath>../options.h</itemPath>
+        <itemPath>../waypoints.h</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="LibraryFiles"
+                   displayName="Library Files"
+                   projectFiles="true">
+      <itemPath>C:/Program Files/Microchip/MPLAB C30/lib/libdsp-elf.a</itemPath>
+    </logicalFolder>
+    <logicalFolder name="LinkerScript"
+                   displayName="Linker Files"
+                   projectFiles="true">
+      <itemPath>../p33FJ256GP710A.gld</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ObjectFiles"
+                   displayName="Object Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="libDCM" displayName="libDCM" projectFiles="true">
+        <itemPath>../../libDCM/deadReckoning.c</itemPath>
+        <itemPath>../../libDCM/estWind.c</itemPath>
+        <itemPath>../../libDCM/estYawDrift.c</itemPath>
+        <itemPath>../../libDCM/gpsParseCommon.c</itemPath>
+        <itemPath>../../libDCM/gpsParseSTD.c</itemPath>
+        <itemPath>../../libDCM/gpsParseUBX.c</itemPath>
+        <itemPath>../../libDCM/libDCM.c</itemPath>
+        <itemPath>../../libDCM/mathlibNAV.c</itemPath>
+        <itemPath>../../libDCM/rmat.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="libUDB" displayName="libUDB" projectFiles="true">
+        <itemPath>../../libUDB/FIR_Filter.s</itemPath>
+        <itemPath>../../libUDB/I2C_aspg.c</itemPath>
+        <itemPath>../../libUDB/SuperSample.s</itemPath>
+        <itemPath>../../libUDB/analog2digital_aspg.c</itemPath>
+        <itemPath>../../libUDB/averageSample.s</itemPath>
+        <itemPath>../../libUDB/background.c</itemPath>
+        <itemPath>../../libUDB/eeprom_aspg.c</itemPath>
+        <itemPath>../../libUDB/filter_aspg.s</itemPath>
+        <itemPath>../../libUDB/filter_aspg_I2C.s</itemPath>
+        <itemPath>../../libUDB/libUDB.c</itemPath>
+        <itemPath>../../libUDB/magneto_aspg.c</itemPath>
+        <itemPath>../../libUDB/osd.c</itemPath>
+        <itemPath>../../libUDB/radioIn_aspg.c</itemPath>
+        <itemPath>../../libUDB/serialIO_aspg.c</itemPath>
+        <itemPath>../../libUDB/servoOut_aspg.c</itemPath>
+        <itemPath>../../libUDB/traps_udb_asm.s</itemPath>
+      </logicalFolder>
+      <logicalFolder name="Mavlink" displayName="Mavlink" projectFiles="true">
+        <itemPath>../../../Mavlink/include/protocol.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="ProPilot" displayName="ProPilot" projectFiles="true">
+        <itemPath>../MAVLink.c</itemPath>
+        <itemPath>../altitudeCntrl.c</itemPath>
+        <itemPath>../behavior.c</itemPath>
+        <itemPath>../cameraCntrl.c</itemPath>
+        <itemPath>../flightplan-logo.c</itemPath>
+        <itemPath>../flightplan-waypoints.c</itemPath>
+        <itemPath>../main.c</itemPath>
+        <itemPath>../mp_osd.c</itemPath>
+        <itemPath>../navigate.c</itemPath>
+        <itemPath>../pitchCntrl.c</itemPath>
+        <itemPath>../rollCntrl.c</itemPath>
+        <itemPath>../servoMix.c</itemPath>
+        <itemPath>../servoPrepare.c</itemPath>
+        <itemPath>../states.c</itemPath>
+        <itemPath>../telemetry.c</itemPath>
+        <itemPath>../yawCntrl.c</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <logicalFolder name="OtherFiles" displayName="Other Files" projectFiles="false">
+      <itemPath>../ProPilot.map</itemPath>
+      <itemPath>/C/Program Files/Microchip/MPLAB C30/support/dsPIC33F/h/p33FJ256GP710.h</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="default" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <targetDevice>dsPIC33FJ256GP710A</targetDevice>
+        <targetHeader></targetHeader>
+        <platformTool>PICkit3PlatformTool</platformTool>
+        <languageToolchain>C30</languageToolchain>
+        <compilerSet>C30</compilerSet>
+        <platform>3</platform>
+      </toolsSet>
+      <compileType>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <C30>
+        <property key="scalar-model" value="default"/>
+        <property key="extra-include-directories"
+                  value="..;../../../Mavlink/include;/C/Program Files/Microchip/MPLAB C30/support/dsPIC33F/h;../../../Mavlink/include/common;../../libUDB;../../libDCM;"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="data-model" value="default"/>
+        <property key="enable-all-warnings" value="true"/>
+        <property key="pre-instruction-scheduling" value="default"/>
+        <property key="enable-short-double" value="false"/>
+        <property key="enable-procedural-abstraction" value="false"/>
+        <property key="optimization-level" value="0"/>
+        <property key="enable-ansi-warnings" value="false"/>
+        <property key="enable-fatal-warnings" value="false"/>
+        <property key="post-instruction-scheduling" value="default"/>
+        <property key="enable-omit-frame-pointer" value="false"/>
+        <property key="enable-ansi-std" value="false"/>
+        <property key="enable-unroll-loops" value="false"/>
+        <property key="const-model" value="default"/>
+        <property key="code-model" value="default"/>
+      </C30>
+      <C30-AS>
+        <property key="omit-debug-dirs" value="false"/>
+        <property key="extra-include-directories-for-assembler" value="..;"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="list-file" value="&quot;$(BINDIR_)$(INFILEBASE).lst&quot;"/>
+        <property key="list-assembly" value="true"/>
+        <property key="list-source" value="false"/>
+        <property key="relax" value="false"/>
+        <property key="extra-include-directories-for-preprocessor" value=""/>
+        <property key="warning-level" value="emit-warnings"/>
+        <property key="list-section-info" value="true"/>
+        <property key="omit-forms" value="false"/>
+        <property key="list-symbols" value="true"/>
+        <property key="keep-locals" value="false"/>
+        <property key="false-conditionals" value="true"/>
+        <property key="expand-macros" value="false"/>
+        <property key="assembler-symbols" value=""/>
+      </C30-AS>
+      <C30-LD>
+        <property key="preprocessor-macros" value=""/>
+        <property key="general-code-protect" value="no_code_protect"/>
+        <property key="secure-write-protect" value="no_write_protect"/>
+        <property key="warn-section-align" value="true"/>
+        <property key="heap-size" value=""/>
+        <property key="stack-size" value=""/>
+        <property key="linker-symbols" value=""/>
+        <property key="trace-symbols" value=""/>
+        <property key="map-file" value="&quot;$(BINDIR_)$(TARGETBASE).map&quot;"/>
+        <property key="enable-pack-data" value="true"/>
+        <property key="boot-eeprom" value="no_eeprom"/>
+        <property key="general-write-protect" value="no_write_protect"/>
+        <property key="enable-handles" value="true"/>
+        <property key="enable-data-init" value="true"/>
+        <property key="secure-flash" value="no_flash"/>
+        <property key="boot-write-protect" value="no_write_protect"/>
+        <property key="boot-flash" value="no_flash"/>
+        <property key="report-memory-usage" value="true"/>
+        <property key="generate-cross-reference-file" value="true"/>
+        <property key="input-libraries" value=""/>
+        <property key="secure-ram" value="no_ram"/>
+        <property key="enable-check-sections" value="true"/>
+        <property key="enable-default-isr" value="true"/>
+        <property key="symbol-stripping" value="keep-all"/>
+        <property key="boot-ram" value="no_ram"/>
+        <property key="secure-eeprom" value="no_eeprom"/>
+        <property key="extra-lib-directories"
+                  value="/C/Program Files/Microchip/MPLAB C30/lib;..;"/>
+      </C30-LD>
+      <PICkit3PlatformTool>
+      </PICkit3PlatformTool>
+    </conf>
+  </confs>
+</configurationDescriptor>

@@ -1,0 +1,579 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\altitudeCntrl.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File001]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\behavior.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File002]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\cameraCntrl.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File003]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\main.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File004]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\navigate.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File005]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\pitchCntrl.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File006]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\rollCntrl.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File007]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\servoMix.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File008]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\states.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File009]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\yawCntrl.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File010]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\libUDB.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File011]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\telemetry.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File012]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\servoPrepare.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File013]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\estWind.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File014]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\estYawDrift.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File015]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\gpsParseCommon.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File016]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\gpsParseSTD.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File017]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\gpsParseUBX.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File018]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\mathlibNAV.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File019]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\rmat.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File020]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\libDCM.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File021]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\flightplan-waypoints.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File022]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\flightplan-logo.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File023]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\deadReckoning.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File024]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\mp_osd.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File025]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\background.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File026]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\magneto_aspg.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File027]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\osd.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File028]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\radioIn_aspg.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File029]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\serialIO_aspg.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File030]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\servoOut_aspg.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File031]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\filter_aspg.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={DE18EB1A-B46B-486B-B96F-A811A635DFAC}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-as.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s|..\..\Mavlink\include\protocol.c||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -ahmls="$(BINDIR_)$(INFILEBASE).lst"
+TraceCmdString=
+DebugOptions=--defsym=__DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1
+[File032]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\eeprom_aspg.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File033]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\I2C_aspg.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File034]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\analog2digital_aspg.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File035]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\filter_aspg_I2C.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={DE18EB1A-B46B-486B-B96F-A811A635DFAC}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-as.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s|..\..\Mavlink\include\protocol.c||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -ahmls="$(BINDIR_)$(INFILEBASE).lst"
+TraceCmdString=
+DebugOptions=--defsym=__DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1
+[File036]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\FIR_Filter.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={DE18EB1A-B46B-486B-B96F-A811A635DFAC}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-as.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s|..\..\Mavlink\include\protocol.c||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -ahmls="$(BINDIR_)$(INFILEBASE).lst"
+TraceCmdString=
+DebugOptions=--defsym=__DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1
+[File037]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\SuperSample.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={DE18EB1A-B46B-486B-B96F-A811A635DFAC}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-as.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s|..\..\Mavlink\include\protocol.c||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -ahmls="$(BINDIR_)$(INFILEBASE).lst"
+TraceCmdString=
+DebugOptions=--defsym=__DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1
+[File038]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\averageSample.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={DE18EB1A-B46B-486B-B96F-A811A635DFAC}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-as.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s|..\..\Mavlink\include\protocol.c||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -ahmls="$(BINDIR_)$(INFILEBASE).lst"
+TraceCmdString=
+DebugOptions=--defsym=__DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1
+[File039]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\MAVLink.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File040]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\protocol.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s|..\..\Mavlink\include\protocol.c||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+[File041]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\build\udb4\traps_udb_asm.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={DE18EB1A-B46B-486B-B96F-A811A635DFAC}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-as.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s|..\..\Mavlink\include\protocol.c||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-g -ahmls="$(BINDIR_)$(INFILEBASE).lst"
+TraceCmdString=
+DebugOptions=--defsym=__DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1
+[File042]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\ProPilot.cof
+Folder=Output
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={433C3D55-811D-409D-A6BF-159CF9355B42}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-ld.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem --cref --warn-section-align -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
+TraceCmdString=
+DebugOptions=--defsym=__MPLAB_DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1 --defsym=__ICD2RAM=1
+[File043]
+Location=E:\Projects\DevPFG\Nav10\ProPilot\ProPilot.hex
+Folder=Output
+DeviceName=dsPIC33FJ256GP710A
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={433C3D55-811D-409D-A6BF-159CF9355B42}
+LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-ld.exe
+PPAD=$(BINDIR)||$(TMPDIR)|build/udb4||$(AINDIR)||$(INCDIR)|.;..\..\Mavlink\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
+SOLK=<src>|altitudeCntrl.c|behavior.c|cameraCntrl.c|main.c|navigate.c|pitchCntrl.c|rollCntrl.c|servoMix.c|states.c|yawCntrl.c|..\libUDB\libUDB.c|telemetry.c|servoPrepare.c|..\libDCM\estWind.c|..\libDCM\estYawDrift.c|..\libDCM\gpsParseCommon.c|..\libDCM\gpsParseSTD.c|..\libDCM\gpsParseUBX.c|..\libDCM\mathlibNAV.c|..\libDCM\rmat.c|..\libDCM\libDCM.c|flightplan-waypoints.c|flightplan-logo.c|..\libDCM\deadReckoning.c|mp_osd.c|..\libUDB\background.c|..\libUDB\magneto_aspg.c|..\libUDB\osd.c|..\libUDB\radioIn_aspg.c|..\libUDB\serialIO_aspg.c|..\libUDB\servoOut_aspg.c|..\libUDB\filter_aspg.s|..\libUDB\eeprom_aspg.c|..\libUDB\I2C_aspg.c|..\libUDB\analog2digital_aspg.c|..\libUDB\filter_aspg_I2C.s|..\libUDB\FIR_Filter.s|..\libUDB\SuperSample.s|..\libUDB\averageSample.s|MAVLink.c|..\libUDB\traps_udb_asm.s||<obj>||<lib>|C:\Program Files\Microchip\MPLAB C30\lib\libdsp-coff.a||<lkr>|p33FJ256GP710A.gld||
+SuiteArgsString=
+ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem --cref --warn-section-align -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
+TraceCmdString=
+DebugOptions=--defsym=__MPLAB_DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1 --defsym=__ICD2RAM=1
+[TOOL_LOC_STAMPS]
+tool_loc{DE18EB1A-B46B-486B-B96F-A811A635DFAC}=C:\Program Files\Microchip\MPLAB C30\bin\pic30-as.exe
+tool_loc{069BD372-6CA0-40D4-BF2F-5DC806D05083}=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
+tool_loc{433C3D55-811D-409D-A6BF-159CF9355B42}=C:\Program Files\Microchip\MPLAB C30\bin\pic30-ld.exe
