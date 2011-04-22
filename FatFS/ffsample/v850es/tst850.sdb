@@ -1,0 +1,54 @@
+[SdbInfo]
+Ver=5
+[main.c]
+T=4be7f97e
+1=..\..\..\Program Files\NEC Electronics Tools\CA850\E3.11a\inc850\string.h
+2=uart.h
+3=monitor.h
+4=diskio.h
+5=ff.h
+[mmc.c]
+T=4be7f96c
+1=v850es.h
+2=diskio.h
+[monitor.c]
+T=4be7f970
+1=..\..\..\Program Files\NEC Electronics Tools\CA850\E3.11a\inc850\stdarg.h
+2=monitor.h
+[ff.c]
+T=4bedeac8
+1=ff.h
+2=diskio.h
+3=..\..\..\Program Files\NEC Electronics Tools\CA850\E3.11a\inc850\stdarg.h
+[unicode\cc932.c]
+T=4be6cbe9
+1=ff.h
+[uart.c]
+T=4b7bd9b6
+1=uart.h
+[v850es.h]
+T=45291428
+[integer.h]
+T=4bd30402
+[monitor.h]
+T=4be7f972
+[diskio.h]
+T=4972acd0
+1=integer.h
+[ff.h]
+T=4bedeacb
+1=integer.h
+2=ffconf.h
+[ffconf.h]
+T=4be8130b
+[..\..\..\Program Files\NEC Electronics Tools\CA850\E3.11a\inc850\string.h]
+T=3fdd4928
+1=..\..\..\Program Files\NEC Electronics Tools\CA850\E3.11a\inc850\stddef.h
+[..\..\..\Program Files\NEC Electronics Tools\CA850\E3.11a\inc850\stddef.h]
+T=3fdd4928
+[uart.h]
+T=4be6571c
+1=v850es.h
+2=integer.h
+[..\..\..\Program Files\NEC Electronics Tools\CA850\E3.11a\inc850\stdarg.h]
+T=3fdd4928
