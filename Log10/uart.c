@@ -1,43 +1,73 @@
 #include <p33Fxxxx.h>
-#include "pic33f.h"
+#include "monitor.h"
+#include "diskio.h"
+#include "ff.h"
 #include "uart.h"
+#include "pic33f.h"
 
-#define BUFFER_SIZE 128
-#define BPS 		230400UL
-#define SIG_LEVEL 1
+#if !defined(BPS)
+#define BPS 		115200UL
+#endif
+#define SIG_LEVEL 0
 
 // static volatile int TxRun;
-int TxRun, Tx2Run;
-typedef struct {
-	int		ri, wi, ct;
-	BYTE	buff[BUFFER_SIZE];
-} UFIFO, *LPUFIFO;
-//UFIFO volatile __attribute__ ((address(0x2000+sizeof(UFIFO)*0))) RxFifo;
-//UFIFO volatile __attribute__ ((address(0x2000+sizeof(UFIFO)*1))) TxFifo;
-//UFIFO volatile __attribute__ ((address(0x2000+sizeof(UFIFO)*2))) Tx2Fifo;
-//UFIFO volatile __attribute__ ((address(0x2000+sizeof(UFIFO)*3))) Rx2Fifo;
-//
-UFIFO volatile __attribute__ ((far,section("Buffers"))) RxFifo;
-UFIFO volatile __attribute__ ((far,section("Buffers"))) TxFifo;
-UFIFO volatile __attribute__ ((far,section("Buffers"))) Tx2Fifo;
-UFIFO volatile __attribute__ ((far,section("Buffers"))) Rx2Fifo;
+BYTE TxRun, Tx2Run;
+UFIFO volatile __attribute__ ((space(dma))) RxFifo;
+UFIFO volatile __attribute__ ((space(dma))) TxFifo;
+UFIFO volatile __attribute__ ((space(dma))) Tx2Fifo;
+UFIFO volatile __attribute__ ((space(dma))) Rx2Fifo;
+ULOGC volatile logCtrl;	// default to private buffers
+
+//UFIFO volatile __attribute__ ((far,section("Buffers"))) RxFifo;
+//UFIFO volatile __attribute__ ((far,section("Buffers"))) TxFifo;
+//UFIFO volatile __attribute__ ((far,section("Buffers"))) Tx2Fifo;
+//UFIFO volatile __attribute__ ((far,section("Buffers"))) Rx2Fifo;
+//UFIFO volatile __attribute__ ((near,section("Important"))) RxFifo;
+//UFIFO volatile __attribute__ ((near,section("Important"))) TxFifo;
+//UFIFO volatile __attribute__ ((near,section("Important"))) Tx2Fifo;
+//UFIFO volatile __attribute__ ((near,section("Important"))) Rx2Fifo;
 
 /* UART Rx interrupt ISR */
 void __attribute__((interrupt, auto_psv)) _U1RXInterrupt (void)
 {
 	BYTE d;
-	int i;
 
-
-	d = (BYTE)U1RXREG;
-	_U1RXIF = 0;
-	i = RxFifo.ct;
-	if (i < BUFFER_SIZE) {
-		i++;
-		RxFifo.ct = i;
-		i = RxFifo.wi;
-		RxFifo.buff[i++] = d;
-		RxFifo.wi = i % BUFFER_SIZE;
+	while ( U1STAbits.URXDA ) {
+		d = (BYTE)U1RXREG;
+		_U1RXIF = 0;
+		if (U1STAbits.OERR) U1STAbits.OERR = 0;
+	
+		switch ( logCtrl.logBuff1xfer ) {
+		case 0:	// private buffer
+			RxFifo.buff[RxFifo.wi] = d;
+			RxFifo.wi++;
+	//		if ( RxFifo.wi >= UART_BUFFER_SIZE )
+	//			RxFifo.wi = 0;
+			RxFifo.wi &= (UART_BUFFER_SIZE-1);		// only works for power of 2 sizes
+		break;
+		case 3:	// xfer to other port, does NOT buffer, and log
+			U2TXREG = d;
+		case 1: // log rx characters
+			*logCtrl.log1Next++ = d;
+			if ( logCtrl.log1Next > logCtrl.log1Last )			// buffer full so need to mark it and use next one
+			{
+				BuffCtrl[logCtrl.logBuff1Active].status = 2;	// mark as needing write
+				if ( BuffCtrl[logCtrl.logBuff1Active].next == 15 )
+				{	// no buffers left, just spin on last character of buffer + mark overflow
+					BuffCtrl[logCtrl.logBuff1Active].over = 1;
+					logCtrl.log1Next--;
+				} else {
+					logCtrl.logBuff1Active = BuffCtrl[logCtrl.logBuff1Active].next;
+					logCtrl.log1Next = BuffCtrl[logCtrl.logBuff1Active].head;
+					logCtrl.log1Last = BuffCtrl[logCtrl.logBuff1Active].end;
+					BuffCtrl[logCtrl.logBuff1Active].status = 1;	// mark as in use
+				}
+			}
+		break;
+		case 2:	// xfer to other port, does NOT buffer
+			U2TXREG = d;
+		break;
+		}
 	}
 }
 
@@ -45,13 +75,48 @@ void __attribute__((interrupt, auto_psv)) _U1RXInterrupt (void)
 void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt (void)
 {
 	BYTE d;
+	int i;
 
-	d = (BYTE)U2RXREG;
-	_U2RXIF = 0;
-	Rx2Fifo.buff[Rx2Fifo.wi] = d;
-	Rx2Fifo.wi++;
-	if ( Rx2Fifo.wi > BUFFER_SIZE )
-		Rx2Fifo.wi = 0;
+	while ( U2STAbits.URXDA ) {
+		d = (BYTE)U2RXREG;
+		_U2RXIF = 0;
+		if (U2STAbits.OERR) U2STAbits.OERR = 0;
+	
+		switch ( logCtrl.logBuff2xfer ) {
+		case 0:	// private buffer
+			i = Rx2Fifo.ct;
+			if (i < UART_BUFFER_SIZE) {
+				i++;
+				Rx2Fifo.ct = i;
+				i = Rx2Fifo.wi;
+				Rx2Fifo.buff[i++] = d;
+				Rx2Fifo.wi = i % UART_BUFFER_SIZE;
+			}
+		break;
+		case 3:	// xfer to other port, does NOT buffer, and log
+			U1TXREG = d;
+		case 1: // log rx characters
+			*logCtrl.log2Next++ = d;
+			if ( logCtrl.log2Next > logCtrl.log2Last )			// buffer full so need to mark it and use next one
+			{	// buffer full so need to mark it and use next one
+				BuffCtrl[logCtrl.logBuff2Active].status = 2;	// mark as needing write
+				if ( BuffCtrl[logCtrl.logBuff2Active].next == 15 )
+				{	// no buffers left, just spin on last character of buffer + mark overflow
+					BuffCtrl[logCtrl.logBuff2Active].over = 1;
+					logCtrl.log2Next--;
+				} else {
+					logCtrl.logBuff2Active = BuffCtrl[logCtrl.logBuff2Active].next;
+					logCtrl.log2Next = BuffCtrl[logCtrl.logBuff2Active].head;
+					logCtrl.log2Last = BuffCtrl[logCtrl.logBuff2Active].end;
+					BuffCtrl[logCtrl.logBuff2Active].status = 1;	// mark as in use
+				}
+			}
+		break;
+		case 2:	// xfer to other port, does NOT buffer
+			U1TXREG = d;
+		break;
+		}
+	}
 }
 
 
@@ -59,36 +124,36 @@ void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt (void)
 /* UART Tx interrupt ISR */
 void __attribute__((interrupt, auto_psv)) _U1TXInterrupt (void)
 {
-	int i;
 
+	while ( (TxFifo.ri != TxFifo.wi) && !U1STAbits.UTXBF )
+	{
+		U1TXREG = (unsigned char)TxFifo.buff[TxFifo.ri];
+		TxFifo.ri++;
+		if ( TxFifo.ri >= UART_BUFFER_SIZE )
+			TxFifo.ri = 0;
+	}
+	if ( TxFifo.ri == TxFifo.wi )
+		TxRun = 0;
 
 	_U1TXIF = 0;		/* Clear interrupt flag */
 
-	i = TxFifo.ct;	/* Number of data in the FIFO */
-	if (i) {			/* If any data is available, pop a byte and send it. */
-		i--;
-		TxFifo.ct = i;
-		i = TxFifo.ri;
-		U1TXREG = TxFifo.buff[i++];
-		TxFifo.ri = i % BUFFER_SIZE;
-	} else {			/* No data in the FIFO. Stop transmission. */
-		TxRun = 0;
-	}
 }
 
 /* UART2 Tx interrupt ISR */
 void __attribute__((interrupt, no_auto_psv)) _U2TXInterrupt (void)
 {
+	int i;
 
-	while ( (Tx2Fifo.ri != Tx2Fifo.wi) && !U2STAbits.UTXBF )
-	{
-		U2TXREG = (unsigned char)Tx2Fifo.buff[Tx2Fifo.ri];
-		Tx2Fifo.ri++;
-		if ( Tx2Fifo.ri >= BUFFER_SIZE )
-			Tx2Fifo.ri = 0;
-	}
-	if ( Tx2Fifo.ri == Tx2Fifo.wi )
+	i = Tx2Fifo.ct;	/* Number of data in the FIFO */
+	if (i) {			/* If any data is available, pop a byte and send it. */
+		i--;
+		Tx2Fifo.ct = i;
+		i = Tx2Fifo.ri;
+		U2TXREG = Tx2Fifo.buff[i++];
+		Tx2Fifo.ri = i % UART_BUFFER_SIZE;
+	} else {			/* No data in the FIFO. Stop transmission. */
 		Tx2Run = 0;
+	}
 
 	_U2TXIF = 0;		/* Clear interrupt flag */
 	
@@ -99,15 +164,15 @@ void __attribute__((interrupt, no_auto_psv)) _U2TXInterrupt (void)
 /* Check number of bytes in the Rx FIFO */
 int uart_test (void)
 {
-	return RxFifo.ct;
+	if ( RxFifo.wi != RxFifo.ri )
+		return 1;
+	else return 0;
 }
 
 /* Check number of bytes in the Rx2 FIFO */
 int uart2_test (void)
 {
-	if ( Rx2Fifo.wi == Rx2Fifo.ri )
-		return 0;
-	else return 1;
+	return Rx2Fifo.ct;
 }
 
 
@@ -115,17 +180,14 @@ int uart2_test (void)
 BYTE uart_get (void)
 {
 	BYTE d;
-	int i;
 
 // FIX: CAN'T BLOCK HERE
-	while (!RxFifo.ct) ;		/* Wait while Rx FIFO empty */
+	while (RxFifo.ri == RxFifo.wi) ;		/* Wait while Rx FIFO empty */
 
-	i = RxFifo.ri;			/* Pop a byte from Rx FIFO */
-	d = RxFifo.buff[i++];
-	RxFifo.ri = i % BUFFER_SIZE;
-	_DI();
-	RxFifo.ct--;
-	_EI();
+	d = RxFifo.buff[RxFifo.ri];
+	RxFifo.ri++;
+	if ( RxFifo.ri >= UART_BUFFER_SIZE )
+		RxFifo.ri = 0;
 
 	return d;
 }
@@ -134,14 +196,17 @@ BYTE uart_get (void)
 BYTE uart2_get (void)
 {
 	BYTE d;
+	int i;
 
 // FIX: CAN'T BLOCK HERE
-	while (Rx2Fifo.ri == Rx2Fifo.wi) ;		/* Wait while Rx FIFO empty */
+	while (!Rx2Fifo.ct) ;		/* Wait while Rx FIFO empty */
 
-	d = Rx2Fifo.buff[Rx2Fifo.ri];
-	Rx2Fifo.ri++;
-	if ( Rx2Fifo.ri >= BUFFER_SIZE )
-		Rx2Fifo.ri = 0;
+	i = Rx2Fifo.ri;			/* Pop a byte from Rx FIFO */
+	d = Rx2Fifo.buff[i++];
+	Rx2Fifo.ri = i % UART_BUFFER_SIZE;
+	_DI();
+	Rx2Fifo.ct--;
+	_EI();
 
 	return d;
 }
@@ -150,45 +215,44 @@ BYTE uart2_get (void)
 /* Put a byte into Tx FIFO */
 void uart_put (BYTE d)
 {
-	int i;
 
+//	while (TxFifo.ct >= UART_BUFFER_SIZE) ;	/* Wait while Tx FIFO full */
 
-	while (TxFifo.ct >= BUFFER_SIZE) ;	/* Wait while Tx FIFO full */
+	TxFifo.buff[TxFifo.wi] = d;
+	TxFifo.wi++;
+	if ( TxFifo.wi >= UART_BUFFER_SIZE )
+		TxFifo.wi = 0;
 
-	i = TxFifo.wi;		/* Push data into Tx FIFO */
-	TxFifo.buff[i++] = d;
-	TxFifo.wi = i % BUFFER_SIZE;
-	_DI();
-	TxFifo.ct++;
 	if (!TxRun) {	/* If Tx is not running, generate 1st Tx interrupt */
 		TxRun = 1;
 		_U1TXIF = 1;
 	}
-	_EI();
 }
 
 /* Put a byte into Tx2 FIFO */
 void uart2_put (BYTE d)
 {
+	int i;
 
-//	while (TxFifo.ct >= BUFFER_SIZE) ;	/* Wait while Tx FIFO full */
+	while (Tx2Fifo.ct >= UART_BUFFER_SIZE) ;	/* Wait while Tx FIFO full */
 
-	Tx2Fifo.buff[Tx2Fifo.wi] = d;
-	Tx2Fifo.wi++;
-	if ( Tx2Fifo.wi >= BUFFER_SIZE )
-		Tx2Fifo.wi = 0;
-
+	i = Tx2Fifo.wi;		/* Push data into Tx FIFO */
+	Tx2Fifo.buff[i++] = d;
+	Tx2Fifo.wi = i % UART_BUFFER_SIZE;
+	_DI();
+	Tx2Fifo.ct++;
 	if (!Tx2Run) {	/* If Tx is not running, generate 1st Tx interrupt */
 		Tx2Run = 1;
 		_U2TXIF = 1;
 	}
+	_EI();
 }
 
 /* Initialize UART module */
 void uart_init (void)
 {
-	TRISBbits.TRISB9 = 0;		// PTX out, rest inputs
-	LATBbits.LATB9 = !SIG_LEVEL; 
+//	TRISBbits.TRISB9 = 0;		// PTX out, rest inputs
+//	LATBbits.LATB9 = !SIG_LEVEL; 
 
 	__builtin_write_OSCCONL(0x0);	// enable writes to RP regs
 //	_IOLOCK = 0;
@@ -224,7 +288,7 @@ void uart_init (void)
 
 	// Load all values in for U1STA SFR
 	U1STAbits.UTXISEL1 = 0;	//Bit15 Int when Char is transferred (1/2 config!)
-	U1STAbits.UTXINV = SIG_LEVEL;	//Bit14 N/A, IRDA config
+	U1STAbits.UTXINV = SIG_LEVEL;	//Bit14 tx active polarity
 	U1STAbits.UTXISEL0 = 1;	//Bit13 Other half of Bit15
 	//						//Bit12
 	U1STAbits.UTXBRK = 0;	//Bit11 Disabled
@@ -248,7 +312,7 @@ void uart_init (void)
 	_U1TXIF = 0;	// Clear the Transmit Interrupt Flag
 	_U1TXIE = 0;	// Disable Transmit Interrupts
 	_U1RXIF = 0;	// Clear the Recieve Interrupt Flag
-	_U1RXIE = 1;	// Enable Recieve Interrupts
+	_U1RXIE = 0;	// Enable Receive Interrupts
 
 	/* Clear Tx/Rx FIFOs */
 	TxFifo.ri = 0; TxFifo.wi = 0; TxFifo.ct = 0;
@@ -263,23 +327,27 @@ void uart_init (void)
 	_U1TXIE = 1;
 }
 
+void uart_baud ( long rate )
+{
+	U1BRG = (FCY / 4 / rate) - 1;
+}
 
 /* Initialize UART2 module */
 void uart2_init (void)
 {
-	TRISBbits.TRISB9 = 0;		// PTX out, rest inputs
-	LATBbits.LATB9 = !SIG_LEVEL; 
+//	TRISBbits.TRISB9 = 0;		// PTX out, rest inputs
+//	LATBbits.LATB9 = !SIG_LEVEL; 
 
 	__builtin_write_OSCCONL(0x0);	// enable writes to RP regs
 //	_IOLOCK = 0;
-	_U2RXR = 8;			/* U1RX  -- RB8  -- RP8  -- CN22 */
-	_RP9R = 5;			/* U1TX  -- RB9  -- RP9  -- CN21 */
+//	_U2RXR = 8;			/* U1RX  -- RB8  -- RP8  -- CN22 */
+//	_RP9R = 5;			/* U1TX  -- RB9  -- RP9  -- CN21 */
 //	_RP10R = 6;			/* U1RTS -- RB10 -- RP10 -- CN16 */
 //	_U2CTSR = 11;		/* U1CTS -- RB11 -- RP11 -- CN15 */
 //	_CN15PUE = 1;		// pull-up on for CTS
 //
-//	_U2RXR = 3;			/* U2RX  -- RB3  -- RP3  -- CN7 */
-//	_RP2R = 5;			/* U2TX  -- RB2  -- RP2  -- CN6 */
+	_U2RXR = 3;			/* U2RX  -- RB3  -- RP3  -- CN7 */
+	_RP2R = 5;			/* U2TX  -- RB2  -- RP2  -- CN6 */
 //	_RP10R = 6;			/* U1RTS -- RB10 -- RP10 -- CN16 */
 //	_U2CTSR = 11;		/* U1CTS -- RB11 -- RP11 -- CN15 */
 //	_CN15PUE = 1;		// pull-up on for CTS
@@ -330,7 +398,7 @@ void uart2_init (void)
 	_U2TXIF = 0;	// Clear the Transmit Interrupt Flag
 	_U2TXIE = 0;	// Disable Transmit Interrupts
 	_U2RXIF = 0;	// Clear the Recieve Interrupt Flag
-	_U2RXIE = 1;	// Enable Recieve Interrupts
+	_U2RXIE = 0;	// Enable Receive Interrupts
 
 	/* Clear Tx/Rx FIFOs */
 	Tx2Fifo.ri = 0; Tx2Fifo.wi = 0; Tx2Fifo.ct = 0;
@@ -345,4 +413,8 @@ void uart2_init (void)
 	_U2TXIE = 1;
 }
 
+void uart2_baud ( long rate )
+{
+	U2BRG = (FCY / 4 / rate) - 1;
+}
 

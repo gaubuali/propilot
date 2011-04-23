@@ -85,13 +85,13 @@ boolean skip_timer_reset = 1;
 
 void udb_init_clock(void)	/* initialize timers */
 {
-	TRISF = 0b1111111111101100 ;	// FIX:
+//	TRISF = 0b1111111111101100 ;	// FIX:
 
 	TMR1 = 0 ; 				// initialize timer
 	PR1 = tmr1_period ;		// set period register
 	T1CONbits.TCKPS = 3 ;	// prescaler = 256 option
 	T1CONbits.TCS = 0 ;		// use the crystal to drive the clock
-	_T1IP = 3 ;				// Set to 3 to improve accuracy of cpu timing
+	_T1IP = 6 ;				// Set to 3 to improve accuracy of cpu timing
 	_T1IF = 0 ;				// clear the interrupt
 	_T1IE = 1 ;				// enable the interrupt
 	
@@ -104,7 +104,7 @@ void udb_init_clock(void)	/* initialize timers */
 	PR5 = 0xffff ; 			// initialize timer - 0 not valid for PR in these timers
 	T5CONbits.TCKPS = 0 ;	// prescaler = 1 option, no lost counts this way
 	T5CONbits.TCS = 0 ;	    // use the crystal to drive the clock
-	_T5IE = 1 ;				// disable the interrupt
+	_T5IE = 1 ;				// enable the interrupt
 	// Timer 5 will be turned on in interrupt routines and turned off in main()
 	T5CONbits.TON = 0 ;		// turn off timer 5
 	timer_5_on = 0;
@@ -148,7 +148,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void)
 	indicate_loading_inter ;
 
 #if ( BOARD_TYPE == ASPG_BOARD )
-	if ( ++timer1_counts < TMR1_CNTS  )
+	if ( ++timer1_counts < TMR1_CNTS  )	// actually interrupts every 0.1 sec
 		return;
 	else timer1_counts = 0;	// reset counter
 #endif

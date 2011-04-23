@@ -56,11 +56,11 @@
 // in stabilized or waypoint mode.  This mainly helps aileron-initiated turning while in stabilized.
 // RUDDER_BOOST is the additional gain multiplier for the manually commanded rudder deflection
 #if(GAINS_VARIABLE == 0)
-	extern const int rollkprud;
+//	extern const int rollkprud;
 	extern const int yawkdrud;
 	extern const int rollkprud;
 #else
-	extern int rollkprud;
+//	extern int rollkprud;
 	extern int yawkdrud;
 	extern int rollkprud;
 #endif

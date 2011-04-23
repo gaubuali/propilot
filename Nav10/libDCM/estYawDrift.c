@@ -28,16 +28,16 @@
 
 //	The origin is recorded as the location of the plane during power up of the control.
 
-fractional IMPORTANT rmat1filt = 0 ;
+fractional IMPORTANTz rmat1filt;
 fractional IMPORTANT rmat4filt = RMAX ;
 
-signed char IMPORTANT actual_dir = 0;
-int IMPORTANT velocity_magnitude = 0 ;
-int IMPORTANT forward_acceleration = 0 ;
-int IMPORTANT velocity_previous = 0 ;
-int IMPORTANT air_speed_magnitude = 0;
+signed char IMPORTANTz actual_dir;
+int IMPORTANTz velocity_magnitude;
+int IMPORTANTz forward_acceleration;
+int IMPORTANTz velocity_previous;
+int IMPORTANTz air_speed_magnitude;
 
-signed char IMPORTANT calculated_heading = 0 ; //calculated heading allows for wind velocity
+signed char IMPORTANTz calculated_heading; //calculated heading allows for wind velocity
 
 #define GPSTAU 3.0
 

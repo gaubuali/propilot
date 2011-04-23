@@ -7,10 +7,10 @@
 !_TAG_REVISION_NAME	MCHPTags	//
 !_TAG_REVISION_VERSION	6.0.1	//
 ABORT::(fs,res){fp->flag|=FA__ERROR;L	E:\Projects\DevPFG\Log10\ff.c	131;"	d	line:131	file:
-ACMD13::(13|0x80)	E:\Projects\DevPFG\Log10\mmc.c	28;"	d	line:28	file:
-ACMD23::(23|0x80)	E:\Projects\DevPFG\Log10\mmc.c	33;"	d	line:33	file:
-ACMD41::(41|0x80)	E:\Projects\DevPFG\Log10\mmc.c	23;"	d	line:23	file:
-ALTI2C_ON	E:\Projects\DevPFG\Log10\main.c	39;"	v	line:39
+ABS::(v)((v)<0?-(v):(v))	E:\Projects\DevPFG\Log10\miniINI\minIni.c	703;"	d	line:703	file:
+ACMD13::(13|0x80)	E:\Projects\DevPFG\Log10\mmc.c	29;"	d	line:29	file:
+ACMD23::(23|0x80)	E:\Projects\DevPFG\Log10\mmc.c	34;"	d	line:34	file:
+ACMD41::(41|0x80)	E:\Projects\DevPFG\Log10\mmc.c	24;"	d	line:24	file:
 AM_ARC::0x20	E:\Projects\DevPFG\Log10\ff.h	523;"	d	line:523
 AM_DIR::0x10	E:\Projects\DevPFG\Log10\ff.h	522;"	d	line:522
 AM_HID::0x02	E:\Projects\DevPFG\Log10\ff.h	518;"	d	line:518
@@ -19,9 +19,9 @@ AM_MASK::0x3F	E:\Projects\DevPFG\Log10\ff.h	524;"	d	line:524
 AM_RDO::0x01	E:\Projects\DevPFG\Log10\ff.h	517;"	d	line:517
 AM_SYS::0x04	E:\Projects\DevPFG\Log10\ff.h	519;"	d	line:519
 AM_VOL::0x08	E:\Projects\DevPFG\Log10\ff.h	520;"	d	line:520
-ATA_GET_MODEL::21	E:\Projects\DevPFG\Log10\diskio.h	66;"	d	line:66
-ATA_GET_REV::20	E:\Projects\DevPFG\Log10\diskio.h	65;"	d	line:65
-ATA_GET_SN::22	E:\Projects\DevPFG\Log10\diskio.h	67;"	d	line:67
+ATA_GET_MODEL::21	E:\Projects\DevPFG\Log10\diskio.h	75;"	d	line:75
+ATA_GET_REV::20	E:\Projects\DevPFG\Log10\diskio.h	74;"	d	line:74
+ATA_GET_SN::22	E:\Projects\DevPFG\Log10\diskio.h	76;"	d	line:76
 BPB_BkBootSec::50	E:\Projects\DevPFG\Log10\ff.h	562;"	d	line:562
 BPB_BytsPerSec::11	E:\Projects\DevPFG\Log10\ff.h	537;"	d	line:537
 BPB_ExtFlags::40	E:\Projects\DevPFG\Log10\ff.h	558;"	d	line:558
@@ -40,7 +40,8 @@ BPB_SecPerClus::13	E:\Projects\DevPFG\Log10\ff.h	538;"	d	line:538
 BPB_SecPerTrk::24	E:\Projects\DevPFG\Log10\ff.h	545;"	d	line:545
 BPB_TotSec16::19	E:\Projects\DevPFG\Log10\ff.h	542;"	d	line:542
 BPB_TotSec32::32	E:\Projects\DevPFG\Log10\ff.h	548;"	d	line:548
-BPS::230400UL	E:\Projects\DevPFG\Log10\uart.c	6;"	d	line:6	file:
+BPS::115200UL	E:\Projects\DevPFG\Log10\uart.c	9;"	d	line:9	file:
+BPS::115200UL	E:\Projects\DevPFG\Log10\uart.h	57;"	d	line:57
 BS_55AA::510	E:\Projects\DevPFG\Log10\ff.h	549;"	d	line:549
 BS_BootSig32::66	E:\Projects\DevPFG\Log10\ff.h	564;"	d	line:564
 BS_BootSig::38	E:\Projects\DevPFG\Log10\ff.h	552;"	d	line:552
@@ -54,39 +55,43 @@ BS_VolID::39	E:\Projects\DevPFG\Log10\ff.h	553;"	d	line:553
 BS_VolLab32::71	E:\Projects\DevPFG\Log10\ff.h	566;"	d	line:566
 BS_VolLab::43	E:\Projects\DevPFG\Log10\ff.h	554;"	d	line:554
 BS_jmpBoot::0	E:\Projects\DevPFG\Log10\ff.h	535;"	d	line:535
-BUFFER_SIZE::128	E:\Projects\DevPFG\Log10\uart.c	5;"	d	line:5	file:
-BWRP_WRPROTECT_OFF	E:\Projects\DevPFG\Log10\main.c	32;"	v	line:32
+BUFC	E:\Projects\DevPFG\Log10\uart.h	34;"	t	line:34
+BUFF2_SIZE::8192	E:\Projects\DevPFG\Log10\log.c	10;"	d	line:10	file:
 BYTE	E:\Projects\DevPFG\Log10\integer.h	22;"	t	line:22
-Buff	E:\Projects\DevPFG\Log10\main.c	57;"	v	line:57
+Buff	E:\Projects\DevPFG\Log10\main.c	27;"	v	line:27
+BuffCtrl	E:\Projects\DevPFG\Log10\log.c	20;"	v	line:20
+BuffS	E:\Projects\DevPFG\Log10\log.c	179;"	l	line:179
+BuffS	E:\Projects\DevPFG\Log10\log.c	71;"	l	line:71
+BuffSIZE::4096	E:\Projects\DevPFG\Log10\pic33f.h	72;"	d	line:72
 CHAR	E:\Projects\DevPFG\Log10\integer.h	20;"	t	line:20
-CMD0::(0)	E:\Projects\DevPFG\Log10\mmc.c	21;"	d	line:21	file:
-CMD10::(10)	E:\Projects\DevPFG\Log10\mmc.c	26;"	d	line:26	file:
-CMD12::(12)	E:\Projects\DevPFG\Log10\mmc.c	27;"	d	line:27	file:
-CMD16::(16)	E:\Projects\DevPFG\Log10\mmc.c	29;"	d	line:29	file:
-CMD17::(17)	E:\Projects\DevPFG\Log10\mmc.c	30;"	d	line:30	file:
-CMD18::(18)	E:\Projects\DevPFG\Log10\mmc.c	31;"	d	line:31	file:
-CMD1::(1)	E:\Projects\DevPFG\Log10\mmc.c	22;"	d	line:22	file:
-CMD23::(23)	E:\Projects\DevPFG\Log10\mmc.c	32;"	d	line:32	file:
-CMD24::(24)	E:\Projects\DevPFG\Log10\mmc.c	34;"	d	line:34	file:
-CMD25::(25)	E:\Projects\DevPFG\Log10\mmc.c	35;"	d	line:35	file:
-CMD41::(41)	E:\Projects\DevPFG\Log10\mmc.c	36;"	d	line:36	file:
-CMD55::(55)	E:\Projects\DevPFG\Log10\mmc.c	37;"	d	line:37	file:
-CMD58::(58)	E:\Projects\DevPFG\Log10\mmc.c	38;"	d	line:38	file:
-CMD8::(8)	E:\Projects\DevPFG\Log10\mmc.c	24;"	d	line:24	file:
-CMD9::(9)	E:\Projects\DevPFG\Log10\mmc.c	25;"	d	line:25	file:
+CMD0::(0)	E:\Projects\DevPFG\Log10\mmc.c	22;"	d	line:22	file:
+CMD10::(10)	E:\Projects\DevPFG\Log10\mmc.c	27;"	d	line:27	file:
+CMD12::(12)	E:\Projects\DevPFG\Log10\mmc.c	28;"	d	line:28	file:
+CMD16::(16)	E:\Projects\DevPFG\Log10\mmc.c	30;"	d	line:30	file:
+CMD17::(17)	E:\Projects\DevPFG\Log10\mmc.c	31;"	d	line:31	file:
+CMD18::(18)	E:\Projects\DevPFG\Log10\mmc.c	32;"	d	line:32	file:
+CMD1::(1)	E:\Projects\DevPFG\Log10\mmc.c	23;"	d	line:23	file:
+CMD23::(23)	E:\Projects\DevPFG\Log10\mmc.c	33;"	d	line:33	file:
+CMD24::(24)	E:\Projects\DevPFG\Log10\mmc.c	35;"	d	line:35	file:
+CMD25::(25)	E:\Projects\DevPFG\Log10\mmc.c	36;"	d	line:36	file:
+CMD41::(41)	E:\Projects\DevPFG\Log10\mmc.c	37;"	d	line:37	file:
+CMD55::(55)	E:\Projects\DevPFG\Log10\mmc.c	38;"	d	line:38	file:
+CMD58::(58)	E:\Projects\DevPFG\Log10\mmc.c	39;"	d	line:39	file:
+CMD8::(8)	E:\Projects\DevPFG\Log10\mmc.c	25;"	d	line:25	file:
+CMD9::(9)	E:\Projects\DevPFG\Log10\mmc.c	26;"	d	line:26	file:
 CREATE_LINKMAP::0xFFFFFFFF	E:\Projects\DevPFG\Log10\ff.h	528;"	d	line:528
-CS_HIGH::_LATB15=1	E:\Projects\DevPFG\Log10\mmc.c	43;"	d	line:43	file:
-CS_LOW::_LATB15=0	E:\Projects\DevPFG\Log10\mmc.c	42;"	d	line:42	file:
-CTRL_EJECT::6	E:\Projects\DevPFG\Log10\diskio.h	57;"	d	line:57
-CTRL_LOCK::5	E:\Projects\DevPFG\Log10\diskio.h	56;"	d	line:56
-CTRL_POWER::4	E:\Projects\DevPFG\Log10\diskio.h	55;"	d	line:55
-CTRL_SYNC::0	E:\Projects\DevPFG\Log10\diskio.h	51;"	d	line:51
-CT_BLOCK::0x08	E:\Projects\DevPFG\Log10\diskio.h	76;"	d	line:76
-CT_MMC::0x01	E:\Projects\DevPFG\Log10\diskio.h	72;"	d	line:72
-CT_SD1::0x02	E:\Projects\DevPFG\Log10\diskio.h	73;"	d	line:73
-CT_SD2::0x04	E:\Projects\DevPFG\Log10\diskio.h	74;"	d	line:74
-CT_SDC::(CT_SD1|CT_SD2)	E:\Projects\DevPFG\Log10\diskio.h	75;"	d	line:75
-CardType	E:\Projects\DevPFG\Log10\mmc.c	71;"	v	line:71	file:
+CS_HIGH::SD_CS_LAT=1	E:\Projects\DevPFG\Log10\mmc.c	44;"	d	line:44	file:
+CS_LOW::SD_CS_LAT=0	E:\Projects\DevPFG\Log10\mmc.c	43;"	d	line:43	file:
+CTRL_EJECT::6	E:\Projects\DevPFG\Log10\diskio.h	66;"	d	line:66
+CTRL_LOCK::5	E:\Projects\DevPFG\Log10\diskio.h	65;"	d	line:65
+CTRL_POWER::4	E:\Projects\DevPFG\Log10\diskio.h	64;"	d	line:64
+CTRL_SYNC::0	E:\Projects\DevPFG\Log10\diskio.h	60;"	d	line:60
+CT_BLOCK::0x08	E:\Projects\DevPFG\Log10\diskio.h	85;"	d	line:85
+CT_MMC::0x01	E:\Projects\DevPFG\Log10\diskio.h	81;"	d	line:81
+CT_SD1::0x02	E:\Projects\DevPFG\Log10\diskio.h	82;"	d	line:82
+CT_SD2::0x04	E:\Projects\DevPFG\Log10\diskio.h	83;"	d	line:83
+CT_SDC::(CT_SD1|CT_SD2)	E:\Projects\DevPFG\Log10\diskio.h	84;"	d	line:84
+CardType	E:\Projects\DevPFG\Log10\mmc.c	72;"	v	line:72
 DEF_NAMEBUF::BYTEsfn[12]	E:\Projects\DevPFG\Log10\ff.c	190;"	d	line:190	file:
 DEF_NAMEBUF::BYTEsfn[12]	E:\Projects\DevPFG\Log10\ff.c	196;"	d	line:196	file:
 DEF_NAMEBUF::BYTEsfn[12];WCHAR*lfn	E:\Projects\DevPFG\Log10\ff.c	206;"	d	line:206	file:
@@ -105,7 +110,7 @@ DIR_WrtTime::22	E:\Projects\DevPFG\Log10\ff.h	582;"	d	line:582
 DRESULT	E:\Projects\DevPFG\Log10\diskio.h	23;"	t	line:23
 DSTATUS	E:\Projects\DevPFG\Log10\diskio.h	14;"	t	line:14
 DWORD	E:\Projects\DevPFG\Log10\integer.h	33;"	t	line:33
-Drive	E:\Projects\DevPFG\Log10\ff.c	185;"	v	line:185	file:
+Drive	E:\Projects\DevPFG\Log10\ff.c	185;"	v	line:185
 ENTER_FF::(fs)	E:\Projects\DevPFG\Log10\ff.c	126;"	d	line:126	file:
 ENTER_FF::(fs){if(!lock_fs(fs))returnFR_	E:\Projects\DevPFG\Log10\ff.c	122;"	d	line:122	file:
 EOF::(-1)	E:\Projects\DevPFG\Log10\ff.h	453;"	d	line:453
@@ -119,10 +124,10 @@ FA_WRITE::0x02	E:\Projects\DevPFG\Log10\ff.h	499;"	d	line:499
 FA__DIRTY::0x40	E:\Projects\DevPFG\Log10\ff.h	504;"	d	line:504
 FA__ERROR::0x80	E:\Projects\DevPFG\Log10\ff.h	496;"	d	line:496
 FA__WRITTEN::0x20	E:\Projects\DevPFG\Log10\ff.h	503;"	d	line:503
-FCLK_FAST::SPI1CON1bits.SPRE=2;SPI1CON1bi	E:\Projects\DevPFG\Log10\mmc.c	54;"	d	line:54	file:
-FCLK_SLOW::SPI1CON1bits.SPRE=2;SPI1CON1bi	E:\Projects\DevPFG\Log10\mmc.c	52;"	d	line:52	file:
-FCY::25000000UL	E:\Projects\DevPFG\Log10\pic33f.h	7;"	d	line:7
-FCY::40000000UL	E:\Projects\DevPFG\Log10\pic33f.h	4;"	d	line:4
+FCLK_FAST::_SPIEN=0;SPI1CON1bits.SPRE=4;S	E:\Projects\DevPFG\Log10\mmc.c	55;"	d	line:55	file:
+FCLK_SLOW::_SPIEN=0;SPI1CON1bits.SPRE=2;S	E:\Projects\DevPFG\Log10\mmc.c	53;"	d	line:53	file:
+FCY::25000000UL	E:\Projects\DevPFG\Log10\pic33f.h	12;"	d	line:12
+FCY::40000000UL	E:\Projects\DevPFG\Log10\pic33f.h	9;"	d	line:9
 FIL	E:\Projects\DevPFG\Log10\ff.h	348;"	t	line:348
 FILESEM	E:\Projects\DevPFG\Log10\ff.h	279;"	t	line:279
 FILINFO	E:\Projects\DevPFG\Log10\ff.h	383;"	t	line:383
@@ -157,25 +162,26 @@ FSI_StrucSig::484	E:\Projects\DevPFG\Log10\ff.h	570;"	d	line:570
 FS_FAT12::1	E:\Projects\DevPFG\Log10\ff.h	510;"	d	line:510
 FS_FAT16::2	E:\Projects\DevPFG\Log10\ff.h	511;"	d	line:511
 FS_FAT32::3	E:\Projects\DevPFG\Log10\ff.h	512;"	d	line:512
-FatFs	E:\Projects\DevPFG\Log10\ff.c	181;"	v	line:181	file:
-Fatfs	E:\Projects\DevPFG\Log10\main.c	56;"	v	line:56
-Finfo	E:\Projects\DevPFG\Log10\main.c	49;"	v	line:49
-Fsid	E:\Projects\DevPFG\Log10\ff.c	179;"	v	line:179	file:
-GET_BLOCK_SIZE::3	E:\Projects\DevPFG\Log10\diskio.h	54;"	d	line:54
-GET_SECTOR_COUNT::1	E:\Projects\DevPFG\Log10\diskio.h	52;"	d	line:52
-GET_SECTOR_SIZE::2	E:\Projects\DevPFG\Log10\diskio.h	53;"	d	line:53
-GWRP_OFF	E:\Projects\DevPFG\Log10\main.c	36;"	v	line:36
-ICS_PGD1	E:\Projects\DevPFG\Log10\main.c	41;"	v	line:41
-IESO_OFF	E:\Projects\DevPFG\Log10\main.c	25;"	v	line:25
-IESO_ON	E:\Projects\DevPFG\Log10\main.c	16;"	v	line:16
+FatFs	E:\Projects\DevPFG\Log10\ff.c	181;"	v	line:181
+Fatfs	E:\Projects\DevPFG\Log10\main.c	26;"	v	line:26
+Finfo	E:\Projects\DevPFG\Log10\main.c	21;"	v	line:21
+Fsid	E:\Projects\DevPFG\Log10\ff.c	179;"	v	line:179
+GET_BLOCK_SIZE::3	E:\Projects\DevPFG\Log10\diskio.h	63;"	d	line:63
+GET_SECTOR_COUNT::1	E:\Projects\DevPFG\Log10\diskio.h	61;"	d	line:61
+GET_SECTOR_SIZE::2	E:\Projects\DevPFG\Log10\diskio.h	62;"	d	line:62
 INIT_BUF::(dobj)(dobj).fn=sfn	E:\Projects\DevPFG\Log10\ff.c	191;"	d	line:191	file:
 INIT_BUF::(dobj){(dobj).fn=sfn;(dobj).lf	E:\Projects\DevPFG\Log10\ff.c	197;"	d	line:197	file:
 INIT_BUF::(dobj){(dobj).fn=sfn;(dobj).lf	E:\Projects\DevPFG\Log10\ff.c	202;"	d	line:202	file:
 INIT_BUF::(dobj){lfn=ff_memalloc((_MAX_L	E:\Projects\DevPFG\Log10\ff.c	209;"	d	line:209	file:
+INI_BUFFERSIZE::256	E:\Projects\DevPFG\Log10\miniINI\minGlue-FatFs.h	19;"	d	line:19
+INI_BUFFERSIZE::512	E:\Projects\DevPFG\Log10\miniINI\minIni.h	31;"	d	line:31
+INI_FILETYPE::FIL	E:\Projects\DevPFG\Log10\miniINI\minGlue-FatFs.h	25;"	d	line:25
+INI_FILETYPE::FILE*	E:\Projects\DevPFG\Log10\miniINI\minIni.c	86;"	d	line:86	file:
+INI_LINETERM::__T("	E:\Projects\DevPFG\Log10\miniINI\minIni.c	84;"	d	line:84	file:
+INPUT::1	E:\Projects\DevPFG\Log10\pic33f.h	21;"	d	line:21
 INT	E:\Projects\DevPFG\Log10\integer.h	16;"	t	line:16
-IOL1WAY_OFF	E:\Projects\DevPFG\Log10\main.c	20;"	v	line:20
-IOL1WAY_OFF	E:\Projects\DevPFG\Log10\main.c	29;"	v	line:29
-IoInit	E:\Projects\DevPFG\Log10\main.c	200;"	f	line:200	file:
+IoInit	E:\Projects\DevPFG\Log10\main.c	38;"	p	line:38	file:	signature:( void )
+IoInit	E:\Projects\DevPFG\Log10\main.c	518;"	f	line:518	file:
 IsDBCS1::(c)(((BYTE)(c)>=_DF1S&&(BYTE)(	E:\Projects\DevPFG\Log10\ff.c	142;"	d	line:142	file:
 IsDBCS1::(c)((BYTE)(c)>=_DF1S&&(BYTE)(c	E:\Projects\DevPFG\Log10\ff.c	144;"	d	line:144	file:
 IsDBCS1::(c)0	E:\Projects\DevPFG\Log10\ff.c	155;"	d	line:155	file:
@@ -201,19 +207,24 @@ LD_WORD::(ptr)(WORD)(*(WORD*)(BYTE*)(pt	E:\Projects\DevPFG\Log10\ff.h	598;"	d	li
 LEAVE_FF::(fs,res)returnres	E:\Projects\DevPFG\Log10\ff.c	127;"	d	line:127	file:
 LEAVE_FF::(fs,res){unlock_fs(fs,res);ret	E:\Projects\DevPFG\Log10\ff.c	123;"	d	line:123	file:
 LONG	E:\Projects\DevPFG\Log10\integer.h	31;"	t	line:31
-LPUFIFO	E:\Projects\DevPFG\Log10\uart.c	14;"	t	line:14	file:
+LPUFIFO	E:\Projects\DevPFG\Log10\uart.h	9;"	t	line:9
 LfnBuf	E:\Projects\DevPFG\Log10\ff.c	195;"	v	line:195	file:
 LfnOfs	E:\Projects\DevPFG\Log10\ff.c	827;"	v	line:827	file:
-Lfname	E:\Projects\DevPFG\Log10\main.c	51;"	v	line:51
-Line	E:\Projects\DevPFG\Log10\main.c	54;"	v	line:54
+Lfname	E:\Projects\DevPFG\Log10\main.c	23;"	v	line:23
+Line	E:\Projects\DevPFG\Log10\monitor.c	336;"	l	line:336
+LocalBuffer	E:\Projects\DevPFG\Log10\miniINI\minIni.c	195;"	l	line:195
+LocalBuffer	E:\Projects\DevPFG\Log10\miniINI\minIni.c	534;"	l	line:534
 MBR_Table::446	E:\Projects\DevPFG\Log10\ff.h	574;"	d	line:574
+MININI_H	E:\Projects\DevPFG\Log10\miniINI\minIni.h	20;"	d	line:20
+MININI_IMPLEMENTATION	E:\Projects\DevPFG\Log10\miniINI\minIni.c	32;"	d	line:32	file:
 MIN_FAT16::4086	E:\Projects\DevPFG\Log10\ff.c	103;"	d	line:103	file:
 MIN_FAT32::65526	E:\Projects\DevPFG\Log10\ff.c	104;"	d	line:104	file:
-MMC_GET_CID::12	E:\Projects\DevPFG\Log10\diskio.h	61;"	d	line:61
-MMC_GET_CSD::11	E:\Projects\DevPFG\Log10\diskio.h	60;"	d	line:60
-MMC_GET_OCR::13	E:\Projects\DevPFG\Log10\diskio.h	62;"	d	line:62
-MMC_GET_SDSTAT::14	E:\Projects\DevPFG\Log10\diskio.h	63;"	d	line:63
-MMC_GET_TYPE::10	E:\Projects\DevPFG\Log10\diskio.h	59;"	d	line:59
+MMC_GET_CID::12	E:\Projects\DevPFG\Log10\diskio.h	70;"	d	line:70
+MMC_GET_CSD::11	E:\Projects\DevPFG\Log10\diskio.h	69;"	d	line:69
+MMC_GET_OCR::13	E:\Projects\DevPFG\Log10\diskio.h	71;"	d	line:71
+MMC_GET_SDSTAT::14	E:\Projects\DevPFG\Log10\diskio.h	72;"	d	line:72
+MMC_GET_TYPE::10	E:\Projects\DevPFG\Log10\diskio.h	68;"	d	line:68
+NDEBUG	E:\Projects\DevPFG\Log10\miniINI\minIni.c	31;"	d	line:31	file:
 NS::11	E:\Projects\DevPFG\Log10\ff.c	162;"	d	line:162	file:
 NS_BODY::0x08	E:\Projects\DevPFG\Log10\ff.c	166;"	d	line:166	file:
 NS_DOT::0x20	E:\Projects\DevPFG\Log10\ff.c	168;"	d	line:168	file:
@@ -223,32 +234,58 @@ NS_LFN::0x02	E:\Projects\DevPFG\Log10\ff.c	164;"	d	line:164	file:
 NS_LOSS::0x01	E:\Projects\DevPFG\Log10\ff.c	163;"	d	line:163	file:
 N_FATS::1	E:\Projects\DevPFG\Log10\ff.c	3130;"	d	line:3130	file:
 N_ROOTDIR::512	E:\Projects\DevPFG\Log10\ff.c	3129;"	d	line:3129	file:
+OUTPUT::0	E:\Projects\DevPFG\Log10\pic33f.h	22;"	d	line:22
 PARTITION	E:\Projects\DevPFG\Log10\ff.h	235;"	t	line:235
+PBUFC	E:\Projects\DevPFG\Log10\uart.h	34;"	t	line:34
+PIC33F_H	E:\Projects\DevPFG\Log10\pic33f.h	2;"	d	line:2
+PORTABLE_STRNICMP	E:\Projects\DevPFG\Log10\miniINI\minIni.h	144;"	d	line:144
+PULOGC	E:\Projects\DevPFG\Log10\uart.h	24;"	t	line:24
+QUOTE_DEQUOTE	E:\Projects\DevPFG\Log10\miniINI\minIni.c	96;"	e	line:96	enum:quote_option	file:
+QUOTE_ENQUOTE	E:\Projects\DevPFG\Log10\miniINI\minIni.c	95;"	e	line:95	enum:quote_option	file:
+QUOTE_NONE	E:\Projects\DevPFG\Log10\miniINI\minIni.c	94;"	e	line:94	enum:quote_option	file:
 RES_ERROR	E:\Projects\DevPFG\Log10\diskio.h	19;"	e	line:19
 RES_NOTRDY	E:\Projects\DevPFG\Log10\diskio.h	21;"	e	line:21
 RES_OK	E:\Projects\DevPFG\Log10\diskio.h	18;"	e	line:18
 RES_PARERR	E:\Projects\DevPFG\Log10\diskio.h	22;"	e	line:22
 RES_WRPRT	E:\Projects\DevPFG\Log10\diskio.h	20;"	e	line:20
-Rx2Fifo	E:\Projects\DevPFG\Log10\uart.c	23;"	v	line:23
-RxFifo	E:\Projects\DevPFG\Log10\uart.c	20;"	v	line:20
+Rstats	E:\Projects\DevPFG\Log10\monitor.c	346;"	l	line:346
+Rx2Fifo	E:\Projects\DevPFG\Log10\uart.c	18;"	v	line:18
+RxFifo	E:\Projects\DevPFG\Log10\uart.c	15;"	v	line:15
+SD_CS::PORTBbits.RB15	E:\Projects\DevPFG\Log10\pic33f.h	24;"	d	line:24
+SD_CS_LAT::LATBbits.LATB15	E:\Projects\DevPFG\Log10\pic33f.h	25;"	d	line:25
+SD_CS_TRIS::TRISBbits.TRISB15	E:\Projects\DevPFG\Log10\pic33f.h	26;"	d	line:26
+SDcard	E:\Projects\DevPFG\Log10\main.c	34;"	v	line:34
+SDcardDelay	E:\Projects\DevPFG\Log10\main.c	33;"	v	line:33
 SHORT	E:\Projects\DevPFG\Log10\integer.h	25;"	t	line:25
-SIG_LEVEL::1	E:\Projects\DevPFG\Log10\uart.c	7;"	d	line:7	file:
-SOCKINS::(0)	E:\Projects\DevPFG\Log10\mmc.c	49;"	d	line:49	file:
-SOCKPORT::PORTB	E:\Projects\DevPFG\Log10\mmc.c	45;"	d	line:45	file:
-SOCKWP::(0)	E:\Projects\DevPFG\Log10\mmc.c	47;"	d	line:47	file:
+SIG_LEVEL::0	E:\Projects\DevPFG\Log10\uart.c	11;"	d	line:11	file:
+SOCKINS::(0)	E:\Projects\DevPFG\Log10\mmc.c	50;"	d	line:50	file:
+SOCKPORT::PORTB	E:\Projects\DevPFG\Log10\mmc.c	46;"	d	line:46	file:
+SOCKWP::(0)	E:\Projects\DevPFG\Log10\mmc.c	48;"	d	line:48	file:
+SPICLOCK::TRISBbits.TRISB13	E:\Projects\DevPFG\Log10\pic33f.h	29;"	d	line:29
+SPICLOCKLAT::LATBbits.LATB13	E:\Projects\DevPFG\Log10\pic33f.h	34;"	d	line:34
+SPICLOCKPORT::PORTBbits.RB13	E:\Projects\DevPFG\Log10\pic33f.h	39;"	d	line:39
+SPIIN::TRISBbits.TRISB12	E:\Projects\DevPFG\Log10\pic33f.h	30;"	d	line:30
+SPIINLAT::LATBbits.LATB12	E:\Projects\DevPFG\Log10\pic33f.h	35;"	d	line:35
+SPIINPORT::PORTBbits.RB12	E:\Projects\DevPFG\Log10\pic33f.h	40;"	d	line:40
+SPIOUT::TRISBbits.TRISB14	E:\Projects\DevPFG\Log10\pic33f.h	31;"	d	line:31
+SPIOUTLAT::LATBbits.LATB14	E:\Projects\DevPFG\Log10\pic33f.h	36;"	d	line:36
+SPIOUTPORT::PORTBbits.RB14	E:\Projects\DevPFG\Log10\pic33f.h	41;"	d	line:41
 SS::(fs)((fs)->ssize)	E:\Projects\DevPFG\Log10\ff.c	111;"	d	line:111	file:
 SS::(fs)512U	E:\Projects\DevPFG\Log10\ff.c	109;"	d	line:109	file:
-STA_NODISK::0x02	E:\Projects\DevPFG\Log10\diskio.h	44;"	d	line:44
-STA_NOINIT::0x01	E:\Projects\DevPFG\Log10\diskio.h	43;"	d	line:43
-STA_PROTECT::0x04	E:\Projects\DevPFG\Log10\diskio.h	45;"	d	line:45
+STATS	E:\Projects\DevPFG\Log10\monitor.c	276;"	d	line:276	file:
+STA_NODISK::0x02	E:\Projects\DevPFG\Log10\diskio.h	52;"	d	line:52
+STA_NOINIT::0x01	E:\Projects\DevPFG\Log10\diskio.h	51;"	d	line:51
+STA_PROTECT::0x04	E:\Projects\DevPFG\Log10\diskio.h	53;"	d	line:53
+STA_RELEASE::0x08	E:\Projects\DevPFG\Log10\diskio.h	54;"	d	line:54
 ST_DWORD::(ptr,val)*(BYTE*)(ptr)=(BYTE)(	E:\Projects\DevPFG\Log10\ff.h	606;"	d	line:606
 ST_DWORD::(ptr,val)*(DWORD*)(BYTE*)(ptr)	E:\Projects\DevPFG\Log10\ff.h	601;"	d	line:601
 ST_WORD::(ptr,val)*(BYTE*)(ptr)=(BYTE)(	E:\Projects\DevPFG\Log10\ff.h	605;"	d	line:605
 ST_WORD::(ptr,val)*(WORD*)(BYTE*)(ptr)=	E:\Projects\DevPFG\Log10\ff.h	600;"	d	line:600
-SWRP_WRPROTECT_OFF	E:\Projects\DevPFG\Log10\main.c	33;"	v	line:33
-Stat	E:\Projects\DevPFG\Log10\mmc.c	65;"	v	line:65	file:
+Stat	E:\Projects\DevPFG\Log10\mmc.c	66;"	v	line:66
 TCHAR	E:\Projects\DevPFG\Log10\ff.h	253;"	t	line:253
 TCHAR	E:\Projects\DevPFG\Log10\ff.h	260;"	t	line:260
+TCHAR	E:\Projects\DevPFG\Log10\miniINI\minIni.h	27;"	t	line:27
+TRACK_diskOP	E:\Projects\DevPFG\Log10\diskio.h	88;"	d	line:88
 Tbl	E:\Projects\DevPFG\Log10\option\ccsbcs.c	100;"	v	line:100	file:
 Tbl	E:\Projects\DevPFG\Log10\option\ccsbcs.c	122;"	v	line:122	file:
 Tbl	E:\Projects\DevPFG\Log10\option\ccsbcs.c	144;"	v	line:144	file:
@@ -269,25 +306,29 @@ Tbl	E:\Projects\DevPFG\Log10\option\ccsbcs.c	430;"	v	line:430	file:
 Tbl	E:\Projects\DevPFG\Log10\option\ccsbcs.c	474;"	v	line:474	file:
 Tbl	E:\Projects\DevPFG\Log10\option\ccsbcs.c	56;"	v	line:56	file:
 Tbl	E:\Projects\DevPFG\Log10\option\ccsbcs.c	78;"	v	line:78	file:
-Timer	E:\Projects\DevPFG\Log10\main.c	60;"	v	line:60
-Timer1	E:\Projects\DevPFG\Log10\mmc.c	68;"	v	line:68	file:
-Timer2	E:\Projects\DevPFG\Log10\mmc.c	68;"	v	line:68	file:
-Tx2Fifo	E:\Projects\DevPFG\Log10\uart.c	22;"	v	line:22
-Tx2Run	E:\Projects\DevPFG\Log10\uart.c	10;"	v	line:10
-TxFifo	E:\Projects\DevPFG\Log10\uart.c	21;"	v	line:21
-TxRun	E:\Projects\DevPFG\Log10\uart.c	10;"	v	line:10
+Timer	E:\Projects\DevPFG\Log10\main.c	29;"	v	line:29
+Timer1	E:\Projects\DevPFG\Log10\mmc.c	69;"	v	line:69
+Timer2	E:\Projects\DevPFG\Log10\mmc.c	69;"	v	line:69
+Tx2Fifo	E:\Projects\DevPFG\Log10\uart.c	17;"	v	line:17
+Tx2Run	E:\Projects\DevPFG\Log10\uart.c	14;"	v	line:14
+TxFifo	E:\Projects\DevPFG\Log10\uart.c	16;"	v	line:16
+TxRun	E:\Projects\DevPFG\Log10\uart.c	14;"	v	line:14
+UART_BUFFER_SIZE::128	E:\Projects\DevPFG\Log10\uart.h	5;"	d	line:5
 UCHAR	E:\Projects\DevPFG\Log10\integer.h	21;"	t	line:21
-UFIFO	E:\Projects\DevPFG\Log10\uart.c	14;"	t	line:14	file:
+UFIFO	E:\Projects\DevPFG\Log10\uart.h	9;"	t	line:9
 UINT	E:\Projects\DevPFG\Log10\integer.h	17;"	t	line:17
+ULOGC	E:\Projects\DevPFG\Log10\uart.h	24;"	t	line:24
 ULONG	E:\Projects\DevPFG\Log10\integer.h	32;"	t	line:32
-USE_EC_CLOCK	E:\Projects\DevPFG\Log10\pic33f.h	1;"	d	line:1
+UNICODE	E:\Projects\DevPFG\Log10\miniINI\minIni.c	25;"	d	line:25	file:
+USE_EC_CLOCK	E:\Projects\DevPFG\Log10\pic33f.h	6;"	d	line:6
+USE_INT	E:\Projects\DevPFG\Log10\mmc.c	223;"	d	line:223	file:
 USHORT	E:\Projects\DevPFG\Log10\integer.h	26;"	t	line:26
 WCHAR	E:\Projects\DevPFG\Log10\integer.h	28;"	t	line:28
-WINDIS_OFF	E:\Projects\DevPFG\Log10\main.c	38;"	v	line:38
 WORD	E:\Projects\DevPFG\Log10\integer.h	27;"	t	line:27
+Wstats	E:\Projects\DevPFG\Log10\monitor.c	347;"	l	line:347
 _CODE_PAGE::437	E:\Projects\DevPFG\Log10\ffconf.h	60;"	d	line:60
 _COMMFUNC	E:\Projects\DevPFG\Log10\uart.h	2;"	d	line:2
-_CR_CRLF::1	E:\Projects\DevPFG\Log10\monitor.h	10;"	d	line:10
+_CR_CRLF::1	E:\Projects\DevPFG\Log10\monitor.h	12;"	d	line:12
 _DF1E::0x9F	E:\Projects\DevPFG\Log10\ff.h	36;"	d	line:36
 _DF1E::0xFE	E:\Projects\DevPFG\Log10\ff.h	46;"	d	line:46
 _DF1E::0xFE	E:\Projects\DevPFG\Log10\ff.h	54;"	d	line:54
@@ -320,8 +361,11 @@ _DF1S::0x81	E:\Projects\DevPFG\Log10\ff.h	53;"	d	line:53
 _DF1S::0x81	E:\Projects\DevPFG\Log10\ff.h	63;"	d	line:63
 _DF2E::0xFC	E:\Projects\DevPFG\Log10\ff.h	38;"	d	line:38
 _DF2S::0xE0	E:\Projects\DevPFG\Log10\ff.h	37;"	d	line:37
-_DI::__asm__volatile("disi#0x3FFF")	E:\Projects\DevPFG\Log10\pic33f.h	10;"	d	line:10
-_DISKIO	E:\Projects\DevPFG\Log10\diskio.h	79;"	d	line:79
+_DI150::__asm__volatile("disi#150")	E:\Projects\DevPFG\Log10\pic33f.h	17;"	d	line:17
+_DI24::__asm__volatile("disi#24")	E:\Projects\DevPFG\Log10\pic33f.h	18;"	d	line:18
+_DI64::__asm__volatile("disi#64")	E:\Projects\DevPFG\Log10\pic33f.h	19;"	d	line:19
+_DI::__asm__volatile("disi#0x3FFF")	E:\Projects\DevPFG\Log10\pic33f.h	15;"	d	line:15
+_DISKIO	E:\Projects\DevPFG\Log10\diskio.h	125;"	d	line:125
 _DRIVES::1	E:\Projects\DevPFG\Log10\ffconf.h	124;"	d	line:124
 _DS1E::0x5A	E:\Projects\DevPFG\Log10\ff.h	56;"	d	line:56
 _DS1E::0x7E	E:\Projects\DevPFG\Log10\ff.h	40;"	d	line:40
@@ -341,7 +385,8 @@ _DS2S::0x80	E:\Projects\DevPFG\Log10\ff.h	49;"	d	line:49
 _DS2S::0xA1	E:\Projects\DevPFG\Log10\ff.h	67;"	d	line:67
 _DS3E::0xFE	E:\Projects\DevPFG\Log10\ff.h	60;"	d	line:60
 _DS3S::0x81	E:\Projects\DevPFG\Log10\ff.h	59;"	d	line:59
-_EI::__asm__volatile("disi#0")	E:\Projects\DevPFG\Log10\pic33f.h	11;"	d	line:11
+_DefaultInterrupt	E:\Projects\DevPFG\Log10\main.c	332;"	f	line:332	signature:(void)
+_EI::__asm__volatile("disi#0")	E:\Projects\DevPFG\Log10\pic33f.h	16;"	d	line:16
 _EXCVT::{0x80,0x81,0x45,0x41,0x84,0x41	E:\Projects\DevPFG\Log10\ff.h	82;"	d	line:82
 _EXCVT::{0x80,0x81,0x82,0x82,0x84,0x85	E:\Projects\DevPFG\Log10\ff.h	166;"	d	line:166
 _EXCVT::{0x80,0x81,0x82,0x83,0x84,0x85	E:\Projects\DevPFG\Log10\ff.h	138;"	d	line:138
@@ -380,7 +425,7 @@ _MULTI_PARTITION::0	E:\Projects\DevPFG\Log10\ffconf.h	136;"	d	line:136
 _READONLY::0	E:\Projects\DevPFG\Log10\diskio.h	7;"	d	line:7
 _STRFUNC	E:\Projects\DevPFG\Log10\monitor.h	6;"	d	line:6
 _SYNC_t::HANDLE	E:\Projects\DevPFG\Log10\ffconf.h	162;"	d	line:162
-_T1Interrupt	E:\Projects\DevPFG\Log10\main.c	73;"	f	line:73	signature:(void)
+_T1Interrupt	E:\Projects\DevPFG\Log10\main.c	266;"	f	line:266	signature:(void)
 _T::(x)L##x	E:\Projects\DevPFG\Log10\ff.h	254;"	d	line:254
 _T::(x)x	E:\Projects\DevPFG\Log10\ff.h	261;"	d	line:261
 _TBLDEF::1	E:\Projects\DevPFG\Log10\option\ccsbcs.c	120;"	d	line:120	file:
@@ -406,44 +451,77 @@ _TBLDEF::1	E:\Projects\DevPFG\Log10\option\ccsbcs.c	76;"	d	line:76	file:
 _TBLDEF::1	E:\Projects\DevPFG\Log10\option\ccsbcs.c	98;"	d	line:98	file:
 _TEXT::(x)L##x	E:\Projects\DevPFG\Log10\ff.h	255;"	d	line:255
 _TEXT::(x)x	E:\Projects\DevPFG\Log10\ff.h	262;"	d	line:262
-_U1RXInterrupt	E:\Projects\DevPFG\Log10\uart.c	26;"	f	line:26	signature:(void)
-_U1TXInterrupt	E:\Projects\DevPFG\Log10\uart.c	60;"	f	line:60	signature:(void)
-_U2RXInterrupt	E:\Projects\DevPFG\Log10\uart.c	45;"	f	line:45	signature:(void)
-_U2TXInterrupt	E:\Projects\DevPFG\Log10\uart.c	80;"	f	line:80	signature:(void)
+_U1RXInterrupt	E:\Projects\DevPFG\Log10\uart.c	31;"	f	line:31	signature:(void)
+_U1TXInterrupt	E:\Projects\DevPFG\Log10\uart.c	125;"	f	line:125	signature:(void)
+_U2RXInterrupt	E:\Projects\DevPFG\Log10\uart.c	75;"	f	line:75	signature:(void)
+_U2TXInterrupt	E:\Projects\DevPFG\Log10\uart.c	143;"	f	line:143	signature:(void)
+_UNICODE	E:\Projects\DevPFG\Log10\miniINI\minIni.c	28;"	d	line:28	file:
 _USE_FASTSEEK::1	E:\Projects\DevPFG\Log10\ffconf.h	51;"	d	line:51
 _USE_FORWARD::0	E:\Projects\DevPFG\Log10\ffconf.h	47;"	d	line:47
 _USE_IOCTL::1	E:\Projects\DevPFG\Log10\diskio.h	8;"	d	line:8
 _USE_LFN::1	E:\Projects\DevPFG\Log10\ffconf.h	93;"	d	line:93
 _USE_MKFS::1	E:\Projects\DevPFG\Log10\ffconf.h	43;"	d	line:43
-_USE_STRFUNC::0	E:\Projects\DevPFG\Log10\ffconf.h	39;"	d	line:39
-_USE_XFUNC_IN::1	E:\Projects\DevPFG\Log10\monitor.h	8;"	d	line:8
-_USE_XFUNC_OUT::1	E:\Projects\DevPFG\Log10\monitor.h	9;"	d	line:9
-_WORD_ACCESS::1	E:\Projects\DevPFG\Log10\ffconf.h	147;"	d	line:147
+_USE_STRFUNC::2	E:\Projects\DevPFG\Log10\ffconf.h	39;"	d	line:39
+_USE_XFUNC_IN::1	E:\Projects\DevPFG\Log10\monitor.h	10;"	d	line:10
+_USE_XFUNC_OUT::1	E:\Projects\DevPFG\Log10\monitor.h	11;"	d	line:11
+_WORD_ACCESS::0	E:\Projects\DevPFG\Log10\ffconf.h	147;"	d	line:147
+__FreeBSD__	E:\Projects\DevPFG\Log10\miniINI\minIni.c	74;"	d	line:74	file:
+__LINUX__	E:\Projects\DevPFG\Log10\miniINI\minIni.c	71;"	d	line:71	file:
+__SPI1Interrupt	E:\Projects\DevPFG\Log10\spi.s	18;"	l	line:18
+__T::(s)s	E:\Projects\DevPFG\Log10\miniINI\minIni.c	46;"	d	line:46	file:
+_stprintf::sprintf	E:\Projects\DevPFG\Log10\miniINI\minIni.c	59;"	d	line:59	file:
+_tcscat::strcat	E:\Projects\DevPFG\Log10\miniINI\minIni.c	47;"	d	line:47	file:
+_tcschr::strchr	E:\Projects\DevPFG\Log10\miniINI\minIni.c	48;"	d	line:48	file:
+_tcscmp::strcmp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	49;"	d	line:49	file:
+_tcscpy::strcpy	E:\Projects\DevPFG\Log10\miniINI\minIni.c	50;"	d	line:50	file:
+_tcsicmp::stricmp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	51;"	d	line:51	file:
+_tcslen::strlen	E:\Projects\DevPFG\Log10\miniINI\minIni.c	52;"	d	line:52	file:
+_tcsncpy::strncpy	E:\Projects\DevPFG\Log10\miniINI\minIni.c	53;"	d	line:53	file:
+_tcsnicmp::strnicmp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	54;"	d	line:54	file:
+_tcsrchr::strrchr	E:\Projects\DevPFG\Log10\miniINI\minIni.c	55;"	d	line:55	file:
+_tcstod::strtod	E:\Projects\DevPFG\Log10\miniINI\minIni.c	57;"	d	line:57	file:
+_tcstol::strtol	E:\Projects\DevPFG\Log10\miniINI\minIni.c	56;"	d	line:56	file:
+_tfgets::fgets	E:\Projects\DevPFG\Log10\miniINI\minIni.c	60;"	d	line:60	file:
+_tfopen::fopen	E:\Projects\DevPFG\Log10\miniINI\minIni.c	62;"	d	line:62	file:
+_tfputs::fputs	E:\Projects\DevPFG\Log10\miniINI\minIni.c	61;"	d	line:61	file:
+_totupper::toupper	E:\Projects\DevPFG\Log10\miniINI\minIni.c	58;"	d	line:58	file:
+_tremove::remove	E:\Projects\DevPFG\Log10\miniINI\minIni.c	63;"	d	line:63	file:
+_trename::rename	E:\Projects\DevPFG\Log10\miniINI\minIni.c	64;"	d	line:64	file:
 a	E:\Projects\DevPFG\Log10\ff.c	1006;"	l	line:1006
 a	E:\Projects\DevPFG\Log10\ff.c	1067;"	l	line:1067
-acc_dirs	E:\Projects\DevPFG\Log10\main.c	48;"	v	line:48
-acc_files	E:\Projects\DevPFG\Log10\main.c	48;"	v	line:48
-acc_size	E:\Projects\DevPFG\Log10\main.c	47;"	v	line:47
+acc_dirs	E:\Projects\DevPFG\Log10\main.c	20;"	v	line:20
+acc_files	E:\Projects\DevPFG\Log10\main.c	20;"	v	line:20
+acc_size	E:\Projects\DevPFG\Log10\main.c	19;"	v	line:19
 arp	E:\Projects\DevPFG\Log10\ff.c	3468;"	l	line:3468
-arp	E:\Projects\DevPFG\Log10\monitor.c	66;"	l	line:66
+arp	E:\Projects\DevPFG\Log10\monitor.c	70;"	l	line:70
 as	E:\Projects\DevPFG\Log10\ff.c	3143;"	l	line:3143
+assert::(e)	E:\Projects\DevPFG\Log10\miniINI\minIni.c	35;"	d	line:35	file:
 b	E:\Projects\DevPFG\Log10\ff.c	1278;"	l	line:1278
 b	E:\Projects\DevPFG\Log10\ff.c	1659;"	l	line:1659
-b	E:\Projects\DevPFG\Log10\main.c	281;"	l	line:281
+b	E:\Projects\DevPFG\Log10\monitor.c	338;"	l	line:338
 b_data	E:\Projects\DevPFG\Log10\ff.c	3144;"	l	line:3144
 b_dir	E:\Projects\DevPFG\Log10\ff.c	3144;"	l	line:3144
 b_fat	E:\Projects\DevPFG\Log10\ff.c	3144;"	l	line:3144
 b_vol	E:\Projects\DevPFG\Log10\ff.c	3144;"	l	line:3144
 bc	E:\Projects\DevPFG\Log10\ff.c	494;"	l	line:494
 bc	E:\Projects\DevPFG\Log10\ff.c	538;"	l	line:538
-bc	E:\Projects\DevPFG\Log10\mmc.c	231;"	l	line:231
+bc	E:\Projects\DevPFG\Log10\mmc.c	488;"	l	line:488
+bc	E:\Projects\DevPFG\Log10\mmc.c	516;"	l	line:516
 bcs	E:\Projects\DevPFG\Log10\ff.c	2447;"	l	line:2447
 be	E:\Projects\DevPFG\Log10\ff.c	317;"	l	line:317
 bsect	E:\Projects\DevPFG\Log10\ff.c	1662;"	l	line:1662
 btw	E:\Projects\DevPFG\Log10\ff.c	3404;"	l	line:3404
 buf	E:\Projects\DevPFG\Log10\ff.c	2997;"	l	line:2997
 buf	E:\Projects\DevPFG\Log10\ff.h	346;"	m	line:346
-buff	E:\Projects\DevPFG\Log10\uart.c	13;"	m	line:13	file:
+buff	E:\Projects\DevPFG\Log10\miniINI\minIni.c	316;"	l	line:316
+buff	E:\Projects\DevPFG\Log10\miniINI\minIni.c	332;"	l	line:332
+buff	E:\Projects\DevPFG\Log10\miniINI\minIni.c	367;"	l	line:367
+buff	E:\Projects\DevPFG\Log10\miniINI\minIni.c	745;"	l	line:745
+buff	E:\Projects\DevPFG\Log10\miniINI\minIni.c	761;"	l	line:761
+buff	E:\Projects\DevPFG\Log10\uart.h	8;"	m	line:8
+buffer	E:\Projects\DevPFG\Log10\miniINI\minIni.h	100;"	l	line:100
+buffer	E:\Projects\DevPFG\Log10\miniINI\minIni.h	86;"	l	line:86
+buffer	E:\Projects\DevPFG\Log10\miniINI\minIni.h	93;"	l	line:93
 bw	E:\Projects\DevPFG\Log10\ff.c	3404;"	l	line:3404
 c	E:\Projects\DevPFG\Log10\ff.c	1004;"	l	line:1004
 c	E:\Projects\DevPFG\Log10\ff.c	1065;"	l	line:1065
@@ -453,15 +531,22 @@ c	E:\Projects\DevPFG\Log10\ff.c	3352;"	l	line:3352
 c	E:\Projects\DevPFG\Log10\ff.c	3472;"	l	line:3472
 c	E:\Projects\DevPFG\Log10\ff.c	787;"	l	line:787
 c	E:\Projects\DevPFG\Log10\ff.c	938;"	l	line:938
-c	E:\Projects\DevPFG\Log10\monitor.c	185;"	l	line:185
-c	E:\Projects\DevPFG\Log10\monitor.c	244;"	l	line:244
-c	E:\Projects\DevPFG\Log10\monitor.c	69;"	l	line:69
+c	E:\Projects\DevPFG\Log10\monitor.c	189;"	l	line:189
+c	E:\Projects\DevPFG\Log10\monitor.c	251;"	l	line:251
+c	E:\Projects\DevPFG\Log10\monitor.c	73;"	l	line:73
 c	E:\Projects\DevPFG\Log10\option\ccsbcs.c	506;"	l	line:506
+c1	E:\Projects\DevPFG\Log10\miniINI\minIni.c	103;"	l	line:103
+c2	E:\Projects\DevPFG\Log10\miniINI\minIni.c	103;"	l	line:103
+calcStats	E:\Projects\DevPFG\Log10\monitor.c	280;"	f	line:280	signature:( int cmd, long bytes, long stats[16] )
+calcStats::(a,b,c)	E:\Projects\DevPFG\Log10\monitor.c	278;"	d	line:278	file:
+canRXdelay	E:\Projects\DevPFG\Log10\main.c	36;"	v	line:36
+canTXdelay	E:\Projects\DevPFG\Log10\main.c	35;"	v	line:35
 cc	E:\Projects\DevPFG\Log10\ff.c	2027;"	l	line:2027
 cc	E:\Projects\DevPFG\Log10\ff.c	2120;"	l	line:2120
 cc	E:\Projects\DevPFG\Log10\ff.c	3473;"	l	line:3473
 cdir	E:\Projects\DevPFG\Log10\ff.h	307;"	m	line:307
 cf	E:\Projects\DevPFG\Log10\ff.c	1278;"	l	line:1278
+check_enquote	E:\Projects\DevPFG\Log10\miniINI\minIni.c	455;"	f	line:455	file:	signature:(const TCHAR *Value)
 check_fs	E:\Projects\DevPFG\Log10\ff.c	1627;"	f	line:1627	file:	signature:( FATFS *fs, DWORD sect )
 chk_chr	E:\Projects\DevPFG\Log10\ff.c	268;"	f	line:268	file:	signature:(const char* str, int chr)
 chk_lock	E:\Projects\DevPFG\Log10\ff.c	312;"	f	line:312	file:	signature:( DIR* dj, int acc )
@@ -471,7 +556,7 @@ cl	E:\Projects\DevPFG\Log10\ff.c	2384;"	l	line:2384
 clst	E:\Projects\DevPFG\Log10\ff.c	2026;"	l	line:2026
 clst	E:\Projects\DevPFG\Log10\ff.c	2119;"	l	line:2119
 clst	E:\Projects\DevPFG\Log10\ff.c	2447;"	l	line:2447
-clst	E:\Projects\DevPFG\Log10\ff.c	2657;"	l	line:2657
+clst	E:\Projects\DevPFG\Log10\ff.c	2658;"	l	line:2658
 clst	E:\Projects\DevPFG\Log10\ff.c	3078;"	l	line:3078
 clst	E:\Projects\DevPFG\Log10\ff.c	717;"	l	line:717
 clst	E:\Projects\DevPFG\Log10\ff.c	765;"	l	line:765
@@ -479,38 +564,51 @@ cltbl	E:\Projects\DevPFG\Log10\ff.h	340;"	m	line:340
 clu	E:\Projects\DevPFG\Log10\ff.h	276;"	m	line:276
 clust	E:\Projects\DevPFG\Log10\ff.h	359;"	m	line:359
 clust2sect	E:\Projects\DevPFG\Log10\ff.c	694;"	f	line:694	signature:( FATFS *fs, DWORD clst )
-cmd	E:\Projects\DevPFG\Log10\mmc.c	316;"	l	line:316
+cmd	E:\Projects\DevPFG\Log10\mmc.c	616;"	l	line:616
 cmp_lfn	E:\Projects\DevPFG\Log10\ff.c	831;"	f	line:831	file:	signature:( WCHAR *lfnbuf, BYTE *dir )
-cnt	E:\Projects\DevPFG\Log10\main.c	286;"	l	line:286
+cnt	E:\Projects\DevPFG\Log10\monitor.c	343;"	l	line:343
+count	E:\Projects\DevPFG\Log10\diskio.h	105;"	m	line:105
+count	E:\Projects\DevPFG\Log10\log.c	132;"	l	line:132
+count	E:\Projects\DevPFG\Log10\log.c	180;"	l	line:180
+count	E:\Projects\DevPFG\Log10\log.c	24;"	l	line:24
+count	E:\Projects\DevPFG\Log10\log.c	72;"	l	line:72
+count	E:\Projects\DevPFG\Log10\miniINI\minIni.c	535;"	l	line:535
+countw	E:\Projects\DevPFG\Log10\log.c	132;"	l	line:132
+countw	E:\Projects\DevPFG\Log10\log.c	24;"	l	line:24
 create_chain	E:\Projects\DevPFG\Log10\ff.c	636;"	f	line:636	file:	signature:( FATFS *fs, DWORD clst )
 create_name	E:\Projects\DevPFG\Log10\ff.c	1268;"	f	line:1268	file:	signature:( DIR *dj, const TCHAR **path )
 cs	E:\Projects\DevPFG\Log10\ff.c	641;"	l	line:641
 csc	E:\Projects\DevPFG\Log10\ff.c	2385;"	l	line:2385
-csd	E:\Projects\DevPFG\Log10\mmc.c	468;"	l	line:468
+csd	E:\Projects\DevPFG\Log10\mmc.c	805;"	l	line:805
 csect	E:\Projects\DevPFG\Log10\ff.c	2028;"	l	line:2028
 csect	E:\Projects\DevPFG\Log10\ff.c	2122;"	l	line:2122
 csect	E:\Projects\DevPFG\Log10\ff.c	3080;"	l	line:3080
 csize	E:\Projects\DevPFG\Log10\ff.h	289;"	m	line:289
-csize	E:\Projects\DevPFG\Log10\mmc.c	469;"	l	line:469
+csize	E:\Projects\DevPFG\Log10\mmc.c	806;"	l	line:806
 cst	E:\Projects\DevPFG\Log10\ff.c	3140;"	l	line:3140	file:
-ct	E:\Projects\DevPFG\Log10\uart.c	12;"	m	line:12	file:
+ct	E:\Projects\DevPFG\Log10\uart.h	7;"	m	line:7
 ctr	E:\Projects\DevPFG\Log10\ff.h	278;"	m	line:278
+curr	E:\Projects\DevPFG\Log10\uart.h	28;"	m	line:28
 curr_clust	E:\Projects\DevPFG\Log10\ff.h	333;"	m	line:333
 d	E:\Projects\DevPFG\Log10\ff.c	233;"	l	line:233
 d	E:\Projects\DevPFG\Log10\ff.c	250;"	l	line:250
 d	E:\Projects\DevPFG\Log10\ff.c	259;"	l	line:259
 d	E:\Projects\DevPFG\Log10\ff.c	3472;"	l	line:3472
-d	E:\Projects\DevPFG\Log10\monitor.c	69;"	l	line:69
-d	E:\Projects\DevPFG\Log10\uart.c	117;"	l	line:117
-d	E:\Projects\DevPFG\Log10\uart.c	136;"	l	line:136
-d	E:\Projects\DevPFG\Log10\uart.c	28;"	l	line:28
-d	E:\Projects\DevPFG\Log10\uart.c	47;"	l	line:47
+d	E:\Projects\DevPFG\Log10\miniINI\minIni.c	149;"	l	line:149
+d	E:\Projects\DevPFG\Log10\monitor.c	73;"	l	line:73
+d	E:\Projects\DevPFG\Log10\uart.c	182;"	l	line:182
+d	E:\Projects\DevPFG\Log10\uart.c	198;"	l	line:198
+d	E:\Projects\DevPFG\Log10\uart.c	33;"	l	line:33
+d	E:\Projects\DevPFG\Log10\uart.c	77;"	l	line:77
 database	E:\Projects\DevPFG\Log10\ff.h	313;"	m	line:313
 dcl	E:\Projects\DevPFG\Log10\ff.c	2838;"	l	line:2838
 dclst	E:\Projects\DevPFG\Log10\ff.c	2770;"	l	line:2770
 dec_lock	E:\Projects\DevPFG\Log10\ff.c	379;"	f	line:379	file:	signature:( FATFS* fs, UINT i )
-deselect	E:\Projects\DevPFG\Log10\mmc.c	118;"	f	line:118	file:	signature:(void)
+del	E:\Projects\DevPFG\Log10\miniINI\minIni.h	131;"	f	line:131	class:minIni	signature:(const std::string& Section, const std::string& Key) const
+del	E:\Projects\DevPFG\Log10\miniINI\minIni.h	134;"	f	line:134	class:minIni	signature:(const std::string& Section) const
+deselect	E:\Projects\DevPFG\Log10\mmc.c	141;"	f	line:141	file:	signature:(void)
 di	E:\Projects\DevPFG\Log10\ff.c	1280;"	l	line:1280
+digit	E:\Projects\DevPFG\Log10\main.c	54;"	l	line:54
 dir	E:\Projects\DevPFG\Log10\ff.c	1004;"	l	line:1004
 dir	E:\Projects\DevPFG\Log10\ff.c	1065;"	l	line:1065
 dir	E:\Projects\DevPFG\Log10\ff.c	1122;"	l	line:1122
@@ -526,7 +624,7 @@ dir	E:\Projects\DevPFG\Log10\ff.c	2915;"	l	line:2915
 dir	E:\Projects\DevPFG\Log10\ff.c	2956;"	l	line:2956
 dir	E:\Projects\DevPFG\Log10\ff.c	2997;"	l	line:2997
 dir	E:\Projects\DevPFG\Log10\ff.h	361;"	m	line:361
-dir	E:\Projects\DevPFG\Log10\main.c	289;"	l	line:289
+dir	E:\Projects\DevPFG\Log10\main.c	49;"	v	line:49
 dir_find	E:\Projects\DevPFG\Log10\ff.c	999;"	f	line:999	file:	signature:( DIR *dj )
 dir_next	E:\Projects\DevPFG\Log10\ff.c	760;"	f	line:760	file:	signature:( DIR *dj, int stretch )
 dir_ptr	E:\Projects\DevPFG\Log10\ff.h	337;"	m	line:337
@@ -536,20 +634,25 @@ dir_remove	E:\Projects\DevPFG\Log10\ff.c	1223;"	f	line:1223	file:	signature:( DI
 dir_sdi	E:\Projects\DevPFG\Log10\ff.c	712;"	f	line:712	file:	signature:( DIR *dj, WORD idx )
 dir_sect	E:\Projects\DevPFG\Log10\ff.h	336;"	m	line:336
 dirbase	E:\Projects\DevPFG\Log10\ff.h	312;"	m	line:312
-dirs	E:\Projects\DevPFG\Log10\main.c	165;"	l	line:165
+dirs	E:\Projects\DevPFG\Log10\main.c	358;"	l	line:358
+diskOP	E:\Projects\DevPFG\Log10\diskio.h	106;"	t	line:106
+diskOPcounter	E:\Projects\DevPFG\Log10\monitor.c	350;"	l	line:350
+diskOPp	E:\Projects\DevPFG\Log10\monitor.c	349;"	l	line:349
+diskOPsave	E:\Projects\DevPFG\Log10\monitor.c	348;"	l	line:348
+diskOPtrack	E:\Projects\DevPFG\Log10\mmc.c	83;"	v	line:83
 disk_initialize	E:\Projects\DevPFG\Log10\diskio.h	29;"	p	line:29	signature:(BYTE)
-disk_initialize	E:\Projects\DevPFG\Log10\mmc.c	312;"	f	line:312	signature:( BYTE drv )
+disk_initialize	E:\Projects\DevPFG\Log10\mmc.c	612;"	f	line:612	signature:( BYTE drv )
 disk_ioctl	E:\Projects\DevPFG\Log10\diskio.h	35;"	p	line:35	signature:(BYTE, BYTE, void*)
-disk_ioctl	E:\Projects\DevPFG\Log10\mmc.c	461;"	f	line:461	signature:( BYTE drv, BYTE ctrl, void *buff )
+disk_ioctl	E:\Projects\DevPFG\Log10\mmc.c	798;"	f	line:798	signature:( BYTE drv, BYTE ctrl, void *buff )
 disk_read	E:\Projects\DevPFG\Log10\diskio.h	31;"	p	line:31	signature:(BYTE, BYTE*, DWORD, BYTE)
-disk_read	E:\Projects\DevPFG\Log10\mmc.c	382;"	f	line:382	signature:( BYTE drv, BYTE *buff, DWORD sector, BYTE count )
+disk_read	E:\Projects\DevPFG\Log10\mmc.c	685;"	f	line:685	signature:( BYTE drv, BYTE *buff, DWORD sector, BYTE count )
 disk_status	E:\Projects\DevPFG\Log10\diskio.h	30;"	p	line:30	signature:(BYTE)
-disk_status	E:\Projects\DevPFG\Log10\mmc.c	368;"	f	line:368	signature:( BYTE drv )
+disk_status	E:\Projects\DevPFG\Log10\mmc.c	671;"	f	line:671	signature:( BYTE drv )
 disk_timerproc	E:\Projects\DevPFG\Log10\diskio.h	36;"	p	line:36	signature:(void)
-disk_timerproc	E:\Projects\DevPFG\Log10\mmc.c	575;"	f	line:575	signature:(void)
+disk_timerproc	E:\Projects\DevPFG\Log10\mmc.c	911;"	f	line:911	signature:(void)
 disk_write	E:\Projects\DevPFG\Log10\diskio.h	33;"	p	line:33	signature:(BYTE, const BYTE*, DWORD, BYTE)
-disk_write	E:\Projects\DevPFG\Log10\mmc.c	420;"	f	line:420	signature:( BYTE drv, const BYTE *buff, DWORD sector, BYTE count )
-div1k	E:\Projects\DevPFG\Log10\main.c	71;"	v	line:71	file:
+disk_write	E:\Projects\DevPFG\Log10\mmc.c	745;"	f	line:745	signature:( BYTE drv, const BYTE *buff, DWORD sector, BYTE count )
+div1k	E:\Projects\DevPFG\Log10\main.c	264;"	v	line:264	file:
 dj	E:\Projects\DevPFG\Log10\ff.c	1893;"	l	line:1893
 dj	E:\Projects\DevPFG\Log10\ff.c	2333;"	l	line:2333
 dj	E:\Projects\DevPFG\Log10\ff.c	2623;"	l	line:2623
@@ -559,24 +662,40 @@ dj	E:\Projects\DevPFG\Log10\ff.c	2914;"	l	line:2914
 dj	E:\Projects\DevPFG\Log10\ff.c	2955;"	l	line:2955
 djn	E:\Projects\DevPFG\Log10\ff.c	2996;"	l	line:2996
 djo	E:\Projects\DevPFG\Log10\ff.c	2996;"	l	line:2996
+dmaDone	E:\Projects\DevPFG\Log10\mmc.c	387;"	l	line:387
+dmaLast	E:\Projects\DevPFG\Log10\mmc.c	387;"	l	line:387
+dmaREC	E:\Projects\DevPFG\Log10\mmc.c	377;"	v	line:377
+dmaSEND	E:\Projects\DevPFG\Log10\mmc.c	376;"	v	line:376
+dmaSent	E:\Projects\DevPFG\Log10\mmc.c	387;"	l	line:387
+dopStat	E:\Projects\DevPFG\Log10\mmc.c	84;"	v	line:84
+dopTimeE::(o)	E:\Projects\DevPFG\Log10\diskio.h	97;"	d	line:97
+dopTimeE::(o)diskOPtrack[dopStat].lba=TM	E:\Projects\DevPFG\Log10\diskio.h	117;"	d	line:117
+dopTimeS::(o)	E:\Projects\DevPFG\Log10\diskio.h	96;"	d	line:96
+dopTimeS::(o)diskOPtrack[dopStat].count=	E:\Projects\DevPFG\Log10\diskio.h	112;"	d	line:112
+dops::(3072/sizeof(diskOP))	E:\Projects\DevPFG\Log10\monitor.c	331;"	d	line:331	file:
+dot	E:\Projects\DevPFG\Log10\main.c	54;"	l	line:54
 drv	E:\Projects\DevPFG\Log10\ff.h	288;"	m	line:288
 dsc	E:\Projects\DevPFG\Log10\ff.c	2384;"	l	line:2384
 dsc	E:\Projects\DevPFG\Log10\ff.c	2838;"	l	line:2838
 dsect	E:\Projects\DevPFG\Log10\ff.h	334;"	m	line:334
+dur	E:\Projects\DevPFG\Log10\diskio.h	103;"	m	line:103
 dw	E:\Projects\DevPFG\Log10\ff.c	1923;"	l	line:1923
 dw	E:\Projects\DevPFG\Log10\ff.c	2998;"	l	line:2998
+end	E:\Projects\DevPFG\Log10\uart.h	33;"	m	line:33
 enq_lock	E:\Projects\DevPFG\Log10\ff.c	337;"	f	line:337	file:	signature:( FATFS* fs )
+ep	E:\Projects\DevPFG\Log10\miniINI\minIni.c	192;"	l	line:192
+ep	E:\Projects\DevPFG\Log10\miniINI\minIni.c	533;"	l	line:533
 excvt	E:\Projects\DevPFG\Log10\ff.c	1274;"	l	line:1274	file:
 f	E:\Projects\DevPFG\Log10\ff.c	3469;"	l	line:3469
-f	E:\Projects\DevPFG\Log10\monitor.c	67;"	l	line:67
+f	E:\Projects\DevPFG\Log10\monitor.c	71;"	l	line:71
 f_chdir	E:\Projects\DevPFG\Log10\ff.c	2328;"	f	line:2328	signature:( const TCHAR *path )
 f_chdir	E:\Projects\DevPFG\Log10\ff.h	442;"	p	line:442	signature:(const TCHAR*)
-f_chdir	E:\Projects\DevPFG\Log10\main.c	605;"	p	line:605	file:
+f_chdir	E:\Projects\DevPFG\Log10\monitor.c	813;"	p	line:813	file:
 f_chdrive	E:\Projects\DevPFG\Log10\ff.c	2314;"	f	line:2314	signature:( BYTE drv )
 f_chdrive	E:\Projects\DevPFG\Log10\ff.h	443;"	p	line:443	signature:(BYTE)
 f_chmod	E:\Projects\DevPFG\Log10\ff.c	2907;"	f	line:2907	signature:( const TCHAR *path, BYTE value, BYTE mask )
 f_chmod	E:\Projects\DevPFG\Log10\ff.h	431;"	p	line:431	signature:(const TCHAR*, BYTE, BYTE)
-f_chmod	E:\Projects\DevPFG\Log10\main.c	557;"	p	line:557	file:
+f_chmod	E:\Projects\DevPFG\Log10\monitor.c	752;"	p	line:752	file:
 f_close	E:\Projects\DevPFG\Log10\ff.c	2273;"	f	line:2273	signature:( FIL *fp )
 f_close	E:\Projects\DevPFG\Log10\ff.h	420;"	p	line:420	signature:(FIL*)
 f_eof::(fp)(((fp)->fptr==(fp)->fsize)	E:\Projects\DevPFG\Log10\ff.h	450;"	d	line:450
@@ -591,7 +710,7 @@ f_lseek	E:\Projects\DevPFG\Log10\ff.c	2369;"	f	line:2369	signature:( FIL *fp, DW
 f_lseek	E:\Projects\DevPFG\Log10\ff.h	419;"	p	line:419	signature:(FIL*, DWORD)
 f_mkdir	E:\Projects\DevPFG\Log10\ff.c	2831;"	f	line:2831	signature:( const TCHAR *path )
 f_mkdir	E:\Projects\DevPFG\Log10\ff.h	430;"	p	line:430	signature:(const TCHAR*)
-f_mkdir	E:\Projects\DevPFG\Log10\main.c	551;"	p	line:551	file:
+f_mkdir	E:\Projects\DevPFG\Log10\monitor.c	746;"	p	line:746	file:
 f_mkfs	E:\Projects\DevPFG\Log10\ff.c	3133;"	f	line:3133	signature:( BYTE drv, BYTE sfd, UINT au )
 f_mkfs	E:\Projects\DevPFG\Log10\ff.h	439;"	p	line:439	signature:(BYTE, BYTE, UINT)
 f_mount	E:\Projects\DevPFG\Log10\ff.c	1849;"	f	line:1849	signature:( BYTE vol, FATFS *fs )
@@ -612,7 +731,7 @@ f_readdir	E:\Projects\DevPFG\Log10\ff.c	2575;"	f	line:2575	signature:( DIR *dj, 
 f_readdir	E:\Projects\DevPFG\Log10\ff.h	422;"	p	line:422	signature:(DIR*, FILINFO*)
 f_rename	E:\Projects\DevPFG\Log10\ff.c	2990;"	f	line:2990	signature:( const TCHAR *path_old, const TCHAR *path_new )
 f_rename	E:\Projects\DevPFG\Log10\ff.h	433;"	p	line:433	signature:(const TCHAR*, const TCHAR*)
-f_rename	E:\Projects\DevPFG\Log10\main.c	537;"	p	line:537	file:
+f_rename	E:\Projects\DevPFG\Log10\monitor.c	732;"	p	line:732	file:
 f_stat	E:\Projects\DevPFG\Log10\ff.c	2617;"	f	line:2617	signature:( const TCHAR *path, FILINFO *fno )
 f_stat	E:\Projects\DevPFG\Log10\ff.h	423;"	p	line:423	signature:(const TCHAR*, FILINFO*)
 f_sync	E:\Projects\DevPFG\Log10\ff.c	2225;"	f	line:2225	signature:( FIL *fp )
@@ -621,13 +740,13 @@ f_truncate	E:\Projects\DevPFG\Log10\ff.c	2715;"	f	line:2715	signature:( FIL *fp 
 f_truncate	E:\Projects\DevPFG\Log10\ff.h	427;"	p	line:427	signature:(FIL*)
 f_unlink	E:\Projects\DevPFG\Log10\ff.c	2763;"	f	line:2763	signature:( const TCHAR *path )
 f_unlink	E:\Projects\DevPFG\Log10\ff.h	429;"	p	line:429	signature:(const TCHAR*)
-f_unlink	E:\Projects\DevPFG\Log10\main.c	542;"	p	line:542	file:
+f_unlink	E:\Projects\DevPFG\Log10\monitor.c	737;"	p	line:737	file:
 f_utime	E:\Projects\DevPFG\Log10\ff.c	2949;"	f	line:2949	signature:( const TCHAR *path, const FILINFO *fno )
 f_utime	E:\Projects\DevPFG\Log10\ff.h	432;"	p	line:432	signature:(const TCHAR*, const FILINFO*)
 f_write	E:\Projects\DevPFG\Log10\ff.c	2111;"	f	line:2111	signature:( FIL *fp, const void *buff, UINT btw, UINT *bw )
 f_write	E:\Projects\DevPFG\Log10\ff.h	425;"	p	line:425	signature:(FIL*, const void*, UINT, UINT*)
 fasize	E:\Projects\DevPFG\Log10\ff.c	1662;"	l	line:1662
-fat	E:\Projects\DevPFG\Log10\ff.c	2659;"	l	line:2659
+fat	E:\Projects\DevPFG\Log10\ff.c	2657;"	l	line:2657
 fatbase	E:\Projects\DevPFG\Log10\ff.h	311;"	m	line:311
 fattrib	E:\Projects\DevPFG\Log10\ff.h	377;"	m	line:377
 fdate	E:\Projects\DevPFG\Log10\ff.h	375;"	m	line:375
@@ -641,8 +760,10 @@ ff_rel_grant	E:\Projects\DevPFG\Log10\ff.h	482;"	p	line:482	signature:(_SYNC_t)
 ff_req_grant	E:\Projects\DevPFG\Log10\ff.h	481;"	p	line:481	signature:(_SYNC_t)
 ff_wtoupper	E:\Projects\DevPFG\Log10\ff.h	470;"	p	line:470	signature:(WCHAR)
 ff_wtoupper	E:\Projects\DevPFG\Log10\option\ccsbcs.c	528;"	f	line:528	signature:( WCHAR chr )
-file1	E:\Projects\DevPFG\Log10\main.c	290;"	l	line:290
-file2	E:\Projects\DevPFG\Log10\main.c	290;"	l	line:290
+file1	E:\Projects\DevPFG\Log10\main.c	47;"	v	line:47
+file2	E:\Projects\DevPFG\Log10\main.c	48;"	v	line:48
+fillCount	E:\Projects\DevPFG\Log10\mmc.c	316;"	l	line:316
+fillCount	E:\Projects\DevPFG\Log10\mmc.c	387;"	l	line:387
 fit_lfn	E:\Projects\DevPFG\Log10\ff.c	895;"	f	line:895	file:	signature:( const WCHAR *lfnbuf, BYTE *dir, BYTE ord, BYTE sum )
 flag	E:\Projects\DevPFG\Log10\ff.h	328;"	m	line:328
 flsem	E:\Projects\DevPFG\Log10\ff.h	317;"	m	line:317
@@ -650,36 +771,53 @@ fmt	E:\Projects\DevPFG\Log10\ff.c	1659;"	l	line:1659
 fmt	E:\Projects\DevPFG\Log10\ff.c	3141;"	l	line:3141
 fn	E:\Projects\DevPFG\Log10\ff.c	1125;"	l	line:1125
 fn	E:\Projects\DevPFG\Log10\ff.h	362;"	m	line:362
-fn	E:\Projects\DevPFG\Log10\main.c	168;"	l	line:168
+fn	E:\Projects\DevPFG\Log10\main.c	361;"	l	line:361
 fname	E:\Projects\DevPFG\Log10\ff.h	378;"	m	line:378
 follow_path	E:\Projects\DevPFG\Log10\ff.c	1564;"	f	line:1564	file:	signature:( DIR *dj, const TCHAR *path )
+fp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	292;"	l	line:292
+fp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	392;"	l	line:392
+fp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	418;"	l	line:418
 fptr	E:\Projects\DevPFG\Log10\ff.h	330;"	m	line:330
+fr	E:\Projects\DevPFG\Log10\main.c	98;"	l	line:98
 free_clust	E:\Projects\DevPFG\Log10\ff.h	303;"	m	line:303
 fs	E:\Projects\DevPFG\Log10\ff.c	1665;"	l	line:1665
 fs	E:\Projects\DevPFG\Log10\ff.c	2280;"	l	line:2280
 fs	E:\Projects\DevPFG\Log10\ff.c	3146;"	l	line:3146
 fs	E:\Projects\DevPFG\Log10\ff.h	326;"	m	line:326
 fs	E:\Projects\DevPFG\Log10\ff.h	355;"	m	line:355
-fs	E:\Projects\DevPFG\Log10\main.c	288;"	l	line:288
+fs	E:\Projects\DevPFG\Log10\monitor.c	345;"	l	line:345
 fs_type	E:\Projects\DevPFG\Log10\ff.h	287;"	m	line:287
 fsi_flag	E:\Projects\DevPFG\Log10\ff.h	292;"	m	line:292
 fsi_sector	E:\Projects\DevPFG\Log10\ff.h	304;"	m	line:304
 fsize	E:\Projects\DevPFG\Log10\ff.h	310;"	m	line:310
 fsize	E:\Projects\DevPFG\Log10\ff.h	331;"	m	line:331
 fsize	E:\Projects\DevPFG\Log10\ff.h	374;"	m	line:374
-ft	E:\Projects\DevPFG\Log10\main.c	282;"	l	line:282
+ft	E:\Projects\DevPFG\Log10\monitor.c	339;"	l	line:339
 ftime	E:\Projects\DevPFG\Log10\ff.h	376;"	m	line:376
 gen_numname	E:\Projects\DevPFG\Log10\ff.c	931;"	f	line:931	signature:( BYTE *dst, const BYTE *src, const WCHAR *lfn, WORD seq )
+getSDcard	E:\Projects\DevPFG\Log10\diskio.h	42;"	p	line:42	signature:( void )
+getSDcard	E:\Projects\DevPFG\Log10\main.c	407;"	f	line:407	signature:(void)
 get_fat	E:\Projects\DevPFG\Log10\ff.c	489;"	f	line:489	signature:( FATFS *fs, DWORD clst )
 get_fattime	E:\Projects\DevPFG\Log10\ff.h	464;"	p	line:464	signature:(void)
-get_fattime	E:\Projects\DevPFG\Log10\main.c	117;"	f	line:117	signature:(void)
+get_fattime	E:\Projects\DevPFG\Log10\main.c	314;"	f	line:314	signature:(void)
 get_fileinfo	E:\Projects\DevPFG\Log10\ff.c	1482;"	f	line:1482	file:	signature:( DIR *dj, FILINFO *fno )
-get_line	E:\Projects\DevPFG\Log10\monitor.c	239;"	f	line:239	signature:( char* buff, int len )
-get_line	E:\Projects\DevPFG\Log10\monitor.h	23;"	p	line:23	signature:(char*, int)
+get_line	E:\Projects\DevPFG\Log10\monitor.c	246;"	f	line:246	signature:( char* buff, int len )
+get_line	E:\Projects\DevPFG\Log10\monitor.h	25;"	p	line:25	signature:(char*, int)
+getbool	E:\Projects\DevPFG\Log10\miniINI\minIni.h	75;"	f	line:75	class:minIni	signature:(const std::string& Section, const std::string& Key, bool DefValue=false) const
+getf	E:\Projects\DevPFG\Log10\miniINI\minIni.h	106;"	f	line:106	class:minIni	signature:(const std::string& Section, const std::string& Key, float DefValue=0) const
+geti	E:\Projects\DevPFG\Log10\miniINI\minIni.h	81;"	f	line:81	class:minIni	signature:(const std::string& Section, const std::string& Key, int DefValue=0) const
+getkey	E:\Projects\DevPFG\Log10\miniINI\minIni.h	98;"	f	line:98	class:minIni	signature:(const std::string& Section, int idx) const
+getkeystring	E:\Projects\DevPFG\Log10\miniINI\minIni.c	189;"	f	line:189	file:	signature:(INI_FILETYPE *fp, const TCHAR *Section, const TCHAR *Key, int idxSection, int idxKey, TCHAR *Buffer, int BufferSize)
+getl	E:\Projects\DevPFG\Log10\miniINI\minIni.h	78;"	f	line:78	class:minIni	signature:(const std::string& Section, const std::string& Key, long DefValue=0) const
+gets	E:\Projects\DevPFG\Log10\miniINI\minIni.h	84;"	f	line:84	class:minIni	signature:(const std::string& Section, const std::string& Key, const std::string& DefValue=Ó) const
+getsection	E:\Projects\DevPFG\Log10\miniINI\minIni.h	91;"	f	line:91	class:minIni	signature:(int idx) const
+giveSDcard	E:\Projects\DevPFG\Log10\diskio.h	43;"	p	line:43	signature:( void )
+giveSDcard	E:\Projects\DevPFG\Log10\main.c	464;"	f	line:464	signature:(void)
+head	E:\Projects\DevPFG\Log10\uart.h	32;"	m	line:32
 i	E:\Projects\DevPFG\Log10\ff.c	1229;"	l	line:1229
 i	E:\Projects\DevPFG\Log10\ff.c	1280;"	l	line:1280
 i	E:\Projects\DevPFG\Log10\ff.c	1487;"	l	line:1487
-i	E:\Projects\DevPFG\Log10\ff.c	2658;"	l	line:2658
+i	E:\Projects\DevPFG\Log10\ff.c	2659;"	l	line:2659
 i	E:\Projects\DevPFG\Log10\ff.c	3143;"	l	line:3143
 i	E:\Projects\DevPFG\Log10\ff.c	317;"	l	line:317
 i	E:\Projects\DevPFG\Log10\ff.c	341;"	l	line:341
@@ -690,27 +828,92 @@ i	E:\Projects\DevPFG\Log10\ff.c	836;"	l	line:836
 i	E:\Projects\DevPFG\Log10\ff.c	867;"	l	line:867
 i	E:\Projects\DevPFG\Log10\ff.c	902;"	l	line:902
 i	E:\Projects\DevPFG\Log10\ff.c	939;"	l	line:939
-i	E:\Projects\DevPFG\Log10\main.c	150;"	l	line:150
-i	E:\Projects\DevPFG\Log10\main.c	167;"	l	line:167
-i	E:\Projects\DevPFG\Log10\monitor.c	146;"	l	line:146
-i	E:\Projects\DevPFG\Log10\monitor.c	244;"	l	line:244
-i	E:\Projects\DevPFG\Log10\monitor.c	67;"	l	line:67
+i	E:\Projects\DevPFG\Log10\main.c	344;"	l	line:344
+i	E:\Projects\DevPFG\Log10\main.c	360;"	l	line:360
+i	E:\Projects\DevPFG\Log10\miniINI\minIni.c	708;"	l	line:708
+i	E:\Projects\DevPFG\Log10\miniINI\minIni.c	719;"	l	line:719
+i	E:\Projects\DevPFG\Log10\monitor.c	150;"	l	line:150
+i	E:\Projects\DevPFG\Log10\monitor.c	251;"	l	line:251
+i	E:\Projects\DevPFG\Log10\monitor.c	71;"	l	line:71
 i	E:\Projects\DevPFG\Log10\option\ccsbcs.c	534;"	l	line:534
-i	E:\Projects\DevPFG\Log10\uart.c	118;"	l	line:118
-i	E:\Projects\DevPFG\Log10\uart.c	153;"	l	line:153
-i	E:\Projects\DevPFG\Log10\uart.c	29;"	l	line:29
-i	E:\Projects\DevPFG\Log10\uart.c	62;"	l	line:62
+i	E:\Projects\DevPFG\Log10\uart.c	145;"	l	line:145
+i	E:\Projects\DevPFG\Log10\uart.c	199;"	l	line:199
+i	E:\Projects\DevPFG\Log10\uart.c	235;"	l	line:235
+i	E:\Projects\DevPFG\Log10\uart.c	78;"	l	line:78
+iCanRX::PORTBbits.RB4	E:\Projects\DevPFG\Log10\pic33f.h	68;"	d	line:68
+iCanTX::PORTBbits.RB7	E:\Projects\DevPFG\Log10\pic33f.h	64;"	d	line:64
+iDONE	E:\Projects\DevPFG\Log10\spi.s	37;"	l	line:37
+iPSCL1::PORTBbits.RB6	E:\Projects\DevPFG\Log10\pic33f.h	51;"	d	line:51
+iPSDA1::PORTBbits.RB5	E:\Projects\DevPFG\Log10\pic33f.h	53;"	d	line:53
+iSDPOWER::PORTAbits.RA1	E:\Projects\DevPFG\Log10\pic33f.h	57;"	d	line:57
+iSDSELECT::PORTAbits.RA4	E:\Projects\DevPFG\Log10\pic33f.h	60;"	d	line:60
 ic	E:\Projects\DevPFG\Log10\ff.c	718;"	l	line:718
 id	E:\Projects\DevPFG\Log10\ff.h	293;"	m	line:293
 id	E:\Projects\DevPFG\Log10\ff.h	327;"	m	line:327
 id	E:\Projects\DevPFG\Log10\ff.h	356;"	m	line:356
 idx	E:\Projects\DevPFG\Log10\ff.h	277;"	m	line:277
+idx	E:\Projects\DevPFG\Log10\log.c	161;"	l	line:161
+idx	E:\Projects\DevPFG\Log10\log.c	165;"	l	line:165
+idx	E:\Projects\DevPFG\Log10\log.c	169;"	l	line:169
+idx	E:\Projects\DevPFG\Log10\log.c	180;"	l	line:180
+idx	E:\Projects\DevPFG\Log10\log.c	53;"	l	line:53
+idx	E:\Projects\DevPFG\Log10\log.c	57;"	l	line:57
+idx	E:\Projects\DevPFG\Log10\log.c	61;"	l	line:61
+idx	E:\Projects\DevPFG\Log10\log.c	72;"	l	line:72
+idx	E:\Projects\DevPFG\Log10\main.c	54;"	l	line:54
+idx	E:\Projects\DevPFG\Log10\miniINI\minIni.c	193;"	l	line:193
+idx	E:\Projects\DevPFG\Log10\miniINI\minIni.c	501;"	l	line:501
 ifptr	E:\Projects\DevPFG\Log10\ff.c	2447;"	l	line:2447
 inc_lock	E:\Projects\DevPFG\Log10\ff.c	349;"	f	line:349	file:	signature:( DIR* dj, int acc )
 index	E:\Projects\DevPFG\Log10\ff.h	357;"	m	line:357
+iniFilename	E:\Projects\DevPFG\Log10\miniINI\minIni.h	139;"	m	line:139	class:minIni
+ini_close::(file)f_close(file)	E:\Projects\DevPFG\Log10\miniINI\minGlue-FatFs.h	29;"	d	line:29
+ini_file	E:\Projects\DevPFG\Log10\main.c	94;"	v	line:94
+ini_getbool	E:\Projects\DevPFG\Log10\miniINI\minIni.c	365;"	f	line:365	signature:(const TCHAR *Section, const TCHAR *Key, int DefValue, const TCHAR *Filename)
+ini_getbool	E:\Projects\DevPFG\Log10\miniINI\minIni.h	38;"	p	line:38	signature:(const TCHAR *Section, const TCHAR *Key, int DefValue, const TCHAR *Filename)
+ini_getf	E:\Projects\DevPFG\Log10\miniINI\minIni.c	330;"	f	line:330	signature:(const TCHAR *Section, const TCHAR *Key, float DefValue, const TCHAR *Filename)
+ini_getf	E:\Projects\DevPFG\Log10\miniINI\minIni.h	45;"	p	line:45	signature:(const TCHAR *Section, const TCHAR *Key, float DefValue, const TCHAR *Filename)
+ini_getkey	E:\Projects\DevPFG\Log10\miniINI\minIni.c	416;"	f	line:416	signature:(const TCHAR *Section, int idx, TCHAR *Buffer, int BufferSize, const TCHAR *Filename)
+ini_getkey	E:\Projects\DevPFG\Log10\miniINI\minIni.h	42;"	p	line:42	signature:(const TCHAR *Section, int idx, TCHAR *Buffer, int BufferSize, const TCHAR *Filename)
+ini_getl	E:\Projects\DevPFG\Log10\miniINI\minIni.c	314;"	f	line:314	signature:(const TCHAR *Section, const TCHAR *Key, long DefValue, const TCHAR *Filename)
+ini_getl	E:\Projects\DevPFG\Log10\miniINI\minIni.h	39;"	p	line:39	signature:(const TCHAR *Section, const TCHAR *Key, long DefValue, const TCHAR *Filename)
+ini_gets	E:\Projects\DevPFG\Log10\miniINI\minIni.c	289;"	f	line:289	signature:(const TCHAR *Section, const TCHAR *Key, const TCHAR *DefValue, TCHAR *Buffer, int BufferSize, const TCHAR *Filename)
+ini_gets	E:\Projects\DevPFG\Log10\miniINI\minIni.h	40;"	p	line:40	signature:(const TCHAR *Section, const TCHAR *Key, const TCHAR *DefValue, TCHAR *Buffer, int BufferSize, const TCHAR *Filename)
+ini_getsection	E:\Projects\DevPFG\Log10\miniINI\minIni.c	390;"	f	line:390	signature:(int idx, TCHAR *Buffer, int BufferSize, const TCHAR *Filename)
+ini_getsection	E:\Projects\DevPFG\Log10\miniINI\minIni.h	41;"	p	line:41	signature:(int idx, TCHAR *Buffer, int BufferSize, const TCHAR *Filename)
+ini_openread::(filename,file)(f_open((file),	E:\Projects\DevPFG\Log10\miniINI\minGlue-FatFs.h	27;"	d	line:27
+ini_openwrite::(filename,file)(f_open((file),	E:\Projects\DevPFG\Log10\miniINI\minGlue-FatFs.h	28;"	d	line:28
+ini_putf	E:\Projects\DevPFG\Log10\miniINI\minIni.c	759;"	f	line:759	signature:(const TCHAR *Section, const TCHAR *Key, float Value, const TCHAR *Filename)
+ini_putf	E:\Projects\DevPFG\Log10\miniINI\minIni.h	52;"	p	line:52	signature:(const TCHAR *Section, const TCHAR *Key, float Value, const TCHAR *Filename)
+ini_putl	E:\Projects\DevPFG\Log10\miniINI\minIni.c	743;"	f	line:743	signature:(const TCHAR *Section, const TCHAR *Key, long Value, const TCHAR *Filename)
+ini_putl	E:\Projects\DevPFG\Log10\miniINI\minIni.h	49;"	p	line:49	signature:(const TCHAR *Section, const TCHAR *Key, long Value, const TCHAR *Filename)
+ini_puts	E:\Projects\DevPFG\Log10\miniINI\minIni.c	529;"	f	line:529	signature:(const TCHAR *Section, const TCHAR *Key, const TCHAR *Value, const TCHAR *Filename)
+ini_puts	E:\Projects\DevPFG\Log10\miniINI\minIni.h	50;"	p	line:50	signature:(const TCHAR *Section, const TCHAR *Key, const TCHAR *Value, const TCHAR *Filename)
+ini_read::(buffer,size,file)f_gets((buff	E:\Projects\DevPFG\Log10\miniINI\minGlue-FatFs.h	30;"	d	line:30
+ini_remove::(filename)f_unlink(filename)	E:\Projects\DevPFG\Log10\miniINI\minGlue-FatFs.h	33;"	d	line:33
+ini_rename::(source,dest)f_rename((source)	E:\Projects\DevPFG\Log10\miniINI\minGlue-FatFs.h	32;"	d	line:32
+ini_rewind::(file)f_lseek((file),0)	E:\Projects\DevPFG\Log10\miniINI\minGlue-FatFs.h	34;"	d	line:34
+ini_tempname	E:\Projects\DevPFG\Log10\miniINI\minIni.c	434;"	f	line:434	file:	signature:(TCHAR *dest, const TCHAR *source, int maxlength)
+ini_tempnameB	E:\Projects\DevPFG\Log10\miniINI\minIni.c	444;"	f	line:444	file:	signature:(TCHAR *dest, const TCHAR *source, int maxlength)
+ini_write::(buffer,file)f_puts((buffer),(	E:\Projects\DevPFG\Log10\miniINI\minGlue-FatFs.h	31;"	d	line:31
+intBUF	E:\Projects\DevPFG\Log10\mmc.c	304;"	v	line:304
+intCOUNT	E:\Projects\DevPFG\Log10\mmc.c	300;"	v	line:300
+intRECadr	E:\Projects\DevPFG\Log10\mmc.c	299;"	v	line:299
+intSENDadr	E:\Projects\DevPFG\Log10\mmc.c	298;"	v	line:298
+intSENDff	E:\Projects\DevPFG\Log10\mmc.c	301;"	v	line:301
 is	E:\Projects\DevPFG\Log10\ff.c	1124;"	l	line:1124
+isstring	E:\Projects\DevPFG\Log10\miniINI\minIni.c	193;"	l	line:193
 j	E:\Projects\DevPFG\Log10\ff.c	939;"	l	line:939
+j	E:\Projects\DevPFG\Log10\miniINI\minIni.c	708;"	l	line:708
+last	E:\Projects\DevPFG\Log10\uart.h	30;"	m	line:30
+lastOP	E:\Projects\DevPFG\Log10\monitor.c	350;"	l	line:350
 last_clust	E:\Projects\DevPFG\Log10\ff.h	302;"	m	line:302
+lba	E:\Projects\DevPFG\Log10\diskio.h	101;"	m	line:101
+len	E:\Projects\DevPFG\Log10\main.c	54;"	l	line:54
+len	E:\Projects\DevPFG\Log10\miniINI\minIni.c	193;"	l	line:193
+len	E:\Projects\DevPFG\Log10\miniINI\minIni.c	317;"	l	line:317
+len	E:\Projects\DevPFG\Log10\miniINI\minIni.c	333;"	l	line:333
+len	E:\Projects\DevPFG\Log10\miniINI\minIni.c	535;"	l	line:535
 lfn	E:\Projects\DevPFG\Log10\ff.c	1126;"	l	line:1126
 lfn	E:\Projects\DevPFG\Log10\ff.c	1279;"	l	line:1279
 lfn	E:\Projects\DevPFG\Log10\ff.c	1534;"	l	line:1534
@@ -720,25 +923,52 @@ lfname	E:\Projects\DevPFG\Log10\ff.h	380;"	m	line:380
 lfsize	E:\Projects\DevPFG\Log10\ff.h	381;"	m	line:381
 lock_fs	E:\Projects\DevPFG\Log10\ff.c	281;"	f	line:281	file:	signature:( FATFS *fs )
 lockid	E:\Projects\DevPFG\Log10\ff.h	343;"	m	line:343
-main	E:\Projects\DevPFG\Log10\main.c	277;"	f	line:277	signature:(void)
+log1Last	E:\Projects\DevPFG\Log10\uart.h	21;"	m	line:21
+log1Next	E:\Projects\DevPFG\Log10\uart.h	20;"	m	line:20
+log2Last	E:\Projects\DevPFG\Log10\uart.h	23;"	m	line:23
+log2Next	E:\Projects\DevPFG\Log10\uart.h	22;"	m	line:22
+logBuff1Active	E:\Projects\DevPFG\Log10\uart.h	18;"	m	line:18
+logBuff1xfer	E:\Projects\DevPFG\Log10\uart.h	15;"	m	line:15
+logBuff2Active	E:\Projects\DevPFG\Log10\uart.h	19;"	m	line:19
+logBuff2xfer	E:\Projects\DevPFG\Log10\uart.h	16;"	m	line:16
+logBuff3xfer	E:\Projects\DevPFG\Log10\uart.h	17;"	m	line:17
+logCtrl	E:\Projects\DevPFG\Log10\uart.c	19;"	v	line:19
+logger1	E:\Projects\DevPFG\Log10\log.c	69;"	f	line:69	signature:( void )
+logger1	E:\Projects\DevPFG\Log10\main.c	41;"	p	line:41	file:	signature:( void )
+logger2	E:\Projects\DevPFG\Log10\log.c	177;"	f	line:177	signature:( void )
+logger2	E:\Projects\DevPFG\Log10\main.c	42;"	p	line:42	file:	signature:( void )
+long2str	E:\Projects\DevPFG\Log10\miniINI\minIni.c	717;"	f	line:717	file:	signature:(long value, TCHAR *str)
+main	E:\Projects\DevPFG\Log10\main.c	96;"	f	line:96	signature:(void)
+makeFilename	E:\Projects\DevPFG\Log10\main.c	51;"	f	line:51	signature:( void )
+match	E:\Projects\DevPFG\Log10\miniINI\minIni.c	535;"	l	line:535
 md	E:\Projects\DevPFG\Log10\ff.c	3141;"	l	line:3141
 mem_cmp	E:\Projects\DevPFG\Log10\ff.c	258;"	f	line:258	file:	signature:(const void* dst, const void* src, int cnt)
 mem_cpy	E:\Projects\DevPFG\Log10\ff.c	232;"	f	line:232	file:	signature:(void* dst, const void* src, int cnt)
 mem_set	E:\Projects\DevPFG\Log10\ff.c	249;"	f	line:249	file:	signature:(void* dst, int val, int cnt)
+minIni	E:\Projects\DevPFG\Log10\miniINI\minIni.h	72;"	f	line:72	class:minIni	signature:(const std::string& filename)
+mode	E:\Projects\DevPFG\Log10\log.c	181;"	l	line:181
+mode	E:\Projects\DevPFG\Log10\log.c	73;"	l	line:73
+mode	E:\Projects\DevPFG\Log10\main.c	136;"	l	line:136
+mode	E:\Projects\DevPFG\Log10\main.c	99;"	l	line:99
+mode	E:\Projects\DevPFG\Log10\monitor.c	351;"	l	line:351
+mode	E:\Projects\DevPFG\Log10\uart.h	11;"	m	line:11
+monitor	E:\Projects\DevPFG\Log10\monitor.c	334;"	f	line:334	signature:(void)
+monitor	E:\Projects\DevPFG\Log10\monitor.h	29;"	p	line:29	signature:( void )
 move_window	E:\Projects\DevPFG\Log10\ff.c	409;"	f	line:409	file:	signature:( FATFS *fs, DWORD sector )
 n	E:\Projects\DevPFG\Log10\ff.c	1124;"	l	line:1124
-n	E:\Projects\DevPFG\Log10\ff.c	2657;"	l	line:2657
+n	E:\Projects\DevPFG\Log10\ff.c	2658;"	l	line:2658
 n	E:\Projects\DevPFG\Log10\ff.c	2837;"	l	line:2837
 n	E:\Projects\DevPFG\Log10\ff.c	3142;"	l	line:3142
 n	E:\Projects\DevPFG\Log10\ff.c	3351;"	l	line:3351
 n	E:\Projects\DevPFG\Log10\ff.c	3447;"	l	line:3447
 n	E:\Projects\DevPFG\Log10\ff.c	384;"	l	line:384
 n	E:\Projects\DevPFG\Log10\ff.c	984;"	l	line:984
-n	E:\Projects\DevPFG\Log10\main.c	76;"	l	line:76
-n	E:\Projects\DevPFG\Log10\mmc.c	265;"	l	line:265
-n	E:\Projects\DevPFG\Log10\mmc.c	316;"	l	line:316
-n	E:\Projects\DevPFG\Log10\mmc.c	468;"	l	line:468
-n	E:\Projects\DevPFG\Log10\mmc.c	580;"	l	line:580
+n	E:\Projects\DevPFG\Log10\main.c	269;"	l	line:269
+n	E:\Projects\DevPFG\Log10\miniINI\minIni.c	721;"	l	line:721
+n	E:\Projects\DevPFG\Log10\mmc.c	565;"	l	line:565
+n	E:\Projects\DevPFG\Log10\mmc.c	616;"	l	line:616
+n	E:\Projects\DevPFG\Log10\mmc.c	805;"	l	line:805
+n	E:\Projects\DevPFG\Log10\mmc.c	916;"	l	line:916
 n_clst	E:\Projects\DevPFG\Log10\ff.c	3142;"	l	line:3142
 n_dir	E:\Projects\DevPFG\Log10\ff.c	3145;"	l	line:3145
 n_disk	E:\Projects\DevPFG\Log10\ff.c	3225;"	l	line:3225
@@ -753,6 +983,7 @@ ncl	E:\Projects\DevPFG\Log10\ff.c	2720;"	l	line:2720
 ncl	E:\Projects\DevPFG\Log10\ff.c	641;"	l	line:641
 nclst	E:\Projects\DevPFG\Log10\ff.c	1662;"	l	line:1662
 ne	E:\Projects\DevPFG\Log10\ff.c	1124;"	l	line:1124
+next	E:\Projects\DevPFG\Log10\uart.h	29;"	m	line:29
 nf	E:\Projects\DevPFG\Log10\ff.c	425;"	l	line:425
 ni	E:\Projects\DevPFG\Log10\ff.c	1280;"	l	line:1280
 nrsv	E:\Projects\DevPFG\Log10\ff.c	1663;"	l	line:1663
@@ -760,52 +991,95 @@ ns	E:\Projects\DevPFG\Log10\ff.c	1570;"	l	line:1570
 ns	E:\Projects\DevPFG\Log10\ff.c	938;"	l	line:938
 nsect	E:\Projects\DevPFG\Log10\ff.c	2447;"	l	line:2447
 nt	E:\Projects\DevPFG\Log10\ff.c	1488;"	l	line:1488
+num	E:\Projects\DevPFG\Log10\main.c	53;"	l	line:53
 nxt	E:\Projects\DevPFG\Log10\ff.c	601;"	l	line:601
-ocr	E:\Projects\DevPFG\Log10\mmc.c	316;"	l	line:316
-ofs	E:\Projects\DevPFG\Log10\main.c	287;"	l	line:287
+oCanRX::LATBbits.LATB4	E:\Projects\DevPFG\Log10\pic33f.h	69;"	d	line:69
+oCanTX::LATBbits.LATB7	E:\Projects\DevPFG\Log10\pic33f.h	65;"	d	line:65
+oPSDA1::LATBbits.LATB5	E:\Projects\DevPFG\Log10\pic33f.h	54;"	d	line:54
+oSDPOWER::LATAbits.LATA1	E:\Projects\DevPFG\Log10\pic33f.h	58;"	d	line:58
+oSDSELECT::LATAbits.LATA4	E:\Projects\DevPFG\Log10\pic33f.h	61;"	d	line:61
+ocr	E:\Projects\DevPFG\Log10\mmc.c	616;"	l	line:616
+ofs	E:\Projects\DevPFG\Log10\monitor.c	344;"	l	line:344
+ok	E:\Projects\DevPFG\Log10\miniINI\minIni.c	293;"	l	line:293
+ok	E:\Projects\DevPFG\Log10\miniINI\minIni.c	393;"	l	line:393
+ok	E:\Projects\DevPFG\Log10\miniINI\minIni.c	419;"	l	line:419
+op	E:\Projects\DevPFG\Log10\diskio.h	104;"	m	line:104
+option	E:\Projects\DevPFG\Log10\miniINI\minIni.c	486;"	l	line:486
 ord	E:\Projects\DevPFG\Log10\ff.c	1006;"	l	line:1006
 ord	E:\Projects\DevPFG\Log10\ff.c	1067;"	l	line:1067
 org_clust	E:\Projects\DevPFG\Log10\ff.h	332;"	m	line:332
+over	E:\Projects\DevPFG\Log10\uart.h	27;"	m	line:27
 p	E:\Projects\DevPFG\Log10\ff.c	1281;"	l	line:1281
 p	E:\Projects\DevPFG\Log10\ff.c	1489;"	l	line:1489
 p	E:\Projects\DevPFG\Log10\ff.c	1664;"	l	line:1664
-p	E:\Projects\DevPFG\Log10\ff.c	2659;"	l	line:2659
+p	E:\Projects\DevPFG\Log10\ff.c	2657;"	l	line:2657
 p	E:\Projects\DevPFG\Log10\ff.c	3352;"	l	line:3352
 p	E:\Projects\DevPFG\Log10\ff.c	495;"	l	line:495
 p	E:\Projects\DevPFG\Log10\ff.c	539;"	l	line:539
-p	E:\Projects\DevPFG\Log10\mmc.c	578;"	l	line:578
-p	E:\Projects\DevPFG\Log10\monitor.c	147;"	l	line:147
-p1	E:\Projects\DevPFG\Log10\main.c	280;"	l	line:280
-p2	E:\Projects\DevPFG\Log10\main.c	280;"	l	line:280
-p3	E:\Projects\DevPFG\Log10\main.c	280;"	l	line:280
+p	E:\Projects\DevPFG\Log10\miniINI\minIni.c	436;"	l	line:436
+p	E:\Projects\DevPFG\Log10\miniINI\minIni.c	446;"	l	line:446
+p	E:\Projects\DevPFG\Log10\miniINI\minIni.c	457;"	l	line:457
+p	E:\Projects\DevPFG\Log10\miniINI\minIni.c	470;"	l	line:470
+p	E:\Projects\DevPFG\Log10\miniINI\minIni.c	485;"	l	line:485
+p	E:\Projects\DevPFG\Log10\mmc.c	914;"	l	line:914
+p	E:\Projects\DevPFG\Log10\monitor.c	151;"	l	line:151
+p1	E:\Projects\DevPFG\Log10\monitor.c	337;"	l	line:337
+p2	E:\Projects\DevPFG\Log10\monitor.c	337;"	l	line:337
+p3	E:\Projects\DevPFG\Log10\monitor.c	337;"	l	line:337
+p4	E:\Projects\DevPFG\Log10\monitor.c	337;"	l	line:337
+p5	E:\Projects\DevPFG\Log10\monitor.c	337;"	l	line:337
+p6	E:\Projects\DevPFG\Log10\monitor.c	337;"	l	line:337
+pCanRX::CNPU1bits.CN1PUE	E:\Projects\DevPFG\Log10\pic33f.h	70;"	d	line:70
+pCanTX::CNPU2bits.CN23PUE	E:\Projects\DevPFG\Log10\pic33f.h	66;"	d	line:66
 pad1	E:\Projects\DevPFG\Log10\ff.h	329;"	m	line:329
 pcl	E:\Projects\DevPFG\Log10\ff.c	2384;"	l	line:2384
 pcl	E:\Projects\DevPFG\Log10\ff.c	2838;"	l	line:2838
 pd	E:\Projects\DevPFG\Log10\ff.h	233;"	m	line:233
+pdiskOP	E:\Projects\DevPFG\Log10\diskio.h	106;"	t	line:106
 pick_lfn	E:\Projects\DevPFG\Log10\ff.c	862;"	f	line:862	file:	signature:( WCHAR *lfnbuf, BYTE *dir )
-power_off	E:\Projects\DevPFG\Log10\mmc.c	166;"	f	line:166	file:	signature:(void)
-power_on	E:\Projects\DevPFG\Log10\mmc.c	150;"	f	line:150	file:	signature:(void)
+power_off	E:\Projects\DevPFG\Log10\diskio.h	38;"	p	line:38	signature:(void)
+power_off	E:\Projects\DevPFG\Log10\mmc.c	196;"	f	line:196	signature:(void)
+power_on	E:\Projects\DevPFG\Log10\diskio.h	40;"	p	line:40	signature:(void)
+power_on	E:\Projects\DevPFG\Log10\mmc.c	173;"	f	line:173	signature:(void)
 pt	E:\Projects\DevPFG\Log10\ff.h	234;"	m	line:234
-ptr	E:\Projects\DevPFG\Log10\main.c	279;"	l	line:279
-ptr	E:\Projects\DevPFG\Log10\mmc.c	468;"	l	line:468
-ptr2	E:\Projects\DevPFG\Log10\main.c	279;"	l	line:279
-put_dump	E:\Projects\DevPFG\Log10\monitor.c	140;"	f	line:140	signature:( const void* buff, unsigned long addr, int cnt )
-put_dump	E:\Projects\DevPFG\Log10\monitor.h	18;"	p	line:18	signature:(const void*, unsigned long, int)
+ptr	E:\Projects\DevPFG\Log10\miniINI\minIni.c	141;"	l	line:141
+ptr	E:\Projects\DevPFG\Log10\mmc.c	805;"	l	line:805
+ptr	E:\Projects\DevPFG\Log10\monitor.c	336;"	l	line:336
+ptr2	E:\Projects\DevPFG\Log10\monitor.c	336;"	l	line:336
+put	E:\Projects\DevPFG\Log10\miniINI\minIni.h	111;"	f	line:111	class:minIni	signature:(const std::string& Section, const std::string& Key, long Value) const
+put	E:\Projects\DevPFG\Log10\miniINI\minIni.h	114;"	f	line:114	class:minIni	signature:(const std::string& Section, const std::string& Key, int Value) const
+put	E:\Projects\DevPFG\Log10\miniINI\minIni.h	117;"	f	line:117	class:minIni	signature:(const std::string& Section, const std::string& Key, bool Value) const
+put	E:\Projects\DevPFG\Log10\miniINI\minIni.h	120;"	f	line:120	class:minIni	signature:(const std::string& Section, const std::string& Key, const std::string& Value) const
+put	E:\Projects\DevPFG\Log10\miniINI\minIni.h	123;"	f	line:123	class:minIni	signature:(const std::string& Section, const std::string& Key, const char* Value) const
+put	E:\Projects\DevPFG\Log10\miniINI\minIni.h	127;"	f	line:127	class:minIni	signature:(const std::string& Section, const std::string& Key, float Value) const
+put_dump	E:\Projects\DevPFG\Log10\monitor.c	144;"	f	line:144	signature:( const void* buff, unsigned long addr, int cnt )
+put_dump	E:\Projects\DevPFG\Log10\monitor.h	20;"	p	line:20	signature:(const void*, unsigned long, int)
 put_fat	E:\Projects\DevPFG\Log10\ff.c	532;"	f	line:532	signature:( FATFS *fs, DWORD clst, DWORD val )
-put_rc	E:\Projects\DevPFG\Log10\main.c	143;"	f	line:143	file:	signature:(FRESULT rc)
-put_rc	E:\Projects\DevPFG\Log10\main.c	610;"	p	line:610	file:	signature:(BYTE)p1
-pv	E:\Projects\DevPFG\Log10\mmc.c	577;"	l	line:577	file:
+put_rc	E:\Projects\DevPFG\Log10\main.c	337;"	f	line:337	signature:(FRESULT rc)
+put_rc	E:\Projects\DevPFG\Log10\main.c	40;"	p	line:40	file:
+put_rc	E:\Projects\DevPFG\Log10\monitor.c	818;"	p	line:818	file:	signature:(BYTE)p1
+put_rc	E:\Projects\DevPFG\Log10\pic33f.h	98;"	p	line:98	signature:(FRESULT )
+pv	E:\Projects\DevPFG\Log10\mmc.c	913;"	l	line:913	file:
+quote_option	E:\Projects\DevPFG\Log10\miniINI\minIni.c	93;"	g	line:93	file:
+quotes	E:\Projects\DevPFG\Log10\miniINI\minIni.c	194;"	l	line:194
 r	E:\Projects\DevPFG\Log10\ff.c	260;"	l	line:260
 r	E:\Projects\DevPFG\Log10\ff.c	3469;"	l	line:3469
-r	E:\Projects\DevPFG\Log10\monitor.c	185;"	l	line:185
-r	E:\Projects\DevPFG\Log10\monitor.c	67;"	l	line:67
+r	E:\Projects\DevPFG\Log10\monitor.c	189;"	l	line:189
+r	E:\Projects\DevPFG\Log10\monitor.c	71;"	l	line:71
 rbuff	E:\Projects\DevPFG\Log10\ff.c	2028;"	l	line:2028
 rc	E:\Projects\DevPFG\Log10\ff.c	3354;"	l	line:3354
 rcnt	E:\Projects\DevPFG\Log10\ff.c	2027;"	l	line:2027
 rcnt	E:\Projects\DevPFG\Log10\ff.c	3079;"	l	line:3079
-rcvr_datablock	E:\Projects\DevPFG\Log10\mmc.c	190;"	f	line:190	file:	signature:( BYTE *buff, UINT btr )
-rcvr_spi::xchg_spi(0xFF)	E:\Projects\DevPFG\Log10\mmc.c	80;"	d	line:80	file:
-rcvr_spi_m::(p)SPI1BUF=0xFF;while(!_SPIRBF	E:\Projects\DevPFG\Log10\mmc.c	81;"	d	line:81	file:
+rcvr_datablock	E:\Projects\DevPFG\Log10\mmc.c	226;"	f	line:226	file:	signature:( BYTE *buff, UINT btr )
+rcvr_datablockDMA	E:\Projects\DevPFG\Log10\mmc.c	381;"	f	line:381	file:	signature:( BYTE *buff, UINT btr )
+rcvr_datablockFAST	E:\Projects\DevPFG\Log10\mmc.c	259;"	f	line:259	file:	signature:( BYTE *buff, UINT btr )
+rcvr_datablockINT	E:\Projects\DevPFG\Log10\mmc.c	310;"	f	line:310	file:	signature:( BYTE *buff, UINT btr )
+rcvr_spi::xchg_spi(0xFF)	E:\Projects\DevPFG\Log10\mmc.c	93;"	d	line:93	file:
+rcvr_spi_d::SPI1BUF=0xFF;while(!_SPITBF);w	E:\Projects\DevPFG\Log10\mmc.c	428;"	d	line:428	file:
+rcvr_spi_dma::(p)*(p)=(BYTE)dmaREC[dmaDone++	E:\Projects\DevPFG\Log10\mmc.c	431;"	d	line:431	file:
+rcvr_spi_f::SPI1BUF=0xFF;while(!_SPITBF);w	E:\Projects\DevPFG\Log10\mmc.c	277;"	d	line:277	file:
+rcvr_spi_m1::(p)SPI1BUF=0xFF;while(!_SPIRBF	E:\Projects\DevPFG\Log10\mmc.c	279;"	d	line:279	file:
+rcvr_spi_m::(p)SPI1BUF=0xFF;while(!_SPIRBF	E:\Projects\DevPFG\Log10\mmc.c	94;"	d	line:94	file:
 remain	E:\Projects\DevPFG\Log10\ff.c	2026;"	l	line:2026
 remain	E:\Projects\DevPFG\Log10\ff.c	3078;"	l	line:3078
 remove_chain	E:\Projects\DevPFG\Log10\ff.c	595;"	f	line:595	file:	signature:( FATFS *fs, DWORD clst )
@@ -837,21 +1111,24 @@ res	E:\Projects\DevPFG\Log10\ff.c	385;"	l	line:385
 res	E:\Projects\DevPFG\Log10\ff.c	455;"	l	line:455
 res	E:\Projects\DevPFG\Log10\ff.c	540;"	l	line:540
 res	E:\Projects\DevPFG\Log10\ff.c	600;"	l	line:600
-res	E:\Projects\DevPFG\Log10\main.c	166;"	l	line:166
-res	E:\Projects\DevPFG\Log10\main.c	281;"	l	line:281
-res	E:\Projects\DevPFG\Log10\mmc.c	265;"	l	line:265
-res	E:\Projects\DevPFG\Log10\mmc.c	467;"	l	line:467
-res	E:\Projects\DevPFG\Log10\mmc.c	99;"	l	line:99
-resp	E:\Projects\DevPFG\Log10\mmc.c	230;"	l	line:230
+res	E:\Projects\DevPFG\Log10\main.c	359;"	l	line:359
+res	E:\Projects\DevPFG\Log10\mmc.c	119;"	l	line:119
+res	E:\Projects\DevPFG\Log10\mmc.c	565;"	l	line:565
+res	E:\Projects\DevPFG\Log10\mmc.c	804;"	l	line:804
+res	E:\Projects\DevPFG\Log10\monitor.c	338;"	l	line:338
+resp	E:\Projects\DevPFG\Log10\mmc.c	487;"	l	line:487
+resp	E:\Projects\DevPFG\Log10\mmc.c	515;"	l	line:515
+ret	E:\Projects\DevPFG\Log10\miniINI\minIni.c	368;"	l	line:368
+rfp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	531;"	l	line:531
 rfs	E:\Projects\DevPFG\Log10\ff.c	1854;"	l	line:1854
-ri	E:\Projects\DevPFG\Log10\uart.c	12;"	m	line:12	file:
-rtcHour	E:\Projects\DevPFG\Log10\main.c	62;"	v	line:62
-rtcMday	E:\Projects\DevPFG\Log10\main.c	62;"	v	line:62
-rtcMin	E:\Projects\DevPFG\Log10\main.c	62;"	v	line:62
-rtcMon	E:\Projects\DevPFG\Log10\main.c	62;"	v	line:62
-rtcSec	E:\Projects\DevPFG\Log10\main.c	62;"	v	line:62
-rtcYear	E:\Projects\DevPFG\Log10\main.c	62;"	v	line:62
-rv	E:\Projects\DevPFG\Log10\monitor.c	244;"	l	line:244
+ri	E:\Projects\DevPFG\Log10\uart.h	7;"	m	line:7
+rtcHour	E:\Projects\DevPFG\Log10\main.c	31;"	v	line:31
+rtcMday	E:\Projects\DevPFG\Log10\main.c	31;"	v	line:31
+rtcMin	E:\Projects\DevPFG\Log10\main.c	31;"	v	line:31
+rtcMon	E:\Projects\DevPFG\Log10\main.c	31;"	v	line:31
+rtcSec	E:\Projects\DevPFG\Log10\main.c	31;"	v	line:31
+rtcYear	E:\Projects\DevPFG\Log10\main.c	31;"	v	line:31
+rv	E:\Projects\DevPFG\Log10\monitor.c	251;"	l	line:251
 s	E:\Projects\DevPFG\Log10\ff.c	234;"	l	line:234
 s	E:\Projects\DevPFG\Log10\ff.c	259;"	l	line:259
 s	E:\Projects\DevPFG\Log10\ff.c	3353;"	l	line:3353
@@ -860,32 +1137,57 @@ s	E:\Projects\DevPFG\Log10\ff.c	3472;"	l	line:3472
 s	E:\Projects\DevPFG\Log10\ff.c	836;"	l	line:836
 s	E:\Projects\DevPFG\Log10\ff.c	867;"	l	line:867
 s	E:\Projects\DevPFG\Log10\ff.c	902;"	l	line:902
-s	E:\Projects\DevPFG\Log10\mmc.c	579;"	l	line:579
-s	E:\Projects\DevPFG\Log10\monitor.c	185;"	l	line:185
-s	E:\Projects\DevPFG\Log10\monitor.c	69;"	l	line:69
-s1	E:\Projects\DevPFG\Log10\main.c	284;"	l	line:284
-s2	E:\Projects\DevPFG\Log10\main.c	285;"	l	line:285
-samurai	E:\Projects\DevPFG\Log10\main.c	75;"	l	line:75	file:
-scan_files	E:\Projects\DevPFG\Log10\main.c	161;"	f	line:161	file:	signature:( char* path )
+s	E:\Projects\DevPFG\Log10\miniINI\minIni.c	149;"	l	line:149
+s	E:\Projects\DevPFG\Log10\miniINI\minIni.c	500;"	l	line:500
+s	E:\Projects\DevPFG\Log10\monitor.c	189;"	l	line:189
+s	E:\Projects\DevPFG\Log10\monitor.c	73;"	l	line:73
+s1	E:\Projects\DevPFG\Log10\monitor.c	341;"	l	line:341
+s2	E:\Projects\DevPFG\Log10\monitor.c	342;"	l	line:342
+samurai	E:\Projects\DevPFG\Log10\main.c	268;"	l	line:268	file:
+save_strncpy	E:\Projects\DevPFG\Log10\miniINI\minIni.c	147;"	f	line:147	file:	signature:(TCHAR *dest, const TCHAR *source, size_t maxlen, enum quote_option option)
+sb1	E:\Projects\DevPFG\Log10\mmc.c	315;"	l	line:315
+sb1	E:\Projects\DevPFG\Log10\mmc.c	515;"	l	line:515
+sb2	E:\Projects\DevPFG\Log10\mmc.c	315;"	l	line:315
+sb2	E:\Projects\DevPFG\Log10\mmc.c	515;"	l	line:515
+scan_files	E:\Projects\DevPFG\Log10\main.c	354;"	f	line:354	signature:( char* path )
+scan_files	E:\Projects\DevPFG\Log10\main.c	39;"	p	line:39	file:	signature:( char* )
+scan_files	E:\Projects\DevPFG\Log10\pic33f.h	99;"	p	line:99	signature:( char* )
 scl	E:\Projects\DevPFG\Log10\ff.c	641;"	l	line:641
 sclust	E:\Projects\DevPFG\Log10\ff.h	358;"	m	line:358
 sdj	E:\Projects\DevPFG\Log10\ff.c	2768;"	l	line:2768
 sect	E:\Projects\DevPFG\Log10\ff.c	2026;"	l	line:2026
 sect	E:\Projects\DevPFG\Log10\ff.c	2119;"	l	line:2119
-sect	E:\Projects\DevPFG\Log10\ff.c	2657;"	l	line:2657
+sect	E:\Projects\DevPFG\Log10\ff.c	2658;"	l	line:2658
 sect	E:\Projects\DevPFG\Log10\ff.c	3078;"	l	line:3078
 sect	E:\Projects\DevPFG\Log10\ff.h	360;"	m	line:360
-sect	E:\Projects\DevPFG\Log10\main.c	287;"	l	line:287
-select	E:\Projects\DevPFG\Log10\mmc.c	131;"	f	line:131	file:	signature:(void)
-send_cmd	E:\Projects\DevPFG\Log10\mmc.c	260;"	f	line:260	file:	signature:( BYTE cmd, DWORD arg )
+sect	E:\Projects\DevPFG\Log10\monitor.c	344;"	l	line:344
+select	E:\Projects\DevPFG\Log10\mmc.c	154;"	f	line:154	file:	signature:(void)
+send_cmd	E:\Projects\DevPFG\Log10\mmc.c	560;"	f	line:560	file:	signature:( BYTE cmd, DWORD arg )
 si	E:\Projects\DevPFG\Log10\ff.c	1280;"	l	line:1280
+sign	E:\Projects\DevPFG\Log10\miniINI\minIni.c	720;"	l	line:720
+sizearray::(a)(sizeof(a)/sizeof((a)[0]))	E:\Projects\DevPFG\Log10\miniINI\minIni.c	90;"	d	line:90	file:
+skipleading	E:\Projects\DevPFG\Log10\miniINI\minIni.c	122;"	f	line:122	file:	signature:(const TCHAR *str)
+skiptrailing	E:\Projects\DevPFG\Log10\miniINI\minIni.c	130;"	f	line:130	file:	signature:(const TCHAR *str, const TCHAR *base)
 sn	E:\Projects\DevPFG\Log10\ff.c	1125;"	l	line:1125
 sobj	E:\Projects\DevPFG\Log10\ff.h	299;"	m	line:299
+sp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	192;"	l	line:192
+sp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	533;"	l	line:533
+spiStat	E:\Projects\DevPFG\Log10\mmc.c	80;"	v	line:80
+spiStats	E:\Projects\DevPFG\Log10\mmc.c	81;"	v	line:81
+spiTime::	E:\Projects\DevPFG\Log10\diskio.h	99;"	d	line:99
+spiTime::spiStats[spiStat++]=TMR5,spiSt	E:\Projects\DevPFG\Log10\diskio.h	95;"	d	line:95
 ssize	E:\Projects\DevPFG\Log10\ff.h	296;"	m	line:296
+started	E:\Projects\DevPFG\Log10\diskio.h	102;"	m	line:102
 stat	E:\Projects\DevPFG\Log10\ff.c	1661;"	l	line:1661
-stat	E:\Projects\DevPFG\Log10\ff.c	2657;"	l	line:2657
+stat	E:\Projects\DevPFG\Log10\ff.c	2658;"	l	line:2658
 stat	E:\Projects\DevPFG\Log10\ff.c	3147;"	l	line:3147
-str	E:\Projects\DevPFG\Log10\main.c	145;"	l	line:145
+status	E:\Projects\DevPFG\Log10\uart.h	26;"	m	line:26
+str	E:\Projects\DevPFG\Log10\main.c	339;"	l	line:339
+striptrailing	E:\Projects\DevPFG\Log10\miniINI\minIni.c	139;"	f	line:139	file:	signature:(TCHAR *str)
+strnicmp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	100;"	f	line:100	signature:(const TCHAR *s1, const TCHAR *s2, size_t n)
+strnicmp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	66;"	p	line:66	file:	signature:(const TCHAR *, const TCHAR *, size_t)
+strnicmp::strncasecmp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	78;"	d	line:78	file:
+strreverse	E:\Projects\DevPFG\Log10\miniINI\minIni.c	705;"	f	line:705	file:	signature:(TCHAR *str)
 sum	E:\Projects\DevPFG\Log10\ff.c	1006;"	l	line:1006
 sum	E:\Projects\DevPFG\Log10\ff.c	1067;"	l	line:1067
 sum	E:\Projects\DevPFG\Log10\ff.c	1125;"	l	line:1125
@@ -894,6 +1196,13 @@ sum_sfn	E:\Projects\DevPFG\Log10\ff.c	979;"	f	line:979	file:	signature:( const B
 sync	E:\Projects\DevPFG\Log10\ff.c	451;"	f	line:451	file:	signature:( FATFS *fs )
 sysect	E:\Projects\DevPFG\Log10\ff.c	1662;"	l	line:1662
 szbfat	E:\Projects\DevPFG\Log10\ff.c	1662;"	l	line:1662
+t	E:\Projects\DevPFG\Log10\miniINI\minIni.c	707;"	l	line:707
+tCanRX::TRISBbits.TRISB4	E:\Projects\DevPFG\Log10\pic33f.h	67;"	d	line:67
+tCanTX::TRISBbits.TRISB7	E:\Projects\DevPFG\Log10\pic33f.h	63;"	d	line:63
+tPSCL1::TRISBbits.TRISB6	E:\Projects\DevPFG\Log10\pic33f.h	50;"	d	line:50
+tPSDA1::TRISBbits.TRISB5	E:\Projects\DevPFG\Log10\pic33f.h	52;"	d	line:52
+tSDPOWER::TRISAbits.TRISA1	E:\Projects\DevPFG\Log10\pic33f.h	56;"	d	line:56
+tSDSELECT::TRISAbits.TRISA4	E:\Projects\DevPFG\Log10\pic33f.h	59;"	d	line:59
 tbl	E:\Projects\DevPFG\Log10\ff.c	1659;"	l	line:1659
 tbl	E:\Projects\DevPFG\Log10\ff.c	2384;"	l	line:2384
 tbl	E:\Projects\DevPFG\Log10\ff.c	3141;"	l	line:3141
@@ -903,34 +1212,42 @@ tcl	E:\Projects\DevPFG\Log10\ff.c	2384;"	l	line:2384
 tim	E:\Projects\DevPFG\Log10\ff.c	2230;"	l	line:2230
 tim	E:\Projects\DevPFG\Log10\ff.c	2838;"	l	line:2838
 tlen	E:\Projects\DevPFG\Log10\ff.c	2384;"	l	line:2384
-tmr	E:\Projects\DevPFG\Log10\main.c	119;"	l	line:119
-token	E:\Projects\DevPFG\Log10\mmc.c	195;"	l	line:195
+tmr	E:\Projects\DevPFG\Log10\main.c	316;"	l	line:316
+token	E:\Projects\DevPFG\Log10\mmc.c	231;"	l	line:231
+token	E:\Projects\DevPFG\Log10\mmc.c	264;"	l	line:264
+token	E:\Projects\DevPFG\Log10\mmc.c	315;"	l	line:315
+token	E:\Projects\DevPFG\Log10\mmc.c	386;"	l	line:386
 tp	E:\Projects\DevPFG\Log10\ff.c	1533;"	l	line:1533
 tsect	E:\Projects\DevPFG\Log10\ff.c	1662;"	l	line:1662
-ty	E:\Projects\DevPFG\Log10\mmc.c	316;"	l	line:316
-uart2_get	E:\Projects\DevPFG\Log10\uart.c	134;"	f	line:134	signature:(void)
-uart2_get	E:\Projects\DevPFG\Log10\uart.h	14;"	p	line:14	signature:(void)
-uart2_init	E:\Projects\DevPFG\Log10\uart.c	268;"	f	line:268	signature:(void)
-uart2_init	E:\Projects\DevPFG\Log10\uart.h	11;"	p	line:11	signature:(void)
-uart2_put	E:\Projects\DevPFG\Log10\uart.c	171;"	f	line:171	signature:(BYTE d)
-uart2_put	E:\Projects\DevPFG\Log10\uart.h	13;"	p	line:13	signature:(BYTE)
-uart2_test	E:\Projects\DevPFG\Log10\uart.c	106;"	f	line:106	signature:(void)
-uart2_test	E:\Projects\DevPFG\Log10\uart.h	12;"	p	line:12	signature:(void)
-uart_get	E:\Projects\DevPFG\Log10\uart.c	115;"	f	line:115	signature:(void)
-uart_get	E:\Projects\DevPFG\Log10\uart.h	9;"	p	line:9	signature:(void)
-uart_init	E:\Projects\DevPFG\Log10\uart.c	188;"	f	line:188	signature:(void)
-uart_init	E:\Projects\DevPFG\Log10\uart.h	6;"	p	line:6	signature:(void)
-uart_put	E:\Projects\DevPFG\Log10\uart.c	151;"	f	line:151	signature:(BYTE d)
-uart_put	E:\Projects\DevPFG\Log10\uart.h	8;"	p	line:8	signature:(BYTE)
-uart_test	E:\Projects\DevPFG\Log10\uart.c	100;"	f	line:100	signature:(void)
-uart_test	E:\Projects\DevPFG\Log10\uart.h	7;"	p	line:7	signature:(void)
+ty	E:\Projects\DevPFG\Log10\mmc.c	616;"	l	line:616
+uart2_baud	E:\Projects\DevPFG\Log10\uart.c	416;"	f	line:416	signature:( long rate )
+uart2_baud	E:\Projects\DevPFG\Log10\uart.h	55;"	p	line:55	signature:( long )
+uart2_get	E:\Projects\DevPFG\Log10\uart.c	196;"	f	line:196	signature:(void)
+uart2_get	E:\Projects\DevPFG\Log10\uart.h	54;"	p	line:54	signature:(void)
+uart2_init	E:\Projects\DevPFG\Log10\uart.c	336;"	f	line:336	signature:(void)
+uart2_init	E:\Projects\DevPFG\Log10\uart.h	51;"	p	line:51	signature:(void)
+uart2_put	E:\Projects\DevPFG\Log10\uart.c	233;"	f	line:233	signature:(BYTE d)
+uart2_put	E:\Projects\DevPFG\Log10\uart.h	53;"	p	line:53	signature:(BYTE)
+uart2_test	E:\Projects\DevPFG\Log10\uart.c	173;"	f	line:173	signature:(void)
+uart2_test	E:\Projects\DevPFG\Log10\uart.h	52;"	p	line:52	signature:(void)
+uart_baud	E:\Projects\DevPFG\Log10\uart.c	330;"	f	line:330	signature:( long rate )
+uart_baud	E:\Projects\DevPFG\Log10\uart.h	49;"	p	line:49	signature:( long )
+uart_get	E:\Projects\DevPFG\Log10\uart.c	180;"	f	line:180	signature:(void)
+uart_get	E:\Projects\DevPFG\Log10\uart.h	48;"	p	line:48	signature:(void)
+uart_init	E:\Projects\DevPFG\Log10\uart.c	252;"	f	line:252	signature:(void)
+uart_init	E:\Projects\DevPFG\Log10\uart.h	45;"	p	line:45	signature:(void)
+uart_put	E:\Projects\DevPFG\Log10\uart.c	216;"	f	line:216	signature:(BYTE d)
+uart_put	E:\Projects\DevPFG\Log10\uart.h	47;"	p	line:47	signature:(BYTE)
+uart_test	E:\Projects\DevPFG\Log10\uart.c	165;"	f	line:165	signature:(void)
+uart_test	E:\Projects\DevPFG\Log10\uart.h	46;"	p	line:46	signature:(void)
 uc	E:\Projects\DevPFG\Log10\ff.c	837;"	l	line:837
 uc	E:\Projects\DevPFG\Log10\ff.c	868;"	l	line:868
 unlock_fs	E:\Projects\DevPFG\Log10\ff.c	290;"	f	line:290	file:	signature:( FATFS *fs, FRESULT res )
-va_arg	E:\Projects\DevPFG\Log10\monitor.c	96;"	p	line:96	file:	signature:(arp, char*)
+used	E:\Projects\DevPFG\Log10\uart.h	31;"	m	line:31
+va_arg	E:\Projects\DevPFG\Log10\monitor.c	100;"	p	line:100	file:	signature:(arp, char*)
 val	E:\Projects\DevPFG\Log10\ff.c	3471;"	l	line:3471
-val	E:\Projects\DevPFG\Log10\monitor.c	184;"	l	line:184
-val	E:\Projects\DevPFG\Log10\monitor.c	68;"	l	line:68
+val	E:\Projects\DevPFG\Log10\monitor.c	188;"	l	line:188
+val	E:\Projects\DevPFG\Log10\monitor.c	72;"	l	line:72
 validate	E:\Projects\DevPFG\Log10\ff.c	1818;"	f	line:1818	file:	signature:( FATFS *fs, WORD id )
 vol	E:\Projects\DevPFG\Log10\ff.c	1660;"	l	line:1660
 vs	E:\Projects\DevPFG\Log10\ff.c	3142;"	l	line:3142
@@ -938,9 +1255,11 @@ vst	E:\Projects\DevPFG\Log10\ff.c	3139;"	l	line:3139	file:
 w	E:\Projects\DevPFG\Log10\ff.c	1279;"	l	line:1279
 w	E:\Projects\DevPFG\Log10\ff.c	1534;"	l	line:1534
 w	E:\Projects\DevPFG\Log10\ff.c	3470;"	l	line:3470
-w	E:\Projects\DevPFG\Log10\monitor.c	67;"	l	line:67
-w1	E:\Projects\DevPFG\Log10\main.c	283;"	l	line:283
-wait_ready	E:\Projects\DevPFG\Log10\mmc.c	97;"	f	line:97	file:	signature:(void)
+w	E:\Projects\DevPFG\Log10\monitor.c	71;"	l	line:71
+w1	E:\Projects\DevPFG\Log10\monitor.c	340;"	l	line:340
+wBuff	E:\Projects\DevPFG\Log10\log.c	133;"	l	line:133
+wBuff	E:\Projects\DevPFG\Log10\log.c	25;"	l	line:25
+wait_ready	E:\Projects\DevPFG\Log10\mmc.c	117;"	f	line:117	file:	signature:(void)
 wbuff	E:\Projects\DevPFG\Log10\ff.c	2121;"	l	line:2121
 wc	E:\Projects\DevPFG\Log10\ff.c	494;"	l	line:494
 wc	E:\Projects\DevPFG\Log10\ff.c	837;"	l	line:837
@@ -948,20 +1267,31 @@ wc	E:\Projects\DevPFG\Log10\ff.c	868;"	l	line:868
 wc	E:\Projects\DevPFG\Log10\ff.c	903;"	l	line:903
 wcnt	E:\Projects\DevPFG\Log10\ff.c	2120;"	l	line:2120
 wflag	E:\Projects\DevPFG\Log10\ff.h	291;"	m	line:291
-wi	E:\Projects\DevPFG\Log10\uart.c	12;"	m	line:12	file:
+wfp	E:\Projects\DevPFG\Log10\miniINI\minIni.c	532;"	l	line:532
+wi	E:\Projects\DevPFG\Log10\uart.h	7;"	m	line:7
 win	E:\Projects\DevPFG\Log10\ff.h	315;"	m	line:315
 winsect	E:\Projects\DevPFG\Log10\ff.h	314;"	m	line:314
+write_buffer1	E:\Projects\DevPFG\Log10\log.c	22;"	f	line:22	signature:( UINT idx, UINT *written )
+write_buffer2	E:\Projects\DevPFG\Log10\log.c	130;"	f	line:130	signature:( UINT idx, UINT *written )
+write_quoted	E:\Projects\DevPFG\Log10\miniINI\minIni.c	498;"	f	line:498	file:	signature:(const TCHAR *Value, INI_FILETYPE *fp)
+writekey	E:\Projects\DevPFG\Log10\miniINI\minIni.c	483;"	f	line:483	file:	signature:(TCHAR *LocalBuffer, const TCHAR *Key, const TCHAR *Value, INI_FILETYPE *fp)
+writesection	E:\Projects\DevPFG\Log10\miniINI\minIni.c	468;"	f	line:468	file:	signature:(TCHAR *LocalBuffer, const TCHAR *Section, INI_FILETYPE *fp)
+written	E:\Projects\DevPFG\Log10\log.c	106;"	l	line:106
+written	E:\Projects\DevPFG\Log10\log.c	180;"	l	line:180
+written	E:\Projects\DevPFG\Log10\log.c	214;"	l	line:214
+written	E:\Projects\DevPFG\Log10\log.c	72;"	l	line:72
 wsect	E:\Projects\DevPFG\Log10\ff.c	414;"	l	line:414
-xatoi	E:\Projects\DevPFG\Log10\monitor.c	179;"	f	line:179	signature:( char **str, long *res )
-xatoi	E:\Projects\DevPFG\Log10\monitor.h	24;"	p	line:24	signature:(char**, long*)
-xchg_spi	E:\Projects\DevPFG\Log10\mmc.c	84;"	f	line:84	file:	signature:(BYTE dat)
-xfunc_in	E:\Projects\DevPFG\Log10\monitor.c	18;"	v	line:18
-xfunc_out	E:\Projects\DevPFG\Log10\monitor.c	21;"	v	line:21
-xmit_datablock	E:\Projects\DevPFG\Log10\mmc.c	225;"	f	line:225	file:	signature:( const BYTE *buff, BYTE token )
-xmit_spi::(dat)xchg_spi(dat)	E:\Projects\DevPFG\Log10\mmc.c	79;"	d	line:79	file:
-xprintf	E:\Projects\DevPFG\Log10\monitor.c	61;"	f	line:61	signature:( const char* str, ... )
-xprintf	E:\Projects\DevPFG\Log10\monitor.h	17;"	p	line:17	signature:(const char*, ...)
-xputc	E:\Projects\DevPFG\Log10\monitor.c	31;"	f	line:31	signature:(char c)
-xputc	E:\Projects\DevPFG\Log10\monitor.h	15;"	p	line:15	signature:(char)
-xputs	E:\Projects\DevPFG\Log10\monitor.c	42;"	f	line:42	signature:(const char* str)
-xputs	E:\Projects\DevPFG\Log10\monitor.h	16;"	p	line:16	signature:(const char*)
+xatoi	E:\Projects\DevPFG\Log10\monitor.c	183;"	f	line:183	signature:( char **str, long *res )
+xatoi	E:\Projects\DevPFG\Log10\monitor.h	26;"	p	line:26	signature:(char**, long*)
+xchg_spi	E:\Projects\DevPFG\Log10\mmc.c	101;"	f	line:101	file:	signature:(BYTE dat)
+xfunc_in	E:\Projects\DevPFG\Log10\monitor.c	23;"	v	line:23
+xfunc_out	E:\Projects\DevPFG\Log10\monitor.c	26;"	v	line:26
+xmit_datablock	E:\Projects\DevPFG\Log10\mmc.c	482;"	f	line:482	file:	signature:( const BYTE *buff, BYTE token )
+xmit_datablockINT	E:\Projects\DevPFG\Log10\mmc.c	510;"	f	line:510	file:	signature:( const BYTE *buff, BYTE token )
+xmit_spi::(dat)xchg_spi(dat)	E:\Projects\DevPFG\Log10\mmc.c	92;"	d	line:92	file:
+xprintf	E:\Projects\DevPFG\Log10\monitor.c	65;"	f	line:65	signature:( const char* str, ... )
+xprintf	E:\Projects\DevPFG\Log10\monitor.h	19;"	p	line:19	signature:(const char*, ...)
+xputc	E:\Projects\DevPFG\Log10\monitor.c	34;"	f	line:34	signature:(char c)
+xputc	E:\Projects\DevPFG\Log10\monitor.h	17;"	p	line:17	signature:(char)
+xputs	E:\Projects\DevPFG\Log10\monitor.c	45;"	f	line:45	signature:(const char* str)
+xputs	E:\Projects\DevPFG\Log10\monitor.h	18;"	p	line:18	signature:(const char*)

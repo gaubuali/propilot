@@ -42,6 +42,7 @@ extern fractional omega[] ;
 
 extern fractional locationErrorEarth[3] ;
 
+extern signed char DECLINATIONANGLE PARAMETER;
 #if (MAG_YAW_DRIFT == 1)
 extern fractional magFieldEarth[3] ;
 #endif

@@ -93,7 +93,15 @@ void dcm_servo_callback_prepare_outputs(void)
 			startTelemetry = 1 ;
 			break ;
 		}
-		case 2: {
+		case 300: {
+			// almost ready to turn the control on, save the sensor offsets to allow testing
+			// the dcm before the radio is on.  we record offsets again along with trims
+			// immediately before the first wag.
+			dcm_calibrate() ;
+			manualPassthrough() ;	// Allow manual control while starting up
+			break ;
+		}
+		case 375: {
 			// almost ready to turn the control on, save the sensor offsets to allow testing
 			// the dcm before the radio is on.  we record offsets again along with trims
 			// immediately before the first wag.
@@ -118,6 +126,7 @@ void dcm_servo_callback_prepare_outputs(void)
 		gpscount-- ;
 	}
 	
+#if (SERIAL_OUTPUT_FORMAT != SERIAL_MAVLINK) // All MAVLink telemetry code is in MAVLink.c
 	// This is a simple counter to do stuff at 8hz
 	eightHertzCounter++ ;
 	if ( eightHertzCounter >= 5 )
@@ -128,6 +137,9 @@ void dcm_servo_callback_prepare_outputs(void)
 		}
 		eightHertzCounter = 0 ;
 	}
+#else
+	mavlink_output_40hz();
+#endif
 	
 #if (USE_OSD == 1)
 	osd_countdown(gpscount) ;

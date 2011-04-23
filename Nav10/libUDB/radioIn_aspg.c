@@ -26,14 +26,12 @@
 
 //	Measure the pulse widths of the servo channel inputs from the radio.
 //	The dsPIC makes this rather easy to do using its capture feature.
-
 //	One of the channels is also used to validate pulse widths to detect loss of radio.
-
 //	The pulse width inputs can be directly converted to units of pulse width outputs to control
 //	the servos by simply dividing by 2. ** CHANGED ** now Q15
 
-int IMPORTANT udb_pwIn[65] = {0};		// pulse widths of radio inputs ** CHANGED ** now Q15
-int IMPORTANT udb_pwTrim[65] = {0};		// initial pulse widths for trimming ** CHANGED ** now Q15
+int IMPORTANTz udb_pwIn[65]; 		// pulse widths of radio inputs ** CHANGED ** now Q15
+int IMPORTANTz udb_pwTrim[65];		// initial pulse widths for trimming ** CHANGED ** now Q15
 
 int failSafePulses = 0 ;
 WORD	T2_OF;						// count of T2 wraps
@@ -41,12 +39,12 @@ WORD	T2_OF;						// count of T2 wraps
 
 extern LEDCTRL	GreenLED;			// radio state - set in states.c
 
-
-// in the macro below T=Pin type, P=Port number, B=Bit, G=Global index, L=Length
+// in the macro below T=Pin type, P=Port number, B=Bit, G=Global index, L=Length, S=Spare, LP0=.iPrivate[0], LP1=.iPrivate[1]
 // what these should do is described in the first page of Mixer.xls - work in progress
 #define RC_PIN( T, P, B, G, L)      { 0, 0, 0, 6, ((FAILSAFE_INPUT_CHANNEL-1) == (G-RC_START) ? 1 : 0), 0, 0, T, P, B, G, L }
 #define RC_SERVO( T, P, B, G, L, S) { 0, 0, 0, 0, 0,                                                    0, 0, T, P, B, G, L, S }
-PIN NEAR_BUF DIO[32] = {
+#define ANALOG( T, P, B, G, P0, P1, P2, P3) { 0, 0, 0, 0, 0, 0, 0, T, P, B, G, 0, 0, {.iPrivate = { P0, P1, P2, P3 }} }
+PIN NEAR_BUF DIO[48] = {
 		RC_PIN(0,0,0,0,0),				// unused
 		RC_PIN(12,3,8,RC_START+0,0),	//  1 - RC1
 		RC_PIN(12,3,9,RC_START+1,0),	//  2 - RC2
@@ -68,16 +66,25 @@ PIN NEAR_BUF DIO[32] = {
 		RC_PIN(19,2,3,AUX_START+9,0),	// 18 - IT2
 		RC_PIN(19,2,2,AUX_START+10,0),	// 19 - IT3
 		RC_PIN(19,2,1,AUX_START+11,0),	// 20 - IT4
-		RC_PIN(3,2,5,AUX_START+12,0),	// 21 - BUZZER
-		RC_PIN(3,6,15,AUX_START+13,0),	// 22 - OUT1
-		RC_PIN(3,0,14,AUX_START+14,0),	// 23 - ISCP1_AUX1
-		RC_PIN(3,0,15,AUX_START+15,0),	// 24 - ISCP1_AUX2
-		RC_PIN(1,1,6,AUX_START+16,0),	// 25 - SAmps
-		RC_PIN(1,1,7,AUX_START+17,0),	// 26 - SVolt
-		RC_PIN(1,1,0,AUX_START+18,0),	// 27 - AUX_AN1
-		RC_PIN(1,1,1,AUX_START+19,0),	// 28 - AUX_AN2
-		RC_PIN(1,1,3,AUX_START+20,0),	// 29 - AUX_AN3
-		RC_PIN(1,1,4,AUX_START+21,0),	// 30 - AUX_AN4
+		RC_PIN(3,2,5,0,0),	// 21 - BUZZER
+		RC_PIN(3,6,15,0,0),	// 22 - OUT1
+		RC_PIN(3,0,14,0,0),	// 23 - ISCP1_AUX1
+		RC_PIN(3,0,15,0,0),	// 24 - ISCP1_AUX2
+		ANALOG(1,1,6,0, 0x0672, 0x0672, 0x0672, 0x0672),	// 25 - SAmps - TODO factor converts 0-4096 to 0-3300 mA
+		ANALOG(1,1,7,0, 0x2805, 0x2805, 0x2805, 0x2805),	// 26 - SVolt - factor converts 0-4096 to 0-20500 mV
+		ANALOG(1,1,0,0, 0x0672, 0x0672, 0x0672, 0x0672),	// 27 - AUX_AN1 - factor converts 0-4096 to 0-3300 mV
+		ANALOG(1,1,1,0, 0x0672, 0x0672, 0x0672, 0x0672),	// 28 - AUX_AN2 - factor converts 0-4096 to 0-3300 mV
+		ANALOG(1,1,3,0, 0x0672, 0x0672, 0x0672, 0x0672),	// 29 - AUX_AN3 - factor converts 0-4096 to 0-3300 mV
+		ANALOG(1,1,4,0, 0x0672, 0x0672, 0x0672, 0x0672),	// 30 - AUX_AN4 - factor converts 0-4096 to 0-3300 mV
+		ANALOG(1,4,2,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 31 - gyro X - eventually these scale factors will be read from EE
+		ANALOG(1,0,7,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 32 - gyro Y
+		ANALOG(1,4,7,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 33 - gyro Z
+		ANALOG(1,0,3,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 34 - accel X
+		ANALOG(1,0,3,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 35 - accel Y
+		ANALOG(1,0,3,0, 0x08A0, 0x08A0, 0x08A0, 0x08A0),	// 36 - accel Z
+		ANALOG(1,0,3,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 37 - mag X
+		ANALOG(1,0,3,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 38 - mag Y
+		ANALOG(1,0,3,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 39 - mag Z
 };
 
 #define RC_INT_PRI 6

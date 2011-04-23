@@ -175,13 +175,13 @@
 #if !_DRIVES
 #error Number of drives must not be 0.
 #endif
-static
+//static
 WORD Fsid;				/* File system mount ID */
-static
+//static
 FATFS *FatFs[_DRIVES];	/* Pointer to the file system objects (logical drives) */
 
 #if _FS_RPATH
-static
+//static
 BYTE Drive;				/* Current drive */
 #endif
 
@@ -2654,9 +2654,9 @@ FRESULT f_getfree (
 )
 {
 	FRESULT res;
+	BYTE fat, *p;
 	DWORD n, clst, sect, stat;
 	UINT i;
-	BYTE fat, *p;
 
 
 	/* Get drive number */

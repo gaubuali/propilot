@@ -5,6 +5,8 @@
 #ifndef _STRFUNC
 #define _STRFUNC
 
+#include "integer.h"
+
 #define _USE_XFUNC_IN	1
 #define _USE_XFUNC_OUT	1
 #define	_CR_CRLF		1
@@ -23,5 +25,8 @@ extern unsigned char (*xfunc_in)(void);
 int get_line (char*, int);
 int xatoi (char**, long*);
 #endif
+
+extern void monitor( void );
+extern char __attribute__ ((near,section("Important"))) Line[128];			/* Console input buffer */
 
 #endif

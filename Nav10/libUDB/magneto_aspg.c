@@ -49,7 +49,7 @@ const I2C_Action magCalP[] = { // Plus bias calibration
 	{.F.uCmd = START, .F.uCount = 0x3c},		// start command with address
 	{.F.uCmd = TX, .F.uCount = 4 - 1},			// send 4 bytes,
 		{.uChar[0] = 0, .uChar[1] = 0x11}, 		// first byte address then 10Hz & +bias 
-		{.uChar[0] = 0x20, .uChar[1] = 0x01},	// then +- 1Ga range then 1 convert mode
+		{.uChar[0] = MAG_RANGE_BYTE, .uChar[1] = 0x01},	// then range then 1 convert mode
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished, inc
 			.F.uACK = 1}
@@ -59,7 +59,7 @@ const I2C_Action magCalM[] = { // Minus bias calibration
 	{.F.uCmd = START, .F.uCount = 0x3c}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 4 - 1},			// send 4 bytes,
 		{.uChar[0] = 0, .uChar[1] = 0x12},		// first byte address then 10Hz & -bias
-		{.uChar[0] = 0x20, .uChar[1] = 0x01},	// then +- 1Ga range then 1 convert mode
+		{.uChar[0] = MAG_RANGE_BYTE, .uChar[1] = 0x01},	// then range then 1 convert mode
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished, inc
 			.F.uACK = 1}
@@ -71,7 +71,7 @@ const I2C_Action magReset[] = {
 	{.F.uCmd = START, .F.uCount = 0x3c}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 4 - 1},			// send 4 bytes,
 		{.uChar[0] = 0, .uChar[1] = 0x10},		// first byte address then 10Hz & no bias 
-		{.uChar[0] = 0x20, .uChar[1] = 0x02},	// then +- 1Ga range then idle mode
+		{.uChar[0] = MAG_RANGE_BYTE, .uChar[1] = 0x02},	// then range then idle mode
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished
 			.F.uACK = 1}						// inc
@@ -83,23 +83,23 @@ const I2C_Action magCfg[] = {
 	{.F.uCmd = START, .F.uCount = 0x3c}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 4 - 1},			// send 4 bytes,
 		{.uChar[0] = 0, .uChar[1] = 0x18},			// first byte address then 50Hz & no bias
-		{.uChar[0] = 0x20, .uChar[1] = 0x00},		// then +- 1Ga range then continious
+		{.uChar[0] = MAG_RANGE_BYTE, .uChar[1] = 0x00},		// then range then continious
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished
 			.F.uACK = 1}						// inc
 };
 
-
-int udb_magFieldBody[3] ;  // magnetic field in the body frame of reference 
-int udb_magFieldBodyInput[3] ;  // magnetic field in the body frame of reference 
-int udb_magOffset[3] = { 0 , 0 , 0 } ;  // magnetic offset in the body frame of reference
-int magGain[3] = { RMAX , RMAX , RMAX } ; // magnetometer calibration gains
-int rawMagCalib[3] = { 0 , 0 , 0 } ;
-
-// int CD[magCDindex].iResult = 0 ; // message sequence
+int udb_magFieldBody[3] IMPORTANTz ;  // magnetic field in the body frame of reference 
+int udb_magFieldBodyInput[3] IMPORTANTz ;  // magnetic field in the body frame of reference 
+int udb_magOffset[3] IMPORTANTz ;  // magnetic offset in the body frame of reference
+int magGain[3] IMPORTANT = { RMAX , RMAX , RMAX } ; // magnetometer calibration gains
+int rawMagCalib[3] IMPORTANTz ;
+int previousMagFieldRaw[3] IMPORTANTz ;
+int MagFieldFilter[3] IMPORTANTz ;
+unsigned char magSameReadings ;		// counter to make sure its actually stuck rather than 2 of same readings
+unsigned char magConfigAttempts ;	// going to limit this in case there is a problem
 
 int I2_Done = 0;
-int magConfigAttempts = 0;		// going to limit this in case there is a problem
 
 // the + 3 at the end of this is to leave space for the on error bus stop + finished
 #define magReadStart ((sizeof uI2C_Commands)/2) - (((sizeof magRead)/2) + 3)
@@ -112,22 +112,14 @@ int magConfigAttempts = 0;		// going to limit this in case there is a problem
 
 void __attribute__((__no_auto_psv__)) magSetupRead( void )	// setup a device read
 {
-//	int magregIndex ;
-//	interrupt_save_extended_state ;
-
 	I2C_flags.bInUse = 1;
 	I2C_flags.bReadMag = 1;					// mark as in progress
 	I2C_flags.bMagReady = 0;				// mark as started
-//	SETUP_I2C_MSG( magRead );
 	CC = CD[magCDindex];
 	I2C_Timeout = 3;
 	CC.I2C_Subcode = NOTHING, CC.I2C_Tail = 0, CC.I2C_Head = 0;		// reset everything
 	CC.I2CERROR = CC.I2CERROR_CON = CC.I2CERROR_STAT = NOTHING;		// store
 	CC.I2C_Index = magReadStart;
-//	CC.I2C_Index -= ((sizeof magRead)>>1) - 1;;
-//	CC.I2C_Index -= 3;
-
-//	interrupt_restore_extended_state ;
 }
 
 void rxMagnetometer(void)  // service the magnetometer
@@ -270,9 +262,14 @@ void rxMagnetometer(void)  // service the magnetometer
 	return ;
 }
 
-int previousMagFieldRaw[3] = { 0 , 0 , 0 } ;
-int MagFieldFilter[3] = { 0 , 0 , 0 } ;
-int magSameReadings = 0;
+#define USE_VARIABLE_MAG
+
+#if defined(USE_VARIABLE_MAG)
+char mag_xy = MAG_X_AXIS;
+int mag_x_sign = MAG_X_SIGN 1;
+int mag_y_sign = MAG_Y_SIGN 1;
+#endif
+
 void doneReadMagData(void)
 {
 	int vectorIndex ;
@@ -296,24 +293,36 @@ void doneReadMagData(void)
 				CD[magCDindex].iResult = MAG_DREAD1 ;
 		} else magSameReadings = 0;
 		I2C_flags.bReadMag = 0;					// mark as done
-		MagFieldFilter[0] = (MagFieldFilter[0] - (MagFieldFilter[0] / 8)) + (magFieldRaw[0] / 8);	// super simple filter
-		MagFieldFilter[1] = (MagFieldFilter[1] - (MagFieldFilter[1] / 8)) + (magFieldRaw[1] / 8);	// super simple filter
-		MagFieldFilter[2] = (MagFieldFilter[2] - (MagFieldFilter[2] / 8)) + (magFieldRaw[2] / 8);	// super simple filter
-
 		previousMagFieldRaw[0] = magFieldRaw[0] ;
 		previousMagFieldRaw[1] = magFieldRaw[1] ;
 		previousMagFieldRaw[2] = magFieldRaw[2] ;
 
-		udb_magFieldBody[0] = MAG_X_SIGN((__builtin_mulsu((magFieldRaw[MAG_X_AXIS]), magGain[MAG_X_AXIS] ))>>14)-(udb_magOffset[0]>>1) ;
-		udb_magFieldBody[1] = MAG_Y_SIGN((__builtin_mulsu((magFieldRaw[MAG_Y_AXIS]), magGain[MAG_Y_AXIS] ))>>14)-(udb_magOffset[1]>>1) ;
-		udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((magFieldRaw[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
+		MagFieldFilter[0] = (MagFieldFilter[0] - (MagFieldFilter[0] / 8)) + (magFieldRaw[0] / 8);	// super simple filter
+		MagFieldFilter[1] = (MagFieldFilter[1] - (MagFieldFilter[1] / 8)) + (magFieldRaw[1] / 8);	// super simple filter
+		MagFieldFilter[2] = (MagFieldFilter[2] - (MagFieldFilter[2] / 8)) + (magFieldRaw[2] / 8);	// super simple filter
+
+#if defined(USE_VARIABLE_MAG)
+		if ( mag_xy ) {
+			udb_magFieldBody[0] = mag_x_sign * ((__builtin_mulsu((MagFieldFilter[1]), magGain[1] ))>>10)-(udb_magOffset[0]>>1) ;
+			udb_magFieldBody[1] = mag_y_sign * ((__builtin_mulsu((MagFieldFilter[0]), magGain[0] ))>>10)-(udb_magOffset[1]>>1) ;
+			udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((MagFieldFilter[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>10)-(udb_magOffset[2]>>1) ;
+		} else {
+			udb_magFieldBody[0] = mag_x_sign * ((__builtin_mulsu((MagFieldFilter[0]), magGain[0] ))>>10)-(udb_magOffset[0]>>1) ;
+			udb_magFieldBody[1] = mag_y_sign * ((__builtin_mulsu((MagFieldFilter[1]), magGain[1] ))>>10)-(udb_magOffset[1]>>1) ;
+			udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((MagFieldFilter[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>10)-(udb_magOffset[2]>>1) ;
+		}
+#else
+		udb_magFieldBody[0] = MAG_X_SIGN((__builtin_mulsu((MagFieldFilter[MAG_X_AXIS]), magGain[MAG_X_AXIS] ))>>14)-(udb_magOffset[0]>>1) ;
+		udb_magFieldBody[1] = MAG_Y_SIGN((__builtin_mulsu((MagFieldFilter[MAG_Y_AXIS]), magGain[MAG_Y_AXIS] ))>>14)-(udb_magOffset[1]>>1) ;
+		udb_magFieldBody[2] = MAG_Z_SIGN((__builtin_mulsu((MagFieldFilter[MAG_Z_AXIS]), magGain[MAG_Z_AXIS] ))>>14)-(udb_magOffset[2]>>1) ;
+#endif
 //		udb_magFieldBody[0] = 0;
 //		udb_magFieldBody[1] = 0;
 //		udb_magFieldBody[2] = 0;
 
-		AD1_Raw[xmag] = FLT_Value[mag_x] = udb_magFieldBody[0];
-		AD1_Raw[ymag] = FLT_Value[mag_y] = udb_magFieldBody[1];
-		AD1_Raw[zmag] = FLT_Value[mag_z] = udb_magFieldBody[2];
+		AD1_Raw[x_mag] = FLT_Value[mag_x] = udb_magFieldBody[0];
+		AD1_Raw[y_mag] = FLT_Value[mag_y] = udb_magFieldBody[1];
+		AD1_Raw[z_mag] = FLT_Value[mag_z] = udb_magFieldBody[2];
 //		I2C_state = &I2C_idle ;
 		if ( ( abs(previousMagFieldRaw[0]) < MAGNETICMAXIMUM ) &&
 			 ( abs(previousMagFieldRaw[1]) < MAGNETICMAXIMUM ) &&
@@ -321,7 +330,9 @@ void doneReadMagData(void)
 //			 ( abs(previousMagFieldRaw[3]) > 500 ) ) // force re-cals
 		{
 			//dcm_flags._.mag_drift_req = 1 ;
+#if (MAG_YAW_DRIFT == 1)
 			udb_magnetometer_callback_data_available();
+#endif
 		}
 		else
 		{
@@ -335,7 +346,7 @@ void doneReadMagData(void)
 			rawMagCalib[vectorIndex] = magFieldRaw[vectorIndex] ;
 			if (  ( magFieldRaw[vectorIndex] > MAGNETICMINIMUM ) && ( magFieldRaw[vectorIndex] < MAGNETICMAXIMUM ) )
 			{
-				magGain[vectorIndex] = __builtin_divud( ((long) ( 700.0*RMAX)), magFieldRaw[vectorIndex] ) ;
+				magGain[vectorIndex] = __builtin_divud( ((long) ( MAG_GAIN_FACTOR*1024/8*100)), magFieldRaw[vectorIndex] ) ;
 			}
 			else
 			{
@@ -387,7 +398,7 @@ const I2C_Action accCal[] = { // self test, doesn't have cal function
 	{.uChar[0] = 0},							// empty to make Index step
 	{.F.uCmd = START, .F.uCount = 0xA6},		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 2 bytes,
-		{.uChar[0] = 0x31, .uChar[1] = 0x8e}, 		// first byte address then DATA_FORMAT
+		{.uChar[0] = 0x31, .uChar[1] = 0x8f}, 		// first byte address then DATA_FORMAT
 														// = 0b10001110 = 0x0e
 														// 7   0 = self test off, 
 														// 6    0 = SPI 3 or 4 bit - N/A, 
@@ -395,7 +406,7 @@ const I2C_Action accCal[] = { // self test, doesn't have cal function
 														// 4      0 = not used, 
 														// 3       1 = full res on, 
 														// 2        1 = left (MSB) justify on
-														// 1&0       10 = rang +- 8g
+														// 1&0       11 = rang +- 16g
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished, copy + inc + call
 			.F.uACK = 1}
@@ -423,15 +434,15 @@ const I2C_Action accReset[] = {	// force reset by changing mode
 		{.uChar[0] = 0x7f, .uChar[1] = 0x00},			// INT_MAP = 0b01111111 = INT1 = DATA_READY
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 1 bytes,
-		{.uChar[0] = 0x31, .uChar[1] = 0x0c}, 		// first byte address then DATA_FORMAT
-														// = 0b00001110 = 0x0e
+		{.uChar[0] = 0x31, .uChar[1] = 0x0f}, 		// first byte address then DATA_FORMAT
+														// = 0b00001111 = 0x0f
 														// 7   0 = self test off, 
 														// 6    0 = SPI 3 or 4 bit - N/A, 
 														// 5     0 = int_invert off means active high
 														// 4      0 = not used, 
 														// 3       1 = full res on, 
 														// 2        1 = left (MSB) justify on
-														// 1&0       10 = rang +- 8g
+														// 1&0       11 = rang +- 16g
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 1 bytes,
 		{.uChar[0] = 0x38, .uChar[1] = 0xbf},		// first byte address then FIFO_CTRL
@@ -469,14 +480,15 @@ const I2C_Action accCfg[] = {
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 2 bytes,
 		{.uChar[0] = 0x31, .uChar[1] = 0x0f}, 		// first byte address then DATA_FORMAT
-														// = 0b00001010 = 0x0a
+//		{.uChar[0] = 0x31, .uChar[1] = 0x0b}, 		// first byte address then DATA_FORMAT
+														// = 0b00001111 = 0x0f
 														// 7   0 = self test off, 
 														// 6    0 = SPI 3 or 4 bit - N/A, 
 														// 5     0 = int_invert off means active high
 														// 4      0 = not used, 
 														// 3       1 = full res on, 
-														// 2        1 = left (MSB) justify on
-														// 1&0       10 = rang +- 8g
+														// 2        1 = left (MSB) justify off
+														// 1&0       11 = rang +- 16g
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 2 bytes,
 		{.uChar[0] = 0x38, .uChar[1] = 0xa1},		// first byte address then FIFO_CTRL
@@ -643,8 +655,8 @@ void doneReadAccData(void)
 	if ( CD[accCDindex].iResult >= ACC_NORMAL )	// was 7, read auto increments this
 	{
 		CD[accCDindex].iResult = ACC_NORMAL;
-		AD1_Raw[xaccel] = AccFieldRaw[0];
-		AD1_Raw[yaccel] = AccFieldRaw[1];
+		AD1_Raw[yaccel] = AccFieldRaw[0];
+		AD1_Raw[xaccel] = AccFieldRaw[1];
 		AD1_Raw[zaccel] = AccFieldRaw[2];
 		AD1_Filt[0][4][iI2C_Head] = AD1_Raw[xaccel];	// buffer the results
 		AD1_Filt[0][5][iI2C_Head] = AD1_Raw[yaccel];

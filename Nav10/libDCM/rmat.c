@@ -20,6 +20,7 @@
 
 
 #include "libDCM_internal.h"
+#include "..\libUDB\libUDB_internal.h"
 
 //		These are the routines for maintaining a direction cosine matrix
 //		that can be used to transform vectors between the earth and plane
@@ -107,10 +108,11 @@ fractional IMPORTANT errorYawground[] = { 0 , 0 , 0 } ;
 fractional IMPORTANT errorYawplane[]  = { 0 , 0 , 0 } ;
 
 //	measure of error in orthogonality, used for debugging purposes:
-fractional IMPORTANT error = 0 ;
+fractional IMPORTANTz error;
 
-fractional IMPORTANT declinationVector[2] = {0};
+fractional IMPORTANTz declinationVector[2];
 
+signed char DECLINATIONANGLE PARAMETER = ((signed char)(MAGNETICDECLINATION*128/180));
 
 void dcm_init_rmat( void )
 {
@@ -140,13 +142,13 @@ void VectorCross( fractional * dest , fractional * src1 , fractional * src2 )
 	return ;
 }
 
-int vref_adj ;
+int vref_adj IMPORTANT = 0;
 
 void read_gyros()
 //	fetch the gyro signals and subtract the baseline offset, 
 //	and adjust for variations in supply voltage
 {
-	int gx , gy , gz ;
+//	int gx , gy , gz ;
 #ifdef VREF
 	vref_adj = (udb_vref.offset>>1) - (udb_vref.value>>1) ;
 #else
@@ -154,15 +156,14 @@ void read_gyros()
 #endif
 
 #if ( HILSIM == 1 )
-	gx = omegagyro[0] = q_sim.BB;
-	gy = omegagyro[1] = p_sim.BB;
-	gz = omegagyro[2] = r_sim.BB;  
+	omegagyro[0] = q_sim.BB;
+	omegagyro[1] = p_sim.BB;
+	omegagyro[2] = r_sim.BB;  
 #else
-	gx = omegagyro[0] = XRATE_VALUE ;
-	gy = omegagyro[1] = YRATE_VALUE ;
-	gz = omegagyro[2] = ZRATE_VALUE ;
+	omegagyro[0] = XRATE_VALUE ;
+	omegagyro[1] = YRATE_VALUE ;
+	omegagyro[2] = ZRATE_VALUE ;
 #endif
-	
 	return ;
 }
 
@@ -177,7 +178,6 @@ void read_accel()
 	gplane[1] =   YACCEL_VALUE ;
 	gplane[2] =   ZACCEL_VALUE ;
 #endif
-	
 	udb_setDSPLibInUse(true) ;
 	
 	accelEarth[0] =  VectorDotProduct( 3 , &rmat[0] , gplane )<<1;
@@ -189,7 +189,6 @@ void read_accel()
 	accelEarthFiltered[2].WW += ((((long)accelEarth[2])<<16) - accelEarthFiltered[2].WW)>>5 ;
 	
 	udb_setDSPLibInUse(false) ;
-	
 	return ;
 }
 
@@ -329,7 +328,6 @@ void yaw_drift()
 	return ;
 }
 
-
 #if (MAG_YAW_DRIFT == 1)
 
 fractional magFieldEarth[3] ;
@@ -352,7 +350,13 @@ void align_rmat_to_mag(void)
 	int sintheta ;
 	initialBodyField.x = udb_magFieldBody[0] ;
 	initialBodyField.y = udb_magFieldBody[1] ;
+#if (BOARD_TYPE == ASPG_BOARD)
+//	theta = rect_to_polar( &initialBodyField ) -128 - DECLINATIONANGLE ; // faces south
+//	theta = rect_to_polar( &initialBodyField ) +64 - DECLINATIONANGLE ; // faces east
 	theta = rect_to_polar( &initialBodyField ) -64 - DECLINATIONANGLE ;
+#else
+	theta = rect_to_polar( &initialBodyField ) -64 - DECLINATIONANGLE ;
+#endif
 	costheta = cosine(theta) ;
 	sintheta = sine(theta) ;
 	rmat[0] = rmat[4] = costheta ;
@@ -501,6 +505,8 @@ void dcm_run_imu_step(void)
 {
 
 	read_gyros() ;
+
+	interrupt_save_extended_state;
 	read_accel() ;
 	dead_reckon() ;
 #if ( HILSIM != 1 )
@@ -511,18 +517,14 @@ void dcm_run_imu_step(void)
 	roll_pitch_drift() ;
 #if (MAG_YAW_DRIFT == 1)
 	if ( CD[magCDindex].iResult >= MAG_NORMAL  )
-	{
 		mag_drift() ;
-	}
-	else
-	{
-		yaw_drift() ;
-	}
+	else yaw_drift() ;
 #else
 	yaw_drift() ;
 #endif
 	PI_feedback() ;
 	
+	interrupt_restore_extended_state ;
 	return ;
 }
 

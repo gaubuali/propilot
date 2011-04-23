@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="Common" displayName="Common" projectFiles="true">
+        <itemPath>../../../Microchip/Include/Compiler.h</itemPath>
+        <itemPath>../../../Microchip/Include/GenericTypeDefs.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="MDD File System"
+                     displayName="MDD File System"
+                     projectFiles="true">
+        <itemPath>../../../Microchip/Include/MDD File System/FSDefs.h</itemPath>
+        <itemPath>../../../Microchip/Include/MDD File System/FSIO.h</itemPath>
+        <itemPath>../../../Microchip/Include/MDD File System/Internal Flash.h</itemPath>
+        <itemPath>../../../Microchip/Include/MDD File System/SD-SPI.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="USB Stack" displayName="USB Stack" projectFiles="true">
+        <itemPath>../../../Microchip/Include/USB/usb.h</itemPath>
+        <itemPath>../../../Microchip/Include/USB/usb_ch9.h</itemPath>
+        <itemPath>../../../Microchip/Include/USB/usb_common.h</itemPath>
+        <itemPath>../../../Microchip/Include/USB/usb_device.h</itemPath>
+        <itemPath>../../../Microchip/USB/usb_device_local.h</itemPath>
+        <itemPath>../../../Microchip/Include/USB/usb_function_cdc.h</itemPath>
+        <itemPath>../../../Microchip/Include/USB/usb_function_msd.h</itemPath>
+        <itemPath>../../../Microchip/Include/USB/usb_hal.h</itemPath>
+        <itemPath>../../../Microchip/Include/USB/usb_hal_pic18.h</itemPath>
+      </logicalFolder>
+      <itemPath>../FSconfig.h</itemPath>
+      <itemPath>../HardwareConfig.h</itemPath>
+      <itemPath>../HardwareProfile - Custom.h</itemPath>
+      <itemPath>../HardwareProfile - PIC18F46J50 PIM.h</itemPath>
+      <itemPath>../HardwareProfile.h</itemPath>
+      <itemPath>../usb_config.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="LibraryFiles"
+                   displayName="Library Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="LinkerScript"
+                   displayName="Linker Files"
+                   projectFiles="true">
+      <itemPath>../rm18f26j50_g.lkr</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ObjectFiles"
+                   displayName="Object Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="USB Stack" displayName="USB Stack" projectFiles="true">
+        <itemPath>../../../Microchip/USB/usb_device.c</itemPath>
+        <itemPath>../../../Microchip/USB/CDC Device Driver/usb_function_cdc.c</itemPath>
+        <itemPath>../../../Microchip/USB/MSD Device Driver/usb_function_msd.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="zMDD disk store"
+                     displayName="zMDD disk store"
+                     projectFiles="true">
+        <itemPath>../../../Microchip/MDD File System/Internal Flash.c</itemPath>
+        <itemPath>../../../Microchip/MDD File System/SD-SPI.c</itemPath>
+      </logicalFolder>
+      <itemPath>../Files.c</itemPath>
+      <itemPath>../main.c</itemPath>
+      <itemPath>../usb_descriptors.c</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>.map</itemPath>
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <logicalFolder name="OtherFiles" displayName="Other Files" projectFiles="false">
+      <itemPath>../SD + CDC PIC18F26J50.map</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="default" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <targetDevice>PIC18F26J50</targetDevice>
+        <targetHeader></targetHeader>
+        <platformTool>PICkit3PlatformTool</platformTool>
+        <languageToolchain>C18</languageToolchain>
+        <compilerSet>C18</compilerSet>
+        <platform>3</platform>
+      </toolsSet>
+      <compileType>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <C18>
+        <property key="storage-class" value="sca"/>
+        <property key="enable-opa" value="true"/>
+        <property key="enable-all-optimizations" value="true"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="default-char-unsigned" value="false"/>
+        <property key="optimization-master" value="Custom"/>
+        <property key="code-model" value="ms"/>
+        <property key="warning-level" value="2"/>
+        <property key="extra-include-directories"
+                  value="..;../../../Microchip/Include;../../../Microchip/Include/MDD File System;../../../Microchip/Include/USB;../../../Microchip/USB;C:\MCC18\h"/>
+        <property key="enable-ow" value="true"/>
+        <property key="verbose" value="false"/>
+        <property key="enable-ou" value="true"/>
+        <property key="enable-ot" value="true"/>
+        <property key="enable-os" value="true"/>
+        <property key="data-model" value="oa-"/>
+        <property key="enable-or" value="true"/>
+        <property key="enable-op" value="true"/>
+        <property key="enable-on" value="true"/>
+        <property key="enable-om" value="true"/>
+        <property key="procedural-abstraction-passes" value="0"/>
+        <property key="enable-multi-bank-stack-model" value="false"/>
+        <property key="enable-int-promotion" value="false"/>
+        <property key="enable-od" value="true"/>
+        <property key="enable-ob" value="true"/>
+      </C18>
+      <C18-AS>
+        <property key="default.radix" value="HEX"/>
+        <property key="hex.output.format" value="INHX32"/>
+        <property key="enable.case.sensitivity" value="false"/>
+        <property key="preprocessor.macros" value=""/>
+        <property key="warning.level" value="0"/>
+        <property key="cross.reference.file" value=""/>
+      </C18-AS>
+      <C18-LD>
+        <property key="generate-hex" value="false"/>
+        <property key="hex-output-format" value="INHX32"/>
+        <property key="map-file" value=".map"/>
+        <property key="generate-cod" value="false"/>
+        <property key="extra-lib-directories" value="/C/mcc18/lib"/>
+      </C18-LD>
+      <PICkit3PlatformTool>
+        <property key="memories.eeprom" value="false"/>
+        <property key="voltagevalue" value="3.25"/>
+        <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="memories.programmemory.start" value="0x0"/>
+        <property key="programoptions.usehighvoltageonmclr" value="false"/>
+        <property key="memories.id" value="false"/>
+        <property key="memories.programmemory.end" value="0xfff7"/>
+        <property key="Freeze Peripherals" value="true"/>
+        <property key="memories.programmemory" value="true"/>
+        <property key="poweroptions.powerenable" value="false"/>
+        <property key="programoptions.eraseb4program" value="true"/>
+      </PICkit3PlatformTool>
+    </conf>
+  </confs>
+</configurationDescriptor>

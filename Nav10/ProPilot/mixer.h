@@ -13,14 +13,14 @@
 #define DCM_CAM_PITCH 5
 #define DCM_CAM_YAW 6
 #define DCM_CAM_ROLL 7
-#define RC_THROTTLE 8
-#define RC_ROLL 9
-#define RC_PITCH 10
-#define RC_YAW 11
-#define RC_MODE_FAILSAFE 12
-#define RC_AUX1_FLAPS 13
-#define RC_AUX2_CAM_P 14
-#define RC_AUX3_CAM_Y 15
+#define RC_THROTTLE (RC_START-1)+1
+#define RC_ROLL (RC_START-1)+2
+#define RC_PITCH (RC_START-1)+3
+#define RC_YAW (RC_START-1)+4
+#define RC_MODE_FAILSAFE (RC_START-1)+5
+#define RC_AUX1_FLAPS (RC_START-1)+6
+#define RC_AUX2_CAM_P (RC_START-1)+7
+#define RC_AUX3_CAM_Y (RC_START-1)+8
 
 #define UNUSED_MIX 0
 #define BALANCED_FULL_FACTOR 1

@@ -20,6 +20,8 @@
 
 
 #include "libUDB_internal.h"
+#include "defines.h"
+#include <string.h>
 
 #if (BOARD_IS_CLASSIC_UDB)
 #if ( CLOCK_CONFIG == CRYSTAL_CLOCK )
@@ -58,25 +60,28 @@ _FGS( GSS_OFF &					// no code protect
 _FOSCSEL( FNOSC_FRC &			// external clock + PLL enabled in code
 		IESO_OFF );				// include file is WRONG
 _FOSC(	FCKSM_CSECMD &			// clocks and monitor enabled
-		OSCIOFNC_OFF &			// Fcy output on OSC2
+		OSCIOFNC_OFF &			// no Fcy output on OSC2
 		POSCMD_EC );
 _FWDT(	FWDTEN_OFF &			// wdt's disabled
 		WINDIS_OFF ) ;
 _FPOR(	FPWRT_PWR32 ) ;			// fast powerup, will need to change for ext osc
 _FICD(	JTAGEN_OFF &			// jtag off and use 2nd set for ICSP
 		ICS_PGD2 ) ;
-_FUID0( 0xffff )
-_FUID1( 0xffff )
-_FUID2( 0xffff )
-_FUID3( 0xffff )
+//_FUID0( 0xffff )
+//_FUID1( 0xffff )
+//_FUID2( 0xffff )
+//_FUID3( 0xffff )
 #endif
 
 
 union udb_fbts_byte udb_flags ;
 
 boolean timer_5_on = 0 ;
-int needSaveExtendedState = 0 ;
-int defaultCorcon = 0 ;
+int needSaveExtendedState IMPORTANTz;
+int defaultCorcon IMPORTANTz;
+volatile int trap_flags __attribute__ ((persistent,section(".Persistant")));
+volatile long trap_source __attribute__ ((persistent,section(".Persistant")));
+
 /*
 WORD wSP_Save;
 typedef struct tagRESETS {
@@ -170,7 +175,7 @@ void udb_init(void)
 #endif
 	
 	udb_init_GPS() ;
-	udb_init_USART() ;
+	udb_init_USART() ; udb_serial_set_rate( SERIAL_OUTPUT_BAUD );
 	udb_init_pwm() ;
 #if (USE_OSD == 1)
 	udb_init_osd() ;
@@ -179,6 +184,21 @@ void udb_init(void)
 	SRbits.IPL = 0 ;	// turn on all interrupt priorities
 
 	udb_init_EE();
+#if (FLIGHT_PLAN_TYPE == FP_WAYPOINTS) && (SERIAL_OUTPUT_FORMAT == SERIAL_MAVLINK)
+	if ( cEEpresent )
+	{
+		int ready, idx;
+//		memset( &wpTemp, 0, sizeof(wpTemp) );	// clear so xlate will read
+		for ( idx = 0; idx < 4; idx++ ) {
+			ready = xlateWPbyIndex( idx, &wpTemp );
+			while (EE_Active != 0)		// this forces a wait in this function
+				indicate_loading_main;
+			xlateWPbyIndex( idx, &wpTemp );
+			injectWPatIndex( idx );
+		}
+	}
+#endif
+
 	
 	return ;
 }
@@ -191,6 +211,29 @@ void udb_run(void)
 	{
 		// pause cpu counting timer while not in an ISR
 		indicate_loading_main ;
+		// neither of these "return" till done but do keep the flag off while waiting
+		if ( flags._.write_EE_wp )	// writes get priority
+		{
+			WriteEEWaypoint(); 
+			flags._.write_EE_wp = 0;
+		} else
+		if ( flags._.write_EE_param )
+		{
+			WriteParameters();
+			udb_serial_send_string( (unsigned char *)"done." );
+			flags._.write_EE_param = 0;
+		} else
+		if ( flags._.read_EE_param && !flags._.write_EE_param )
+		{
+			ReadParameters();
+			udb_serial_send_string( (unsigned char *)"done." );
+			flags._.read_EE_param = 0;
+		} else 
+		if ( flags._.read_EE_wp && !flags._.write_EE_wp)
+		{
+			ReadEEWaypoint(); 
+			flags._.read_EE_wp = 0;
+		} 
 	}
 	// Never returns
 }
@@ -230,12 +273,39 @@ void udb_setDSPLibInUse(boolean inUse)
 void udb_a2d_record_offsets(void)
 {
 	// almost ready to turn the control on, save the input offsets
+#if (BOARD_TYPE == ASPG_BOARD)
+	if ( udb_zrate.offset == 0 )	// detect first call
+	{
+		UDB_XACCEL.offset = UDB_XACCEL.value ;
+		udb_xrate.offset = udb_xrate.value ;
+		UDB_YACCEL.offset = UDB_YACCEL.value ;
+		udb_yrate.offset = udb_yrate.value ;
+		UDB_ZACCEL.offset = UDB_ZACCEL.value GRAVITY_SIGN ((int)(2*GRAVITY)) ;  // GRAVITY is measured in A-D/2 units
+		udb_zrate.offset = udb_zrate.value ;									// The sign is for inverted boards
+	} else {
+//		UDB_XACCEL.offset = UDB_XACCEL.value - averageSample( &DIO[34].iBuffer[0], 16 );
+//		udb_xrate.offset = udb_xrate.value - averageSample( &DIO[31].iBuffer[0], 16 );
+//		UDB_YACCEL.offset = UDB_YACCEL.value - averageSample( &DIO[35].iBuffer[0], 16 );
+//		udb_yrate.offset = udb_yrate.value - averageSample( &DIO[32].iBuffer[0], 16 );
+//		UDB_ZACCEL.offset = UDB_ZACCEL.value GRAVITY_SIGN ((int)(2*GRAVITY)) ;  // GRAVITY is measured in A-D/2 units
+//		UDB_ZACCEL.offset -= averageSample( &DIO[36].iBuffer[0], 16 );			// The sign is for inverted boards
+//		udb_zrate.offset = udb_zrate.value - averageSample( &DIO[33].iBuffer[0], 16 );
+		UDB_XACCEL.offset = averageSample( &DIO[34].iBuffer[0], 16 );
+		udb_xrate.offset = averageSample( &DIO[31].iBuffer[0], 16 );
+		UDB_YACCEL.offset = averageSample( &DIO[35].iBuffer[0], 16 );
+		udb_yrate.offset = averageSample( &DIO[32].iBuffer[0], 16 );
+//		UDB_ZACCEL.offset = UDB_ZACCEL.value GRAVITY_SIGN ((int)(2*GRAVITY)) ;  // GRAVITY is measured in A-D/2 units
+		UDB_ZACCEL.offset = averageSample( &DIO[36].iBuffer[0], 16 ) GRAVITY_SIGN ((int)(2*GRAVITY));			// The sign is for inverted boards
+		udb_zrate.offset = averageSample( &DIO[33].iBuffer[0], 16 );
+	}
+#else
 	UDB_XACCEL.offset = UDB_XACCEL.value ;
 	udb_xrate.offset = udb_xrate.value ;
 	UDB_YACCEL.offset = UDB_YACCEL.value ;
 	udb_yrate.offset = udb_yrate.value ;
 	UDB_ZACCEL.offset = UDB_ZACCEL.value GRAVITY_SIGN ((int)(2*GRAVITY)) ;  // GRAVITY is measured in A-D/2 units
 	udb_zrate.offset = udb_zrate.value ;									// The sign is for inverted boards
+#endif
 #ifdef VREF
 	udb_vref.offset = udb_vref.value ;
 #endif
@@ -245,9 +315,10 @@ void udb_a2d_record_offsets(void)
 
 void udb_servo_record_trims(void)
 {
-	int i;
-	for (i=0; i < 65; i++)
-		udb_pwTrim[i] = udb_pwIn[i] ;
+//	int i;
+//	for (i=0; i < 65; i++)
+//		udb_pwTrim[i] = udb_pwIn[i] ;
+	memcpy( &udb_pwTrim[0], &udb_pwIn[0], sizeof(udb_pwTrim)) ;
 	
 	return ;
 }

@@ -21,10 +21,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Waypoint handling
-
-// Move on to the next waypoint when getting within this distance of the current goal (in meters)
-#define WAYPOINT_RADIUS 		25
-
 // Origin Location
 // When using relative waypoints, the default is to interpret those waypoints as relative to the
 // plane's power-up location.  Here you can choose to use any specific, fixed 3D location as the
@@ -129,18 +125,6 @@
 //
 // To use waypoints, make sure FLIGHT_PLAN_TYPE is set to FP_WAYPOINTS in options.h.
 
-
-////////////////////////////////////////////////////////////////////////////////
-// waypoints[]
-// 
-// By default the only waypoint is defined to be 75 meters above the starting point.
-
-const struct waypointDef waypoints[] = {
-		{ {   0,   0, 75 } , F_NORMAL, CAM_VIEW_LAUNCH } ,  // return to, and loiter 75 meters above the startup position
-} ;
-
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // rtlWaypoints[]
 // 
@@ -153,11 +137,17 @@ const struct waypointDef waypoints[] = {
 // and after flights, since turning off the transmitter will cause the throttle to come on.
 
 const struct waypointDef rtlWaypoints[] = {
-		{ { 0, 0,  50 } , F_LOITER + F_LAND, CAM_VIEW_LAUNCH } ,
+		{ { 50, 0,  75 } , F_LOITER + F_LAND, CAM_VIEW_LAUNCH } ,
 } ;
 
+////////////////////////////////////////////////////////////////////////////////
+// waypoints[]
+// 
+// By default the only waypoint is defined to be 75 meters above the starting point.
 
-
+// const struct waypointDef waypoints[] = {
+//		{ {   50,   0, 75 } , F_NORMAL, CAM_VIEW_LAUNCH } ,  // return to, and loiter 75 meters above the startup position
+//} ;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Example waypoint lists
@@ -165,8 +155,6 @@ const struct waypointDef rtlWaypoints[] = {
 // Here are more examples of waypoints lists, commented out.  Note that these are
 // all definitions of waypoints[], and if you want to use any of these as rtl waypoints,
 // you'll have to change them to define rtlWaypoints[] instead of waypoints[].
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // This is an example course that makes a 100 meter square, 75 meters above the starting point, and
@@ -181,7 +169,6 @@ const struct waypointDef rtlWaypoints[] = {
 // 
 // Note that this is not likely to be an especially smooth landing...
 
-/*
 const struct waypointDef waypoints[] = {
 		{ { 100,   0  , 75 } , F_NORMAL,   CAM_VIEW_LAUNCH } ,
 		{ { 100, 100  , 75 } , F_NORMAL,   CAM_VIEW_LAUNCH } ,
@@ -189,7 +176,6 @@ const struct waypointDef waypoints[] = {
 		{ {   0,   0  , 75 } , F_NORMAL,   CAM_VIEW_LAUNCH } ,
 		{ {  50,  50  , 75 } , F_LOITER + F_TRIGGER + F_LAND, CAM_VIEW_LAUNCH } ,
 } ;
-*/
 
 
 ////////////////////////////////////////////////////////////////////////////////

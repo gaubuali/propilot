@@ -347,5 +347,21 @@ void commit_gps_data(void)
 	return ;
 }
 
+#elif ( GPS_TYPE == GPS_DEBUG )
+//	if nav_valid is zero, there is valid GPS data that can be used for navigation.
+boolean gps_nav_valid(void)
+{
+	return (1) ;
+}
 
+
+void gps_startup_sequence(int gpscount)
+{
+	udb_gps_set_rate(4800);
+	return ;
+}
+void commit_gps_data(void) 
+{
+	return ;
+}
 #endif

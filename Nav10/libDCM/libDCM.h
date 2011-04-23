@@ -78,6 +78,8 @@ extern union dcm_fbts_byte { struct dcm_flag_bits _ ; char B ; } dcm_flags ;
 extern fractional rmat[] ;
 extern fractional omegaAccum[] ;
 extern fractional omegagyro[] ;
+extern int vref_adj ;
+
 
 extern struct relative3D GPSlocation ;
 extern struct relative3D GPSvelocity ;

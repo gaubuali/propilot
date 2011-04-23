@@ -18,6 +18,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MatrixPilot.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "options.h"
+#include "../libUDB/libUDB_defines.h"
+#if (SERIAL_OUTPUT_FORMAT != SERIAL_MAVLINK) // All MAVLink telemetry code is in MAVLink.c
 
 #include "defines.h"
 
@@ -27,9 +30,15 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+#if ( GPS_TYPE == GPS_DEBUG )
+#undef SERIAL_OUTPUT_FORMAT
+#define SERIAL_OUTPUT_FORMAT SERIAL_NONE
+#endif
 
 union intbb voltage_milis = {0} ;
 union intbb voltage_temp ;
+extern volatile int trap_flags __attribute__ ((persistent));
+extern volatile long trap_source __attribute__ ((persistent));
 
 void sio_newMsg(unsigned char);
 void sio_voltage_low( unsigned char inchar ) ;
@@ -53,7 +62,12 @@ void init_serial()
 #endif
 	
 	udb_serial_set_rate(SERIAL_OUTPUT_BAUD) ;
-	
+//	udb_serial_set_rate(38400) ;
+//	udb_serial_set_rate(57600) ;
+//	udb_serial_set_rate(115200) ;
+//	udb_serial_set_rate(230400) ;
+//	udb_serial_set_rate(500000) ;
+//	udb_serial_set_rate(1000000) ; // yes, it really will work at this rate
 	return ;
 }
 
@@ -62,13 +76,19 @@ void init_serial()
 // 
 // Receive Serial Commands
 //
-
+#if ( GPS_TYPE == GPS_DEBUG )
+void udb_serial_callback_received_char(char rxchar)
+{
+	udb_gps_send_char( rxchar ) ; // send to gps
+	return ;
+}
+#else
 void udb_serial_callback_received_char(char rxchar)
 {
 	(* sio_parse) ( rxchar ) ; // parse the input byte
 	return ;
 }
-
+#endif
 
 void sio_newMsg( unsigned char inchar )
 {
@@ -76,7 +96,11 @@ void sio_newMsg( unsigned char inchar )
 	{
 		sio_parse = &sio_voltage_high ;
 	}
-	else if ( inchar == 'R' )
+#if ( FLIGHT_PLAN_TYPE == FP_LOGO )
+	else if ( inchar == 'L' )
+#else
+	else if ( inchar == 'W' )
+#endif
 	{
 		fp_high_byte = -1 ; // -1 means we don't have the high byte yet (0-15 means we do)
 		fp_checksum = 0 ;
@@ -126,7 +150,7 @@ char hex_char_val(unsigned char inchar)
 
 // For UDB Logo instructions, bytes should be passed in using the following format
 // (Below, an X represents a hex digit 0-F.  Mulit-digit values are MSB first.)
-// R			begin remote command
+// L			begin remote Logo command
 // XX	byte:	command
 // XX	byte:	subcommand
 // X	0-1:	do fly
@@ -134,14 +158,14 @@ char hex_char_val(unsigned char inchar)
 // XXXX	word:	argument
 // *			done with command data
 // XX	byte:	checksum should equal the sum of the 10 bytes before the *, mod 256
-// 
-// For example: "R0201000005*E8" runs:
+//
+// For example: "L0201000005*E8" runs:
 // the DO command(02) for subroutine 01 with fly and param off(00) and an argument of 0005
 
 
 // For classic Waypoints, bytes should be passed in using the following format
 // (Below, an X represents a hex digit 0-F.  Mulit-digit values are MSB first.)
-// R				begin remote command
+// W				begin remote Waypoint command
 // XXXXXXXX	long:	waypoint X value
 // XXXXXXXX	long:	waypoint Y value
 // XXXX		word:	waypoint Z value
@@ -151,10 +175,10 @@ char hex_char_val(unsigned char inchar)
 // XXXX		word:	cam view Z value
 // *				done with command data
 // XX		byte:	checksum should equal the sum of the 44 bytes before the *, mod 256
-// 
-// For example: "R0000006400000032000F0200000000000000000000*67" represents:
+//
+// For example: "W0000006400000032000F0200000000000000000000*67" represents:
 // the waypoint { {100, 50, 15}, F_INVERTED, {0, 0, 0} }
-// 
+//
 
 void sio_fp_data( unsigned char inchar )
 {
@@ -248,7 +272,7 @@ void serial_output( char* format, ... )
 }
 
 
-char udb_serial_callback_get_char_to_send(void)
+int udb_serial_callback_get_char_to_send(void)
 {
 	char txchar = serial_buffer[ sb_index++ ] ;
 	
@@ -262,7 +286,7 @@ char udb_serial_callback_get_char_to_send(void)
 		end_index = 0 ;
 	}
 	
-	return 0;
+	return -1;
 }
 
 
@@ -545,9 +569,15 @@ void serial_output_8hz( void )
 	{
 		// The first lines of telemetry contain info about the compile-time settings from the options.h file
 		case 6:
-			serial_output("F11:WIND_EST=%i:GPS_TYPE=%i:DR=%i:BOARD_TYPE=%i:AIRFRAME=%i:RCON=%i:\r\n",
-				WIND_ESTIMATION, GPS_TYPE, DEADRECKONING, BOARD_TYPE, AIRFRAME_TYPE, RCON) ;
+			if ( _SWR == 0 )
+			{	// if there was not a software reset (trap error) clear the trap data
+				trap_flags = trap_source = 0 ;
+			}
+			serial_output("\r\nF14:WIND_EST=%i:GPS_TYPE=%i:DR=%i:BOARD_TYPE=%i:AIRFRAME=%i:RCON=0x%X:TRAP_FLAGS=0x%X:TRAP_SOURCE=0x%lX:\r\n",
+				WIND_ESTIMATION, GPS_TYPE, DEADRECKONING, BOARD_TYPE, AIRFRAME_TYPE, RCON , trap_flags , trap_source ) ;
 				RCON = 0 ;
+				trap_flags = 0 ;
+				trap_source = 0 ;
 			break ;
 		case 5:
 			serial_output("F4:R_STAB_A=%i:R_STAB_RD=%i:P_STAB=%i:Y_STAB_R=%i:Y_STAB_A=%i:AIL_NAV=%i:RUD_NAV=%i:AH_STAB=%i:AH_WP=%i:RACE=%i:\r\n",
@@ -610,7 +640,7 @@ void serial_output_8hz( void )
 				// Save  pwIn and PwOut buffers for printing next time around
 				int i ;
 				for (i=0; i <= NUM_INPUTS; i++)
-					pwIn_save[i] = udb_pwIn[i+7] ;
+					pwIn_save[i] = udb_pwIn[i+(RC_START-1)] ;
 				for (i=0; i <= NUM_OUTPUTS; i++)
 					pwOut_save[i] = udb_pwOut[i] ;
 				print_choice = 1 ;
@@ -659,4 +689,5 @@ void serial_output_8hz( void )
 	return ;
 }
 
+#endif
 #endif

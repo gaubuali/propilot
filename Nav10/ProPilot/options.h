@@ -71,7 +71,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Set this value to your GPS type.  (Set to GPS_STD, GPS_UBX_2HZ, or GPS_UBX_4HZ)
+// added GPS_DEBUG, just pass characters between gps port and telemetry port
 #define GPS_TYPE							GPS_STD
+//#define GPS_TYPE							GPS_DEBUG
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -93,9 +95,14 @@
 // Altitude Hold
 // Use altitude hold in stabilized mode?  In waypoint mode?
 // Each of these settings can be AH_NONE, AH_FULL, or AH_PITCH_ONLY
+//  - In waypoint mode, the target altitude is defined by the waypoints or logo program.
+//  - In stabilized mode, when ALTITUDEHOLD_STABILIZED is set to AH_PITCH_ONLY, the target
+// altitude is whatever altitude the plane was at when switched into stabilized mode.
+//  - In stabilized mode, when ALTITUDEHOLD_STABILIZED is set to AH_FULL, the target
+// altitude is determined by the position of the throttle stick on the transmitter.
 // NOTE: even when set to AH_NONE, MatrixPilot will still try to stabilize pitch as long
 // as PITCH_STABILIZATION is set to 1 above, but will not aim for any specific altitude.
-#define ALTITUDEHOLD_STABILIZED				AH_NONE
+#define ALTITUDEHOLD_STABILIZED				AH_PITCH_ONLY
 #define ALTITUDEHOLD_WAYPOINT				AH_FULL
 
 // Inverted flight
@@ -128,6 +135,7 @@
 // Define MAG_YAW_DRIFT to be 1 to use magnetometer for yaw drift correction.
 // Otherwise, if set to 0 the GPS will be used.
 #define MAG_YAW_DRIFT 						1
+//#define MAG_YAW_DRIFT 						0
 
 // Racing Mode
 // Setting RACING_MODE to 1 will keep the plane at a set throttle value while in waypoint mode.
@@ -295,20 +303,38 @@
 // SERIAL_UDB_EXTRA will add additional telemetry fields to those of SERIAL_UDB.
 // SERIAL_UDB_EXTRA can be used with the OpenLog without characters being dropped.
 // SERIAL_UDB_EXTRA may result in dropped characters if used with the XBEE wireless transmitter.
+// SERIAL_MAVLINK is a bi-directional binary format for use with QgroundControl (a Ground Control Station.)
+// Note that SERIAL_MAVLINK defaults to using a baud rate of 57600 baud.
+// Note also DEADRECKONING should be set to 1, for MAVLink to report the UAV Position.
+#define SERIAL_OUTPUT_FORMAT 	SERIAL_MAVLINK
+//#define SERIAL_OUTPUT_FORMAT				SERIAL_UDB_EXTRA
 //#define SERIAL_OUTPUT_FORMAT				SERIAL_MAGNETOMETER
-#define SERIAL_OUTPUT_FORMAT				SERIAL_UDB_EXTRA
 //#define SERIAL_OUTPUT_FORMAT				SERIAL_STATUS
 //#define SERIAL_OUTPUT_FORMAT				SERIAL_RAW
-//#define SERIAL_OUTPUT_BAUD					115200
+#define SERIAL_OUTPUT_BAUD					115200
 //#define SERIAL_OUTPUT_BAUD					1000000
-#define SERIAL_OUTPUT_BAUD					230400
+//#define SERIAL_OUTPUT_BAUD					230400
 //#define SERIAL_OUTPUT_BAUD					500000
-#define SERIAL_OUTPUT_INVERT				1
+#define SERIAL_OUTPUT_INVERT				0
 #define SERIAL_BUFFER_SIZE 512
+
+// The following SERIAL_INPUT_FORMAT line is for MAVLink development purposes only.
+// At the time of inserting this line, MAVLINK uplink only just works because
+// it uses nearly all the available RAM. So only enable this line if developing the uplink
+// code and exploring how to reduce RAM requitements or performing ground engineering tests.
+// Do not use in flight. pfg note: running on 710A so lots of ram available.
+// Choices are the same as for SERIAL_OUTPUT_FORMAT
+#if (SERIAL_OUTPUT_FORMAT != SERIAL_MAVLINK)
+#define SERIAL_INPUT_FORMAT    SERIAL_NONE
+#else
+#define SERIAL_INPUT_FORMAT    SERIAL_MAVLINK
+#endif
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // On Screen Display
 // OSD_VIDEO_FORMAT can be set to either OSD_NTSC, or OSD_PAL
+// To hide the callsign, set OSD_CALL_SIGN to just {0xFF}
 #define USE_OSD								0
 #define OSD_VIDEO_FORMAT					OSD_NTSC
 #define OSD_SHOW_HORIZON					0
@@ -512,7 +538,11 @@
 // Hardware In the Loop Simulation
 // Only set this to 1 for testing in the simulator.  Do not try to fly with this set to 1!
 // See the MatrixPilot wiki for more info on using HILSIM.
+// HILSIM_BAUD is the serial speed for communications with the X-Plane plugin.  Default is
+// 19200, but 230400 is a good speedy option.  Make sure the X-Plane plugin's Setup file has
+// its speed set to match.
 #define HILSIM 								0
+#define HILSIM_BAUD							19200
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -523,6 +553,9 @@
 // The Waypoint definitions and options are located in the waypoints.h file.
 // The Logo flight plan definitions and options are located in the flightplan-logo.h file.
 #define FLIGHT_PLAN_TYPE					FP_WAYPOINTS
+// Move on to the next waypoint when getting within this distance of the current goal (in meters)
+#define DEFAULT_WAYPOINT_RADIUS 		25
+
 
 
 ////////////////////////////////////////////////////////////////////////////////

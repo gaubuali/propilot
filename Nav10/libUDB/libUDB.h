@@ -23,7 +23,6 @@
 #define LIB_UDB_H
 
 #include "../ProPilot/options.h"
-//#include "defines.h"
 #include "fixDeps.h"
 #include "libUDB_defines.h"
 #include "magnetometerOptions.h"
@@ -102,28 +101,31 @@ extern unsigned long old_cpu_counter;
 // Treat udb_pwIn values as readonly.
 #define RC_START 8
 #define AUX_START 16
-extern int udb_pwIn[];		// pulse widths of radio inputs
+extern int udb_pwIn[65];		// pulse widths of radio inputs
 
 // These are the recorded trim values of the radio input channels.
 // These values are recorded when you call the udb_servo_record_trims()
 // function.
 // Each channel will be a value between approximately 2000 and 4000.
 // Treat udb_pwTrim values as readonly.
-extern int udb_pwTrim[];	// initial pulse widths for trimming
+extern int udb_pwTrim[65];	// initial pulse widths for trimming
 
 // These are the servo channel values that will be sent out to the servos.
 // Set these values in your implementation of the udb_servo_callback_prepare_outputs()
 // callback.
 // Each channel should be set to a value between 2000 and 4000.
 extern int udb_pwOut[];		// pulse widths for servo outputs
+//extern union longlongww tagUSec_x40; // this + t3 = cpu cyles
+extern union longlongww tagUSec; // this + (t3/40) = uSec
 
 #if (BOARD_TYPE == ASPG_BOARD)
 // These are the low level digital objects, includes all the RC in and servo out
 // structures plus the timer / general inputs and outputs. see ConfigASPG.h
 #define RC_PIN_START 1
 #define SERVO_PIN_START 9
-extern PIN FAR_BUF DIO[32];		// digital I/O handling
-//extern PIN DIO[32] ;		// digital I/O handling
+extern PIN NEAR_BUF DIO[48]; // digital and analog I/O handling
+void analog_pin( WORD, LPPIN );
+int averageSample( int *, int );
 #endif
 
 // This read-only value holds flags that tell you, among other things,
@@ -154,6 +156,7 @@ extern struct ADchannel udb_xaccel, udb_yaccel, udb_zaccel;	// x, y, and z accel
 extern struct ADchannel udb_xrate, udb_yrate, udb_zrate;	// x, y, and z gyro channels
 extern struct ADchannel udb_vref;							// reference voltage
 extern int AD1_Raw[24] IMPORTANT;	// save raw values to look at
+extern unsigned int AD2_Raw[24] IMPORTANT;	// save raw values to look at
 extern int FLT_Value[24] IMPORTANT;	// space to put in right order
 extern int AD1_Filt[2][7][64] FAR_BUF; // filter in[0][][] and out[1][][]
 extern int iAnalog_Head, iAnalog_Tail;	// index to keep track of buffer and de-buffer (GYRO's)
@@ -168,9 +171,9 @@ extern int iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer 
 #define xaccel (NUM_AD1_LIST + 1)
 #define yaccel (NUM_AD1_LIST + 2)
 #define zaccel (NUM_AD1_LIST + 3)
-#define xmag   (NUM_AD1_LIST + 4)
-#define ymag   (NUM_AD1_LIST + 5)
-#define zmag   (NUM_AD1_LIST + 6)
+#define x_mag   (NUM_AD1_LIST + 4)
+#define y_mag   (NUM_AD1_LIST + 5)
+#define z_mag   (NUM_AD1_LIST + 6)
 // AD1_Filt offsets 1 - 6 and FLT_Value 1-16
 #define gyro_x 1
 #define gyro_y 2
@@ -187,6 +190,7 @@ extern int iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer 
 // holding the UDB very still.
 void udb_a2d_record_offsets(void);
 void udb_gyro_autoZero( void );
+void analog_pin( WORD, LPPIN );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Magnetometer
@@ -214,15 +218,24 @@ extern int previousAccFieldRaw[3];
 // EE prom
 #define WReeCDindex 3
 #define REeeCDindex 4
-#define EE_PARAMETER_START 128
+#define EESIZE 256						// 256k bit = 32k byte
+#define EE_PARAMETER_START 128			// start address of parameters in EEPROM
+#define EE_WAYPOINTS_START 0x4000		// start address of waypoints in EEPROM
+#define EE_WAYPOINTS_END   0x5fff		// end address of waypoints in EEPROM
+#define EE_WAYPOINTS_MAX ((EE_WAYPOINTS_END - EE_WAYPOINTS_START)/sizeof(EEWAYPOINT))
 extern int EE_Active NEAR_BUF;
 extern int EE_Write_Timer NEAR_BUF;	// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
+extern char cEEpresent NEAR_BUF;		// 0 has no EE on board, 1 = 32k, 2 = 64k
 int EE_Write( unsigned int uiLen, unsigned int uiAddress, unsigned char *vpData  );
 int EE_Read( unsigned int uiLen, unsigned int uiAddress, unsigned char *vpData );
 void ReadParameters( void );
 void WriteParameters( void );
 void doneEE( void );
 int udb_init_EE( void );
+#if (FLIGHT_PLAN_TYPE == FP_WAYPOINTS)
+void ReadWaypoint( int dest, int src, int num );
+void WriteWaypoint( int dest, int src, int num );
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // LEDs
@@ -235,13 +248,13 @@ int udb_init_EE( void );
 void I2C_Start( int );
 void I2C_Reset( void );
 #define I2C_COM_LEN 64				// commands
-extern I2C_Action uI2C_Commands[I2C_COM_LEN] NEAR_BUF;		// command buffer, see I2C_aspg.c
-extern I2CCMD CC NEAR_BUF;			// peripheral driver command buffer, never mess with this
+extern I2C_Action uI2C_Commands[I2C_COM_LEN] IMPORTANTz;		// command buffer, see I2C_aspg.c
+extern I2CCMD CC IMPORTANTz;		// peripheral driver command buffer, never mess with this
 extern I2CCMD CD[8] NEAR_BUF;		// device driver command buffers - [0] reserved
 extern unsigned int I2Cmessages;	// FINISHED messages
 extern int I2C_Timeout;				// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
 #define I2C_BUF_LEN 128+16			// page write size + enough bytes to send an address
-extern unsigned char I2C_buffer[I2C_BUF_LEN] NEAR_BUF ;	// peripheral buf
+extern unsigned char I2C_buffer[I2C_BUF_LEN] IMPORTANTz ;	// peripheral buf
 extern void (* I2C_call_back[8] ) ( void );
 extern struct tagI2C_flags I2C_flags;	// defined in ConfigASPG.h
 
@@ -249,8 +262,8 @@ extern struct tagI2C_flags I2C_flags;	// defined in ConfigASPG.h
 // GPS IO
 
 // Set the GPS serial data rate.
-void udb_gps_set_rate(int rate);
-boolean udb_gps_check_rate(int rate);  //returns true if the rate arg is the current rate
+void udb_gps_set_rate(long rate);
+boolean udb_gps_check_rate(long rate);  //returns true if the rate arg is the current rate
 
 // Output one character to the GPS
 void udb_gps_send_char(char txchar);
@@ -281,7 +294,9 @@ void udb_serial_send_char( char outchar );
 
 // Implement this callback to tell the UDB what character is next to send on the serial port.
 // Return 0 to stop sending this string of characters.
-char udb_serial_callback_get_char_to_send(void);		// Call back
+#if (BOARD_TYPE != ASPG_BOARD)
+static inline int udb_serial_callback_get_char_to_send(void);		// Call back
+#endif
 
 // Implement this call back to handle receiving a character from the serial port
 void udb_serial_callback_received_char(char rxchar);	// Call back
@@ -301,6 +316,7 @@ void osd_spi_write(char address, char byte) ;
 void osd_spi_write_byte(char byte) ; // Used for writing chars while in auto-increment mode
 void osd_spi_write_location(char row, char column) ; // Set where on screen to write the next char
 void osd_spi_write_string(const unsigned char *str) ; // OSD chars, not ASCII
+void osd_spi_write_vertical_string_at_location(char row, char column, const unsigned char *str) ;
 
 #define NUM_FLAG_ZERO_PADDED	1	// When num_digits > 0, left-pad with zeros instead of spaces
 #define NUM_FLAG_SIGNED			2	// Reserve space for a - sign to the left of the number

@@ -212,7 +212,7 @@ SECTIONS
   } > data
 
 
-  .BufferSection : AT(0x1000)
+  .BufferSection : AT(0x1300)
   {
     *(Buffers);
   } > data
