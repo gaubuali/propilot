@@ -89,17 +89,17 @@ const I2C_Action magCfg[] = {
 			.F.uACK = 1}						// inc
 };
 
-int udb_magFieldBody[3] IMPORTANT = { 0 , 0 , 0 } ;  // magnetic field in the body frame of reference 
-int udb_magFieldBodyInput[3] IMPORTANT = { 0 , 0 , 0 } ;  // magnetic field in the body frame of reference 
-int udb_magOffset[3] IMPORTANT = { 0 , 0 , 0 } ;  // magnetic offset in the body frame of reference
+int udb_magFieldBody[3] IMPORTANTz ;  // magnetic field in the body frame of reference 
+int udb_magFieldBodyInput[3] IMPORTANTz ;  // magnetic field in the body frame of reference 
+int udb_magOffset[3] IMPORTANTz ;  // magnetic offset in the body frame of reference
 int magGain[3] IMPORTANT = { RMAX , RMAX , RMAX } ; // magnetometer calibration gains
-int rawMagCalib[3] IMPORTANT = { 0 , 0 , 0 } ;
-int previousMagFieldRaw[3] IMPORTANT = { 0 , 0 , 0 } ;
-int MagFieldFilter[3] IMPORTANT = { 0 , 0 , 0 } ;
-unsigned char magSameReadings = 0;	// counter to make sure its actually stuck rather than 2 of same readings
+int rawMagCalib[3] IMPORTANTz ;
+int previousMagFieldRaw[3] IMPORTANTz ;
+int MagFieldFilter[3] IMPORTANTz ;
+unsigned char magSameReadings ;		// counter to make sure its actually stuck rather than 2 of same readings
+unsigned char magConfigAttempts ;	// going to limit this in case there is a problem
 
 int I2_Done = 0;
-int magConfigAttempts = 0;		// going to limit this in case there is a problem
 
 // the + 3 at the end of this is to leave space for the on error bus stop + finished
 #define magReadStart ((sizeof uI2C_Commands)/2) - (((sizeof magRead)/2) + 3)
@@ -398,7 +398,7 @@ const I2C_Action accCal[] = { // self test, doesn't have cal function
 	{.uChar[0] = 0},							// empty to make Index step
 	{.F.uCmd = START, .F.uCount = 0xA6},		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 2 bytes,
-		{.uChar[0] = 0x31, .uChar[1] = 0x8e}, 		// first byte address then DATA_FORMAT
+		{.uChar[0] = 0x31, .uChar[1] = 0x8f}, 		// first byte address then DATA_FORMAT
 														// = 0b10001110 = 0x0e
 														// 7   0 = self test off, 
 														// 6    0 = SPI 3 or 4 bit - N/A, 
@@ -406,7 +406,7 @@ const I2C_Action accCal[] = { // self test, doesn't have cal function
 														// 4      0 = not used, 
 														// 3       1 = full res on, 
 														// 2        1 = left (MSB) justify on
-														// 1&0       10 = rang +- 8g
+														// 1&0       11 = rang +- 16g
 	{.F.uCmd = STOP},							// bus stop
 	{.F.uCmd = FINISHED,						// finished, copy + inc + call
 			.F.uACK = 1}
@@ -434,15 +434,15 @@ const I2C_Action accReset[] = {	// force reset by changing mode
 		{.uChar[0] = 0x7f, .uChar[1] = 0x00},			// INT_MAP = 0b01111111 = INT1 = DATA_READY
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 1 bytes,
-		{.uChar[0] = 0x31, .uChar[1] = 0x0c}, 		// first byte address then DATA_FORMAT
-														// = 0b00001110 = 0x0e
+		{.uChar[0] = 0x31, .uChar[1] = 0x0f}, 		// first byte address then DATA_FORMAT
+														// = 0b00001111 = 0x0f
 														// 7   0 = self test off, 
 														// 6    0 = SPI 3 or 4 bit - N/A, 
 														// 5     0 = int_invert off means active high
 														// 4      0 = not used, 
 														// 3       1 = full res on, 
 														// 2        1 = left (MSB) justify on
-														// 1&0       10 = rang +- 8g
+														// 1&0       11 = rang +- 16g
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 1 bytes,
 		{.uChar[0] = 0x38, .uChar[1] = 0xbf},		// first byte address then FIFO_CTRL
@@ -480,14 +480,15 @@ const I2C_Action accCfg[] = {
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 2 bytes,
 		{.uChar[0] = 0x31, .uChar[1] = 0x0f}, 		// first byte address then DATA_FORMAT
-														// = 0b00001010 = 0x0a
+//		{.uChar[0] = 0x31, .uChar[1] = 0x0b}, 		// first byte address then DATA_FORMAT
+														// = 0b00001111 = 0x0f
 														// 7   0 = self test off, 
 														// 6    0 = SPI 3 or 4 bit - N/A, 
 														// 5     0 = int_invert off means active high
 														// 4      0 = not used, 
 														// 3       1 = full res on, 
-														// 2        1 = left (MSB) justify on
-														// 1&0       10 = rang +- 8g
+														// 2        1 = left (MSB) justify off
+														// 1&0       11 = rang +- 16g
 	{.F.uCmd = RESTART, .F.uCount = 0xA6}, 		// start command with address
 	{.F.uCmd = TX, .F.uCount = 2 - 1},			// send 2 bytes,
 		{.uChar[0] = 0x38, .uChar[1] = 0xa1},		// first byte address then FIFO_CTRL

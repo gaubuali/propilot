@@ -1,17 +1,18 @@
 // MESSAGE SYS_STATUS PACKING
 
 #define MAVLINK_MSG_ID_SYS_STATUS 34
-#define MAVLINK_MSG_ID_SYS_STATUS_LEN 8
-#define MAVLINK_MSG_34_LEN 8
+#define MAVLINK_MSG_ID_SYS_STATUS_LEN 11
+#define MAVLINK_MSG_34_LEN 11
 
 typedef struct __mavlink_sys_status_t 
 {
 	uint8_t mode; ///< System mode, see MAV_MODE ENUM in mavlink/include/mavlink_types.h
 	uint8_t nav_mode; ///< Navigation mode, see MAV_NAV_MODE ENUM
-	uint8_t status; ///< System status flag, see MAV_STATUS ENUM
+	uint16_t load; ///< Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
 	uint16_t vbat; ///< Battery voltage, in millivolts (1 = 1 millivolt)
-	uint8_t motor_block; ///< Motor block status flag, 0: Motors can be switched on (and could be either off or on), 1: Mechanical motor block switch is on, motors cannot be switched on (and are definitely off)
+	uint16_t battery_remaining; ///< Remaining battery energy: (0%: 0, 100%: 1000)
 	uint16_t packet_drop; ///< Dropped packets (packets that were corrupted on reception on the MAV)
+	uint8_t status; ///< System status flag, see MAV_STATUS ENUM
 } mavlink_sys_status_t;
 
 
@@ -24,22 +25,24 @@ typedef struct __mavlink_sys_status_t
  * @param mode System mode, see MAV_MODE ENUM in mavlink/include/mavlink_types.h
  * @param nav_mode Navigation mode, see MAV_NAV_MODE ENUM
  * @param status System status flag, see MAV_STATUS ENUM
+ * @param load Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
  * @param vbat Battery voltage, in millivolts (1 = 1 millivolt)
- * @param motor_block Motor block status flag, 0: Motors can be switched on (and could be either off or on), 1: Mechanical motor block switch is on, motors cannot be switched on (and are definitely off)
+ * @param battery_remaining Remaining battery energy: (0%: 0, 100%: 1000)
  * @param packet_drop Dropped packets (packets that were corrupted on reception on the MAV)
  * @return length of the message in bytes (excluding serial stream start sign)
  */
-static inline uint16_t mavlink_msg_sys_status_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, uint8_t mode, uint8_t nav_mode, uint8_t status, uint16_t vbat, uint8_t motor_block, uint16_t packet_drop)
+static inline uint16_t mavlink_msg_sys_status_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, uint8_t mode, uint8_t nav_mode, uint8_t status, uint16_t load, uint16_t vbat, uint16_t battery_remaining, uint16_t packet_drop)
 {
 	mavlink_sys_status_t *p = (mavlink_sys_status_t *)&msg->payload[0];
 	msg->msgid = MAVLINK_MSG_ID_SYS_STATUS;
 
 	p->mode = mode; // uint8_t:System mode, see MAV_MODE ENUM in mavlink/include/mavlink_types.h
 	p->nav_mode = nav_mode; // uint8_t:Navigation mode, see MAV_NAV_MODE ENUM
-	p->status = status; // uint8_t:System status flag, see MAV_STATUS ENUM
+	p->load = load; // uint16_t:Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
 	p->vbat = vbat; // uint16_t:Battery voltage, in millivolts (1 = 1 millivolt)
-	p->motor_block = motor_block; // uint8_t:Motor block status flag, 0: Motors can be switched on (and could be either off or on), 1: Mechanical motor block switch is on, motors cannot be switched on (and are definitely off)
+	p->battery_remaining = battery_remaining; // uint16_t:Remaining battery energy: (0%: 0, 100%: 1000)
 	p->packet_drop = packet_drop; // uint16_t:Dropped packets (packets that were corrupted on reception on the MAV)
+	p->status = status; // uint8_t:System status flag, see MAV_STATUS ENUM
 
 	return mavlink_finalize_message(msg, system_id, component_id, MAVLINK_MSG_ID_SYS_STATUS_LEN);
 }
@@ -53,22 +56,24 @@ static inline uint16_t mavlink_msg_sys_status_pack(uint8_t system_id, uint8_t co
  * @param mode System mode, see MAV_MODE ENUM in mavlink/include/mavlink_types.h
  * @param nav_mode Navigation mode, see MAV_NAV_MODE ENUM
  * @param status System status flag, see MAV_STATUS ENUM
+ * @param load Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
  * @param vbat Battery voltage, in millivolts (1 = 1 millivolt)
- * @param motor_block Motor block status flag, 0: Motors can be switched on (and could be either off or on), 1: Mechanical motor block switch is on, motors cannot be switched on (and are definitely off)
+ * @param battery_remaining Remaining battery energy: (0%: 0, 100%: 1000)
  * @param packet_drop Dropped packets (packets that were corrupted on reception on the MAV)
  * @return length of the message in bytes (excluding serial stream start sign)
  */
-static inline uint16_t mavlink_msg_sys_status_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, uint8_t mode, uint8_t nav_mode, uint8_t status, uint16_t vbat, uint8_t motor_block, uint16_t packet_drop)
+static inline uint16_t mavlink_msg_sys_status_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, uint8_t mode, uint8_t nav_mode, uint8_t status, uint16_t load, uint16_t vbat, uint16_t battery_remaining, uint16_t packet_drop)
 {
 	mavlink_sys_status_t *p = (mavlink_sys_status_t *)&msg->payload[0];
 	msg->msgid = MAVLINK_MSG_ID_SYS_STATUS;
 
 	p->mode = mode; // uint8_t:System mode, see MAV_MODE ENUM in mavlink/include/mavlink_types.h
 	p->nav_mode = nav_mode; // uint8_t:Navigation mode, see MAV_NAV_MODE ENUM
-	p->status = status; // uint8_t:System status flag, see MAV_STATUS ENUM
+	p->load = load; // uint16_t:Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
 	p->vbat = vbat; // uint16_t:Battery voltage, in millivolts (1 = 1 millivolt)
-	p->motor_block = motor_block; // uint8_t:Motor block status flag, 0: Motors can be switched on (and could be either off or on), 1: Mechanical motor block switch is on, motors cannot be switched on (and are definitely off)
+	p->battery_remaining = battery_remaining; // uint16_t:Remaining battery energy: (0%: 0, 100%: 1000)
 	p->packet_drop = packet_drop; // uint16_t:Dropped packets (packets that were corrupted on reception on the MAV)
+	p->status = status; // uint8_t:System status flag, see MAV_STATUS ENUM
 
 	return mavlink_finalize_message_chan(msg, system_id, component_id, chan, MAVLINK_MSG_ID_SYS_STATUS_LEN);
 }
@@ -83,7 +88,7 @@ static inline uint16_t mavlink_msg_sys_status_pack_chan(uint8_t system_id, uint8
  */
 static inline uint16_t mavlink_msg_sys_status_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_sys_status_t* sys_status)
 {
-	return mavlink_msg_sys_status_pack(system_id, component_id, msg, sys_status->mode, sys_status->nav_mode, sys_status->status, sys_status->vbat, sys_status->motor_block, sys_status->packet_drop);
+	return mavlink_msg_sys_status_pack(system_id, component_id, msg, sys_status->mode, sys_status->nav_mode, sys_status->status, sys_status->load, sys_status->vbat, sys_status->battery_remaining, sys_status->packet_drop);
 }
 
 /**
@@ -93,12 +98,13 @@ static inline uint16_t mavlink_msg_sys_status_encode(uint8_t system_id, uint8_t 
  * @param mode System mode, see MAV_MODE ENUM in mavlink/include/mavlink_types.h
  * @param nav_mode Navigation mode, see MAV_NAV_MODE ENUM
  * @param status System status flag, see MAV_STATUS ENUM
+ * @param load Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
  * @param vbat Battery voltage, in millivolts (1 = 1 millivolt)
- * @param motor_block Motor block status flag, 0: Motors can be switched on (and could be either off or on), 1: Mechanical motor block switch is on, motors cannot be switched on (and are definitely off)
+ * @param battery_remaining Remaining battery energy: (0%: 0, 100%: 1000)
  * @param packet_drop Dropped packets (packets that were corrupted on reception on the MAV)
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
-static inline void mavlink_msg_sys_status_send(mavlink_channel_t chan, uint8_t mode, uint8_t nav_mode, uint8_t status, uint16_t vbat, uint8_t motor_block, uint16_t packet_drop)
+static inline void mavlink_msg_sys_status_send(mavlink_channel_t chan, uint8_t mode, uint8_t nav_mode, uint8_t status, uint16_t load, uint16_t vbat, uint16_t battery_remaining, uint16_t packet_drop)
 {
 	mavlink_message_t msg;
 	uint16_t checksum;
@@ -106,10 +112,11 @@ static inline void mavlink_msg_sys_status_send(mavlink_channel_t chan, uint8_t m
 
 	p->mode = mode; // uint8_t:System mode, see MAV_MODE ENUM in mavlink/include/mavlink_types.h
 	p->nav_mode = nav_mode; // uint8_t:Navigation mode, see MAV_NAV_MODE ENUM
-	p->status = status; // uint8_t:System status flag, see MAV_STATUS ENUM
+	p->load = load; // uint16_t:Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
 	p->vbat = vbat; // uint16_t:Battery voltage, in millivolts (1 = 1 millivolt)
-	p->motor_block = motor_block; // uint8_t:Motor block status flag, 0: Motors can be switched on (and could be either off or on), 1: Mechanical motor block switch is on, motors cannot be switched on (and are definitely off)
+	p->battery_remaining = battery_remaining; // uint16_t:Remaining battery energy: (0%: 0, 100%: 1000)
 	p->packet_drop = packet_drop; // uint16_t:Dropped packets (packets that were corrupted on reception on the MAV)
+	p->status = status; // uint8_t:System status flag, see MAV_STATUS ENUM
 
 	msg.STX = MAVLINK_STX;
 	msg.len = MAVLINK_MSG_ID_SYS_STATUS_LEN;
@@ -128,7 +135,7 @@ static inline void mavlink_msg_sys_status_send(mavlink_channel_t chan, uint8_t m
 #endif
 
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS_SMALL
-static inline void mavlink_msg_sys_status_send(mavlink_channel_t chan, uint8_t mode, uint8_t nav_mode, uint8_t status, uint16_t vbat, uint8_t motor_block, uint16_t packet_drop)
+static inline void mavlink_msg_sys_status_send(mavlink_channel_t chan, uint8_t mode, uint8_t nav_mode, uint8_t status, uint16_t load, uint16_t vbat, uint16_t battery_remaining, uint16_t packet_drop)
 {
 	mavlink_header_t hdr;
 	mavlink_sys_status_t payload;
@@ -137,10 +144,11 @@ static inline void mavlink_msg_sys_status_send(mavlink_channel_t chan, uint8_t m
 
 	p->mode = mode; // uint8_t:System mode, see MAV_MODE ENUM in mavlink/include/mavlink_types.h
 	p->nav_mode = nav_mode; // uint8_t:Navigation mode, see MAV_NAV_MODE ENUM
-	p->status = status; // uint8_t:System status flag, see MAV_STATUS ENUM
+	p->load = load; // uint16_t:Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
 	p->vbat = vbat; // uint16_t:Battery voltage, in millivolts (1 = 1 millivolt)
-	p->motor_block = motor_block; // uint8_t:Motor block status flag, 0: Motors can be switched on (and could be either off or on), 1: Mechanical motor block switch is on, motors cannot be switched on (and are definitely off)
+	p->battery_remaining = battery_remaining; // uint16_t:Remaining battery energy: (0%: 0, 100%: 1000)
 	p->packet_drop = packet_drop; // uint16_t:Dropped packets (packets that were corrupted on reception on the MAV)
+	p->status = status; // uint8_t:System status flag, see MAV_STATUS ENUM
 
 	hdr.STX = MAVLINK_STX;
 	hdr.len = MAVLINK_MSG_ID_SYS_STATUS_LEN;
@@ -198,6 +206,17 @@ static inline uint8_t mavlink_msg_sys_status_get_status(const mavlink_message_t*
 }
 
 /**
+ * @brief Get field load from sys_status message
+ *
+ * @return Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
+ */
+static inline uint16_t mavlink_msg_sys_status_get_load(const mavlink_message_t* msg)
+{
+	mavlink_sys_status_t *p = (mavlink_sys_status_t *)&msg->payload[0];
+	return (uint16_t)(p->load);
+}
+
+/**
  * @brief Get field vbat from sys_status message
  *
  * @return Battery voltage, in millivolts (1 = 1 millivolt)
@@ -209,14 +228,14 @@ static inline uint16_t mavlink_msg_sys_status_get_vbat(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field motor_block from sys_status message
+ * @brief Get field battery_remaining from sys_status message
  *
- * @return Motor block status flag, 0: Motors can be switched on (and could be either off or on), 1: Mechanical motor block switch is on, motors cannot be switched on (and are definitely off)
+ * @return Remaining battery energy: (0%: 0, 100%: 1000)
  */
-static inline uint8_t mavlink_msg_sys_status_get_motor_block(const mavlink_message_t* msg)
+static inline uint16_t mavlink_msg_sys_status_get_battery_remaining(const mavlink_message_t* msg)
 {
 	mavlink_sys_status_t *p = (mavlink_sys_status_t *)&msg->payload[0];
-	return (uint8_t)(p->motor_block);
+	return (uint16_t)(p->battery_remaining);
 }
 
 /**

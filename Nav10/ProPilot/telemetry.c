@@ -640,7 +640,7 @@ void serial_output_8hz( void )
 				// Save  pwIn and PwOut buffers for printing next time around
 				int i ;
 				for (i=0; i <= NUM_INPUTS; i++)
-					pwIn_save[i] = udb_pwIn[i+7] ;
+					pwIn_save[i] = udb_pwIn[i+(RC_START-1)] ;
 				for (i=0; i <= NUM_OUTPUTS; i++)
 					pwOut_save[i] = udb_pwOut[i] ;
 				print_choice = 1 ;

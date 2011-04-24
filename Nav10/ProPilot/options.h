@@ -553,6 +553,9 @@
 // The Waypoint definitions and options are located in the waypoints.h file.
 // The Logo flight plan definitions and options are located in the flightplan-logo.h file.
 #define FLIGHT_PLAN_TYPE					FP_WAYPOINTS
+// Move on to the next waypoint when getting within this distance of the current goal (in meters)
+#define DEFAULT_WAYPOINT_RADIUS 		25
+
 
 
 ////////////////////////////////////////////////////////////////////////////////

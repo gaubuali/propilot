@@ -28,7 +28,7 @@ static inline uint16_t mavlink_msg_statustext_pack(uint8_t system_id, uint8_t co
 	msg->msgid = MAVLINK_MSG_ID_STATUSTEXT;
 
 	p->severity = severity; // uint8_t:Severity of status, 0 = info message, 255 = critical fault
-	memcpy( p->text, text, sizeof(p->text)); // array[50]:Status text message, without null termination character
+	memcpy(p->text, text, sizeof(p->text)); // int8_t[50]:Status text message, without null termination character
 
 	return mavlink_finalize_message(msg, system_id, component_id, MAVLINK_MSG_ID_STATUSTEXT_LEN);
 }
@@ -49,7 +49,7 @@ static inline uint16_t mavlink_msg_statustext_pack_chan(uint8_t system_id, uint8
 	msg->msgid = MAVLINK_MSG_ID_STATUSTEXT;
 
 	p->severity = severity; // uint8_t:Severity of status, 0 = info message, 255 = critical fault
-	memcpy( p->text, text, sizeof(p->text)); // array[50]:Status text message, without null termination character
+	memcpy(p->text, text, sizeof(p->text)); // int8_t[50]:Status text message, without null termination character
 
 	return mavlink_finalize_message_chan(msg, system_id, component_id, chan, MAVLINK_MSG_ID_STATUSTEXT_LEN);
 }
@@ -82,7 +82,7 @@ static inline void mavlink_msg_statustext_send(mavlink_channel_t chan, uint8_t s
 	mavlink_statustext_t *p = (mavlink_statustext_t *)&msg.payload[0];
 
 	p->severity = severity; // uint8_t:Severity of status, 0 = info message, 255 = critical fault
-	memcpy( p->text, text, sizeof(p->text)); // array[50]:Status text message, without null termination character
+	memcpy(p->text, text, sizeof(p->text)); // int8_t[50]:Status text message, without null termination character
 
 	msg.STX = MAVLINK_STX;
 	msg.len = MAVLINK_MSG_ID_STATUSTEXT_LEN;
@@ -109,7 +109,7 @@ static inline void mavlink_msg_statustext_send(mavlink_channel_t chan, uint8_t s
 	mavlink_statustext_t *p = &payload;
 
 	p->severity = severity; // uint8_t:Severity of status, 0 = info message, 255 = critical fault
-	memcpy( p->text, text, sizeof(p->text)); // array[50]:Status text message, without null termination character
+	memcpy(p->text, text, sizeof(p->text)); // int8_t[50]:Status text message, without null termination character
 
 	hdr.STX = MAVLINK_STX;
 	hdr.len = MAVLINK_MSG_ID_STATUSTEXT_LEN;

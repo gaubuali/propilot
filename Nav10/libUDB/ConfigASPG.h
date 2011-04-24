@@ -37,8 +37,8 @@
 //#define SCALEGYRO 3.25
 //#define SCALEACCEL 2.64
 //#define SCALEACCEL 3.64
-#define SCALEACCEL 2.49
-//#define SCALEACCEL 1.98
+//#define SCALEACCEL 2.49
+#define SCALEACCEL 2.64
 
 // Max inputs and outputs
 #define MAX_INPUTS	8
@@ -52,6 +52,7 @@
 #define FAR_BUF __attribute__ ((far, section("FarBuffers")))
 #define NEAR_BUF __attribute__ ((near, section("NearBuffers")))
 #define IMPORTANT __attribute__ ((near, section("Important")))
+#define IMPORTANTz __attribute__ ((near, section("ImportantZ")))
 #define PARAMETER __attribute__ ((near, section("Parameters")))
 
 /* Pin structure notes:
@@ -119,7 +120,7 @@ typedef struct tagPin {
 	unsigned int	iPin:4;			// pin within port
 	unsigned int	iGlobal:6;		// Index into global data arrays, eg pwIn for radio rx etc
 	unsigned int	iGlen:2;		// number of spots taken, 0=1, 1=8,
-	unsigned int	iSpare:8;		// unused
+	unsigned int	iSpare:8;		// unused inputs, used on servos
 	union {				// private use for type functions
 		int iPrivate[4];
 		long lPrivate[2];
@@ -234,6 +235,9 @@ typedef union tagMixer {
 // this is critical, don't touch without mods in analog2digital_aspg.c
 #define AD1_LIST HIGH_ANALOGS
 #define NUM_AD1_LIST 10
+
+#define AD2_LIST LOW_ANALOGS
+#define NUM_AD2_LIST 6
 
 #define	xrateBUFF	6
 #define	yrateBUFF	2

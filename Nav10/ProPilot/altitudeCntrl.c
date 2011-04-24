@@ -21,7 +21,7 @@
 
 #include "defines.h"
 
-union longww throttleFiltered = { 0 } ;
+union longww IMPORTANTz throttleFiltered;
 
 #define THROTTLEFILTSHIFT 12
 
@@ -40,10 +40,10 @@ union longww throttleFiltered = { 0 } ;
 
 #define HEIGHTTHROTTLEGAIN (( 1.5*HEIGHT_TARGET_MAX* 1024.0 ) / ( SERVORANGE*SERVOSAT ))
 
-int pitchAltitudeAdjust = 0 ;
+int IMPORTANTz pitchAltitudeAdjust;
 boolean filterManual = false;
 
-int desiredHeight ;
+int IMPORTANTz desiredHeight ;
 
 void normalAltitudeCntrl(void) ;
 void manualThrottle(int throttleIn) ;

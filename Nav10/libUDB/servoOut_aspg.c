@@ -147,7 +147,7 @@ void udb_init_pwm(void) // initialize the PWM
 }
 
 void udb_set_action_state(boolean newValue) {
-	_LATE4 = newValue;
+//	_LATE4 = newValue;
 }
 
 // Output type digital pins - see radioIn for digital input pin handler

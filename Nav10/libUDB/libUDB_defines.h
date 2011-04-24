@@ -93,6 +93,7 @@ typedef unsigned long DWORD, *LPDWORD;
 #define FAR_BUF __attribute__ ((far))
 #define NEAR_BUF __attribute__ ((near))
 #define IMPORTANT __attribute__ ((near))
+#define IMPORTANTz __attribute__ ((near))
 #define PARAMETER __attribute__ ((near))
 #endif
 

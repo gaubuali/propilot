@@ -6,8 +6,8 @@
 
 typedef struct __mavlink_debug_t 
 {
-	uint8_t ind; ///< index of debug variable
 	float value; ///< DEBUG value
+	uint8_t ind; ///< index of debug variable
 } mavlink_debug_t;
 
 
@@ -26,8 +26,8 @@ static inline uint16_t mavlink_msg_debug_pack(uint8_t system_id, uint8_t compone
 	mavlink_debug_t *p = (mavlink_debug_t *)&msg->payload[0];
 	msg->msgid = MAVLINK_MSG_ID_DEBUG;
 
-	p->ind = ind; // uint8_t:index of debug variable
 	p->value = value; // float:DEBUG value
+	p->ind = ind; // uint8_t:index of debug variable
 
 	return mavlink_finalize_message(msg, system_id, component_id, MAVLINK_MSG_ID_DEBUG_LEN);
 }
@@ -47,8 +47,8 @@ static inline uint16_t mavlink_msg_debug_pack_chan(uint8_t system_id, uint8_t co
 	mavlink_debug_t *p = (mavlink_debug_t *)&msg->payload[0];
 	msg->msgid = MAVLINK_MSG_ID_DEBUG;
 
-	p->ind = ind; // uint8_t:index of debug variable
 	p->value = value; // float:DEBUG value
+	p->ind = ind; // uint8_t:index of debug variable
 
 	return mavlink_finalize_message_chan(msg, system_id, component_id, chan, MAVLINK_MSG_ID_DEBUG_LEN);
 }
@@ -80,8 +80,8 @@ static inline void mavlink_msg_debug_send(mavlink_channel_t chan, uint8_t ind, f
 	uint16_t checksum;
 	mavlink_debug_t *p = (mavlink_debug_t *)&msg.payload[0];
 
-	p->ind = ind; // uint8_t:index of debug variable
 	p->value = value; // float:DEBUG value
+	p->ind = ind; // uint8_t:index of debug variable
 
 	msg.STX = MAVLINK_STX;
 	msg.len = MAVLINK_MSG_ID_DEBUG_LEN;
@@ -107,8 +107,8 @@ static inline void mavlink_msg_debug_send(mavlink_channel_t chan, uint8_t ind, f
 	uint16_t checksum;
 	mavlink_debug_t *p = &payload;
 
-	p->ind = ind; // uint8_t:index of debug variable
 	p->value = value; // float:DEBUG value
+	p->ind = ind; // uint8_t:index of debug variable
 
 	hdr.STX = MAVLINK_STX;
 	hdr.len = MAVLINK_MSG_ID_DEBUG_LEN;

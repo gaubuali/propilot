@@ -7,9 +7,11 @@
 ; ..............................................................................
 ; Allocate and initialize filter taps
 
-		.section .filter_aspgconst, code
-		.align 64
+		.section .filter_aspgconst, psv
+		.global _filter_aspgTaps
 
+		.align 64
+_filter_aspgTaps:
 filter_aspgTaps:
 .hword 	0x000B,	0x0004,	0xFFE6,	0xFFA4,	0xFF45,	0xFEDE,	0xFE9E,	0xFEC1,	0xFF88
 .hword 	0x0121,	0x0399,	0x06C5,	0x0A48,	0x0DA2,	0x1044,	0x11B7,	0x11B7,	0x1044
@@ -20,22 +22,23 @@ filter_aspgTaps:
 ; Allocate delay line in (uninitialized) Y data space
 
 ;;		.section .filt_ybss, bss, ymemory, address(7600), align(64)
-		.section filter_aspg, ymemory, address(0x7600)
+;;		.section filter_aspg, ymemory, address(0x7600)
+		.section .filter_aspg, ymemory
 ;;		.section .ydata, address(0x7600)
 
 		.align 64
 		.global _filter_aspgDelayX
-filter_aspgDelayX:
+_filter_aspgDelayX:
 		.space filter_aspgNumTaps*2
 
 		.align 64
 		.global _filter_aspgDelayY
-filter_aspgDelayY:
+_filter_aspgDelayY:
 		.space filter_aspgNumTaps*2
 
 		.align 64
 		.global _filter_aspgDelayZ
-filter_aspgDelayZ:
+_filter_aspgDelayZ:
 		.space filter_aspgNumTaps*2
 
 ; fix microchip's or the linkers stupidity of putting this at the highest 
@@ -52,9 +55,9 @@ _filter_aspgFilterX:
 .hword psvoffset(filter_aspgTaps)
 .hword psvoffset(filter_aspgTaps)+filter_aspgNumTaps*2-1
 .hword psvpage(filter_aspgTaps)
-.hword filter_aspgDelayX
-.hword filter_aspgDelayX+filter_aspgNumTaps*2-1
-.hword filter_aspgDelayX
+.hword _filter_aspgDelayX
+.hword _filter_aspgDelayX+filter_aspgNumTaps*2-1
+.hword _filter_aspgDelayX
 
 		.global _filter_aspgFilterY
 
@@ -63,9 +66,9 @@ _filter_aspgFilterY:
 .hword psvoffset(filter_aspgTaps)
 .hword psvoffset(filter_aspgTaps)+filter_aspgNumTaps*2-1
 .hword psvpage(filter_aspgTaps)
-.hword filter_aspgDelayY
-.hword filter_aspgDelayY+filter_aspgNumTaps*2-1
-.hword filter_aspgDelayY
+.hword _filter_aspgDelayY
+.hword _filter_aspgDelayY+filter_aspgNumTaps*2-1
+.hword _filter_aspgDelayY
 
 		.global _filter_aspgFilterZ
 
@@ -74,9 +77,9 @@ _filter_aspgFilterZ:
 .hword psvoffset(filter_aspgTaps)
 .hword psvoffset(filter_aspgTaps)+filter_aspgNumTaps*2-1
 .hword psvpage(filter_aspgTaps)
-.hword filter_aspgDelayZ
-.hword filter_aspgDelayZ+filter_aspgNumTaps*2-1
-.hword filter_aspgDelayZ
+.hword _filter_aspgDelayZ
+.hword _filter_aspgDelayZ+filter_aspgNumTaps*2-1
+.hword _filter_aspgDelayZ
 
 ; ..............................................................................
 ; ..............................................................................

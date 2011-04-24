@@ -6,7 +6,7 @@
 
 typedef struct __mavlink_local_position_t 
 {
-	uint64_t usec; ///< Timestamp (microseconds since unix epoch)
+	uint64_t usec; ///< Timestamp (microseconds since UNIX epoch or microseconds since system boot)
 	float x; ///< X Position
 	float y; ///< Y Position
 	float z; ///< Z Position
@@ -22,7 +22,7 @@ typedef struct __mavlink_local_position_t
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
- * @param usec Timestamp (microseconds since unix epoch)
+ * @param usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  * @param x X Position
  * @param y Y Position
  * @param z Z Position
@@ -36,7 +36,7 @@ static inline uint16_t mavlink_msg_local_position_pack(uint8_t system_id, uint8_
 	mavlink_local_position_t *p = (mavlink_local_position_t *)&msg->payload[0];
 	msg->msgid = MAVLINK_MSG_ID_LOCAL_POSITION;
 
-	p->usec = usec; // uint64_t:Timestamp (microseconds since unix epoch)
+	p->usec = usec; // uint64_t:Timestamp (microseconds since UNIX epoch or microseconds since system boot)
 	p->x = x; // float:X Position
 	p->y = y; // float:Y Position
 	p->z = z; // float:Z Position
@@ -53,7 +53,7 @@ static inline uint16_t mavlink_msg_local_position_pack(uint8_t system_id, uint8_
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message was sent over
  * @param msg The MAVLink message to compress the data into
- * @param usec Timestamp (microseconds since unix epoch)
+ * @param usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  * @param x X Position
  * @param y Y Position
  * @param z Z Position
@@ -67,7 +67,7 @@ static inline uint16_t mavlink_msg_local_position_pack_chan(uint8_t system_id, u
 	mavlink_local_position_t *p = (mavlink_local_position_t *)&msg->payload[0];
 	msg->msgid = MAVLINK_MSG_ID_LOCAL_POSITION;
 
-	p->usec = usec; // uint64_t:Timestamp (microseconds since unix epoch)
+	p->usec = usec; // uint64_t:Timestamp (microseconds since UNIX epoch or microseconds since system boot)
 	p->x = x; // float:X Position
 	p->y = y; // float:Y Position
 	p->z = z; // float:Z Position
@@ -95,7 +95,7 @@ static inline uint16_t mavlink_msg_local_position_encode(uint8_t system_id, uint
  * @brief Send a local_position message
  * @param chan MAVLink channel to send the message
  *
- * @param usec Timestamp (microseconds since unix epoch)
+ * @param usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  * @param x X Position
  * @param y Y Position
  * @param z Z Position
@@ -110,7 +110,7 @@ static inline void mavlink_msg_local_position_send(mavlink_channel_t chan, uint6
 	uint16_t checksum;
 	mavlink_local_position_t *p = (mavlink_local_position_t *)&msg.payload[0];
 
-	p->usec = usec; // uint64_t:Timestamp (microseconds since unix epoch)
+	p->usec = usec; // uint64_t:Timestamp (microseconds since UNIX epoch or microseconds since system boot)
 	p->x = x; // float:X Position
 	p->y = y; // float:Y Position
 	p->z = z; // float:Z Position
@@ -142,7 +142,7 @@ static inline void mavlink_msg_local_position_send(mavlink_channel_t chan, uint6
 	uint16_t checksum;
 	mavlink_local_position_t *p = &payload;
 
-	p->usec = usec; // uint64_t:Timestamp (microseconds since unix epoch)
+	p->usec = usec; // uint64_t:Timestamp (microseconds since UNIX epoch or microseconds since system boot)
 	p->x = x; // float:X Position
 	p->y = y; // float:Y Position
 	p->z = z; // float:Z Position
@@ -175,7 +175,7 @@ static inline void mavlink_msg_local_position_send(mavlink_channel_t chan, uint6
 /**
  * @brief Get field usec from local_position message
  *
- * @return Timestamp (microseconds since unix epoch)
+ * @return Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  */
 static inline uint64_t mavlink_msg_local_position_get_usec(const mavlink_message_t* msg)
 {

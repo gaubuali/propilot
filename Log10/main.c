@@ -146,7 +146,7 @@ int main (void)
 					ini_putl("Settings", "LogPort", (long) 1, ini_file);
 					ini_puts("Settings", "LogFile", "log.txt", ini_file);
 					ini_putl("Settings", "LogNumber", (long) 1, ini_file);
-					ini_puts("Settings", "LogType", "overwrite", ini_file);
+					ini_puts("Settings", "LogType", "sequential", ini_file);
 					ini_puts("Settings", "Mode", "log", ini_file);
 					ini_putl("Comm", "UART1", (long) BPS, ini_file );
 					ini_putl("Comm", "UART2", (long) BPS, ini_file );

@@ -35,8 +35,7 @@ int main (void)
 	init_behavior() ;
 	init_serial() ;
 	
-	udb_run() ;
-	// This never returns.
+	udb_run() ;	// This never returns.
 	
 	return 0 ;
 }

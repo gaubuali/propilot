@@ -125,6 +125,82 @@ ACC_E:	ADD		W9, [W13++], W9		;; accululate each value steping pointer
 		pop		W8			; save c runtime regs
 
 		return
+
+        .global  _superSample6
+
+         .text
+_superSample6:
+;;		push	W8			; save c runtime regs
+;;		push	W9			; save c runtime regs
+;;		push	W10			; save c runtime regs
+;;		push	W11			; save c runtime regs
+;;		push	W12			; save c runtime regs
+		push	W13			; save c runtime regs
+		mov		W0, W13		; move source address
+		push	W1			; save destination
+
+		mov		#0, W0		; clear all accumulators
+		mov		#0, W1		; clear all accumulators
+		mov		#0, W2		; clear all accumulators
+		mov		#0, W3		; clear all accumulators
+		mov		#0, W4		; clear all accumulators
+		mov		#0, W5		; clear all accumulators
+;;		mov		#0, W6		; clear all accumulators
+;;		mov		#0, W7		; clear all accumulators
+;;		mov		#0, W8		; clear all accumulators
+;;		mov		#0, W9		; clear all accumulators
+;;		mov		#0, W11		; clear all accumulators
+;;		mov		#0, W10		; clear all accumulators
+;;		mov		#0, W12		; clear all accumulators
+
+ACC_S6:	DO		#15, ACC_E6	; add em all up
+		ADD		W0, [W13++], W0
+		ADD		W1, [W13++], W1
+		ADD		W2, [W13++], W2
+		ADD		W3, [W13++], W3
+		ADD		W4, [W13++], W4
+ACC_E6:	ADD		W5, [W13++], W5
+;;		ADD		W6, [W13++], W6
+;;		ADD		W7, [W13++], W7
+;;		ADD		W8, [W13++], W8
+;;		ADD		W9, [W13++], W9		;; accululate each value steping pointer
+;;		ADD		W10, [W13++], W10
+;;		ADD		W11, [W13++], W11
+;;		ADD		W13, [W13++], W12
+
+		POP		W13					;; restore destination
+		MOV		W0, [W13++]			;; store each value steping pointer
+		MOV		W1, [W13++]
+		MOV		W2, [W13++]
+		MOV		W3, [W13++]
+		MOV		W4, [W13++]
+		MOV		W5, [W13++]
+;;		MOV		W6, [W13++]
+;;		MOV		W7, [W13++]
+;;		MOV		W8, [W13++]
+;;		MOV		W9, [W13++]
+;;		LSR		W0, [W13++]
+;;		LSR		W1, [W13++]
+;;		LSR		W2, [W13++]
+;;		LSR		W3, [W13++]
+;;		LSR		W4, [W13++]
+;;		LSR		W5, [W13++]
+;;		LSR		W6, [W13++]
+;;		LSR		W7, [W13++]
+;;		LSR		W8, [W13++]
+;;		LSR		W9, [W13++]			;; store each value steping pointer
+;;		LSR		W10, [W13++]
+;;		LSR		W11, [W13++]
+;;		LSR		W13, [W13++]
+
+		pop		W13			; save c runtime regs
+;;		pop		W12			; save c runtime regs
+;;		pop		W11			; save c runtime regs
+;;		pop		W10			; save c runtime regs
+;;		pop		W9			; save c runtime regs
+;;		pop		W8			; save c runtime regs
+
+		return
 ;--------End of All Code Sections ---------------------------------------------
         .end                               ;End of program code in this file
 

@@ -27,11 +27,6 @@
 //
 //	Mix computed roll and pitch controls into the output channels for the compiled airframe type
 
-
-const int aileronbgain = (int)(8.0*AILERON_BOOST) ;
-const int elevatorbgain = (int)(8.0*ELEVATOR_BOOST) ;
-const int rudderbgain = (int)(8.0*RUDDER_BOOST) ;
-
 #define pfgMix
 
 #ifdef pfgMix
@@ -264,6 +259,10 @@ void servoMix( void )
 }
 
 #else
+
+const int aileronbgain = (int)(8.0*AILERON_BOOST) ;
+const int elevatorbgain = (int)(8.0*ELEVATOR_BOOST) ;
+const int rudderbgain = (int)(8.0*RUDDER_BOOST) ;
 
 void servoMix( void )
 {

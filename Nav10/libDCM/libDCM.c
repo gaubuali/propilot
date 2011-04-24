@@ -23,8 +23,6 @@
 #include "../libUDB/FIR_Filter.h"
 #include "../libUDB/filter_aspg.h"
 
-extern int averageSample( int *, int );
-
 union dcm_fbts_byte dcm_flags IMPORTANT = {{0}};
 boolean dcm_has_calibrated IMPORTANT = false ;
 
@@ -146,14 +144,27 @@ void udb_servo_callback_prepare_outputs(void)
 //		udb_yrate.value = udb_yrate.value + (( (udb_yrate.input>>1) - (udb_yrate.value>>1) )>> FILTERSHIFT ) ;
 //		udb_zaccel.value = udb_zaccel.value + (( (udb_zaccel.input>>1) - (udb_zaccel.value>>1) )>> FILTERSHIFT ) ;
 
-	udb_xrate.value = FLT_Value[gyro_x];
-	udb_yrate.value = FLT_Value[gyro_y];
-	udb_zrate.value = FLT_Value[gyro_z];
+	// this is the spot to add per channel analog scaling
+	analog_pin( (int)FLT_Value[gyro_x], &DIO[31] );	// see radioIn_aspg.c for maping
+	analog_pin( (int)FLT_Value[gyro_y], &DIO[32] );	// see radioIn_aspg.c for maping
+	analog_pin( (int)FLT_Value[gyro_z], &DIO[33] );	// see radioIn_aspg.c for maping
+//	udb_xrate.value = FLT_Value[gyro_x];
+//	udb_yrate.value = FLT_Value[gyro_y];
+//	udb_zrate.value = FLT_Value[gyro_z];
+	udb_xrate.value = DIO[31].qValue;
+	udb_yrate.value = DIO[32].qValue;
+	udb_zrate.value = DIO[33].qValue;
 
-	udb_xaccel.value = FLT_Value[accel_x]*2;
-	udb_yaccel.value = FLT_Value[accel_y]*2;
-	udb_zaccel.value = FLT_Value[accel_z]*2;
-
+	// this is the spot to add per channel analog scaling
+	analog_pin( (int)FLT_Value[accel_x]*2, &DIO[34] );	// see radioIn_aspg.c for maping
+	analog_pin( (int)FLT_Value[accel_y]*2, &DIO[35] );	// see radioIn_aspg.c for maping
+	analog_pin( (int)FLT_Value[accel_z]*2, &DIO[36] );	// see radioIn_aspg.c for maping
+//	udb_xaccel.value = FLT_Value[accel_x]*2;
+//	udb_yaccel.value = FLT_Value[accel_y]*2;
+//	udb_zaccel.value = FLT_Value[accel_z]*2;
+	udb_xaccel.value = DIO[34].qValue;
+	udb_yaccel.value = DIO[35].qValue;
+	udb_zaccel.value = DIO[36].qValue;
 	if (dcm_has_calibrated) {
 		dcm_run_imu_step() ;
 	}

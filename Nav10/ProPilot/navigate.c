@@ -36,12 +36,12 @@ const int PARAMETER yawkprud = YAWKP_RUDDER*RMAX ;
 	int PARAMETER yawkprud = YAWKP_RUDDER*RMAX ;
 #endif
 
-struct waypointparameters IMPORTANT goal = {0};
-struct relative2D IMPORTANT togoal = { 0 , 0 } ;
-int IMPORTANT tofinish_line  = 0 ;
-int IMPORTANT progress_to_goal = 0 ;
-signed char IMPORTANT desired_dir = 0;
-
+struct waypointparameters IMPORTANTz goal;
+struct relative2D IMPORTANTz togoal;
+int IMPORTANTz tofinish_line;
+int IMPORTANTz progress_to_goal;
+signed char IMPORTANTz desired_dir;
+int waypointRadius PARAMETER = DEFAULT_WAYPOINT_RADIUS;
 
 void setup_origin(void)
 {

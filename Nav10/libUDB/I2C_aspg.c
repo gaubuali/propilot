@@ -85,7 +85,7 @@
 void I2C_default(void);
 
 // buffer for EEProm read / write, ACC and MAG use their own private buffers
-unsigned char NEAR_BUF I2C_buffer[I2C_BUF_LEN] ={0};	// peripheral buf
+unsigned char IMPORTANTz I2C_buffer[I2C_BUF_LEN]; 	// peripheral buf
 void (* I2C_call_back[8] ) ( void ) = { &I2C_default, &I2C_default,
 										&I2C_default, &I2C_default,
 										&I2C_default, &I2C_default,
@@ -98,9 +98,9 @@ const I2C_Action busReset[] = {
 	{.F.uCmd = FINISHED}				// finished, no callback / post process
 };
 
-I2C_Action NEAR_BUF uI2C_Commands[I2C_COM_LEN] = {{{0}}};	// command buffer
-I2CCMD NEAR_BUF CC = {0};		// peripheral driver command buffer, never mess with this
-I2CCMD NEAR_BUF CD[8] = {// device driver command buffers - when finished CC gets copied
+I2C_Action IMPORTANTz uI2C_Commands[I2C_COM_LEN];	// command buffer
+I2CCMD IMPORTANTz CC;		// peripheral driver command buffer, never mess with this
+I2CCMD NEAR_BUF CD[8] = {	// device driver command buffers - when finished CC gets copied
 				// back here - do not use 0 as its used by the peripheral driver.
 				// use one of these for each device.
 	{.Ident = 0, .piResult = &CD[0].iResult, .pcResult = &I2C_buffer[0] },	// safe default of pointers
@@ -113,8 +113,8 @@ I2CCMD NEAR_BUF CD[8] = {// device driver command buffers - when finished CC get
 	{            .piResult = &CD[7].iResult, .pcResult = &I2C_buffer[0] },
 };
 
-int I2Cinterrupts = 0 ;
-unsigned int I2Cmessages = 0;
+int IMPORTANTz I2Cinterrupts;
+unsigned int IMPORTANTz I2Cmessages;
 
 // int I2C_Address = 0;	// tries to keep track of current address by increment by one on each read
 						// no way shape or form should this be counted on unless set externally and

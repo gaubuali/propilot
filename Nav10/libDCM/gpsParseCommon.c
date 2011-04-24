@@ -22,38 +22,38 @@
 #include "libDCM_internal.h"
 
 
-struct relative3D IMPORTANT GPSlocation 		= { 0 , 0 , 0 } ;
-struct relative3D IMPORTANT GPSvelocity 		= { 0 , 0 , 0 } ;
-struct relative2D IMPORTANT velocity_thru_air   = { 0 , 0 } ;
+struct relative3D IMPORTANTz GPSlocation ;
+struct relative3D IMPORTANTz GPSvelocity ;
+struct relative2D IMPORTANTz velocity_thru_air ;
 
-union longbbbb IMPORTANT lat_gps = {0};
-union longbbbb IMPORTANT long_gps = {0};
-union longbbbb IMPORTANT alt_sl_gps = {0};
-union longbbbb IMPORTANT tow = {0};			// latitude, longitude, altitude
-union intbb    IMPORTANT sog_gps = {0};
-union intbb    IMPORTANT cog_gps = {0};
-union intbb    IMPORTANT climb_gps = {0};
-union intbb    IMPORTANT week_no = {0};		// speed over ground, course over ground, climb
-unsigned char  IMPORTANT hdop = {0};		// horizontal dilution of precision
+union longbbbb IMPORTANTz lat_gps ;
+union longbbbb IMPORTANTz long_gps ;
+union longbbbb IMPORTANTz alt_sl_gps ;
+union longbbbb IMPORTANTz tow ;			// latitude, longitude, altitude
+union intbb    IMPORTANTz sog_gps ;
+union intbb    IMPORTANTz cog_gps ;
+union intbb    IMPORTANTz climb_gps ;
+union intbb    IMPORTANTz week_no ;		// speed over ground, course over ground, climb
+unsigned char  IMPORTANTz hdop ;		// horizontal dilution of precision
 
-union longbbbb IMPORTANT lat_origin = {0};
-union longbbbb IMPORTANT long_origin = {0};
-union longbbbb IMPORTANT alt_origin = {0};
+union longbbbb IMPORTANTz lat_origin ;
+union longbbbb IMPORTANTz long_origin ;
+union longbbbb IMPORTANTz alt_origin ;
 
-union longbbbb IMPORTANT xpg = {0};
-union longbbbb IMPORTANT ypg = {0};
-union longbbbb IMPORTANT zpg = {0};			// gps x, y, z position
-union intbb    IMPORTANT xvg = {0};
-union intbb    IMPORTANT yvg = {0};
-union intbb    IMPORTANT zvg = {0};			// gps x, y, z velocity
-unsigned char  IMPORTANT mode1 = 0;
-unsigned char  IMPORTANT mode2 = 0;
-unsigned char  IMPORTANT svs = 0;			// gps mode1, mode2, and number of satellites
+union longbbbb IMPORTANTz xpg ;
+union longbbbb IMPORTANTz ypg ;
+union longbbbb IMPORTANTz zpg ;			// gps x, y, z position
+union intbb    IMPORTANTz xvg ;
+union intbb    IMPORTANTz yvg ;
+union intbb    IMPORTANTz zvg ;			// gps x, y, z velocity
+unsigned char  IMPORTANTz mode1 ;
+unsigned char  IMPORTANTz mode2 ;
+unsigned char  IMPORTANTz svs ;			// gps mode1, mode2, and number of satellites
 
-unsigned char  IMPORTANT lat_cir = 0;
-int			   IMPORTANT cos_lat = 0 ;
+unsigned char  IMPORTANTz lat_cir ;
+int			   IMPORTANTz cos_lat ;
 
-int IMPORTANT gps_data_age = 0;
+int IMPORTANTz gps_data_age ;
 
 extern void (* msg_parse ) ( unsigned char inchar ) ;
 

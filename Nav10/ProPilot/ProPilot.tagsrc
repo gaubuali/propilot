@@ -39,7 +39,6 @@ E:\Projects\DevPFG\Nav10\libUDB\SuperSample.s
 E:\Projects\DevPFG\Nav10\libUDB\averageSample.s
 E:\Projects\DevPFG\Nav10\ProPilot\MAVLink.c
 E:\Projects\DevPFG\Nav10\libUDB\traps_udb_asm.s
-E:\Projects\DevPFG\Mavlink\include\protocol.c
 E:\Projects\DevPFG\Nav10\libUDB\ConfigGreen.h
 E:\Projects\DevPFG\Nav10\libUDB\ConfigIXZ500.h
 E:\Projects\DevPFG\Nav10\libUDB\ConfigRed.h
@@ -132,3 +131,4 @@ E:\Projects\DevPFG\Mavlink\include\common\mavlink_msg_waypoint_current.h
 E:\Projects\DevPFG\Mavlink\include\common\mavlink_msg_waypoint_reached.h
 E:\Projects\DevPFG\Mavlink\include\common\mavlink_msg_waypoint_request.h
 E:\Projects\DevPFG\Mavlink\include\common\mavlink_msg_waypoint_request_list.h
+E:\Projects\DevPFG\Mavlink\include\common\mavlink_msg_memory_vect.h

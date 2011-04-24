@@ -216,6 +216,16 @@ SECTIONS
   .Important :
   {
     *(Important);
+  } > data
+
+  .ImportantZero :
+  {
+    *(ImportantZ);
+	*(.nbss);
+  } > data
+
+  .NearBuffer :
+  {
     *(NearBuffers);
   } > data
 
@@ -225,7 +235,7 @@ SECTIONS
 	*(.data);
   } > data
 
-  .FarBuffer 0x1C00 :
+  .FarBuffer 0x1E00 :
   {
     *(FarBuffers);
   } > data

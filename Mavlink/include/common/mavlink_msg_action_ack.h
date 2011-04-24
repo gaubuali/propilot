@@ -1,8 +1,8 @@
 // MESSAGE ACTION_ACK PACKING
 
-#define MAVLINK_MSG_ID_ACTION_ACK 62
+#define MAVLINK_MSG_ID_ACTION_ACK 9
 #define MAVLINK_MSG_ID_ACTION_ACK_LEN 2
-#define MAVLINK_MSG_62_LEN 2
+#define MAVLINK_MSG_9_LEN 2
 
 typedef struct __mavlink_action_ack_t 
 {

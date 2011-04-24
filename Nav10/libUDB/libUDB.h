@@ -101,14 +101,14 @@ extern unsigned long old_cpu_counter;
 // Treat udb_pwIn values as readonly.
 #define RC_START 8
 #define AUX_START 16
-extern int udb_pwIn[];		// pulse widths of radio inputs
+extern int udb_pwIn[65];		// pulse widths of radio inputs
 
 // These are the recorded trim values of the radio input channels.
 // These values are recorded when you call the udb_servo_record_trims()
 // function.
 // Each channel will be a value between approximately 2000 and 4000.
 // Treat udb_pwTrim values as readonly.
-extern int udb_pwTrim[];	// initial pulse widths for trimming
+extern int udb_pwTrim[65];	// initial pulse widths for trimming
 
 // These are the servo channel values that will be sent out to the servos.
 // Set these values in your implementation of the udb_servo_callback_prepare_outputs()
@@ -123,8 +123,9 @@ extern union longlongww tagUSec; // this + (t3/40) = uSec
 // structures plus the timer / general inputs and outputs. see ConfigASPG.h
 #define RC_PIN_START 1
 #define SERVO_PIN_START 9
-extern PIN FAR_BUF DIO[32];		// digital I/O handling
-//extern PIN DIO[32] ;		// digital I/O handling
+extern PIN NEAR_BUF DIO[48]; // digital and analog I/O handling
+void analog_pin( WORD, LPPIN );
+int averageSample( int *, int );
 #endif
 
 // This read-only value holds flags that tell you, among other things,
@@ -155,6 +156,7 @@ extern struct ADchannel udb_xaccel, udb_yaccel, udb_zaccel;	// x, y, and z accel
 extern struct ADchannel udb_xrate, udb_yrate, udb_zrate;	// x, y, and z gyro channels
 extern struct ADchannel udb_vref;							// reference voltage
 extern int AD1_Raw[24] IMPORTANT;	// save raw values to look at
+extern unsigned int AD2_Raw[24] IMPORTANT;	// save raw values to look at
 extern int FLT_Value[24] IMPORTANT;	// space to put in right order
 extern int AD1_Filt[2][7][64] FAR_BUF; // filter in[0][][] and out[1][][]
 extern int iAnalog_Head, iAnalog_Tail;	// index to keep track of buffer and de-buffer (GYRO's)
@@ -188,6 +190,7 @@ extern int iI2C_Head, iI2C_Tail;	// index to keep track of buffer and de-buffer 
 // holding the UDB very still.
 void udb_a2d_record_offsets(void);
 void udb_gyro_autoZero( void );
+void analog_pin( WORD, LPPIN );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Magnetometer
@@ -215,12 +218,14 @@ extern int previousAccFieldRaw[3];
 // EE prom
 #define WReeCDindex 3
 #define REeeCDindex 4
+#define EESIZE 256						// 256k bit = 32k byte
 #define EE_PARAMETER_START 128			// start address of parameters in EEPROM
-#define EE_WAYPOINTS_START 0x2000		// start address of waypoints in EEPROM
-#define EE_WAYPOINTS_END   0x2fff		// end address of waypoints in EEPROM
+#define EE_WAYPOINTS_START 0x4000		// start address of waypoints in EEPROM
+#define EE_WAYPOINTS_END   0x5fff		// end address of waypoints in EEPROM
+#define EE_WAYPOINTS_MAX ((EE_WAYPOINTS_END - EE_WAYPOINTS_START)/sizeof(EEWAYPOINT))
 extern int EE_Active NEAR_BUF;
 extern int EE_Write_Timer NEAR_BUF;	// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
-extern int iEEpresent;				// 0 has no EE on board, 1 = 32k, 2 = 64k
+extern char cEEpresent NEAR_BUF;		// 0 has no EE on board, 1 = 32k, 2 = 64k
 int EE_Write( unsigned int uiLen, unsigned int uiAddress, unsigned char *vpData  );
 int EE_Read( unsigned int uiLen, unsigned int uiAddress, unsigned char *vpData );
 void ReadParameters( void );
@@ -243,13 +248,13 @@ void WriteWaypoint( int dest, int src, int num );
 void I2C_Start( int );
 void I2C_Reset( void );
 #define I2C_COM_LEN 64				// commands
-extern I2C_Action uI2C_Commands[I2C_COM_LEN] NEAR_BUF;		// command buffer, see I2C_aspg.c
-extern I2CCMD CC NEAR_BUF;			// peripheral driver command buffer, never mess with this
+extern I2C_Action uI2C_Commands[I2C_COM_LEN] IMPORTANTz;		// command buffer, see I2C_aspg.c
+extern I2CCMD CC IMPORTANTz;		// peripheral driver command buffer, never mess with this
 extern I2CCMD CD[8] NEAR_BUF;		// device driver command buffers - [0] reserved
 extern unsigned int I2Cmessages;	// FINISHED messages
 extern int I2C_Timeout;				// simple counter decremented to 0 in T3 interrupt (servoOut_aspg.c)
 #define I2C_BUF_LEN 128+16			// page write size + enough bytes to send an address
-extern unsigned char I2C_buffer[I2C_BUF_LEN] NEAR_BUF ;	// peripheral buf
+extern unsigned char I2C_buffer[I2C_BUF_LEN] IMPORTANTz ;	// peripheral buf
 extern void (* I2C_call_back[8] ) ( void );
 extern struct tagI2C_flags I2C_flags;	// defined in ConfigASPG.h
 

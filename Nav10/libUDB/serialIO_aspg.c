@@ -28,8 +28,8 @@
 #endif
 
 #define TX_BUF_LEN 512
-unsigned char FAR_BUF U1TX_buffer[TX_BUF_LEN] = {0};
-unsigned char FAR_BUF U2TX_buffer[TX_BUF_LEN] = {0};
+unsigned char FAR_BUF U1TX_buffer[TX_BUF_LEN];
+unsigned char FAR_BUF U2TX_buffer[TX_BUF_LEN];
 int iU1Head, iU1Tail = 0;
 int iU2Head, iU2Tail = 0;
 

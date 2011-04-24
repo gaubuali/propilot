@@ -2,40 +2,52 @@
 ;    File   filter_aspg_I2C.s
 ; ..............................................................................
 
-		.equ filter_aspg_I2CNumTaps, 32
+;;		.equ filter_aspg_I2CNumTaps, 32
+		.equ filter_aspg_I2CNumTaps, 64
 
 ; ..............................................................................
 ; Allocate and initialize filter taps
 
-		.section .filter_aspg_I2Cconst, code
-		.align 64
+		.section .filter_aspg_I2Cconst, psv
+		.global _filter_aspg_I2CTaps
 
+		.align (filter_aspg_I2CNumTaps * 2)
+_filter_aspg_I2CTaps:
 filter_aspg_I2CTaps:
-.hword 	0xFFEC,	0xFFE9,	0x000C,	0x0061,	0x00C8,	0x00EA,	0x0064,	0xFF0E,	0xFD47
-.hword 	0xFC13,	0xFCC4,	0x005D,	0x06E8,	0x0F21,	0x16C1,	0x1B5A,	0x1B5A,	0x16C1
-.hword 	0x0F21,	0x06E8,	0x005D,	0xFCC4,	0xFC13,	0xFD47,	0xFF0E,	0x0064,	0x00EA
-.hword 	0x00C8,	0x0061,	0x000C,	0xFFE9,	0xFFEC
+.hword 	0x0014,	0x0018,	0x0018,	0x0015,	0x000C,	0xFFFE,	0xFFE8,	0xFFCB,	0xFFA9
+.hword 	0xFF82,	0xFF5A,	0xFF34,	0xFF14,	0xFEFF,	0xFEFB,	0xFF0C,	0xFF38,	0xFF82
+.hword 	0xFFEC,	0x0077,	0x0123,	0x01ED,	0x02CF,	0x03C3,	0x04C1,	0x05BF,	0x06B2
+.hword 	0x0790,	0x0850,	0x08E8,	0x0952,	0x0988,	0x0988,	0x0952,	0x08E8,	0x0850
+.hword 	0x0790,	0x06B2,	0x05BF,	0x04C1,	0x03C3,	0x02CF,	0x01ED,	0x0123,	0x0077
+.hword 	0xFFEC,	0xFF82,	0xFF38,	0xFF0C,	0xFEFB,	0xFEFF,	0xFF14,	0xFF34,	0xFF5A
+.hword 	0xFF82,	0xFFA9,	0xFFCB,	0xFFE8,	0xFFFE,	0x000C,	0x0015,	0x0018,	0x0018
+.hword 	0x0014
+;;.hword 	0xFFEC,	0xFFE9,	0x000C,	0x0061,	0x00C8,	0x00EA,	0x0064,	0xFF0E,	0xFD47
+;;.hword 	0xFC13,	0xFCC4,	0x005D,	0x06E8,	0x0F21,	0x16C1,	0x1B5A,	0x1B5A,	0x16C1
+;;.hword 	0x0F21,	0x06E8,	0x005D,	0xFCC4,	0xFC13,	0xFD47,	0xFF0E,	0x0064,	0x00EA
+;;.hword 	0x00C8,	0x0061,	0x000C,	0xFFE9,	0xFFEC
 
 ; ..............................................................................
 ; Allocate delay line in (uninitialized) Y data space
 
 ;;		.section .ybss, bss, ymemory
-		.section filter_aspg_I2C, ymemory, address(0x7700)
+;;		.section filter_aspg_I2C, ymemory, address(0x7700)
+		.section .filter_aspg_I2C, ymemory
 ;;		.section .ydata, address(0x7700)
 
-		.align 64
+		.align (filter_aspg_I2CNumTaps * 2)
 		.global _filter_aspg_I2CX_Delay
-filter_aspg_I2CX_Delay:
+_filter_aspg_I2CX_Delay:
 		.space filter_aspg_I2CNumTaps*2
 
-		.align 64
+		.align (filter_aspg_I2CNumTaps * 2)
 		.global _filter_aspg_I2CY_Delay
-filter_aspg_I2CY_Delay:
+_filter_aspg_I2CY_Delay:
 		.space filter_aspg_I2CNumTaps*2
 
-		.align 64
+		.align (filter_aspg_I2CNumTaps * 2)
 		.global _filter_aspg_I2CZ_Delay
-filter_aspg_I2CZ_Delay:
+_filter_aspg_I2CZ_Delay:
 		.space filter_aspg_I2CNumTaps*2
 ; fix microchip's or the linkers stupidity of putting this at the highest 
 ; possible address and then having a pointer reach the address max
@@ -51,9 +63,9 @@ _filter_aspg_I2CX_Filter:
 .hword psvoffset(filter_aspg_I2CTaps)
 .hword psvoffset(filter_aspg_I2CTaps)+filter_aspg_I2CNumTaps*2-1
 .hword psvpage(filter_aspg_I2CTaps)
-.hword filter_aspg_I2CX_Delay
-.hword filter_aspg_I2CX_Delay+filter_aspg_I2CNumTaps*2-1
-.hword filter_aspg_I2CX_Delay
+.hword _filter_aspg_I2CX_Delay
+.hword _filter_aspg_I2CX_Delay+filter_aspg_I2CNumTaps*2-1
+.hword _filter_aspg_I2CX_Delay
 
 		.global _filter_aspg_I2CY_Filter
 
@@ -62,9 +74,9 @@ _filter_aspg_I2CY_Filter:
 .hword psvoffset(filter_aspg_I2CTaps)
 .hword psvoffset(filter_aspg_I2CTaps)+filter_aspg_I2CNumTaps*2-1
 .hword psvpage(filter_aspg_I2CTaps)
-.hword filter_aspg_I2CY_Delay
-.hword filter_aspg_I2CY_Delay+filter_aspg_I2CNumTaps*2-1
-.hword filter_aspg_I2CY_Delay
+.hword _filter_aspg_I2CY_Delay
+.hword _filter_aspg_I2CY_Delay+filter_aspg_I2CNumTaps*2-1
+.hword _filter_aspg_I2CY_Delay
 
 		.global _filter_aspg_I2CZ_Filter
 
@@ -73,9 +85,9 @@ _filter_aspg_I2CZ_Filter:
 .hword psvoffset(filter_aspg_I2CTaps)
 .hword psvoffset(filter_aspg_I2CTaps)+filter_aspg_I2CNumTaps*2-1
 .hword psvpage(filter_aspg_I2CTaps)
-.hword filter_aspg_I2CZ_Delay
-.hword filter_aspg_I2CZ_Delay+filter_aspg_I2CNumTaps*2-1
-.hword filter_aspg_I2CZ_Delay
+.hword _filter_aspg_I2CZ_Delay
+.hword _filter_aspg_I2CZ_Delay+filter_aspg_I2CNumTaps*2-1
+.hword _filter_aspg_I2CZ_Delay
 
 ; ..............................................................................
 ; ..............................................................................

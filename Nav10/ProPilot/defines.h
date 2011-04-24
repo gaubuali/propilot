@@ -40,9 +40,11 @@ extern int waggle ;
 #define WAGGLE_SIZE 300
 
 struct flag_bits {
-			unsigned int unused					: 4 ;
-			unsigned int read_EE				: 1 ;
-			unsigned int write_EE				: 1 ;
+			unsigned int unused					: 2 ;
+			unsigned int read_EE_wp				: 1 ;
+			unsigned int write_EE_wp			: 1 ;
+			unsigned int read_EE_param			: 1 ;
+			unsigned int write_EE_param			: 1 ;
 			unsigned int save_origin   			: 1 ;
 			unsigned int GPS_steering			: 1 ;
 			unsigned int pitch_feedback			: 1 ;
@@ -57,7 +59,6 @@ struct flag_bits {
 			
 union fbts_int { struct flag_bits _ ; int WW ; } ;
 extern union fbts_int flags ;
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -114,8 +115,60 @@ void compute_bearing_to_goal ( void ) ;
 void process_flightplan( void ) ;
 int determine_navigation_deflection( char navType ) ;
 
+
+struct behavior_flag_bits {
+			unsigned int takeoff		: 1 ;	// disable altitude interpolation for faster climbout
+			unsigned int inverted		: 1 ;	// fly iverted
+			unsigned int hover			: 1 ;	// hover the plane
+			unsigned int rollLeft		: 1 ;				// unimplemented
+			unsigned int rollRight		: 1 ;				// unimplemented
+			unsigned int trigger		: 1 ;	// trigger action
+			unsigned int loiter			: 1 ;	// stay on the current waypoint
+			unsigned int land			: 1 ;	// throttle off
+			unsigned int absolute		: 1 ;	// absolute waypoint
+			unsigned int altitude		: 1 ;	// climb/descend to goal altitude
+			unsigned int cross_track	: 1 ;	// use cross-tracking navigation
+			unsigned int unused			: 5 ;
+			} ;
+
+union bfbts_word { struct behavior_flag_bits _ ; int W; } ;
+
 struct relWaypointDef { struct relative3D loc ; int flags ; struct relative3D viewpoint ; } ;
-struct waypointDef { struct waypoint3D loc ; int flags ; struct waypoint3D viewpoint ; } ;
+struct waypointDef { 
+	struct waypoint3D loc ; 		// fly to
+	int flags ; 					// flight type / action
+	struct waypoint3D viewpoint ;	// camera target
+	int seq;						// sequence # = waypoint #
+	int radius ; 					// accept radius
+	union bfbts_word behavior ;		// actions
+	int	channel;					// channel to perform action on / with
+	int val1;						// action parameters
+	int val2;						// action parameters
+ } ;
+
+typedef struct __EEwaypoint { 
+	char type;	// type code, 0 or 0xff = invalid / unused, 1 = UDB, 3 = MAVlink
+	char ver;	// version code, 0 or 0xff = invalid / unused, 1 = UDB, 3 = Mavlink V3
+	union 	{
+		BYTE	bytes[62];		// pad struct out to 64 bytes
+		struct waypointDef udb;
+			};
+} EEWAYPOINT, *LPEEWAYPOINT;
+
+#if (SERIAL_OUTPUT_FORMAT == SERIAL_MAVLINK)
+void xlateMLwaypoint( struct waypointDef *, LPEEWAYPOINT );
+void xlateUDBwaypoint( LPEEWAYPOINT, struct waypointDef *, int );
+int xlateWPbyIndex( int, LPEEWAYPOINT );
+int getNumPointsInCurrentSet( void );
+void SetupReadEEWaypoint( LPEEWAYPOINT, int );
+void SetupWriteEEWaypoint( int, LPEEWAYPOINT );
+void ReadEEWaypoint( void );
+void WriteEEWaypoint( void );
+extern struct waypointDef udb_default IMPORTANT;
+extern EEWAYPOINT wpTemp IMPORTANT;		// storage for ML send / rec wp's
+void injectWPatIndex( int );
+int set_waypoint_by_index( int );
+#endif
 
 struct waypointparameters { int x ; int y ; int cosphi ; int sinphi ; signed char phi ; int height ; int fromHeight; int legDist; } ;
 extern struct waypointparameters goal ;
@@ -124,7 +177,7 @@ extern struct relative2D togoal ;
 extern int tofinish_line ;
 extern int progress_to_goal ; // Fraction of the way to the goal in the range 0-4096 (2^12)
 extern signed char	desired_dir ;
-
+extern int waypointRadius PARAMETER;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -140,12 +193,9 @@ void flightplan_live_received_byte( unsigned char inbyte ) ;
 void flightplan_live_commit( void ) ;
 
 #if (FLIGHT_PLAN_TYPE == FP_WAYPOINTS)
-#define EE_WAYPOINTS_NUM ((EE_WAYPOINTS_END - EE_WAYPOINTS_START)/sizeof(struct waypointDef))
-void ReadWaypoint( int dest, int src, int num );
-void WriteWaypoint( int dest, int src, int num );
 extern int numPointsInCurrentSet PARAMETER;
-extern unsigned char EE_wp_pos IMPORTANT;
-int set_waypoint_by_index( int );
+extern int EE_wp_pos PARAMETER;
+int SetWaypointToIndex( int );
 #endif
 
 // Failsafe Type
@@ -166,21 +216,6 @@ void updateTriggerAction( void ) ;
 boolean canStabilizeInverted( void ) ;
 boolean canStabilizeHover( void ) ;
 
-struct behavior_flag_bits {
-			unsigned int takeoff		: 1 ;	// disable altitude interpolation for faster climbout
-			unsigned int inverted		: 1 ;	// fly iverted
-			unsigned int hover			: 1 ;	// hover the plane
-			unsigned int rollLeft		: 1 ;				// unimplemented
-			unsigned int rollRight		: 1 ;				// unimplemented
-			unsigned int trigger		: 1 ;	// trigger action
-			unsigned int loiter			: 1 ;	// stay on the current waypoint
-			unsigned int land			: 1 ;	// throttle off
-			unsigned int absolute		: 1 ;	// absolute waypoint
-			unsigned int altitude		: 1 ;	// climb/descend to goal altitude
-			unsigned int cross_track	: 1 ;	// use cross-tracking navigation
-			unsigned int unused			: 5 ;
-			} ;
-
 #define F_NORMAL						   0
 #define F_TAKEOFF						   1
 #define F_INVERTED						   2
@@ -193,8 +228,6 @@ struct behavior_flag_bits {
 #define F_ABSOLUTE						 256
 #define F_ALTITUDE_GOAL					 512
 #define F_CROSS_TRACK					1024
-
-union bfbts_word { struct behavior_flag_bits _ ; int W; } ;
 
 extern int current_orientation ;
 extern union bfbts_word desired_behavior ;

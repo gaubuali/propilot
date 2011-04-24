@@ -108,9 +108,9 @@ fractional IMPORTANT errorYawground[] = { 0 , 0 , 0 } ;
 fractional IMPORTANT errorYawplane[]  = { 0 , 0 , 0 } ;
 
 //	measure of error in orthogonality, used for debugging purposes:
-fractional IMPORTANT error = 0 ;
+fractional IMPORTANTz error;
 
-fractional IMPORTANT declinationVector[2] = {0};
+fractional IMPORTANTz declinationVector[2];
 
 signed char DECLINATIONANGLE PARAMETER = ((signed char)(MAGNETICDECLINATION*128/180));
 
@@ -148,7 +148,7 @@ void read_gyros()
 //	fetch the gyro signals and subtract the baseline offset, 
 //	and adjust for variations in supply voltage
 {
-	int gx , gy , gz ;
+//	int gx , gy , gz ;
 #ifdef VREF
 	vref_adj = (udb_vref.offset>>1) - (udb_vref.value>>1) ;
 #else
@@ -156,15 +156,14 @@ void read_gyros()
 #endif
 
 #if ( HILSIM == 1 )
-	gx = omegagyro[0] = q_sim.BB;
-	gy = omegagyro[1] = p_sim.BB;
-	gz = omegagyro[2] = r_sim.BB;  
+	omegagyro[0] = q_sim.BB;
+	omegagyro[1] = p_sim.BB;
+	omegagyro[2] = r_sim.BB;  
 #else
-	gx = omegagyro[0] = XRATE_VALUE ;
-	gy = omegagyro[1] = YRATE_VALUE ;
-	gz = omegagyro[2] = ZRATE_VALUE ;
+	omegagyro[0] = XRATE_VALUE ;
+	omegagyro[1] = YRATE_VALUE ;
+	omegagyro[2] = ZRATE_VALUE ;
 #endif
-	
 	return ;
 }
 

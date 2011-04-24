@@ -1,13 +1,14 @@
 // MESSAGE HEARTBEAT PACKING
 
 #define MAVLINK_MSG_ID_HEARTBEAT 0
-#define MAVLINK_MSG_ID_HEARTBEAT_LEN 2
-#define MAVLINK_MSG_0_LEN 2
+#define MAVLINK_MSG_ID_HEARTBEAT_LEN 3
+#define MAVLINK_MSG_0_LEN 3
 
 typedef struct __mavlink_heartbeat_t 
 {
 	uint8_t type; ///< Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
 	uint8_t autopilot; ///< Type of the Autopilot: 0: Generic, 1: PIXHAWK, 2: SLUGS, 3: Ardupilot (up to 15 types), defined in MAV_AUTOPILOT_TYPE ENUM
+	uint8_t mavlink_version; ///< MAVLink version
 } mavlink_heartbeat_t;
 
 
@@ -29,6 +30,7 @@ static inline uint16_t mavlink_msg_heartbeat_pack(uint8_t system_id, uint8_t com
 	p->type = type; // uint8_t:Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
 	p->autopilot = autopilot; // uint8_t:Type of the Autopilot: 0: Generic, 1: PIXHAWK, 2: SLUGS, 3: Ardupilot (up to 15 types), defined in MAV_AUTOPILOT_TYPE ENUM
 
+	p->mavlink_version = MAVLINK_VERSION; // uint8_t_mavlink_version:MAVLink version
 	return mavlink_finalize_message(msg, system_id, component_id, MAVLINK_MSG_ID_HEARTBEAT_LEN);
 }
 
@@ -50,6 +52,7 @@ static inline uint16_t mavlink_msg_heartbeat_pack_chan(uint8_t system_id, uint8_
 	p->type = type; // uint8_t:Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
 	p->autopilot = autopilot; // uint8_t:Type of the Autopilot: 0: Generic, 1: PIXHAWK, 2: SLUGS, 3: Ardupilot (up to 15 types), defined in MAV_AUTOPILOT_TYPE ENUM
 
+	p->mavlink_version = MAVLINK_VERSION; // uint8_t_mavlink_version:MAVLink version
 	return mavlink_finalize_message_chan(msg, system_id, component_id, chan, MAVLINK_MSG_ID_HEARTBEAT_LEN);
 }
 
@@ -83,6 +86,7 @@ static inline void mavlink_msg_heartbeat_send(mavlink_channel_t chan, uint8_t ty
 	p->type = type; // uint8_t:Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
 	p->autopilot = autopilot; // uint8_t:Type of the Autopilot: 0: Generic, 1: PIXHAWK, 2: SLUGS, 3: Ardupilot (up to 15 types), defined in MAV_AUTOPILOT_TYPE ENUM
 
+	p->mavlink_version = MAVLINK_VERSION; // uint8_t_mavlink_version:MAVLink version
 	msg.STX = MAVLINK_STX;
 	msg.len = MAVLINK_MSG_ID_HEARTBEAT_LEN;
 	msg.msgid = MAVLINK_MSG_ID_HEARTBEAT;
@@ -110,6 +114,7 @@ static inline void mavlink_msg_heartbeat_send(mavlink_channel_t chan, uint8_t ty
 	p->type = type; // uint8_t:Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
 	p->autopilot = autopilot; // uint8_t:Type of the Autopilot: 0: Generic, 1: PIXHAWK, 2: SLUGS, 3: Ardupilot (up to 15 types), defined in MAV_AUTOPILOT_TYPE ENUM
 
+	p->mavlink_version = MAVLINK_VERSION; // uint8_t_mavlink_version:MAVLink version
 	hdr.STX = MAVLINK_STX;
 	hdr.len = MAVLINK_MSG_ID_HEARTBEAT_LEN;
 	hdr.msgid = MAVLINK_MSG_ID_HEARTBEAT;
@@ -152,6 +157,17 @@ static inline uint8_t mavlink_msg_heartbeat_get_autopilot(const mavlink_message_
 {
 	mavlink_heartbeat_t *p = (mavlink_heartbeat_t *)&msg->payload[0];
 	return (uint8_t)(p->autopilot);
+}
+
+/**
+ * @brief Get field mavlink_version from heartbeat message
+ *
+ * @return MAVLink version
+ */
+static inline uint8_t mavlink_msg_heartbeat_get_mavlink_version(const mavlink_message_t* msg)
+{
+	mavlink_heartbeat_t *p = (mavlink_heartbeat_t *)&msg->payload[0];
+	return (uint8_t)(p->mavlink_version);
 }
 
 /**
