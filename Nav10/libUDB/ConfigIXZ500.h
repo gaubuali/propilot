@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -43,7 +43,8 @@
 
 //#define VREF
 
-#define SCALEGYRO 4.95
+//#define SCALEGYRO 4.95
+#define SCALEGYRO 4.89
 #define SCALEACCEL 2.64
 
 // Max inputs and outputs

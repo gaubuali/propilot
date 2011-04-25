@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -58,8 +58,6 @@ void (* I2C_state ) ( void ) = &I2C_idle ;
 #define I2CBRGVAL 35 // 100 Khz
 #elif ( CLOCK_CONFIG == FRC8X_CLOCK )
 #define I2CBRGVAL 129 // 100 Khz
-#else
-#define I2CBRGVAL 129
 #endif
 
 
@@ -181,9 +179,13 @@ void rxMagnetometer(void)  // service the magnetometer
 
 void __attribute__((__interrupt__,__no_auto_psv__)) _MI2CInterrupt(void)
 {
-    indicate_loading_inter ;
+	indicate_loading_inter ;
+	interrupt_save_set_corcon ;
+	
 	IFS0bits.MI2CIF = 0 ; // clear the interrupt
 	(* I2C_state) () ; // execute the service routine
+	
+	interrupt_restore_corcon ;
 	return ;
 }
 
@@ -318,7 +320,6 @@ void I2C_doneReadMagData(void)
 			 ( abs(udb_magFieldBody[1]) < MAGNETICMAXIMUM ) &&
 			 ( abs(udb_magFieldBody[2]) < MAGNETICMAXIMUM ) )
 		{
-			//dcm_flags._.mag_drift_req = 1 ;
 			udb_magnetometer_callback_data_available();
 		}
 		else

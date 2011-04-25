@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -142,7 +142,7 @@ void VectorCross( fractional * dest , fractional * src1 , fractional * src2 )
 	return ;
 }
 
-int vref_adj IMPORTANT = 0;
+int vref_adj IMPORTANTz ;
 
 void read_gyros()
 //	fetch the gyro signals and subtract the baseline offset, 
@@ -164,6 +164,7 @@ void read_gyros()
 	omegagyro[1] = YRATE_VALUE ;
 	omegagyro[2] = ZRATE_VALUE ;
 #endif
+	
 	return ;
 }
 
@@ -184,15 +185,16 @@ void read_accel()
 	accelEarth[1] = - VectorDotProduct( 3 , &rmat[3] , gplane )<<1;
 	accelEarth[2] = -((int)GRAVITY) + (VectorDotProduct( 3 , &rmat[6] , gplane )<<1);
 
-	accelEarthFiltered[0].WW += ((((long)accelEarth[0])<<16) - accelEarthFiltered[0].WW)>>5 ;
-	accelEarthFiltered[1].WW += ((((long)accelEarth[1])<<16) - accelEarthFiltered[1].WW)>>5 ;
-	accelEarthFiltered[2].WW += ((((long)accelEarth[2])<<16) - accelEarthFiltered[2].WW)>>5 ;
+//	accelEarthFiltered[0].WW += ((((long)accelEarth[0])<<16) - accelEarthFiltered[0].WW)>>5 ;
+//	accelEarthFiltered[1].WW += ((((long)accelEarth[1])<<16) - accelEarthFiltered[1].WW)>>5 ;
+//	accelEarthFiltered[2].WW += ((((long)accelEarth[2])<<16) - accelEarthFiltered[2].WW)>>5 ;
 	
 	udb_setDSPLibInUse(false) ;
 	return ;
 }
 
 //	multiplies omega times speed, and scales appropriately
+//  omega in radians per second, speed in cm per second
 int omegaSOG ( int omega , unsigned int speed  )
 {
 	union longww working ;
@@ -217,9 +219,10 @@ int omegaSOG ( int omega , unsigned int speed  )
 
 void adj_accel()
 {
-	gplane[0]=gplane[0]- omegaSOG( omegaAccum[2] , (unsigned int) sog_gps.BB ) ;
-	gplane[2]=gplane[2]+ omegaSOG( omegaAccum[0] , (unsigned int) sog_gps.BB ) ;
-	gplane[1]=gplane[1]+ ((int)(ACCELSCALE))*forward_acceleration ;
+	// total (3D) airspeed in cm/sec is used to adjust for acceleration
+	gplane[0]=gplane[0]- omegaSOG( omegaAccum[2] , air_speed_3DGPS ) ;
+	gplane[2]=gplane[2]+ omegaSOG( omegaAccum[0] , air_speed_3DGPS ) ;
+	gplane[1]=gplane[1]+ ((unsigned int)(ACCELSCALE))*forward_acceleration ;
 	
 	return ;
 }
@@ -308,7 +311,7 @@ void yaw_drift()
 	//	form the horizontal direction over ground based on rmat
 	if (dcm_flags._.yaw_req )
 	{
-		if ( velocity_magnitude > GPS_SPEED_MIN )
+		if ( ground_velocity_magnitudeXY > GPS_SPEED_MIN )
 		{
 			udb_setDSPLibInUse(true) ;
 			//	vector cross product to get the rotation error in ground frame

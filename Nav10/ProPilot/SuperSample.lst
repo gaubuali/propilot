@@ -210,7 +210,7 @@ MPLAB ASM30 Listing:  ..\libUDB\SuperSample.s 			page 1
 DEFINED SYMBOLS
                             *ABS*:00000000 c:/program files/microchip/mplab c30/support/dsPIC33F/inc/p33FJ256GP710A.inc
                             *ABS*:00000000 c:/program files/microchip/mplab c30/support/dsPIC33F/inc/p33Fxxxx.inc
-                            *ABS*:00000000 E:/Projects/DevPFG/Nav10/libUDB/SuperSample.s
+                            *ABS*:00000000 C:/Projects/DevPFG/Nav10/libUDB/SuperSample.s
                             *ABS*:00000001 __MPLAB_DEBUGGER_PK3
                             *ABS*:00000001 __DEBUG
                             *ABS*:00000001 __33FJ256GP710A
@@ -2029,7 +2029,7 @@ NO UNDEFINED SYMBOLS
 EQUATE SYMBOLS
 c:/program files/microchip/mplab c30/support/dsPIC33F/inc/p33FJ256GP710A.inc = 0x0
 c:/program files/microchip/mplab c30/support/dsPIC33F/inc/p33Fxxxx.inc = 0x0
-E:/Projects/DevPFG/Nav10/libUDB/SuperSample.s = 0x0
+C:/Projects/DevPFG/Nav10/libUDB/SuperSample.s = 0x0
             __MPLAB_DEBUGGER_PK3 = 0x1
                          __DEBUG = 0x1
                  __33FJ256GP710A = 0x1

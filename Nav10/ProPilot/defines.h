@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -34,9 +34,9 @@ void init_states( void ) ;
 
 extern int waggle ;
 
-#define CALIB_PAUSE 21
-#define STANDBY_PAUSE 48 // pause for 16 seconds of runs through the state machine
-#define NUM_WAGGLES 4 // waggle 4 times during the end of the standby pause (this number must be less than STANDBY_PAUSE)
+#define CALIB_PAUSE 21		// wait for 10.5 seconds of runs through the state machine
+#define STANDBY_PAUSE 48	// pause for 24 seconds of runs through the state machine
+#define NUM_WAGGLES 4		// waggle 4 times during the end of the standby pause (this number must be less than STANDBY_PAUSE)
 #define WAGGLE_SIZE 300
 
 struct flag_bits {
@@ -74,6 +74,10 @@ void pitchCntrl( void ) ;
 void yawCntrl( void ) ;
 void altitudeCntrl( void ) ;
 void setTargetAltitude(int targetAlt) ;
+
+// wind gain adjustment
+unsigned int wind_gain_adjustment(void) ;
+extern unsigned int wind_gain ;
 
 extern int pitch_control, roll_control, yaw_control, throttle_control ;
 extern union longww throttleFiltered ;
@@ -263,15 +267,9 @@ void cameraCntrl( void ) ;
 
 ////////////////////////////////////////////////////////////////////////////////
 // mp_osd.c
-void osd_countdown(int countdown);
+void osd_run_step( void );
 
 #define OSD_NTSC			0
 #define OSD_PAL				1
-
-
-////////////////////////////////////////////////////////////////////////////////
-// GPS Parsers - gpsParseSTD.c, gpsParseUBX.c
-// FIXME: This should move into libDCM
-void gps_startup_sequence( int gpscount ) ;
 
 #endif

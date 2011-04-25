@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ int failSafePulses = 0 ;
 unsigned int rise[NUM_INPUTS+1] ;	// rising edge clock capture for radio inputs
 
 #else
-#define MIN_SYNC_PULSE_WIDTH 7000
+#define MIN_SYNC_PULSE_WIDTH 7000	// 3.5ms
 unsigned int rise_ppm ;				// rising edge clock capture for PPM radio input
 #endif
 
@@ -89,6 +89,7 @@ void udb_init_capture(void)
 	
 	if (NUM_INPUTS > 4)
 	{
+		// If we're using the Extra 5th input channel, enable the INT0 interrupt
 		_TRISE8 = 1 ; // set E8 to be an input pin
 		_INT0EP = 0;  // Set up the 5th input channel to start out reading low-to-high edges
 		_INT0IP = 7 ; // priority 7
@@ -97,6 +98,10 @@ void udb_init_capture(void)
 	}
 #else
 	if (NUM_INPUTS > 0) _IC1IE = 1 ; // turn on interrupt for PPM input 4
+#endif
+	
+#if (NORADIO == 1)
+	udb_flags._.radio_on = 1 ;
 #endif
 	
 	return ;
@@ -108,6 +113,9 @@ void udb_init_capture(void)
 // Input Channel 1
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC7Interrupt(void)
 {
+	indicate_loading_inter ;
+	interrupt_save_set_corcon ;
+	
 	unsigned int time ;	
 	_IC7IF = 0 ; // clear the interrupt
 	while ( IC7CONbits.ICBNE )
@@ -115,7 +123,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC7Interrupt(void)
 		time = IC7BUF ;
 	}
 	
-#if ( NORADIO == 0 )
+#if ( NORADIO != 1 )
 	if (_RB4)
 	{
 		 rise[1] = time ;
@@ -140,6 +148,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC7Interrupt(void)
 	}
 #endif
 
+	interrupt_restore_corcon ;
 	return ;
 }
 
@@ -147,6 +156,9 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC7Interrupt(void)
 // Input Channel 2
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC8Interrupt(void)
 {
+	indicate_loading_inter ;
+	interrupt_save_set_corcon ;
+	
 	unsigned int time ;
 	_IC8IF = 0 ; // clear the interrupt
 	while ( IC8CONbits.ICBNE )
@@ -154,7 +166,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC8Interrupt(void)
 		time = IC8BUF ;
 	}
 	
-#if ( NORADIO == 0 )
+#if ( NORADIO != 1 )
 	if (_RB5)
 	{
 		 rise[2] = time ;
@@ -179,6 +191,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC8Interrupt(void)
 	}	
 #endif
 	
+	interrupt_restore_corcon ;
 	return ;
 }
 
@@ -186,6 +199,9 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC8Interrupt(void)
 // Input Channel 3
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC2Interrupt(void)
 {
+	indicate_loading_inter ;
+	interrupt_save_set_corcon ;
+	
 	unsigned int time ;
 	_IC2IF = 0 ; // clear the interrupt
 	while ( IC2CONbits.ICBNE )
@@ -193,7 +209,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC2Interrupt(void)
 		time = IC2BUF ;
 	}
 	
-#if ( NORADIO == 0 )
+#if ( NORADIO != 1 )
 	if (_RD1)
 	{
 		 rise[3] = time ;
@@ -218,6 +234,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC2Interrupt(void)
 	}
 #endif
 	
+	interrupt_restore_corcon ;
 	return ;
 }
 
@@ -225,6 +242,9 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC2Interrupt(void)
 // Input Channel 4
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 {
+	indicate_loading_inter ;
+	interrupt_save_set_corcon ;
+	
 	unsigned int time ;
 	_IC1IF =  0 ; // clear the interrupt
 	while ( IC1CONbits.ICBNE )
@@ -232,7 +252,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 		time = IC1BUF ;
 	}
 	
-#if ( NORADIO == 0 )
+#if ( NORADIO != 1 )
 	if (_RD0)
 	{
 		 rise[4] = time ;
@@ -257,6 +277,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 	}
 #endif
 	
+	interrupt_restore_corcon ;
 	return ;
 }
 
@@ -264,8 +285,10 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 // Input Channel 5 (Pin RE8)
 void __attribute__((__interrupt__,__no_auto_psv__)) _INT0Interrupt(void)
 {
+	indicate_loading_inter ;
+	// interrupt_save_set_corcon ;
 	
-#if ( NORADIO == 0 )
+#if ( NORADIO != 1 )
 	int t = TMR2 ;
 	
 	if (PORTEbits.RE8)
@@ -295,6 +318,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _INT0Interrupt(void)
 	
 	_INT0IF = 0 ; 		// clear the interrupt
 	
+	// interrupt_restore_corcon ;
 	return;
 }
 
@@ -312,6 +336,9 @@ unsigned char ppm_ch = 0 ;
 // PPM Input on Channel 4
 void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 {
+	indicate_loading_inter ;
+	interrupt_save_set_corcon ;
+	
 	unsigned int time ;	
 	_IC1IF = 0 ; // clear the interrupt
 	while ( IC1CONbits.ICBNE )
@@ -319,7 +346,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 		time = IC1BUF ;
 	}
 	
-#if ( NORADIO == 0 )
+#if ( NORADIO != 1 )
 
 	if (_RD0 == PPM_PULSE_VALUE)
 	{
@@ -349,6 +376,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _IC1Interrupt(void)
 	}
 #endif
 
+	interrupt_restore_corcon ;
 	return ;
 }
 

@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -29,7 +29,11 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Set Up Board Type (Set to RED_BOARD, GREEN_BOARD, UDB3_BOARD, RUSTYS_BOARD, or UDB4_BOARD)
+// Set Up Board Type
+// GREEN_BOARD - Board is green and includes 2 vertical gyro daugter-boards.
+// RED_BOARD   - Board is red, and includes 2 vertical gyro daugter-boards.
+// UDB3_BOARD  - Board is red, and includes a single, flat, multi-gyro daugter-board.
+// See the MatrixPilot wiki for more details on different UDB boards.
 // If building for UDB4, use the MatrixPilot-udb4.mcp project file.
 #define BOARD_TYPE 				ASPG_BOARD
 //#define BOARD_TYPE 			UDB4_BOARD
@@ -37,10 +41,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Select Clock Configuration (Set to CRYSTAL_CLOCK or FRC8X_CLOCK)
-// CRYSTAL_CLOCK is the 16 MHz crystal.  This is the speed used in the past, and is the
-// most compatible.
-// FRC8X_CLOCK is the fast RC clock (7.3728 MHz) with 8X multiplier.  Use this if you want
-// to be able to use serial baud rates above 19200.
+// CRYSTAL_CLOCK is the 16 MHz crystal.  This is the speed used in the past, and may be
+// more compatible with other add-ons. The CRYSTAL_CLOCK supports a maximum baud rate of 19200 bps.
+// FRC8X_CLOCK runs the fast RC clock (7.3728 MHz) with 8X PLL multiplier, and supports much
+// faster baud rates.
 #define CLOCK_CONFIG 						CRYSTAL_CLOCK
 
 
@@ -92,6 +96,12 @@
 #define AILERON_NAVIGATION					1
 #define RUDDER_NAVIGATION					1
 
+// Wind Gain Adjustment
+// This is an option for modulating the navigation gains in flight
+// to maintain a constant turn radius in heavy winds in waypoing mode.
+// Define WIND_GAIN_ADJUSTMENT as 1 to turn this feature on.
+#define WIND_GAIN_ADJUSTMENT				1
+
 // Altitude Hold
 // Use altitude hold in stabilized mode?  In waypoint mode?
 // Each of these settings can be AH_NONE, AH_FULL, or AH_PITCH_ONLY
@@ -105,6 +115,13 @@
 #define ALTITUDEHOLD_STABILIZED				AH_PITCH_ONLY
 #define ALTITUDEHOLD_WAYPOINT				AH_FULL
 
+// Speed Control
+// If you define SPEED_CONTROL to be 1, MatrixPilot will take air speed into account
+// in the altitude controls, and will trim the throttle and pitch to maintain air speed.
+// Define DESIRED_SPEED to be the air speed that you want, in meters/second.
+#define SPEED_CONTROL						0
+#define DESIRED_SPEED						10.00 // meters/second
+
 // Inverted flight
 // Set these to 1 to enable stabilization of inverted flight in stabilized and/or waypoint modes.
 #define INVERTED_FLIGHT_STABILIZED_MODE		0
@@ -115,18 +132,7 @@
 #define HOVERING_STABILIZED_MODE			0
 #define HOVERING_WAYPOINT_MODE				0
 
-// Dead reckoning
-// Use DEADRECKONING to select the dead reckoning option.
-// DEADRECKONING 0 selects the GPS to perform navigation, at the GPS update rate.
-// DEADRECKONING 1 selects the dead reckoning computations to perform navigation, at 40 Hz.
-#define DEADRECKONING						1
-
-// Wind Estimation and Navigation
-// Set this to 1 to use automatic wind estimation and navigation. 
-// Wind estimation is done using a mathematical model developed by William Premerlani.
-// Every time the plane performs a significant turn, the plane estimates the wind.
-// This facility only requires a working GPS and the UAV DevBoard. 
-#define WIND_ESTIMATION						1
+// Note: As of MatrixPilot 3.0, Dead Reckoning and Wind Estimation are automatically enabled.
 
 // Camera Stabilization
 // To enable, set this value to 1, and assign one or more of the CAMERA_*_OUTPUT_CHANNELS below.

@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -33,9 +33,14 @@
 #define _EI()	__asm__ volatile("disi #0")
 
 ////////////////////////////////////////////////////////////////////////////////
-// libUDB.h defines the API for accessing the UDB hardware through libUDB
+// libUDB.h defines the API for accessing the UDB hardware through libUDB.
+// 
+// This is the lowest-level component of MatrixPilot, and should not reference
+// anything from the higher-level components.  This library is designed to be
+// useful in its own right, independent of libDCM or MatrixPilot.
 //
-// libUDB requires an options.h file be provided that defines at least the following constants:
+// libUDB requires an options.h file be provided that defines at least the
+// following constants:
 // 
 // #define NUM_INPUTS
 // #define NUM_OUTPUTS
@@ -91,7 +96,7 @@ unsigned char udb_cpu_load(void);
 // ASPG board cpu_timer is in 1/10's of a % updated twice a second
 extern unsigned int cpu_timer;
 extern unsigned long old_cpu_counter;
-
+extern unsigned int udb_heartbeat_counter;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Radio Inputs / Servo Outputs

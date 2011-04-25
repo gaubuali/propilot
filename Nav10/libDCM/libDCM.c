@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -23,13 +23,16 @@
 #include "../libUDB/FIR_Filter.h"
 #include "../libUDB/filter_aspg.h"
 
-union dcm_fbts_byte dcm_flags IMPORTANT = {{0}};
+union dcm_fbts_word dcm_flags IMPORTANTz ;
 boolean dcm_has_calibrated IMPORTANT = false ;
 
 //#if (MAG_YAW_DRIFT == 1)
 char dcm_fourHertzCounter = 0 ;
 //#endif
 
+// Calibrate for 10 seconds before moving servos
+#define CALIB_COUNT		  400		// 10 seconds at 40 Hz
+#define GPS_COUNT		 1000		// 25 seconds at 40 Hz
 
 #if ( HILSIM == 1 )
 unsigned char SIMservoOutputs[] = {	0xFF, 0xEE,		//sync
@@ -52,10 +55,33 @@ void send_HILSIM_outputs( void ) ;
 
 void dcm_init( void )
 {
-	dcm_flags.B = 0 ;
+	dcm_flags.W = 0 ;
 	dcm_flags._.first_mag_reading = 1 ;
 	
 	dcm_init_rmat() ;
+	
+	return ;
+}
+
+
+void dcm_run_init_step( void )
+{
+	if (udb_heartbeat_counter == CALIB_COUNT)
+	{
+		// Finish calibration
+		dcm_flags._.calib_finished = 1 ;
+		dcm_calibrate() ;
+	}
+	
+	if (udb_heartbeat_counter <= GPS_COUNT)
+	{
+		gps_startup_sequence( GPS_COUNT-udb_heartbeat_counter ) ; // Counts down from GPS_COUNT to 0
+		
+		if (udb_heartbeat_counter == GPS_COUNT)
+		{
+			dcm_flags._.init_finished = 1 ;
+		}
+	}
 	
 	return ;
 }
@@ -165,11 +191,17 @@ void udb_servo_callback_prepare_outputs(void)
 	udb_xaccel.value = DIO[34].qValue;
 	udb_yaccel.value = DIO[35].qValue;
 	udb_zaccel.value = DIO[36].qValue;
-	if (dcm_has_calibrated) {
+
+	if (dcm_flags._.calib_finished) {
 		dcm_run_imu_step() ;
 	}
 	
 	dcm_servo_callback_prepare_outputs() ;
+	
+	if (!dcm_flags._.init_finished)
+	{
+		dcm_run_init_step() ;
+	}
 	
 #if ( HILSIM == 1)
 	send_HILSIM_outputs() ;
@@ -181,8 +213,12 @@ void udb_servo_callback_prepare_outputs(void)
 
 void dcm_calibrate(void)
 {
-	udb_a2d_record_offsets() ;
-	dcm_has_calibrated = true ;
+	// Don't allow re/calibrating before the initial calibration period has finished
+	if (dcm_flags._.calib_finished)
+	{
+		udb_a2d_record_offsets() ;
+	}
+	
 	return ;
 }
 
@@ -248,10 +284,7 @@ void send_HILSIM_outputs( void )
 	SIMservoOutputs[i+1] = CK_B ;
 	
 	// Send HILSIM outputs
-	for (i=0; i<HILSIM_NUM_SERVOS*2+4; i++)
-	{
-		udb_gps_send_char(SIMservoOutputs[i]) ;	
-	}
+	gpsoutbin(HILSIM_NUM_SERVOS*2+4, SIMservoOutputs) ;	
 	
 	return ;
 }

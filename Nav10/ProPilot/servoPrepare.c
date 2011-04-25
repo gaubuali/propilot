@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -33,6 +33,8 @@
 int gpscount ; // counter to initialize GPS
 int calibcount ; // number of PWM pulses before control is turned on
 int pitch_control, roll_control, yaw_control, throttle_control ;
+
+unsigned int wind_gain ;
 
 char eightHertzCounter = 0 ;
 boolean startTelemetry = 0 ;
@@ -71,6 +73,7 @@ void dcm_servo_callback_prepare_outputs(void)
 #endif
 			
 			updateBehavior() ;
+			wind_gain = wind_gain_adjustment () ;
 			rollCntrl() ;
 			yawCntrl() ;
 			altitudeCntrl();

@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -40,6 +40,8 @@ struct waypoint3D { long x ; long y ; int z ; } ;
 struct fixedOrigin3D {long x; long y; float z;} ;
 
 struct dcm_flag_bits {
+			unsigned int unused					: 5 ;
+			unsigned int gps_history_valid		: 1 ;
 			unsigned int dead_reckon_enable		: 1 ;
 			unsigned int reckon_req				: 1 ;
 			unsigned int first_mag_reading		: 1 ;
@@ -48,6 +50,8 @@ struct dcm_flag_bits {
 			unsigned int skip_yaw_drift			: 1 ;
 			unsigned int nav_capable			: 1 ;
 			unsigned int nmea_passthrough		: 1 ; // only used by ublox
+			unsigned int init_finished			: 1 ;
+			unsigned int calib_finished			: 1 ;
 			} ;
 
 

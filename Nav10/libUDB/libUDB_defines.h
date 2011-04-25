@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -129,18 +129,43 @@ typedef unsigned long DWORD, *LPDWORD;
 #define BOARD_IS_CLASSIC_UDB		1
 #define CLK_PHASES	4
 
-#if ( CLOCK_CONFIG == FRC8X_CLOCK )
-#define FREQOSC		58982400
-#else
+#if ( CLOCK_CONFIG == CRYSTAL_CLOCK )
 #define FREQOSC		16000000
+#elif ( CLOCK_CONFIG == FRC8X_CLOCK )
+#define FREQOSC		58982400
 #endif
 #elif (BOARD_TYPE == ASPG_BOARD)
 	#define FREQOSC 	80000000
 	#define CLK_PHASES	2
 #else
-	#define BOARD_IS_CLASSIC_UDB		0
-	#define FREQOSC 	32000000
-	#define CLK_PHASES	2
+#define BOARD_IS_CLASSIC_UDB		0
+#define FREQOSC 	32000000
+#define CLK_PHASES	2
+#endif
+
+
+// Dead reckoning
+// DEADRECKONING 0 selects the GPS to perform navigation, at the GPS update rate.
+// DEADRECKONING 1 selects the dead reckoning computations to perform navigation, at 40 Hz.
+#ifndef DEADRECKONING		// define only if not already defined in options.h
+#define DEADRECKONING		1
+#endif
+
+// Wind Estimation and Navigation
+// Set this to 1 to use automatic wind estimation and navigation. 
+// Wind estimation is done using a mathematical model developed by William Premerlani.
+// Every time the plane performs a significant turn, the plane estimates the wind.
+// This facility only requires a working GPS and the UAV DevBoard. 
+#ifndef WIND_ESTIMATION		// define only if not already defined in options.h
+#define WIND_ESTIMATION		1
+#endif
+
+// Enforce that if DEADRECKONING is on, WIND_ESTIMATION must be on as well.
+// Using dead reckoning in high winds without wind estimation will cause large
+// errors in the dead reckoning.
+#if (DEADRECKONING == 1 && WIND_ESTIMATION == 0)
+#undef WIND_ESTIMATION
+#define WIND_ESTIMATION		1
 #endif
 
 
@@ -217,7 +242,7 @@ struct udb_flag_bits {	// this is not actually a byte - c bitfields are mod 16 b
 #define SERVOMIN SERVOCENTER - SERVORANGE
 #else
 #define SERVOCENTER 3000
-#define SERVORANGE (int) (SERVOSAT*1000)
+#define SERVORANGE ((int)(SERVOSAT*1000))
 #define SERVOMAX SERVOCENTER + SERVORANGE
 #define SERVOMIN SERVOCENTER - SERVORANGE
 #endif

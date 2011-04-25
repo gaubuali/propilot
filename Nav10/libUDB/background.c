@@ -2,7 +2,7 @@
 //
 //    http://code.google.com/p/gentlenav/
 //
-// Copyright 2009, 2010 MatrixPilot Team
+// Copyright 2009-2011 MatrixPilot Team
 // See the AUTHORS.TXT file for a list of authors of MatrixPilot.
 //
 // MatrixPilot is free software: you can redistribute it and/or modify
@@ -23,26 +23,26 @@
 
 #if (BOARD_IS_CLASSIC_UDB == 1)
 #if ( CLOCK_CONFIG == CRYSTAL_CLOCK )
-#define tmr1_period 		0x2000 // sets time period for timer 1 interrupt to 0.5 seconds
-#define CPU_LOAD_PERCENT	400   // = (100 / (8192 * 2)) * (256**2)
+#define CPU_LOAD_PERCENT	16*400   // = (100 / (8192 * 2)) * (256**2)
 #elif ( CLOCK_CONFIG == FRC8X_CLOCK )
-#define tmr1_period 		0x75F6 // sets time period for timer 1 interrupt to 0.5 seconds
-#define CPU_LOAD_PERCENT	109   // = ((100 / (8192 * 2)) * (256**2))/3.6864
+#define CPU_LOAD_PERCENT	16*109   // = ((100 / (8192 * 2)) * (256**2))/3.6864
 #endif
-
-#elif (BOARD_TYPE == UDB4_BOARD )
-#define tmr1_period 		0x8000 // sets time period for timer 1 interrupt to 0.5 seconds
-#define TMR1_CNTS 1
-#define CPU_LOAD_PERCENT	100
-unsigned int cpu_timer = 0 ;
-
 #elif ( BOARD_TYPE == ASPG_BOARD )
 #define tmr1_period 		15625 // sets time period for timer 1 interrupt to 0.1 seconds
 #define TMR1_CNTS 5
 #define CPU_LOAD_PERCENT	40000	// cpu% in 1/10% = counts / (40MHz/1000) = counts / 40000
+#elif (BOARD_TYPE == UDB4_BOARD)
+#define CPU_LOAD_PERCENT	16*100
+#endif
+
+
 int timer1_counts = 0;
 unsigned int cpu_timer = 0 ;
 unsigned long cpu_counter = 0, old_cpu_counter = 0;
+
+unsigned int udb_heartbeat_counter = 0 ;
+#define HEARTBEAT_MAX	57600		// Evenly divisible by many common values: 2^8 * 3^2 * 5^2
+
 unsigned int gps_timeout = 0; 
 int iDCMframe = 0;
 // FRAME_40HZ_CNT number of T4 interrupts at FRAME_40HZ_PR to get 25 mSec (40Hz frame rate)
@@ -62,7 +62,6 @@ int iDCMframe = 0;
 #define FRAME_ROLL 100
 #define FRAME_CNT FRAME_40HZ_CNT
 #define FRAME_PRE FRAME_40HZ_PR
-#endif
 
 boolean skip_timer_reset = 1;
 
@@ -180,6 +179,7 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void)
 	
 	udb_background_callback_periodic() ;
 	
+	udb_heartbeat_counter = (udb_heartbeat_counter+1) % HEARTBEAT_MAX;
 	
 	// interrupt_restore_extended_state ;
 	return ;
