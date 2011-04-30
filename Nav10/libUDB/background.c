@@ -28,8 +28,7 @@
 #define CPU_LOAD_PERCENT	16*109   // = ((100 / (8192 * 2)) * (256**2))/3.6864
 #endif
 #elif ( BOARD_TYPE == ASPG_BOARD )
-#define tmr1_period 		15625 // sets time period for timer 1 interrupt to 0.1 seconds
-#define TMR1_CNTS 5
+#define tmr1_period 		15625 // sets time period for timer 1 interrupt to 0.025 seconds
 #define CPU_LOAD_PERCENT	40000	// cpu% in 1/10% = counts / (40MHz/1000) = counts / 40000
 #elif (BOARD_TYPE == UDB4_BOARD)
 #define CPU_LOAD_PERCENT	16*100
@@ -63,8 +62,6 @@ int iDCMframe = 0;
 #define FRAME_CNT FRAME_40HZ_CNT
 #define FRAME_PRE FRAME_40HZ_PR
 
-boolean skip_timer_reset = 1;
-
 #if ( BOARD_TYPE == ASPG_BOARD )
 #define _TTRIGGERIP _T4IP
 #define _TTRIGGERIF _T4IF
@@ -88,7 +85,7 @@ void udb_init_clock(void)	/* initialize timers */
 
 	TMR1 = 0 ; 				// initialize timer
 	PR1 = tmr1_period ;		// set period register
-	T1CONbits.TCKPS = 3 ;	// prescaler = 256 option
+	T1CONbits.TCKPS = 2 ;	// prescaler = 64 option
 	T1CONbits.TCS = 0 ;		// use the crystal to drive the clock
 	_T1IP = 6 ;				// Set to 3 to improve accuracy of cpu timing
 	_T1IF = 0 ;				// clear the interrupt
@@ -106,7 +103,7 @@ void udb_init_clock(void)	/* initialize timers */
 	_T5IE = 1 ;				// enable the interrupt
 	// Timer 5 will be turned on in interrupt routines and turned off in main()
 	T5CONbits.TON = 0 ;		// turn off timer 5
-	timer_5_on = 0;
+//	timer_5_on = 0;
 
 	TMR4 = 0 ; 				// initialize timer
 	_TTRIGGERPR = _TTRIGGERPv;	// set period register
@@ -137,28 +134,17 @@ void udb_init_clock(void)	/* initialize timers */
 	return ;
 }
 
-
+// This high priority interrupt is the Heartbeat of libUDB.
+// excute whatever needs to run in the background, once every 0.025 seconds
 void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void) 
-// excute whatever needs to run in the background, once every 0.5 seconds
 {
 	// interrupt_save_extended_state ;
 	_T1IF = 0 ;			// clear the interrupt
 	
 	indicate_loading_inter ;
 
-#if ( BOARD_TYPE == ASPG_BOARD )
-	if ( ++timer1_counts < TMR1_CNTS  )	// actually interrupts every 0.1 sec
-		return;
-	else timer1_counts = 0;	// reset counter
-#endif
-
 	// capture cpu_timer once per second.
-	if (skip_timer_reset )
-	{
-		// catch another 1/2 second in timer 5
-		skip_timer_reset = 0;
-	}
-	else
+	if (udb_heartbeat_counter % 40 == 0)
 	{
 #if ( BOARD_TYPE == ASPG_BOARD )
 		_DI();
@@ -166,18 +152,23 @@ void __attribute__((__interrupt__,__no_auto_psv__)) _T1Interrupt(void)
 		cpu_timer = (int)((cpu_counter / CPU_LOAD_PERCENT));
 		old_cpu_counter = cpu_counter;
 		cpu_counter = 0;				// clear it after
-		_EI();
-#else
-		cpu_timer = TMR5 ;
-#endif
 		T5CONbits.TON = 0 ;		// turn off timer 5 
 		TMR5 = 0 ;				// reset timer 5 to 0
 		T5CONbits.TON = 1 ;		// turn on timer 5
-		timer_5_on = 1;
-		skip_timer_reset = 1;
+		_EI();
+#else
+		T5CONbits.TON = 0 ;             // turn off timer 5
+		cpu_timer = _cpu_timer ;// snapshot the load counter
+		_cpu_timer = 0 ;                // reset the load counter
+		T5CONbits.TON = 1 ;             // turn on timer 5
+#endif
 	}
 	
-	udb_background_callback_periodic() ;
+	// Call the periodic callback at 2Hz
+	if (udb_heartbeat_counter % 20 == 0)
+	{
+		udb_background_callback_periodic() ;
+	}
 	
 	udb_heartbeat_counter = (udb_heartbeat_counter+1) % HEARTBEAT_MAX;
 	

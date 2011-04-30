@@ -70,12 +70,12 @@ PIN NEAR_BUF DIO[48] = {
 		RC_PIN(3,6,15,0,0),	// 22 - OUT1
 		RC_PIN(3,0,14,0,0),	// 23 - ISCP1_AUX1
 		RC_PIN(3,0,15,0,0),	// 24 - ISCP1_AUX2
-		ANALOG(1,1,6,0, 0x0672, 0x0672, 0x0672, 0x0672),	// 25 - SAmps - TODO factor converts 0-4096 to 0-3300 mA
-		ANALOG(1,1,7,0, 0x2805, 0x2805, 0x2805, 0x2805),	// 26 - SVolt - factor converts 0-4096 to 0-20500 mV
-		ANALOG(1,1,0,0, 0x0672, 0x0672, 0x0672, 0x0672),	// 27 - AUX_AN1 - factor converts 0-4096 to 0-3300 mV
-		ANALOG(1,1,1,0, 0x0672, 0x0672, 0x0672, 0x0672),	// 28 - AUX_AN2 - factor converts 0-4096 to 0-3300 mV
-		ANALOG(1,1,3,0, 0x0672, 0x0672, 0x0672, 0x0672),	// 29 - AUX_AN3 - factor converts 0-4096 to 0-3300 mV
-		ANALOG(1,1,4,0, 0x0672, 0x0672, 0x0672, 0x0672),	// 30 - AUX_AN4 - factor converts 0-4096 to 0-3300 mV
+		ANALOG(1,1,6,0, 0x0067, 0x0067, 0x0067, 0x0067),	// 25 - SAmps - TODO factor converts 0-4096 to 0-3300 mA
+		ANALOG(1,1,7,0, 0x0266, 0x0266, 0x0266, 0x0266),	// 26 - SVolt - factor converts 0-4096 to 0-20500 mV
+		ANALOG(1,1,0,0, 0x0067, 0x0067, 0x0067, 0x0067),	// 27 - AUX_AN1 - factor converts 0-4096 to 0-3300 mV
+		ANALOG(1,1,1,0, 0x0067, 0x0067, 0x0067, 0x0067),	// 28 - AUX_AN2 - factor converts 0-4096 to 0-3300 mV
+		ANALOG(1,1,3,0, 0x0067, 0x0067, 0x0067, 0x0067),	// 29 - AUX_AN3 - factor converts 0-4096 to 0-3300 mV
+		ANALOG(1,1,4,0, 0x0067, 0x0067, 0x0067, 0x0067),	// 30 - AUX_AN4 - factor converts 0-4096 to 0-3300 mV
 		ANALOG(1,4,2,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 31 - gyro X - eventually these scale factors will be read from EE
 		ANALOG(1,0,7,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 32 - gyro Y
 		ANALOG(1,4,7,0, 0x0800, 0x0800, 0x0800, 0x0800),	// 33 - gyro Z

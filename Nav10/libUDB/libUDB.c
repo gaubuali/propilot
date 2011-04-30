@@ -76,7 +76,7 @@ _FICD(	JTAGEN_OFF &			// jtag off and use 2nd set for ICSP
 
 union udb_fbts_byte udb_flags ;
 
-boolean timer_5_on = 0 ;
+//boolean timer_5_on = 0 ;
 int needSaveExtendedState IMPORTANTz;
 int defaultCorcon IMPORTANTz;
 volatile int trap_flags __attribute__ ((persistent,section(".Persistant")));
